@@ -63,7 +63,7 @@ public class ActivitySplash extends AppCompatActivity{
 
         logo = (ImageView)findViewById(R.id.logo);
         tryAgain = (TextView) findViewById(R.id.tryAgain);
-        networkFunctions = new NetworkFunctions(ActivitySplash.this);
+        networkFunctions = new NetworkFunctions(this);
         Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.logo_up);
         logo.startAnimation(animation1);
 

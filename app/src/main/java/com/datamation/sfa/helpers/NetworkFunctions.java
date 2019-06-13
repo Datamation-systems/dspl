@@ -50,8 +50,8 @@ public class NetworkFunctions {
          pref = SharedPref.getInstance(context);
         String domain = pref.getBaseURL();
         Log.wtf("baseURL>>>>>>>>>",domain);
-//        baseURL = domain + "/SFA/android_service/";
-        baseURL = "123.231.13.199:1025/";
+        baseURL = domain + "/SFA/android_service/";
+        //baseURL = "123.231.13.199:1025/";
         //baseURL = domain + "/android_service/";
         user = pref.getLoginUser();
     }
