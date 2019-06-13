@@ -42,7 +42,7 @@ public class NetworkFunctions {
     /**
      * The base URL to POST/GET the parameters to. The function names will be appended to this
      */
-    private String baseURL;
+    private String baseURL, restOfURL, dbname;
 
     private User user;
 
@@ -51,7 +51,9 @@ public class NetworkFunctions {
         String domain = pref.getBaseURL();
         Log.wtf("baseURL>>>>>>>>>",domain);
 //        baseURL = domain + "/SFA/android_service/";
-        baseURL = "123.231.13.199:1025/";
+        baseURL = domain +"/KFDWebServices/KFDWebServicesRest.svc/";
+        dbname = "kfd";
+        restOfURL = "/mobile123/"+dbname;
         //baseURL = domain + "/android_service/";
         user = pref.getLoginUser();
     }
