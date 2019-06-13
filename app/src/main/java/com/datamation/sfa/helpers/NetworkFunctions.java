@@ -55,7 +55,9 @@ public class NetworkFunctions {
         dbname = "kfd";
         restOfURL = "/mobile123/"+dbname;
         //baseURL = domain + "/android_service/";
+        //testing
         //TODO :: set real url mmmmmmmmm....
+        Log.d(LOG_TAG, "testing : " + baseURL + "login" + restOfURL);
         user = pref.getLoginUser();
     }
 
