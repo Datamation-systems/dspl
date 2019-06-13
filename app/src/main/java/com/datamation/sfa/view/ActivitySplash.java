@@ -59,7 +59,7 @@ public class ActivitySplash extends AppCompatActivity{
         db=new DatabaseHelper(getApplicationContext());
         SQLiteDatabase SFA;
         SFA = db.getWritableDatabase();
-        pref = SharedPref.getInstance(ActivitySplash.this);
+        pref = SharedPref.getInstance(this);
         db.onUpgrade(SFA, 1, 2);
 
         logo = (ImageView)findViewById(R.id.logo);
