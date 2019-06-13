@@ -50,7 +50,7 @@ public class ActivitySplash extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater layoutInflater = LayoutInflater.from(ActivitySplash.this);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
 
         View v = layoutInflater.inflate(R.layout.activity_splash, null);
         setContentView(v);
