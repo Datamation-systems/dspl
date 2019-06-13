@@ -52,6 +52,8 @@ public class ActivitySplash extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
 
+        ///// adooooooooooooo rashmiiiiiiiiii
+
         View v = layoutInflater.inflate(R.layout.activity_splash, null);
         setContentView(v);
 
