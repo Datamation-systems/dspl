@@ -30,6 +30,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anychart.anychart.AnyChart;
+import com.anychart.anychart.AnyChartView;
+import com.anychart.anychart.DataEntry;
+import com.anychart.anychart.Pie;
+import com.anychart.anychart.ValueDataEntry;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriceController;
@@ -148,6 +153,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         resultList = new ArrayList<>();
         loggedUser = pref.getLoginUser();
+
         //set home frgament
         changeFragment(0);
 
