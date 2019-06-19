@@ -32,7 +32,7 @@ public class SharedPref {
         return pref;
     }
 
-    private SharedPref(Context context) {
+    public SharedPref(Context context) {
 //        this.context = context;
         sharedPref = context.getSharedPreferences("app_data", Context.MODE_PRIVATE);
     }

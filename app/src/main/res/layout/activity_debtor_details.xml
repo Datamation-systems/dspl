@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/outlet_details_toolbar"
+        layout="@layout/toolbar"/>
+
+    <!--<com.astuetz.PagerSlidingTabStrip-->
+        <!--android:id="@+id/outlet_details_tab_strip"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dip"-->
+        <!--android:layout_below="@+id/outlet_details_toolbar"/>-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/outlet_details_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <View
+        android:id="@+id/outlet_details_view_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/drawer_semi_trans_bg"
+        android:clickable="true"
+        android:visibility="gone"/>
+
+
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_floating_action_menu"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_fab_payment"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/outlet_details_floating_action_menu"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/outlet_details_label_payment"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_above="@+id/outlet_details_floating_action_menu"
+        android:layout_toLeftOf="@+id/outlet_details_fab_payment"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:text="PAYMENT"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_fab_merchandising"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/outlet_details_fab_payment"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/outlet_details_label_merchandising"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_above="@+id/outlet_details_label_payment"
+        android:layout_toLeftOf="@+id/outlet_details_fab_payment"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:text="RETURN NOTE"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_fab_unproductive"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/outlet_details_fab_merchandising"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/outlet_details_label_unproductive"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_above="@+id/outlet_details_label_merchandising"
+        android:layout_toLeftOf="@+id/outlet_details_fab_payment"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:text="UNPRODUCTIVE"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_fab_invoice"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/outlet_details_fab_unproductive"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/outlet_details_label_invoice"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_above="@+id/outlet_details_label_unproductive"
+        android:layout_toLeftOf="@+id/outlet_details_fab_payment"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:text="INVOICE"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_fab_sales_order"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/outlet_details_fab_invoice"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/outlet_details_label_sales_order"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_above="@+id/outlet_details_label_invoice"
+        android:layout_toLeftOf="@+id/outlet_details_fab_sales_order"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="10dp"
+        android:text="SALES ORDER"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+</RelativeLayout>
