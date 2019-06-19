@@ -51,8 +51,8 @@ public class NetworkFunctions {
         String domain = pref.getBaseURL();
         Log.wtf("baseURL>>>>>>>>>",domain);
 //        baseURL = domain + "/SFA/android_service/";
-        baseURL = domain +"/KFDWebServices/KFDWebServicesRest.svc/";
-        dbname = "kfd";
+        baseURL = domain +"/LankaHDWebServices/LankaHDWebServicesRest.svc/";
+        dbname = "LHD_PDA_TEST";
         restOfURL = "/mobile123/"+dbname;
         //baseURL = domain + "/android_service/";
         //testing
