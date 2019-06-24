@@ -50,6 +50,7 @@ dependencies {
     compile files('libs/org.apache.http.legacy.jar')
     compile 'com.github.AnyChart:AnyChart-Android:0.0.3'
     compile 'com.github.markushi:circlebutton:1.1'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     // compile 'com.afollestad.material-dialogs:color:2.7.0'
 }
 configurations.all {
