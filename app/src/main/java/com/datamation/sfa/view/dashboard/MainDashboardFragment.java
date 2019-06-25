@@ -39,7 +39,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link IOnDashboardFragmentInteractionListener} interface
+ * {@link } interface//IOnDashboardFragmentInteractionListener
  * to handle interaction events.
  * Use the {@link MainDashboardFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -81,7 +81,7 @@ public class MainDashboardFragment extends Fragment {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM", Locale.getDefault());
 
-    private List<Double> targetValues;
+    private ArrayList<Double> targetValues;
     private List<Double> achievementValues;
 
     //private DatabaseHandler databaseHandler;
@@ -165,7 +165,8 @@ public class MainDashboardFragment extends Fragment {
 //        chartContainer = (CardView) rootView.findViewById(R.id.dashboard_card_target_achievement);
         cumulativeLineChart = (LineChart) rootView.findViewById(R.id.dashboard_linechart_accumulated);
         cumulativeSwitcher = (CheckBox) rootView.findViewById(R.id.dashboard_checkbox_cumulative_switcher);
-
+        targetValues = new ArrayList<Double>();
+        targetValues.add(0.0);
         cumulativeLineChart.setDescription("");
         cumulativeLineChart.setDrawGridBackground(false);
         cumulativeLineChart.setPinchZoom(true);
@@ -195,8 +196,8 @@ public class MainDashboardFragment extends Fragment {
         cumulativeSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                initiateLineChart(generateLineData(isChecked));
-               // generateSalesChart(targetValues, achievementValues, isChecked);
+              //  initiateLineChart(generateLineData(isChecked));
+                generateSalesChart(targetValues, achievementValues, isChecked);
             }
         });
 
@@ -270,10 +271,10 @@ public class MainDashboardFragment extends Fragment {
 //                databaseHandler.getDayRouteAmountPlansOfTimeFrame(TimeUtils.getMonthBeginTime(time),
 //                        TimeUtils.getMonthEndTime(time));
 //
-//        targetValues = new ArrayList<>();
+
 //
 //        if(planHolders.size() > 0) {
-//            targetValues.add(0.0);
+
 //            for(DayPlanHolder planHolder : planHolders) {
 //                targetValues.add(planHolder.getTargetAmount());
 //            }
@@ -606,69 +607,69 @@ public class MainDashboardFragment extends Fragment {
 //        }
 //    }
 //
-//    private void generateSalesChart(@NonNull List<Double> targetValues, @NonNull List<Double> achievementValues, boolean cumulative) {
-//
-//        List<Entry> targets = new ArrayList<>();
-//        List<Entry> achievements = new ArrayList<>();
-//
-//        Double cumulativeTarget = (double) 0;
-//        Double cumulativeAchiv = (double) 0;
-//
-//        for (int dayIndex = 0; dayIndex < targetValues.size(); dayIndex++) {
-//
-//            if (cumulative) {
-//                cumulativeTarget += targetValues.get(dayIndex);
-//                Entry targetEntry = new Entry(cumulativeTarget.floatValue(), dayIndex);
-//                targets.add(targetEntry);
-//            } else {
-//                Entry targetEntry = new Entry(targetValues.get(dayIndex).floatValue(), dayIndex);
-//                targets.add(targetEntry);
-//            }
-//
-//        }
-//
-//        for (int dayIndex = 0; dayIndex < achievementValues.size(); dayIndex++) {
-//
-//            if (cumulative) {
-//                cumulativeAchiv += achievementValues.get(dayIndex);
-//                Entry achivEntry = new Entry(cumulativeAchiv.floatValue(), dayIndex);
-//                achievements.add(achivEntry);
-//            } else {
-//                Entry achivEntry = new Entry(achievementValues.get(dayIndex).floatValue(), dayIndex);
-//                achievements.add(achivEntry);
-//            }
-//
-//        }
-//
-//        LineDataSet line1 = new LineDataSet(targets, "Target");
-//        line1.setDrawCircles(false);
-//        line1.setDrawCubic(false);
-//        line1.setDrawValues(false);
-//        line1.setColor(getResources().getColor(R.color.material_alert_positive_button));
-//        line1.setDrawFilled(true);
-//        line1.setFillColor(getResources().getColor(R.color.material_alert_positive_button));
-//        line1.setFillAlpha(100);
-//
-//        LineDataSet line2 = new LineDataSet(achievements, "Achievement");
-//        line2.setDrawCircles(false);
-//        line2.setDrawCubic(false);
-//        line2.setDrawValues(false);
-//        line2.setColor(getResources().getColor(R.color.red_error));
-//        line2.setDrawFilled(true);
-//        line2.setFillColor(getResources().getColor(R.color.red_error));
-//        line2.setFillAlpha(100);
-//
-//        List<LineDataSet> lineDataSets = new ArrayList<>();
-//        lineDataSets.add(line1);
-//        lineDataSets.add(line2);
-//
-//        String[] labels = new String[targets.size()];
-//        for (int targetsIndex = 0; targetsIndex < targets.size(); targetsIndex++) {
-//            labels[targetsIndex] = String.valueOf(targetsIndex);
-//        }
-//
-//        cumulativeLineChart.setData(new LineData(labels, lineDataSets));
-//        cumulativeLineChart.animateY(1000);
-//    }
+    private void generateSalesChart(@NonNull List<Double> targetValues, @NonNull List<Double> achievementValues, boolean cumulative) {
+
+        List<Entry> targets = new ArrayList<>();
+        List<Entry> achievements = new ArrayList<>();
+
+        Double cumulativeTarget = (double) 0;
+        Double cumulativeAchiv = (double) 0;
+
+        for (int dayIndex = 0; dayIndex < targetValues.size(); dayIndex++) {
+
+            if (cumulative) {
+                cumulativeTarget += targetValues.get(dayIndex);
+                Entry targetEntry = new Entry(cumulativeTarget.floatValue(), dayIndex);
+                targets.add(targetEntry);
+            } else {
+                Entry targetEntry = new Entry(targetValues.get(dayIndex).floatValue(), dayIndex);
+                targets.add(targetEntry);
+            }
+
+        }
+
+        for (int dayIndex = 0; dayIndex < achievementValues.size(); dayIndex++) {
+
+            if (cumulative) {
+                cumulativeAchiv += achievementValues.get(dayIndex);
+                Entry achivEntry = new Entry(cumulativeAchiv.floatValue(), dayIndex);
+                achievements.add(achivEntry);
+            } else {
+                Entry achivEntry = new Entry(achievementValues.get(dayIndex).floatValue(), dayIndex);
+                achievements.add(achivEntry);
+            }
+
+        }
+
+        LineDataSet line1 = new LineDataSet(targets, "Target");
+        line1.setDrawCircles(false);
+        line1.setDrawCubic(false);
+        line1.setDrawValues(false);
+        line1.setColor(getResources().getColor(R.color.material_alert_positive_button));
+        line1.setDrawFilled(true);
+        line1.setFillColor(getResources().getColor(R.color.material_alert_positive_button));
+        line1.setFillAlpha(100);
+
+        LineDataSet line2 = new LineDataSet(achievements, "Achievement");
+        line2.setDrawCircles(false);
+        line2.setDrawCubic(false);
+        line2.setDrawValues(false);
+        line2.setColor(getResources().getColor(R.color.red_error));
+        line2.setDrawFilled(true);
+        line2.setFillColor(getResources().getColor(R.color.red_error));
+        line2.setFillAlpha(100);
+
+        List<LineDataSet> lineDataSets = new ArrayList<>();
+        lineDataSets.add(line1);
+        lineDataSets.add(line2);
+
+        String[] labels = new String[targets.size()];
+        for (int targetsIndex = 0; targetsIndex < targets.size(); targetsIndex++) {
+            labels[targetsIndex] = String.valueOf(targetsIndex);
+        }
+
+        cumulativeLineChart.setData(new LineData(labels, lineDataSets));
+        cumulativeLineChart.animateY(1000);
+    }
 
 }
