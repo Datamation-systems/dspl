@@ -148,7 +148,11 @@ public class ActivitySplash extends AppCompatActivity{
     }
 //already checked macId
     public void goToLogin(){
-        Intent mainActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+
+        // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
+        //Intent mainActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+        Intent mainActivity = new Intent(ActivitySplash.this, ActivityHome.class);
+        // ..............................................................................................
         startActivity(mainActivity);
        // finish();
     }
@@ -244,14 +248,21 @@ public class ActivitySplash extends AppCompatActivity{
                 tryAgain.setVisibility(View.INVISIBLE);
                 //set user details to shared prefferences
                 //Intent mainActivity = new Intent(ActivitySplash.this, SettingsActivity.class);
-                Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+                // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
+                //Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+                Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
+                // ..............................................................................................
+//
                 startActivity(loginActivity);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(), "Invalid Mac Id", Toast.LENGTH_LONG).show();
                 tryAgain.setVisibility(View.VISIBLE);
 //temerary set for new SFA
-                Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+                // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
+                //Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+                Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
+                // ..............................................................................................
                 startActivity(loginActivity);
                 finish();
 

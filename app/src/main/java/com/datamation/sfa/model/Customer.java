@@ -1,5 +1,11 @@
 package com.datamation.sfa.model;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.datamation.sfa.helpers.DatabaseHelper;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
+
+	public Customer() {
+
+	}
 
 	private String cusCode;
 	private String cusName;
@@ -109,5 +119,20 @@ public class Customer {
 
 		return null;
 	}
+
+//	public ArrayList<Customer> getRouteCustomersByCodeAndName(String RouteCode, String newText) {
+//
+//		ArrayList<Customer> list = new ArrayList<Customer>();
+//
+//		return list;
+//	}
+//
+//	public ArrayList<Customer> getRouteCustomers(String RouteCode, String newText) {
+//
+//
+//		ArrayList<Customer> list = new ArrayList<Customer>();
+//
+//		return list;
+//	}
 		
 }

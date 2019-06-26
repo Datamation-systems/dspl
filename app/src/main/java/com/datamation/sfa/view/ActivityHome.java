@@ -124,7 +124,8 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
                     return true;
                 case R.id.navigation_sales:
 
-                    salesMenu();
+                    //salesMenu();
+                    UtilityContainer.mLoadFragment(new FragmentSecondary(), ActivityHome.this);
 
                     return true;
                 case R.id.navigation_tools:
@@ -178,7 +179,6 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
             }
         });
-
 
     }
 

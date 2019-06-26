@@ -67,7 +67,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         password = (EditText) findViewById(R.id.editText2);
         Button login = (Button) findViewById(R.id.btnlogin);
         txtver = (TextView) findViewById(R.id.textVer);
-        txtver.setText("Version " + getVersionCode());
+        //txtver.setText("Version " + getVersionCode());
         loggedUser = pref.getLoginUser();
 
         login.setOnClickListener(this);

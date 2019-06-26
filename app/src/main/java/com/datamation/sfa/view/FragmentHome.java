@@ -133,6 +133,25 @@ public class FragmentHome extends Fragment {
         tabStrip.setViewPager(viewPager);
 
 
+//        Pie pie = AnyChart.pie();
+//        Pie bar = AnyChart.pie();
+//
+//        List<DataEntry> data = new ArrayList<>();
+//        data.add(new ValueDataEntry("John", 10000));
+//        data.add(new ValueDataEntry("Jake", 12000));
+//        data.add(new ValueDataEntry("Peter", 18000));
+//        bar.setData(data);
+//        List<DataEntry> data1 = new ArrayList<>();
+//        data1.add(new ValueDataEntry("John", 10000));
+//        data1.add(new ValueDataEntry("Jake", 12000));
+//        data1.add(new ValueDataEntry("Peter", 18000));
+//        pie.setData(data1);
+//        AnyChartView anyChartView = (AnyChartView) view.findViewById(R.id.any_chart_view);
+//        AnyChartView anyChartView2 = (AnyChartView) view.findViewById(R.id.any_chart_view2);
+        //anyChartView.setChart(bar);
+        //anyChartView2.setChart(pie);
+
+
         return view;
     }
     private class DashboardPagerAdapter extends FragmentPagerAdapter {
