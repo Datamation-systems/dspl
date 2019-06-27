@@ -5,7 +5,7 @@
     <string name="title_activity_home">Home</string>
     <string name="title_home">Home</string>
     <string name="title_sa">Sales Management</string>
-    <string name="title_tools">Management Tools</string>
+    <string name="title_tools">Tools</string>
     <string name="title_logout">Logout</string>
     <string name="login_et_password_hint">P A S S W O R D</string>
     <string name="login_et_username_hint">U S E R N A M E</string>

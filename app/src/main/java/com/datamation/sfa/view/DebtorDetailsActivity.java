@@ -96,7 +96,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.outlet_details_viewpager);
 
         floatingActionsMenu = (CircleButton)findViewById(R.id.outlet_details_floating_action_menu);
-        floatingActionsMenu.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blue_btn_bg_color));
+        floatingActionsMenu.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.colorPrimary));
         floatingActionsMenu.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.fab_add));
 
         fabInvoice = (CircleButton)findViewById(R.id.outlet_details_fab_invoice);
@@ -112,20 +112,20 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         labelSalesOrder = (TextView)findViewById(R.id.outlet_details_label_sales_order);
 
         // Make the label sized small so they can be scaled up.
-        labelSalesOrder.setScaleX(0);
-        labelSalesOrder.setScaleY(0);
-
-        labelInvoice.setScaleX(0);
-        labelInvoice.setScaleY(0);
-
-        labelUnproductive.setScaleX(0);
-        labelUnproductive.setScaleY(0);
-
-        labelReturnNote.setScaleX(0);
-        labelReturnNote.setScaleY(0);
-
-        labelPayment.setScaleX(0);
-        labelPayment.setScaleY(0);
+//        labelSalesOrder.setScaleX(0);
+//        labelSalesOrder.setScaleY(0);
+//
+//        labelInvoice.setScaleX(0);
+//        labelInvoice.setScaleY(0);
+//
+//        labelUnproductive.setScaleX(0);
+//        labelUnproductive.setScaleY(0);
+//
+//        labelReturnNote.setScaleX(0);
+//        labelReturnNote.setScaleY(0);
+//
+//        labelPayment.setScaleX(0);
+//        labelPayment.setScaleY(0);
 
         // Set the visibility to visible to the animation will show
 //        labelInvoice.setVisibility(View.VISIBLE);
@@ -148,20 +148,20 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         fabPayment.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.fab_add));
 
         // Scale down the invisible FAB options
-        fabSalesOrder.setScaleX(0);
-        fabSalesOrder.setScaleY(0);
-
-        fabInvoice.setScaleX(0);
-        fabInvoice.setScaleY(0);
-
-        fabUnproductive.setScaleX(0);
-        fabUnproductive.setScaleY(0);
-
-        fabReturnNote.setScaleX(0);
-        fabReturnNote.setScaleY(0);
-
-        fabPayment.setScaleX(0);
-        fabPayment.setScaleY(0);
+//        fabSalesOrder.setScaleX(0);
+//        fabSalesOrder.setScaleY(0);
+//
+//        fabInvoice.setScaleX(0);
+//        fabInvoice.setScaleY(0);
+//
+//        fabUnproductive.setScaleX(0);
+//        fabUnproductive.setScaleY(0);
+//
+//        fabReturnNote.setScaleX(0);
+//        fabReturnNote.setScaleY(0);
+//
+//        fabPayment.setScaleX(0);
+//        fabPayment.setScaleY(0);
 
         // Make the invisible FABs visible to show the expand animation
 //        fabInvoice.setVisibility(View.VISIBLE);
@@ -204,13 +204,13 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             }
         });
 
-        DebtorDetailsActivity.OutletDetailsPagerAdapter adapter = new DebtorDetailsActivity.OutletDetailsPagerAdapter(getSupportFragmentManager());
+        OutletDetailsPagerAdapter adapter = new OutletDetailsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
         viewPager.setPageMargin(pageMargin);
 
         slidingTabStrip.setViewPager(viewPager);
-        slidingTabStrip.setIndicatorColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.md_divider_black));
+        slidingTabStrip.setIndicatorColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.colorPrimaryDark));
 
         fabUnproductive.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,6 +288,23 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
             }
         });
+
+//        fabSalesOrder.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Only proceed if location service is available
+//                if(locationServiceEnabled()){
+//                    Toast.makeText(DealerDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(DealerDetailsActivity.this, NewSalesOrderActivity.class);
+//                    intent.putExtra("outlet", outlet);
+//                    intent.putExtra("sales_order", true);
+//                    startActivity(intent);
+////                    finish();
+//                } else {
+//                    Toast.makeText(DealerDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
     }
 
     private boolean locationServiceEnabled() {
@@ -322,10 +339,18 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             public void onAnimationStart(View view) {
                 // Set the visibility to visible so the animation will be visible
 
-                fabReturnNote.setVisibility(View.VISIBLE);
+//                fabReturnNote.setVisibility(View.VISIBLE);
+//                fabPayment.setVisibility(View.VISIBLE);
+//
+//                labelReturnNote.setVisibility(View.VISIBLE);
+//                labelPayment.setVisibility(View.VISIBLE);
+
+                fabSalesOrder.setVisibility(View.VISIBLE);
                 fabPayment.setVisibility(View.VISIBLE);
-                labelReturnNote.setVisibility(View.VISIBLE);
+                //fabUnproductive.setVisibility(View.VISIBLE);
+                labelSalesOrder.setVisibility(View.VISIBLE);
                 labelPayment.setVisibility(View.VISIBLE);
+                //labelUnproductive.setVisibility(View.VISIBLE);
 
                 overlay.setVisibility(View.VISIBLE);
             }
@@ -345,20 +370,22 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
         int index = 0;
 
-        ViewCompat.animate(labelPayment).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        ViewCompat.animate(fabPayment).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        index++;
-
-        ViewCompat.animate(fabReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        ViewCompat.animate(labelReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        index++;
+//        ViewCompat.animate(labelPayment).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//        ViewCompat.animate(fabPayment).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//        index++;
+//
+//        ViewCompat.animate(fabReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//        ViewCompat.animate(labelReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//        index++;
 
         if(!invoiced) {
-            fabUnproductive.setVisibility(View.VISIBLE);
-            labelUnproductive.setVisibility(View.VISIBLE);
-            ViewCompat.animate(fabUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-            ViewCompat.animate(labelUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-            index++;
+//            fabUnproductive.setVisibility(View.VISIBLE);
+//            labelUnproductive.setVisibility(View.VISIBLE);
+//
+//
+//            ViewCompat.animate(fabUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//            ViewCompat.animate(labelUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//            index++;
         }
 
 //        if(user.getSalesType() == User.TYPE_INVOICE || user.getSalesType() == User.TYPE_BOTH) {
@@ -425,17 +452,17 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             public void onAnimationEnd(View view) {
                 overlay.setVisibility(View.GONE);
                 // Set the visibility to visible to the animation will show
-                labelSalesOrder.setVisibility(View.GONE);
-                labelInvoice.setVisibility(View.GONE);
-                labelUnproductive.setVisibility(View.GONE);
-                labelReturnNote.setVisibility(View.GONE);
-                labelPayment.setVisibility(View.GONE);
+//                labelSalesOrder.setVisibility(View.GONE);
+//                labelInvoice.setVisibility(View.GONE);
+//                labelUnproductive.setVisibility(View.GONE);
+//                labelReturnNote.setVisibility(View.GONE);
+//                labelPayment.setVisibility(View.GONE);
 
-                fabSalesOrder.setVisibility(View.GONE);
-                fabInvoice.setVisibility(View.GONE);
-                fabUnproductive.setVisibility(View.GONE);
-                fabReturnNote.setVisibility(View.GONE);
-                fabPayment.setVisibility(View.GONE);
+//                fabSalesOrder.setVisibility(View.GONE);
+//                fabInvoice.setVisibility(View.GONE);
+//                fabUnproductive.setVisibility(View.GONE);
+//                fabReturnNote.setVisibility(View.GONE);
+//                fabPayment.setVisibility(View.GONE);
             }
 
             @Override
@@ -459,18 +486,18 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 //            index++;
 //        }
 
-        if(!invoiced) {
-            ViewCompat.animate(fabUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-            ViewCompat.animate(labelUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-            index++;
-        }
-
-        ViewCompat.animate(fabReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        ViewCompat.animate(labelReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        index++;
-
-        ViewCompat.animate(fabPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        ViewCompat.animate(labelPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//        if(!invoiced) {
+//            ViewCompat.animate(fabUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//            ViewCompat.animate(labelUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//            index++;
+//        }
+//
+//        ViewCompat.animate(fabReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//        ViewCompat.animate(labelReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//        index++;
+//
+//        ViewCompat.animate(fabPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
+//        ViewCompat.animate(labelPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
 
 //        ViewCompat.animate(fabInvoice).scaleX(0).scaleY(0).setDuration(200).setStartDelay(100);
 //        ViewCompat.animate(labelInvoice).scaleX(0).scaleY(0).setDuration(200).setStartDelay(100);

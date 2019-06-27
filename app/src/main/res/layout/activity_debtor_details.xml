@@ -17,8 +17,7 @@
         android:id="@+id/outlet_details_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-
+        android:layout_below="@+id/outlet_details_tab_strip"/>
     <View
         android:id="@+id/outlet_details_view_overlay"
         android:layout_width="match_parent"
@@ -32,11 +31,13 @@
         android:id="@+id/outlet_details_floating_action_menu"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:src="@drawable/fab_add"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        />
+        app:cb_color="@color/colorPrimary"
+        app:cb_pressedRingWidth="16dip"/>
 
     <at.markushi.ui.CircleButton
         android:id="@+id/outlet_details_fab_payment"
@@ -147,5 +148,6 @@
         android:text="SALES ORDER"
         android:gravity="center"
         android:visibility="gone"/>
+
 
 </RelativeLayout>
