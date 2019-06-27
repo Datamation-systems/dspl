@@ -3,31 +3,137 @@ package com.datamation.sfa.view;
 
 
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.anychart.anychart.AnyChart;
 import com.anychart.anychart.AnyChartView;
 import com.anychart.anychart.DataEntry;
 import com.anychart.anychart.Pie;
 import com.anychart.anychart.ValueDataEntry;
+import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
+import com.datamation.sfa.view.dashboard.DaySummaryFragment;
+import com.datamation.sfa.view.dashboard.InvoiceDetailsFragment;
+import com.datamation.sfa.view.dashboard.MainDashboardFragment;
+import com.datamation.sfa.view.dashboard.PaymentDetailsFragment;
+import com.github.mikephil.charting.charts.PieChart;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class FragmentHome extends Fragment {
+    public Fragment currentFragment;
 
+    private MainDashboardFragment mainDashboardFragment;
+    private DaySummaryFragment daySummaryFragment;
+    private InvoiceDetailsFragment invoiceDetailsFragment;
+    private PaymentDetailsFragment paymentDetailsFragment;
+
+
+    private ViewPager viewPager;
+    private DashboardPagerAdapter pagerAdapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_home, container, false);
+        ImageButton imgbtnCalendar = (ImageButton) view.findViewById(R.id.dashboard_toolbar_icon_calendar);
+
+//        calendarDatePickerDialog = new CalendarDatePickerDialog();
+//
+//        calendarDatePickerDialog.setOnDateSetListener(new CalendarDatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int year, int month, int day) {
+//                Calendar calendar = Calendar.getInstance();
+//                calendar.set(year, month, day);
+//
+//                thisDay = day;
+//
+//                long millis = calendar.getTimeInMillis();
+//
+////                new GetDashboardData(millis).execute();
+//                try {
+//                    setDashboardDetails(millis);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(getActivity(), "Error loading data. Please try again", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        });
+
+//        imgbtnCalendar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (currentFragment != null) {
+//                    if (currentFragment instanceof MainDashboardFragment) {
+//                        ((MainDashboardFragment) currentFragment).showCalendar();
+//                    } else if (currentFragment instanceof DaySummaryFragment) {
+//                        ((DaySummaryFragment) currentFragment).showCalendar();
+//                    } else if (currentFragment instanceof InvoiceDetailsFragment) {
+//                        ((InvoiceDetailsFragment) currentFragment).showCalendar();
+//                    } else if (currentFragment instanceof PaymentDetailsFragment) {
+//                        ((PaymentDetailsFragment) currentFragment).showCalendar();
+//                    }
+//                }
+//            }
+//        });
+
+        ImageButton imgbtnSync = (ImageButton) view.findViewById(R.id.dashboard_toolbar_icon_sync);
+//        imgbtnSync.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (currentFragment != null) {
+//                    if (currentFragment instanceof MainDashboardFragment) {
+//                        ((MainDashboardFragment) currentFragment).sync();
+//                    } else if (currentFragment instanceof DaySummaryFragment) {
+//                        ((DaySummaryFragment) currentFragment).refresh();
+//                    } else if (currentFragment instanceof InvoiceDetailsFragment) {
+//                        ((InvoiceDetailsFragment) currentFragment).refresh();
+//                    } else if (currentFragment instanceof PaymentDetailsFragment) {
+//                        ((PaymentDetailsFragment) currentFragment).refresh();
+//                    }
+//                }
+//            }
+//        });
+
+        viewPager = (ViewPager) view.findViewById(R.id.dashboard_vp);
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.dashboard_tab_strip);
+
+        pagerAdapter = new DashboardPagerAdapter(getChildFragmentManager());
+
+        tabStrip.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+//                IOnDashboardFragmentVisibleListener listener = (IOnDashboardFragmentVisibleListener) pagerAdapter.instantiateItem(viewPager, position);
+//                if (listener != null) {
+//                    listener.onFragmentVisible(DashboardContainerFragment.this);
+//                }
+            }
+        });
+
+        viewPager.setAdapter(pagerAdapter);
+
+        Resources resources = getResources();
+
+        tabStrip.setBackgroundColor(resources.getColor(R.color.theme_color));
+        tabStrip.setTextColor(resources.getColor(android.R.color.black));
+        tabStrip.setIndicatorColor(resources.getColor(R.color.red_error));
+        tabStrip.setDividerColor(resources.getColor(R.color.half_black));
+        tabStrip.setViewPager(viewPager);
+
 
 //        Pie pie = AnyChart.pie();
 //        Pie bar = AnyChart.pie();
@@ -47,7 +153,47 @@ public class FragmentHome extends Fragment {
         //anyChartView.setChart(bar);
         //anyChartView2.setChart(pie);
 
+
         return view;
     }
+    private class DashboardPagerAdapter extends FragmentPagerAdapter {
 
+        private String[] titles = {"Main", "Summary", "Invoice", "Payment"};
+
+        public DashboardPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    if (mainDashboardFragment == null)
+                        mainDashboardFragment = MainDashboardFragment.newInstance();
+                    currentFragment = mainDashboardFragment;
+                    return mainDashboardFragment;
+                case 1:
+                    if (daySummaryFragment == null) daySummaryFragment = new DaySummaryFragment();
+                    return daySummaryFragment;
+                case 2:
+                    if(invoiceDetailsFragment == null) invoiceDetailsFragment = new InvoiceDetailsFragment();
+                    return invoiceDetailsFragment;
+                case 3:
+                    if(paymentDetailsFragment == null) paymentDetailsFragment = new PaymentDetailsFragment();
+                    return paymentDetailsFragment;
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return titles.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
+    }
 }

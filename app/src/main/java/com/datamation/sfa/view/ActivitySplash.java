@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi;
 //import android.support.v7.app.AlertDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,8 +52,6 @@ public class ActivitySplash extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        
-
         View v = layoutInflater.inflate(R.layout.activity_splash, null);
         setContentView(v);
 
@@ -62,7 +61,9 @@ public class ActivitySplash extends AppCompatActivity{
         pref = SharedPref.getInstance(this);
         db.onUpgrade(SFA, 1, 2);
 
-        logo = (ImageView)findViewById(R.id.logo);
+        logo = (ImageView) findViewById(R.id.logo);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        //logo.setImageDrawable(getResources().getDrawable(R.drawable.dm_logo));
         tryAgain = (TextView) findViewById(R.id.tryAgain);
         networkFunctions = new NetworkFunctions(this);
         Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.logo_up);

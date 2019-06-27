@@ -34,6 +34,7 @@ dependencies {
     compile 'com.afollestad.material-dialogs:commons:0.9.0.1'
     //   implementation 'com.google.firebase:firebase-auth:11.0.4'
     //    compile project(':CircularFloatingActionMenu-1.0.2')
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.github.d-max:spots-dialog:0.7@aar'
     compile 'com.github.f0ris.sweetalert:library:1.5.2'
@@ -47,11 +48,21 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+
+    implementation files('libs/org.apache.http.legacy.jar')
+    implementation 'com.github.AnyChart:AnyChart-Android:0.0.3'
+    implementation 'com.github.markushi:circlebutton:1.1'
+    implementation 'com.squareup.picasso:picasso:2.4.0'
+    implementation 'com.sothree.slidinguppanel:library:3.0.0'
+    implementation 'se.emilsjolander:stickylistheaders:2.6.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.0.9'
+
     compile files('libs/org.apache.http.legacy.jar')
     compile 'com.github.AnyChart:AnyChart-Android:0.0.3'
     compile 'com.github.markushi:circlebutton:1.1'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     // compile 'com.afollestad.material-dialogs:color:2.7.0'
+
 }
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
