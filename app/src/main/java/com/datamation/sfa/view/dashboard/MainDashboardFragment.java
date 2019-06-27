@@ -19,10 +19,14 @@ import android.widget.Toast;
 
 import com.datamation.sfa.R;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -233,8 +237,25 @@ public class MainDashboardFragment extends Fragment {
 //            e.printStackTrace();
 //            Toast.makeText(getActivity(), "Error loading data. Please try again", Toast.LENGTH_SHORT).show();
 //        }
+        PieChart pieChart = rootView.findViewById(R.id.piechart);
+        ArrayList NoOfEmp = new ArrayList();
 
+        NoOfEmp.add(new Entry(945f, 0));
+        NoOfEmp.add(new Entry(1133f, 1));
+        NoOfEmp.add(new Entry(1240f, 3));
 
+        PieDataSet dataSet = new PieDataSet(NoOfEmp, "(-Outlets-");
+
+        ArrayList year = new ArrayList();
+
+        year.add("Not Visit");
+        year.add("Non Productive");
+        year.add("Visit");
+
+        PieData data = new PieData(year, dataSet);
+        pieChart.setData(data);
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        pieChart.animateXY(5000, 5000);
 
         return rootView;
     }
