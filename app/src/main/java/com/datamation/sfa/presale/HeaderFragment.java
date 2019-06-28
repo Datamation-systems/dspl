@@ -260,19 +260,19 @@ public class HeaderFragment extends Fragment {
             if(activity.selectedOrdHed !=null)
                 hed =activity.selectedOrdHed;//set already enter values objects
 
-            hed.setORDHED_REFNO(ordno.getText().toString());
-            hed.setORDHED_CUS_CODE(SharedPref.getInstance(getActivity()).getGlobalVal("PrekeyCusCode"));
-            hed.setORDHED_ADD_DATE(date.getText().toString());
-            hed.setORDHED_DELV_DATE(deldate.getText().toString());
-           // hed.setORDHED_ROUTE_CODE(SharedPref.getInstance(getActivity()).getLoginUser().getRoute());
-            hed.setORDHED_MANU_REF(mNo.getText().toString());
-            hed.setORDHED_REMARKS(remarks.getText().toString());
-            hed.setORDHED_IS_ACTIVE("1");
-            hed.setORDHED_TXN_DATE(""+date.getText().toString());
-            hed.setORDHED_START_TIME(""+currentTime().split(" ")[1]);
-            hed.setORDHED_REPCODE(""+SharedPref.getInstance(getActivity()).getLoginUser().getCode());
-            hed.setORDHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
-            hed.setORDHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
+//            hed.setORDHED_REFNO(ordno.getText().toString());
+//            hed.setORDHED_CUS_CODE(SharedPref.getInstance(getActivity()).getGlobalVal("PrekeyCusCode"));
+//            hed.setORDHED_ADD_DATE(date.getText().toString());
+//            hed.setORDHED_DELV_DATE(deldate.getText().toString());
+//           // hed.setORDHED_ROUTE_CODE(SharedPref.getInstance(getActivity()).getLoginUser().getRoute());
+//            hed.setORDHED_MANU_REF(mNo.getText().toString());
+//            hed.setORDHED_REMARKS(remarks.getText().toString());
+//            hed.setORDHED_IS_ACTIVE("1");
+//            hed.setORDHED_TXN_DATE(""+date.getText().toString());
+//            hed.setORDHED_START_TIME(""+currentTime().split(" ")[1]);
+//            hed.setORDHED_REPCODE(""+SharedPref.getInstance(getActivity()).getLoginUser().getCode());
+//            hed.setORDHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
+//            hed.setORDHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
 
             activity.selectedOrdHed = hed;//new updated object (new data + already enter data)
 
@@ -393,14 +393,14 @@ public class HeaderFragment extends Fragment {
            // String debCode= new SharedPref(getActivity()).getGlobalVal("PrekeyCusCode");
 
             if (home.selectedOrdHed != null) {
-                if (home.selectedDebtor == null)
+                //if (home.selectedDebtor == null)
                    // home.selectedDebtor = new FmDebtorDS(getActivity()).getSelectedCustomerByCode(home.selectedOrdHed.getFORDHED_DEB_CODE());
 
-                cusName.setText(home.selectedDebtor.getCusName());
-                ordno.setText(home.selectedOrdHed.getORDHED_REFNO());
-                deldate.setText(home.selectedOrdHed.getORDHED_DELV_DATE());
-                mNo.setText(home.selectedOrdHed.getORDHED_MANU_REF());
-                remarks.setText(home.selectedOrdHed.getORDHED_REMARKS());
+//                cusName.setText(home.selectedDebtor.getCusName());
+//                ordno.setText(home.selectedOrdHed.getORDHED_REFNO());
+//                deldate.setText(home.selectedOrdHed.getORDHED_DELV_DATE());
+//                mNo.setText(home.selectedOrdHed.getORDHED_MANU_REF());
+//                remarks.setText(home.selectedOrdHed.getORDHED_REMARKS());
 
             } else {
 

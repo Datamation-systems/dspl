@@ -1,5 +1,7 @@
 package com.datamation.sfa.model;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -10,218 +12,452 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 
 public class Order {
-    private String ORDHED_ID;
-    private String ORDHED_REFNO;
-    private String ORDHED_ADD_DATE;
-    private String ORDHED_CUS_CODE;
-    private String ORDHED_START_TIME;
-    private String ORDHED_END_TIME;
-    private String ORDHED_LONGITUDE;
-    private String ORDHED_LATITUDE;
-    private String ORDHED_MANU_REF;
-    private String ORDHED_REMARKS;
-    private String ORDHED_REPCODE;
-    private String ORDHED_TOTAL_AMT;
-    private String ORDHED_TXN_DATE;
-    private String ORDHED_IS_SYNCED;
-    private String ORDHED_IS_ACTIVE;
-    private String ORDHED_DELV_DATE;
-    private String ORDHED_ROUTE_CODE;
-    private String nextNumVal;
+    private final String LOG_TAG = Order.class.getSimpleName();
 
-    public String getNextNumVal() {
-        return nextNumVal;
+    public static final int DISCOUNT_MODE_CASH=0;
+    public static final int DISCOUNT_MODE_CHEQUE=1;
+
+    private long orderId;
+    private long orderTime;
+    private int outletId, routeId;
+    private double grossAmount;
+    private double returnAmount;
+    private double eligibleAmount;
+    private double discount;
+    private double discountPercentage;
+    private double marginAmount;
+    private double netAmount;
+    private int lineAmount;
+
+    private double latitude;
+    private double longitude;
+    private int locationType;
+    private int batteryLevel;
+    private List<OrderDetail> orderDetails;
+    private List<ReturnDetail> returnDetails;
+    private List<FreeIssueDetail> freeIssueDetails;
+    //    private List<ItemPromotion> itemPromotions;
+    private List<Payment> payments;
+    private boolean isSynced = false;
+    private int discount_mode;
+    private String mobileIP;
+
+//    private boolean discountPercent = false;
+
+    private long nextVisit;
+
+    private double locationAccuracy;
+    private String paymentMethodCode;
+
+    private boolean isSalesOrder = false;
+
+    public Order() {
+        isSynced = false;
     }
 
-    public void setNextNumVal(String nextNumVal) {
-        this.nextNumVal = nextNumVal;
+    public Order(long orderId, long orderTime, int outletId, double discount, double latitude,
+                 double longitude, float locationAccuracy, int locationType, List<OrderDetail> orderDetails,
+                 List<ReturnDetail> returnDetails, /*Payment payment,*/ List<FreeIssueDetail> freeIssueDetails) {
+        this.orderId = orderId;
+        this.orderTime = orderTime;
+        this.outletId = outletId;
+        this.discount = discount;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.locationType = locationType;
+        this.orderDetails = orderDetails;
+//        this.payment = payment;
+        this.returnDetails = returnDetails;
+        this.isSynced = false;
+        this.freeIssueDetails = freeIssueDetails;
+        this.locationAccuracy = locationAccuracy;
     }
 
-    private ArrayList<OrderDetail> soDetArrayList;
-
-    public ArrayList<OrderDetail> getSoDetArrayList() {
-        return soDetArrayList;
+    public double getDiscountPercentage() {
+        return discountPercentage;
     }
 
-    public void setSoDetArrayList(ArrayList<OrderDetail> soDetArrayList) {
-        this.soDetArrayList = soDetArrayList;
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
     }
 
-    public String getORDHED_ID() {
-        return ORDHED_ID;
+    public double getNetAmount() {
+        return netAmount;
     }
 
-    public void setORDHED_ID(String ORDHED_ID) {
-        this.ORDHED_ID = ORDHED_ID;
+    public void setNetAmount(double netAmount) {
+        this.netAmount = netAmount;
     }
 
-    public String getORDHED_REFNO() {
-        return ORDHED_REFNO;
+    public double getGrossAmount() {
+        return grossAmount;
     }
 
-    public void setORDHED_REFNO(String ORDHED_REFNO) {
-        this.ORDHED_REFNO = ORDHED_REFNO;
+    public void setGrossAmount(double grossAmount) {
+        this.grossAmount = grossAmount;
     }
 
-    public String getORDHED_ADD_DATE() {
-        return ORDHED_ADD_DATE;
+    public double getReturnAmount() {
+        return returnAmount;
     }
 
-    public void setORDHED_ADD_DATE(String ORDHED_ADD_DATE) {
-        this.ORDHED_ADD_DATE = ORDHED_ADD_DATE;
+    public void setReturnAmount(double returnAmount) {
+        this.returnAmount = returnAmount;
     }
 
-    public String getORDHED_CUS_CODE() {
-        return ORDHED_CUS_CODE;
+    public double getEligibleAmount() {
+        return eligibleAmount;
     }
 
-    public void setORDHED_CUS_CODE(String ORDHED_CUS_CODE) {
-        this.ORDHED_CUS_CODE = ORDHED_CUS_CODE;
+    public void setEligibleAmount(double eligibleAmount) {
+        this.eligibleAmount = eligibleAmount;
     }
 
-    public String getORDHED_START_TIME() {
-        return ORDHED_START_TIME;
+    public double getMarginAmount() {
+        return marginAmount;
     }
 
-    public void setORDHED_START_TIME(String ORDHED_START_TIME) {
-        this.ORDHED_START_TIME = ORDHED_START_TIME;
+    public void setMarginAmount(double marginAmount) {
+        this.marginAmount = marginAmount;
     }
 
-    public String getORDHED_END_TIME() {
-        return ORDHED_END_TIME;
+    public int getLineAmount() {
+        return lineAmount;
     }
 
-    public void setORDHED_END_TIME(String ORDHED_END_TIME) {
-        this.ORDHED_END_TIME = ORDHED_END_TIME;
+    public void setLineAmount(int lineAmount) {
+        this.lineAmount = lineAmount;
     }
 
-    public String getORDHED_LONGITUDE() {
-        return ORDHED_LONGITUDE;
+    public long getOrderId() {
+        return orderId;
     }
 
-    public void setORDHED_LONGITUDE(String ORDHED_LONGITUDE) {
-        this.ORDHED_LONGITUDE = ORDHED_LONGITUDE;
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 
-    public String getORDHED_LATITUDE() {
-        return ORDHED_LATITUDE;
+    public long getOrderTime() {
+        return orderTime;
     }
 
-    public void setORDHED_LATITUDE(String ORDHED_LATITUDE) {
-        this.ORDHED_LATITUDE = ORDHED_LATITUDE;
+    public void setOrderTime(long orderTime) {
+        this.orderTime = orderTime;
     }
 
-    public String getORDHED_MANU_REF() {
-        return ORDHED_MANU_REF;
+    public int getOutletId() {
+        return outletId;
     }
 
-    public void setORDHED_MANU_REF(String ORDHED_MANU_REF) {
-        this.ORDHED_MANU_REF = ORDHED_MANU_REF;
+    public void setOutletId(int outletId) {
+        this.outletId = outletId;
     }
 
-    public String getORDHED_REMARKS() {
-        return ORDHED_REMARKS;
+    public int getRouteId() {
+        return routeId;
     }
 
-    public void setORDHED_REMARKS(String ORDHED_REMARKS) {
-        this.ORDHED_REMARKS = ORDHED_REMARKS;
+    public void setRouteId(int routeId) {
+        this.routeId = routeId;
     }
 
-    public String getORDHED_REPCODE() {
-        return ORDHED_REPCODE;
+    public double getDiscount() {
+        return discount;
     }
 
-    public void setORDHED_REPCODE(String ORDHED_REPCODE) {
-        this.ORDHED_REPCODE = ORDHED_REPCODE;
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
-    public String getORDHED_TOTAL_AMT() {
-        return ORDHED_TOTAL_AMT;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setORDHED_TOTAL_AMT(String ORDHED_TOTAL_AMT) {
-        this.ORDHED_TOTAL_AMT = ORDHED_TOTAL_AMT;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public String getORDHED_TXN_DATE() {
-        return ORDHED_TXN_DATE;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setORDHED_TXN_DATE(String ORDHED_TXN_DATE) {
-        this.ORDHED_TXN_DATE = ORDHED_TXN_DATE;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public String getORDHED_IS_SYNCED() {
-        return ORDHED_IS_SYNCED;
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
     }
 
-    public void setORDHED_IS_SYNCED(String ORDHED_IS_SYNCED) {
-        this.ORDHED_IS_SYNCED = ORDHED_IS_SYNCED;
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
-    public String getORDHED_IS_ACTIVE() {
-        return ORDHED_IS_ACTIVE;
+//    public Payment getPayment() {
+//        return payment;
+//    }
+//
+//    public void setPayment(Payment payment) {
+//        this.payment = payment;
+//    }
+
+
+    public List<Payment> getPayments() {
+        return payments;
     }
 
-    public void setORDHED_IS_ACTIVE(String ORDHED_IS_ACTIVE) {
-        this.ORDHED_IS_ACTIVE = ORDHED_IS_ACTIVE;
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 
-    public String getORDHED_DELV_DATE() {
-        return ORDHED_DELV_DATE;
+    public List<ReturnDetail> getReturnDetails() {
+        return returnDetails;
     }
 
-    public void setORDHED_DELV_DATE(String ORDHED_DELV_DATE) {
-        this.ORDHED_DELV_DATE = ORDHED_DELV_DATE;
+    public void setReturnDetails(List<ReturnDetail> returnDetails) {
+        if (returnDetails!=null) {
+            List<ReturnDetail> temp = new ArrayList<>();
+            for(ReturnDetail detail:returnDetails){
+                if(detail.getQty()==0){temp.add(detail);}
+            }
+            returnDetails.removeAll(temp);
+        }
+        this.returnDetails = returnDetails;
     }
 
-    public String getORDHED_ROUTE_CODE() {
-        return ORDHED_ROUTE_CODE;
+    public int getBatteryLevel() {
+        return batteryLevel;
     }
 
-    public void setORDHED_ROUTE_CODE(String ORDHED_ROUTE_CODE) {
-        this.ORDHED_ROUTE_CODE = ORDHED_ROUTE_CODE;
+    public void setBatteryLevel(int batteryLevel) {
+        this.batteryLevel = batteryLevel;
     }
 
-    public JSONObject getOrderAsJSON() throws JSONException {
+    public boolean isSynced() {
+        return isSynced;
+    }
+
+    public void setSynced(boolean isSynced) {
+        this.isSynced = isSynced;
+    }
+
+//    public boolean isDiscountPercent() {
+//        return discountPercent;
+//    }
+//
+//    public void setDiscountPercent(boolean discountPercent) {
+//        this.discountPercent = discountPercent;
+//    }
+
+    public long getNextVisit() {
+        return nextVisit;
+    }
+
+    public void setNextVisit(long nextVisit) {
+        this.nextVisit = nextVisit;
+    }
+
+    public int getLocationType() {
+        return locationType;
+    }
+
+    public void setLocationType(int locationType) {
+        this.locationType = locationType;
+    }
+
+    public List<FreeIssueDetail> getFreeIssueDetails() {
+        return freeIssueDetails;
+    }
+
+    public void setFreeIssueDetails(List<FreeIssueDetail> freeIssueDetails) {
+        this.freeIssueDetails = freeIssueDetails;
+    }
+
+    public double getLocationAccuracy() {
+        return locationAccuracy;
+    }
+
+    public void setLocationAccuracy(double locationAccuracy) {
+        this.locationAccuracy = locationAccuracy;
+    }
+
+    public boolean isSalesOrder() {
+        return isSalesOrder;
+    }
+
+    public void setIsSalesOrder(boolean isSalesOrder) {
+        this.isSalesOrder = isSalesOrder;
+    }
+
+    public int getDiscount_mode() {
+        return discount_mode;
+    }
+
+    public void setDiscount_mode(int discount_mode) {
+        this.discount_mode = discount_mode;
+    }
+
+    public String getMobileIP() {
+        return mobileIP;
+    }
+
+    public void setMobileIP(String mobileIP) {
+        this.mobileIP = mobileIP;
+    }
+
+    public JSONObject getOrderAsJSON(Context context) throws JSONException {
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        HashMap<String, Object> finalJSONParams = new HashMap<>();
-        HashMap<String, Object> invoiceParams = new HashMap<>();
-        invoiceParams.put("refno", ORDHED_REFNO);
-        invoiceParams.put("customer", ORDHED_CUS_CODE);
-        invoiceParams.put("route", ORDHED_ROUTE_CODE);
-        invoiceParams.put("latitude", ORDHED_LATITUDE);
-        invoiceParams.put("longitude", ORDHED_LONGITUDE);
-        invoiceParams.put("total_amount", ORDHED_TOTAL_AMT);
-        invoiceParams.put("addDate", ORDHED_ADD_DATE);
-        invoiceParams.put("deldate", ORDHED_DELV_DATE);
-        invoiceParams.put("startTime", ORDHED_START_TIME);
-        invoiceParams.put("endTime", ORDHED_END_TIME);
-        invoiceParams.put("manualRef", ORDHED_MANU_REF);
-        invoiceParams.put("remark", ORDHED_REMARKS);
-        invoiceParams.put("repCode", ORDHED_REPCODE);
-        invoiceParams.put("txnDate", ORDHED_TXN_DATE);
-        invoiceParams.put("nextNumVal", nextNumVal);
 
-       // finalJSONParams.put("posm", new JSONArray());
+        HashMap<String, Object> finalJSONParams = new HashMap<>();
+
+        HashMap<String, Object> invoiceParams = new HashMap<>();
+        invoiceParams.put("orderId", String.valueOf(orderId));
+        invoiceParams.put("invtype", 0);
+        invoiceParams.put("outletid", outletId);
+        invoiceParams.put("routeid", routeId);
+        invoiceParams.put("lat", latitude);
+        invoiceParams.put("lon", longitude);
+        invoiceParams.put("bat", batteryLevel);
+        invoiceParams.put("discount", discount);
+        invoiceParams.put("grossamount", grossAmount);
+        invoiceParams.put("returnamount", returnAmount);
+        invoiceParams.put("eligibleamount", eligibleAmount);
+        invoiceParams.put("marginamount", marginAmount);
+        invoiceParams.put("netamount", netAmount);
+        invoiceParams.put("lineamount", lineAmount);
+        invoiceParams.put("discountpercentage", discountPercentage);
+        invoiceParams.put("nextvisitdate", nextVisit);
+        invoiceParams.put("locationType", locationType);
+        invoiceParams.put("locationAccuracy", locationAccuracy);
+        invoiceParams.put("hasFree", hasFree());
+        invoiceParams.put("hasSalesReturn", false);
+        invoiceParams.put("hasMarketReturn", returnDetails != null && returnDetails.size() > 0);
+        invoiceParams.put("paymentMethodCode", paymentMethodCode);
+        invoiceParams.put("currentIP",mobileIP);
+        try {
+            invoiceParams.put("app_version",context.getPackageManager().getPackageInfo(context.getPackageName(),0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Add the sales order flag to the outgoing JSON
+        invoiceParams.put("isSalesOrder", isSalesOrder);
+
+        Date date = new Date(orderTime);
+
+        String combinedDate = sdf.format(date);
+
+        String[] broken = combinedDate.split(" ");
+
+        invoiceParams.put("invDate", broken[0]);
+        invoiceParams.put("invtime", broken[1]);
+
+        JSONObject invoiceJSON = new JSONObject(invoiceParams);
+
+        finalJSONParams.put("Invoice", invoiceJSON);
+
+        finalJSONParams.put("posm", new JSONArray());
+
         JSONArray itemsArray = new JSONArray();
-        if (soDetArrayList != null) {
-            for (int i = 0; i < soDetArrayList.size(); i++) {
-                JSONObject tmpItemJSON = soDetArrayList.get(i).getOrderDetailAsJSON(this);
+
+        if (orderDetails != null) {
+            for (int i = 0; i < orderDetails.size(); i++) {
+                JSONObject tmpItemJSON = orderDetails.get(i).getOrderDetailAsJSON(this);
                 if (tmpItemJSON != null) {
                     itemsArray.put(tmpItemJSON);
                 }
             }
         }
-        invoiceParams.put("invitems", itemsArray);
-        JSONObject invoiceJSON = new JSONObject(invoiceParams);
-        finalJSONParams.put("Invoice", invoiceJSON);
+        finalJSONParams.put("invitems", itemsArray);
+        JSONArray returnArray = new JSONArray();
+        if (returnDetails != null) {
+            for (int i = 0; i < returnDetails.size(); i++) {
+                JSONObject tmpItemJSON = returnDetails.get(i).getReturnDetailAsJSON();
+                if (tmpItemJSON != null) {
+                    returnArray.put(tmpItemJSON);
+                }
+            }
+        }
+
+        finalJSONParams.put("returnitems", returnArray);
+
+        JSONArray freeArray = new JSONArray();
+        if (orderDetails != null) {
+            for (int i = 0; i < orderDetails.size(); i++) {
+//                Log.d("<>","fuck");
+//                ItemPromotion freeIssueDetail = orderDetails.get(i).getItemPromotion();
+//                if (freeIssueDetail != null) {
+////                    Log.d("<>","fuck fuck");
+//                    freeArray.put(freeIssueDetail.toJSON(freeIssueDetail));
+//                }
+
+            }
+        }
+        finalJSONParams.put("item_promotions", freeArray);
+
+        if (payments!=null&&payments.size()>0) {
+            HashMap<String,Object> pymnts = new HashMap<>();
+            JSONArray cashArray = new JSONArray();
+            JSONArray cheqArray = new JSONArray();
+
+            for(Payment payment:payments){
+                if(payment.isCash()){
+                    cashArray.put(payment.getPaymentAsJSON());
+                }
+                else{
+                    cheqArray.put(payment.getPaymentAsJSON());
+                }
+            }
+            pymnts.put("cash",cashArray);
+            pymnts.put("cheq",cheqArray);
+
+            finalJSONParams.put("Payment", new JSONObject(pymnts));
+        }
         JSONObject finalObject = new JSONObject(finalJSONParams);
-        Log.wtf("ORDER CLASS ", "ORDER JSON\n" + finalObject.toString());
+
+        Log.wtf(LOG_TAG, "ORDER JSON\n" + finalObject.toString());
+
         return new JSONObject(finalJSONParams);
+    }
+
+    public double calculateTotalReturns() {
+
+        if (returnDetails != null) {
+            double total = 0;
+            for (ReturnDetail returnDetail : returnDetails) {
+                total += returnDetail.getReturnPrice() * returnDetail.getQty();
+            }
+            return total;
+        }
+        return 0;
+    }
+
+    public void addFreeIssueDetail(FreeIssueDetail freeIssueDetail) {
+        if (freeIssueDetails == null) freeIssueDetails = new ArrayList<>();
+        freeIssueDetails.add(freeIssueDetail);
+    }
+
+    public boolean hasFree() {
+        for(OrderDetail orderDetail:orderDetails){
+//            if(orderDetail.getItemPromotion()!=null && (orderDetail.getItemPromotion().getFreeCount()>0)){
+//                return true;
+//            }
+        }
+        return false;
+
+    }
+
+    public String getPaymentMethodCode() {
+        return paymentMethodCode;
+    }
+
+    public void setPaymentMethodCode(String paymentMethodCode) {
+        this.paymentMethodCode = paymentMethodCode;
     }
 }

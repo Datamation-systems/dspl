@@ -124,7 +124,8 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
                     return true;
                 case R.id.navigation_sales:
-                    UtilityContainer.mLoadFragment(new FragmentSecondary(), ActivityHome.this);
+                    Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
+                    startActivity(intent);
 
                     return true;
                 case R.id.navigation_tools:
@@ -747,7 +748,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
             if (aBoolean) {
                 // Success
-                new OrderController(ActivityHome.this).updateIsSynced(true,order.getORDHED_REFNO());
+                //new OrderController(ActivityHome.this).updateIsSynced(true,order.getORDHED_REFNO());
                 Toast.makeText(ActivityHome.this, "Order synced with the server successfully", Toast.LENGTH_SHORT).show();
 
                 UtilityContainer.mLoadFragment(new SalesManagementFragment(), ActivityHome.this);

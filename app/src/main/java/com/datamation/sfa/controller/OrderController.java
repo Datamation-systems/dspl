@@ -52,36 +52,36 @@ public class OrderController {
 
             for (Order ordHed : list) {
 
-                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO
-                        + " = '" + ordHed.getORDHED_REFNO() + "'";
-
-                cursor = dB.rawQuery(selectQuery, null);
-
-                ContentValues values = new ContentValues();
-
-                values.put(dbHelper.ORDER_REFNO, ordHed.getORDHED_REFNO());
-                values.put(dbHelper.ORDER_ADDDATE, ordHed.getORDHED_ADD_DATE());
-                values.put(dbHelper.ORDER_CUSCODE, ordHed.getORDHED_CUS_CODE());
-                values.put(dbHelper.ORDER_START_TIME, ordHed.getORDHED_START_TIME());
-                values.put(dbHelper.ORDER_END_TIME, ordHed.getORDHED_END_TIME());
-                values.put(dbHelper.ORDER_LONGITUDE, ordHed.getORDHED_LONGITUDE());
-                values.put(dbHelper.ORDER_LATITUDE, ordHed.getORDHED_LATITUDE());
-                values.put(dbHelper.ORDER_MANU_REF, ordHed.getORDHED_MANU_REF());
-                values.put(dbHelper.ORDER_REMARKS, ordHed.getORDHED_REMARKS());
-                values.put(dbHelper.ORDER_REPCODE, ordHed.getORDHED_REPCODE());
-                values.put(dbHelper.ORDER_TOTAL_AMT, ordHed.getORDHED_TOTAL_AMT());
-                values.put(dbHelper.ORDER_TXN_DATE, ordHed.getORDHED_TXN_DATE());
-                values.put(dbHelper.ORDER_ROUTE_CODE, ordHed.getORDHED_ROUTE_CODE());
-                values.put(dbHelper.ORDER_IS_SYNCED, "0");
-                values.put(dbHelper.ORDER_IS_ACTIVE, ordHed.getORDHED_IS_ACTIVE());
-
-                int cn = cursor.getCount();
-                if (cn > 0) {
-                    count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.ORDER_REFNO + " =?",
-                            new String[] { String.valueOf(ordHed.getORDHED_REFNO()) });
-                } else {
-                    count = (int) dB.insert(dbHelper.TABLE_ORDER, null, values);
-                }
+//                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO
+//                        + " = '" + ordHed.getORDHED_REFNO() + "'";
+//
+//                cursor = dB.rawQuery(selectQuery, null);
+//
+//                ContentValues values = new ContentValues();
+//
+//                values.put(dbHelper.ORDER_REFNO, ordHed.getORDHED_REFNO());
+//                values.put(dbHelper.ORDER_ADDDATE, ordHed.getORDHED_ADD_DATE());
+//                values.put(dbHelper.ORDER_CUSCODE, ordHed.getORDHED_CUS_CODE());
+//                values.put(dbHelper.ORDER_START_TIME, ordHed.getORDHED_START_TIME());
+//                values.put(dbHelper.ORDER_END_TIME, ordHed.getORDHED_END_TIME());
+//                values.put(dbHelper.ORDER_LONGITUDE, ordHed.getORDHED_LONGITUDE());
+//                values.put(dbHelper.ORDER_LATITUDE, ordHed.getORDHED_LATITUDE());
+//                values.put(dbHelper.ORDER_MANU_REF, ordHed.getORDHED_MANU_REF());
+//                values.put(dbHelper.ORDER_REMARKS, ordHed.getORDHED_REMARKS());
+//                values.put(dbHelper.ORDER_REPCODE, ordHed.getORDHED_REPCODE());
+//                values.put(dbHelper.ORDER_TOTAL_AMT, ordHed.getORDHED_TOTAL_AMT());
+//                values.put(dbHelper.ORDER_TXN_DATE, ordHed.getORDHED_TXN_DATE());
+//                values.put(dbHelper.ORDER_ROUTE_CODE, ordHed.getORDHED_ROUTE_CODE());
+//                values.put(dbHelper.ORDER_IS_SYNCED, "0");
+//                values.put(dbHelper.ORDER_IS_ACTIVE, ordHed.getORDHED_IS_ACTIVE());
+//
+//                int cn = cursor.getCount();
+//                if (cn > 0) {
+//                    count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.ORDER_REFNO + " =?",
+//                            new String[] { String.valueOf(ordHed.getORDHED_REFNO()) });
+//                } else {
+//                    count = (int) dB.insert(dbHelper.TABLE_ORDER, null, values);
+//                }
 
             }
         } catch (Exception e) {
@@ -244,21 +244,21 @@ public class OrderController {
 
             Order ordHed = new Order();
 
-            ordHed.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-            ordHed.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
-            ordHed.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
-            ordHed.setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
-            ordHed.setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
-            ordHed.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
-            ordHed.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
-            ordHed.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
-            ordHed.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
-            ordHed.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
-            ordHed.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-            ordHed.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
-            ordHed.setORDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_SYNCED)));
-            ordHed.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
-            ordHed.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
+//            ordHed.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
+//            ordHed.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
+//            ordHed.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
+//            ordHed.setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
+//            ordHed.setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
+//            ordHed.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
+//            ordHed.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
+//            ordHed.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
+//            ordHed.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
+//            ordHed.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
+//            ordHed.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
+//            ordHed.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
+//            ordHed.setORDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_SYNCED)));
+//            ordHed.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
+//            ordHed.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
 
             list.add(ordHed);
 
@@ -291,32 +291,32 @@ public class OrderController {
             Order order = new Order();
             OrderDetailController detDS = new OrderDetailController(context);
             ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
-            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
-
-            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
-            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
-
-            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
-
-            order.setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
-            order.setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
-            order.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
-            order.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
-            order.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
-            order.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
-            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
-
-            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
-
-            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
-            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
-            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
-
-            order.setSoDetArrayList(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO))));
-//            preSalesMapper.setIssuList(
-//                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
+//            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
+//
+//            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
+//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
+//            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
+//
+//            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
+//
+//            order.setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
+//            order.setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
+//            order.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
+//            order.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
+//            order.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
+//            order.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
+//            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
+//
+//            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
+//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
+//
+//            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
+//            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
+//            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
+//
+//            order.setSoDetArrayList(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO))));
+////            preSalesMapper.setIssuList(
+////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
             list.add(order);
 
@@ -345,36 +345,36 @@ public class OrderController {
             Order order = new Order();
             OrderDetailController detDS = new OrderDetailController(context);
             ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
-            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
-
-            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
-            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
-
-            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
-
-            order
-                    .setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
-            order
-                    .setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
-            order.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
-            order.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
-            order.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
-            order.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
-            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
-
-            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
-
-            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
-            order.setORDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_SYNCED)));
-            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
-            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
-
-            order
-                    .setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO))));
-//            preSalesMapper.setIssuList(
-//                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
+//            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
+//
+//            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
+//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
+//            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
+//
+//            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
+//
+//            order
+//                    .setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
+//            order
+//                    .setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
+//            order.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
+//            order.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
+//            order.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
+//            order.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
+//            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
+//
+//            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
+//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
+//
+//            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
+//            order.setORDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_SYNCED)));
+//            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
+//            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
+//
+//            order
+//                    .setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO))));
+////            preSalesMapper.setIssuList(
+////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
             list.add(order);
 
@@ -404,35 +404,35 @@ public class OrderController {
             Order order = new Order();
             OrderDetailController detDS = new OrderDetailController(context);
             ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
-            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
-
-            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
-            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
-
-            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
-
-            order
-                    .setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
-            order
-                    .setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
-            order.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
-            order.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
-            order.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
-            order.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
-            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
-
-            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
-
-            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
-            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
-            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
-
-            order
-                    .setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO))));
-//            preSalesMapper.setIssuList(
-//                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
+//            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
+//
+//            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
+//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
+//            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
+//
+//            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
+//
+//            order
+//                    .setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
+//            order
+//                    .setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
+//            order.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
+//            order.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
+//            order.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
+//            order.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
+//            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
+//
+//            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
+//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
+//
+//            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
+//            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
+//            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
+//
+//            order
+//                    .setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO))));
+////            preSalesMapper.setIssuList(
+////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
             list.add(order);
 

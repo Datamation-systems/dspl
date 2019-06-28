@@ -46,15 +46,15 @@ public class OrderAdapter extends ArrayAdapter<Order> {
 
     //    list = new OrderController(context).getAllOrders();
 
-       if(list.get(position).getORDHED_IS_SYNCED().equalsIgnoreCase("1")){
-           sts.setBackgroundResource(R.drawable.status_synced);// synced
-       }else{
-           sts.setBackgroundResource(R.drawable.status_line);//not synced
-       }
-
-        Itemcode.setText(""+new CustomerController(context).getSelectedCustomerByCode(list.get(position).getORDHED_CUS_CODE()).getCusName());
-        Itemname.setText(list.get(position).getORDHED_REFNO());
-        syncStatus.setText(list.get(position).getORDHED_TXN_DATE());
+//       if(list.get(position).getORDHED_IS_SYNCED().equalsIgnoreCase("1")){
+//           sts.setBackgroundResource(R.drawable.status_synced);// synced
+//       }else{
+//           sts.setBackgroundResource(R.drawable.status_line);//not synced
+//       }
+//
+//        Itemcode.setText(""+new CustomerController(context).getSelectedCustomerByCode(list.get(position).getORDHED_CUS_CODE()).getCusName());
+//        Itemname.setText(list.get(position).getORDHED_REFNO());
+//        syncStatus.setText(list.get(position).getORDHED_TXN_DATE());
 
         return row;
     }

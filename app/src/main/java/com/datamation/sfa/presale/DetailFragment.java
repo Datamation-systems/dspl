@@ -389,23 +389,23 @@ public class LoardingPreProductFromDB extends AsyncTask<Object, Object, ArrayLis
 
             new OrderTempController(getActivity()).insertOrUpdateProducts(PreproductList);
             //---------re Order Temp product  list added for  fProducts_pre table-----------------dhanushika-------------------------------
-            if(tmpsoHed!=null) {
-                ArrayList<OrderDetail> detArrayList = tmpsoHed.getSoDetArrayList();
-                if (detArrayList != null) {
-                    for (int i = 0; i < detArrayList.size(); i++) {
-                        String tmpItemName = detArrayList.get(i).getORDDET_ITEMCODE();
-                        String tmpQty = detArrayList.get(i).getORDDET_QTY();
-                        //Update Qty in  fProducts_pre table
-                        int count = new OrderTempController(getActivity()).updateProductQtyFor(tmpItemName, tmpQty);
-                        if (count > 0) {
-                            // Log.d("InsertOrUpdate", "success");
-                        } else {
-                            // Log.d("InsertOrUpdate", "Failed");
-                        }
-
-                    }
-                }
-            }
+//            if(tmpsoHed!=null) {
+//                ArrayList<OrderDetail> detArrayList = tmpsoHed.getSoDetArrayList();
+//                if (detArrayList != null) {
+//                    for (int i = 0; i < detArrayList.size(); i++) {
+//                        String tmpItemName = detArrayList.get(i).getORDDET_ITEMCODE();
+//                        String tmpQty = detArrayList.get(i).getORDDET_QTY();
+//                        //Update Qty in  fProducts_pre table
+//                        int count = new OrderTempController(getActivity()).updateProductQtyFor(tmpItemName, tmpQty);
+//                        if (count > 0) {
+//                            // Log.d("InsertOrUpdate", "success");
+//                        } else {
+//                            // Log.d("InsertOrUpdate", "Failed");
+//                        }
+//
+//                    }
+//                }
+//            }
             //----------------------------------------------------------------------------
 
         }

@@ -14,10 +14,11 @@ import com.datamation.sfa.R;
 
 public class CompetitorDetailsFragment extends Fragment {
 
+    View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_competitor_details, container, false);
-
+        view = inflater.inflate(R.layout.fragment_competitor_details, container, false);
 
         return view;
     }

@@ -39,6 +39,8 @@ public class NetworkFunctions {
 
     private final SharedPref pref;
 
+    private Context context;
+
     /**
      * The base URL to POST/GET the parameters to. The function names will be appended to this
      */
@@ -190,7 +192,7 @@ public String validate(String macId) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        String jsonString = order.getOrderAsJSON().toString();
+        String jsonString = order.getOrderAsJSON(context).toString();
         params.add(new CustomNameValuePair("jsonString", jsonString));
         params.add(new CustomNameValuePair("repcode", pref.getLoginUser().getCode()));
 
@@ -249,15 +251,15 @@ public String validate(String macId) throws IOException {
 //        return getFromServer(baseURL + "freeissue", null);
 //    }
 //
-//    public String fetchOrderDetails(long invoiceId) throws IOException {
-//        List<CustomNameValuePair> params = new ArrayList<>();
-//        params.add(new CustomNameValuePair("position_id", String.valueOf(user.getLocationId())));
-//        params.add(new CustomNameValuePair("sales_order_code", String.valueOf(invoiceId)));
-//
-//        Log.d(LOG_TAG, "Fetching order details");
-//
-//        return postToServer(baseURL + "get_invoice_details", params);
-//    }
+    public String fetchOrderDetails(long invoiceId) throws IOException {
+        List<CustomNameValuePair> params = new ArrayList<>();
+        //params.add(new CustomNameValuePair("position_id", String.valueOf(user.getLocationId())));
+        params.add(new CustomNameValuePair("sales_order_code", String.valueOf(invoiceId)));
+
+        Log.d(LOG_TAG, "Fetching order details");
+
+        return postToServer(baseURL + "get_invoice_details", params);
+    }
 //
 //    public String syncDayRouteAmountPlans(List<DayPlanHolder> planHolders) throws IOException {
 //
