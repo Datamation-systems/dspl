@@ -504,5 +504,168 @@ public class DaySummaryFragment extends Fragment {
 //            notifyDataSetChanged();
 //        }
 //    }
+//    private void setPreviousMonthDetails(JSONObject previousMonth) throws JSONException {
+//
+//        double target = previousMonth.getDouble("target");
+//        double grossSales = previousMonth.getDouble("gross_sale");
+//        double discount = previousMonth.getDouble("discount");
+//        double discountPercentage = previousMonth.getDouble("discount_percentage");
+//        double returns = previousMonth.getDouble("returns");
+//
+//        double netSale = grossSales - discount - returns;
+//
+//        tvPrevMonthTarget.setText(numberFormat.format(target));
+//        tvPrevMonthGrossSale.setText(numberFormat.format(grossSales));
+//
+//        if (grossSales > 0 && netSale > 0) {
+//            tvPrevMonthGrossSalePercentage.setText("(" + numberFormat.format(netSale / grossSales * 100) + "%)");
+//        } else {
+//            tvPrevMonthGrossSalePercentage.setText("(0.00%)");
+//        }
+//
+//        tvPrevMonthMarketReturn.setText(numberFormat.format(returns));
+//        tvPrevMonthDiscount.setText(numberFormat.format(discount));
+//        tvPrevMonthDiscountPercentage.setText("(" + numberFormat.format(discountPercentage) + "%)");
+//
+//        tvPrevMonthNetSale.setText(numberFormat.format(netSale));
+//
+//        tvPrevMonthProductive.setText(previousMonth.getString("productive_calls"));
+//        tvPrevMonthUnproductive.setText(previousMonth.getString("unproductive_cals"));
+//
+//    }
+//
+//    private void setThisMonthDetails(JSONObject thisMonth) throws JSONException {
+//
+//        Log.d(LOG_TAG, "This month : \n" + thisMonth);
+//
+////        targetValues = new ArrayList<>();
+//        achievementValues = new ArrayList<>();
+//
+//        double monthTarget = 0;
+//        double monthGrossSales = 0;
+//        double monthDiscount = 0;
+//        double monthDiscountPercentage = 0;
+//        double monthReturns = 0;
+//        double monthNetSale = 0;
+//
+//        int monthProductive = 0;
+//        int monthUnproductive = 0;
+//
+////        double target = 0;
+////        double grossSales = 0;
+////        double discount = 0;
+////        double discountPercentage = 0;
+////        double returns = 0;
+//        double netSale = 0;
+//
+//        int discountPercentageCount = 0;
+////
+////        int productive = 0;
+////        int unproductive = 0;
+//
+//        boolean targetsNeeded = targetValues.size() == 0;
+//
+//        if(targetsNeeded) targetValues.add(0.0);
+//
+//        achievementValues.add(0.0);
+//
+//        for (int dayIndex = 1; dayIndex < 32; dayIndex++) {
+//
+//            if (thisMonth.has(String.valueOf(dayIndex))) {
+//
+//                JSONObject dayJSON = thisMonth.getJSONObject(String.valueOf(dayIndex));
+//
+//                if(targetsNeeded) targetValues.add(dayJSON.getDouble("target"));
+//
+//                if(dayIndex <= thisDay) achievementValues.add(dayJSON.getDouble("gross_sale"));
+//
+//                monthTarget += dayJSON.getDouble("target");
+//                monthGrossSales += dayJSON.getDouble("gross_sale");
+//                monthDiscount += dayJSON.getDouble("discount");
+//                monthReturns += dayJSON.getDouble("returns");
+//                monthNetSale += netSale;
+//
+//                monthProductive += dayJSON.getInt("productive_calls");
+//                monthUnproductive += dayJSON.getInt("unproductive_cals");
+//
+//                if(dayJSON.getDouble("discount_percentage") > 0) {
+//                    monthDiscountPercentage += dayJSON.getDouble("discount_percentage");
+//                    discountPercentageCount++;
+//                }
+//
+//            } else break;
+//        }
+//
+//        tvThisMonthTarget.setText(numberFormat.format(monthTarget));
+//        tvThisMonthGrossSale.setText(numberFormat.format(monthGrossSales));
+//
+//        tvThisMonthMarketReturn.setText(numberFormat.format(monthReturns));
+//        tvThisMonthDiscount.setText(numberFormat.format(monthDiscount));
+////        tvThisMonthDiscountPercentage.setText("(" + "0.00" + "%)");
+//
+//        tvThisMonthNetSale.setText(numberFormat.format(monthNetSale));
+//
+//        tvThisMonthProductive.setText(String.valueOf(monthProductive));
+//        tvThisMonthUnproductive.setText(String.valueOf(monthUnproductive));
+//
+//        if(monthDiscountPercentage > 0) {
+//            tvThisMonthDiscountPercentage.setText("("
+//                    + numberFormat.format(monthDiscountPercentage/discountPercentageCount) + "%)");
+//        } else {
+//            tvThisMonthDiscountPercentage.setText("(0.00%");
+//        }
+//
+//        if(monthTarget > 0) {
+//            tvThisMonthGrossSalePercentage.setText("("
+//                    + numberFormat.format(monthGrossSales/monthTarget * 100) + "%)");
+//        } else {
+//            tvThisMonthGrossSalePercentage.setText("N/A");
+//        }
+//
+//    }
+//
+
+//    private void setTodayDetails(JSONObject dayJSON) throws JSONException {
+//
+//        double target;
+//        double grossSales;
+//        double discount;
+//        double discountPercentage;
+//        double returns;
+//        double netSale;
+//
+//        int productive;
+//        int unproductive;
+//
+//        target = dayJSON.getDouble("target");
+//        grossSales = dayJSON.getDouble("gross_sale");
+//        discount = dayJSON.getDouble("discount");
+//        discountPercentage = dayJSON.getDouble("discount_percentage");
+//        returns = dayJSON.getDouble("returns");
+//
+//        netSale = grossSales - discount - returns;
+//
+//        productive = dayJSON.getInt("productive_calls");
+//        unproductive = dayJSON.getInt("unproductive_cals");
+//
+//        tvTodayTarget.setText(numberFormat.format(target));
+//        tvTodayGrossSale.setText(numberFormat.format(grossSales));
+//
+//        if (target > 0) {
+//            tvTodayGrossSalePercentage.setText("("
+//                    + numberFormat.format(grossSales / target * 100) + "%)");
+//        } else {
+//            tvTodayGrossSalePercentage.setText("N/A");
+//        }
+//
+//        tvTodayMarketReturn.setText(numberFormat.format(returns));
+//        tvTodayDiscount.setText(numberFormat.format(discount));
+//        tvTodayDiscountPercentage.setText("(" + numberFormat.format(discountPercentage) + "%)");
+//
+//        tvTodayNetSale.setText(numberFormat.format(netSale));
+//
+//        tvTodayProductive.setText(String.valueOf(productive));
+//        tvTodayUnproductive.setText(String.valueOf(unproductive));
+//    }
 
 }

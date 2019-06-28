@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -112,20 +113,7 @@ public class FragmentHome extends Fragment {
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.dashboard_tab_strip);
 
         pagerAdapter = new DashboardPagerAdapter(getChildFragmentManager());
-
-        tabStrip.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-//                IOnDashboardFragmentVisibleListener listener = (IOnDashboardFragmentVisibleListener) pagerAdapter.instantiateItem(viewPager, position);
-//                if (listener != null) {
-//                    listener.onFragmentVisible(DashboardContainerFragment.this);
-//                }
-            }
-        });
-
         viewPager.setAdapter(pagerAdapter);
-
         Resources resources = getResources();
 
         tabStrip.setBackgroundColor(resources.getColor(R.color.theme_color));
@@ -133,6 +121,33 @@ public class FragmentHome extends Fragment {
         tabStrip.setIndicatorColor(resources.getColor(R.color.red_error));
         tabStrip.setDividerColor(resources.getColor(R.color.half_black));
         tabStrip.setViewPager(viewPager);
+        tabStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                             @Override
+                                             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                                             }
+
+                                             @Override
+                                             public void onPageSelected(int position) {
+
+                                             }
+
+                                             @Override
+                                             public void onPageScrollStateChanged(int state) {
+
+                                             }
+                                         });
+
+//        new ViewPager.SimpleOnPageChangeListener() {
+//            @Override
+//            public void onPageSelected(int position) {
+//                super.onPageSelected(position);
+////                IOnDashboardFragmentVisibleListener listener = (IOnDashboardFragmentVisibleListener) pagerAdapter.instantiateItem(viewPager, position);
+////                if (listener != null) {
+////                    listener.onFragmentVisible(DashboardContainerFragment.this);
+////                }
+//            }
+//        });
 
 
 //        Pie pie = AnyChart.pie();
@@ -150,8 +165,8 @@ public class FragmentHome extends Fragment {
 //        pie.setData(data1);
 //        AnyChartView anyChartView = (AnyChartView) view.findViewById(R.id.any_chart_view);
 //        AnyChartView anyChartView2 = (AnyChartView) view.findViewById(R.id.any_chart_view2);
-        //anyChartView.setChart(bar);
-        //anyChartView2.setChart(pie);
+                //anyChartView.setChart(bar);
+                //anyChartView2.setChart(pie);
 
 
         return view;
