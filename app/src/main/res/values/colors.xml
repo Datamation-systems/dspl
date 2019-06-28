@@ -57,6 +57,7 @@
 
     <color name="attendance_btn_disabled">#FF4444</color>
     <color name="attendance_btn_enabled">#99CC00</color>
+    <color name="target">  #ff5722</color>
 
     <color name="dark_white">#ffcdcdcd</color>
     <color name="batch_background">#fcf0bb</color>

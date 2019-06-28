@@ -6,8 +6,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.TextView;
 import com.datamation.sfa.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -16,13 +14,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-
-
-
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -99,8 +92,8 @@ public class MainDashboardFragment extends Fragment {
 
         chart.setDescription("");
         //chart.set
-        monthTvA.add(new BarEntry(945f, 0));
-        monthTvA.add(new BarEntry(1040f, 1));
+        monthTvA.add(new BarEntry(2945f, 0));
+        monthTvA.add(new BarEntry(1540f, 1));
         monthTvA.add(new BarEntry(1133f, 2));
 
 
@@ -112,11 +105,10 @@ public class MainDashboardFragment extends Fragment {
 
 
         BarDataSet bardataset = new BarDataSet(monthTvA, "values");
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-//        bardataset.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.blue_btn_bg_color),
-//                ContextCompat.getColor(getActivity(), R.color.cardviews_colorsN),
-//                ContextCompat.getColor(getActivity(), R.color.background),
-//                ContextCompat.getColor(getActivity(), R.color.blue_btn_bg_color)});
+      //  bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        bardataset.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.red_error),
+                ContextCompat.getColor(getActivity(), R.color.achievecolor),
+                ContextCompat.getColor(getActivity(), R.color.visit_not_visited)});
         chart.animateY(2000);
         chart.setDrawGridBackground(false);
         chart.getXAxis().setDrawGridLines(false);
@@ -178,8 +170,8 @@ public class MainDashboardFragment extends Fragment {
 
 
         BarDataSet dataset = new BarDataSet(entries,"count");
-        dataset.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.error_stroke_color),
-                ContextCompat.getColor(getActivity(), R.color.main_green_stroke_color),
+        dataset.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.main_green_stroke_color),
+                ContextCompat.getColor(getActivity(), R.color.visit_not_visited),
                 ContextCompat.getColor(getActivity(), R.color.theme_color_dark)});
       //  dataset.setColors(ColorTemplate.COLORFUL_COLORS);
         return dataset;

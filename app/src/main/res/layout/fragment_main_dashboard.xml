@@ -41,6 +41,8 @@
                         android:background="@color/theme_color"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
                         android:text="Today Target vs Achievement"/>
 
                     <com.github.mikephil.charting.charts.PieChart
@@ -78,6 +80,8 @@
                         android:background="@color/theme_color"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
                         android:text="Today Visit Details" />
 
 
@@ -122,6 +126,8 @@
                     android:background="@color/theme_color"
                     android:gravity="center_vertical"
                     android:paddingLeft="16dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:text="Current Month Target vs Achievement" />
 
                 <TextView
