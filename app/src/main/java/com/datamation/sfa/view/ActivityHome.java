@@ -128,7 +128,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
                     return true;
                 case R.id.navigation_tools:
-                    managementTools();
+                    UtilityContainer.mLoadFragment(new FragmentTools(), ActivityHome.this);
 
                     return true;
                 case R.id.navigation_logout:

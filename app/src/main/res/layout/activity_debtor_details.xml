@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/outlet_details_tab_strip"/>
+
     <View
         android:id="@+id/outlet_details_view_overlay"
         android:layout_width="match_parent"
@@ -28,126 +29,103 @@
 
 
     <at.markushi.ui.CircleButton
-        android:id="@+id/outlet_details_floating_action_menu"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/fab_add"
+        android:id="@+id/outlet_details_fab_van_sale"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        app:cb_color="@color/colorPrimary"
-        app:cb_pressedRingWidth="16dip"/>
-
-    <at.markushi.ui.CircleButton
-        android:id="@+id/outlet_details_fab_payment"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentRight="true"
-        android:layout_above="@+id/outlet_details_floating_action_menu"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"/>
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
 
     <TextView
-        android:id="@+id/outlet_details_label_payment"
+        android:id="@+id/outlet_details_label_vansale"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
-        android:layout_above="@+id/outlet_details_floating_action_menu"
-        android:layout_toLeftOf="@+id/outlet_details_fab_payment"
+        android:layout_toLeftOf="@+id/outlet_details_fab_van_sale"
+        android:layout_alignParentBottom="true"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:text="PAYMENT"
-        android:gravity="center"
-        android:visibility="gone"/>
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:text="VAN SALE"
+        android:gravity="center"/>
 
     <at.markushi.ui.CircleButton
-        android:id="@+id/outlet_details_fab_merchandising"
+        android:id="@+id/outlet_details_fab_pre_sale"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignParentRight="true"
-        android:layout_above="@+id/outlet_details_fab_payment"
+        android:layout_above="@+id/outlet_details_fab_van_sale"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"/>
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
 
     <TextView
-        android:id="@+id/outlet_details_label_merchandising"
+        android:id="@+id/outlet_details_label_pre_sale"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
-        android:layout_above="@+id/outlet_details_label_payment"
-        android:layout_toLeftOf="@+id/outlet_details_fab_payment"
+        android:layout_above="@+id/outlet_details_fab_van_sale"
+        android:layout_toLeftOf="@+id/outlet_details_fab_pre_sale"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:text="RETURN NOTE"
-        android:gravity="center"
-        android:visibility="gone"/>
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:text="PRE SALE"
+        android:gravity="center"/>
 
     <at.markushi.ui.CircleButton
-        android:id="@+id/outlet_details_fab_unproductive"
+        android:id="@+id/outlet_details_fab_sales_return"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignParentRight="true"
-        android:layout_above="@+id/outlet_details_fab_merchandising"
+        android:layout_above="@+id/outlet_details_fab_pre_sale"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"/>
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
 
     <TextView
-        android:id="@+id/outlet_details_label_unproductive"
+        android:id="@+id/outlet_details_label_sales_return"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
-        android:layout_above="@+id/outlet_details_label_merchandising"
-        android:layout_toLeftOf="@+id/outlet_details_fab_payment"
+        android:layout_above="@+id/outlet_details_label_pre_sale"
+        android:layout_toLeftOf="@+id/outlet_details_fab_sales_return"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:text="UNPRODUCTIVE"
-        android:gravity="center"
-        android:visibility="gone"/>
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:text="SALES RETURN"
+        android:gravity="center"/>
 
     <at.markushi.ui.CircleButton
-        android:id="@+id/outlet_details_fab_invoice"
+        android:id="@+id/outlet_details_fab_non_productive"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignParentRight="true"
-        android:layout_above="@+id/outlet_details_fab_unproductive"
+        android:layout_above="@+id/outlet_details_fab_sales_return"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"/>
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
+
+    <TextView
+        android:id="@+id/outlet_details_label_non_productive"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_above="@+id/outlet_details_fab_sales_return"
+        android:layout_toLeftOf="@+id/outlet_details_fab_non_productive"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:text="NON PRODUCTIVE"
+        android:gravity="center"/>
+
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_fab_receipt"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/outlet_details_fab_non_productive"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
 
     <TextView
         android:id="@+id/outlet_details_label_invoice"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
-        android:layout_above="@+id/outlet_details_label_unproductive"
-        android:layout_toLeftOf="@+id/outlet_details_fab_payment"
+        android:layout_above="@+id/outlet_details_label_non_productive"
+        android:layout_toLeftOf="@+id/outlet_details_fab_receipt"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:text="INVOICE"
-        android:gravity="center"
-        android:visibility="gone"/>
-
-    <at.markushi.ui.CircleButton
-        android:id="@+id/outlet_details_fab_sales_order"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentRight="true"
-        android:layout_above="@+id/outlet_details_fab_invoice"
-        android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/outlet_details_label_sales_order"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_above="@+id/outlet_details_label_invoice"
-        android:layout_toLeftOf="@+id/outlet_details_fab_sales_order"
-        android:layout_marginRight="21dp"
-        android:layout_marginBottom="10dp"
-        android:text="SALES ORDER"
-        android:gravity="center"
-        android:visibility="gone"/>
-
+        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:text="RECEIPT"
+        android:gravity="center"/>
 
 </RelativeLayout>
