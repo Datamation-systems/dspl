@@ -92,23 +92,12 @@
             android:textSize="14sp"
             />
 
-        <ImageButton
-            android:id="@+id/btnCust"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btnNewCust"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:layout_weight="0.5"
-            />
-
-        <ImageButton
-            android:id="@+id/btnsearch_cus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:layout_weight="0.5"
-            />
+            android:layout_margin="8dp" />
 
 
     </TableRow>

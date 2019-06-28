@@ -34,9 +34,9 @@ import com.datamation.sfa.model.User;
 
 public class DebtorDetailsActivity extends AppCompatActivity {
 
-    private CircleButton floatingActionsMenu;
-    private CircleButton fabInvoice, fabUnproductive, fabReturnNote, fabPayment, fabSalesOrder;
-    private TextView labelInvoice, labelUnproductive, labelReturnNote, labelPayment, labelSalesOrder;
+    //private CircleButton floatingActionsMenu;
+    private CircleButton fabInvoice, fabUnproductive, fabReturnNote, fabSalesOrder, fabVansale;
+    private TextView labelInvoice, labelUnproductive, labelReturnNote, labelSalesOrder, labelVanSale;
 
     private Customer outlet;
 
@@ -74,20 +74,6 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         outlet = new Customer();
         outlet.setCusName("ABCD DISTRIBUTORS");
 
-//        Intent dataIntent = getIntent();
-//        if(dataIntent.hasExtra("outlet")){
-////            outlet = (Customer) dataIntent.getExtras().get("outlet");
-//            outlet.setCusName("ABCD");
-//            if(outlet == null) {
-//                Toast.makeText(DebtorDetailsActivity.this, "Error receiving the outlet. Please try again.", Toast.LENGTH_SHORT).show();
-//                onBackPressed();
-//
-//            }
-//        } else {
-//            Toast.makeText(DebtorDetailsActivity.this, "Error receiving the outlet. Please try again.", Toast.LENGTH_SHORT).show();
-//            onBackPressed();
-//        }
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.outlet_details_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setText(outlet.getCusName());
@@ -95,104 +81,37 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.outlet_details_tab_strip);
         ViewPager viewPager = (ViewPager) findViewById(R.id.outlet_details_viewpager);
 
-        floatingActionsMenu = (CircleButton)findViewById(R.id.outlet_details_floating_action_menu);
-        floatingActionsMenu.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blue_btn_bg_color));
-        floatingActionsMenu.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.fab_add));
+        fabVansale = (CircleButton)findViewById(R.id.outlet_details_fab_van_sale);
+        fabInvoice = (CircleButton)findViewById(R.id.outlet_details_fab_receipt);
+        fabUnproductive = (CircleButton)findViewById(R.id.outlet_details_fab_non_productive);
+        fabReturnNote = (CircleButton)findViewById(R.id.outlet_details_fab_sales_return);
+        fabSalesOrder = (CircleButton) findViewById(R.id.outlet_details_fab_pre_sale);
 
-        fabInvoice = (CircleButton)findViewById(R.id.outlet_details_fab_invoice);
-        fabUnproductive = (CircleButton)findViewById(R.id.outlet_details_fab_unproductive);
-        fabReturnNote = (CircleButton)findViewById(R.id.outlet_details_fab_merchandising);
-        fabPayment = (CircleButton)findViewById(R.id.outlet_details_fab_payment);
-        fabSalesOrder = (CircleButton) findViewById(R.id.outlet_details_fab_sales_order);
-
+        labelVanSale = (TextView)findViewById(R.id.outlet_details_label_vansale);
         labelInvoice = (TextView)findViewById(R.id.outlet_details_label_invoice);
-        labelUnproductive = (TextView)findViewById(R.id.outlet_details_label_unproductive);
-        labelReturnNote = (TextView)findViewById(R.id.outlet_details_label_merchandising);
-        labelPayment = (TextView)findViewById(R.id.outlet_details_label_payment);
-        labelSalesOrder = (TextView)findViewById(R.id.outlet_details_label_sales_order);
-
-        // Make the label sized small so they can be scaled up.
-        labelSalesOrder.setScaleX(0);
-        labelSalesOrder.setScaleY(0);
-
-        labelInvoice.setScaleX(0);
-        labelInvoice.setScaleY(0);
-
-        labelUnproductive.setScaleX(0);
-        labelUnproductive.setScaleY(0);
-
-        labelReturnNote.setScaleX(0);
-        labelReturnNote.setScaleY(0);
-
-        labelPayment.setScaleX(0);
-        labelPayment.setScaleY(0);
-
-        // Set the visibility to visible to the animation will show
-//        labelInvoice.setVisibility(View.VISIBLE);
-//        labelUnproductive.setVisibility(View.VISIBLE);
-//        labelReturnNote.setVisibility(View.VISIBLE);
-//        labelPayment.setVisibility(View.VISIBLE);
+        labelUnproductive = (TextView)findViewById(R.id.outlet_details_label_non_productive);
+        labelReturnNote = (TextView)findViewById(R.id.outlet_details_label_sales_return);
+        labelSalesOrder = (TextView)findViewById(R.id.outlet_details_label_pre_sale);
 
         // Setting the expanded options button colors
-        fabSalesOrder.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.md_divider_white));
-        fabInvoice.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.md_divider_white));
-        fabUnproductive.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.md_divider_white));
-        fabReturnNote.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.md_divider_white));
-        fabPayment.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.md_divider_white));
+//        fabSalesOrder.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
+//        fabInvoice.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
+//        fabUnproductive.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
+//        fabReturnNote.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
+//        fabVansale.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
 
         // Setting the expanded options button drawables
-        fabSalesOrder.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.fab_add));
-        fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.fab_add));
-        fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.fab_add));
-        fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.fab_add));
-        fabPayment.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.fab_add));
-
-        // Scale down the invisible FAB options
-        fabSalesOrder.setScaleX(0);
-        fabSalesOrder.setScaleY(0);
-
-        fabInvoice.setScaleX(0);
-        fabInvoice.setScaleY(0);
-
-        fabUnproductive.setScaleX(0);
-        fabUnproductive.setScaleY(0);
-
-        fabReturnNote.setScaleX(0);
-        fabReturnNote.setScaleY(0);
-
-        fabPayment.setScaleX(0);
-        fabPayment.setScaleY(0);
-
-        // Make the invisible FABs visible to show the expand animation
-//        fabInvoice.setVisibility(View.VISIBLE);
-//        fabUnproductive.setVisibility(View.VISIBLE);
-//        fabReturnNote.setVisibility(View.VISIBLE);
-//        fabPayment.setVisibility(View.VISIBLE);
-
-        // Hide the unproductive call FAB if an invoice is created
-//        if(visitStatus == VisitDetail.STATUS_INVOICED) {
-//            fabUnproductive.setVisibility(View.GONE);
-//            labelUnproductive.setVisibility(View.GONE);
-//        }
-
-        // Setting the FAM drawable
-        floatingActionsMenu.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.fab_add));
+        fabSalesOrder.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_sales));
+        fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_receipt));
+        fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_nonprod));
+        fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_return));
+        fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_sales));
 
         // The overlay when showing expanding the menu
         overlay = findViewById(R.id.outlet_details_view_overlay);
-        overlay.setAlpha(0);
+        overlay.setAlpha(1);
 
-        // Expanding/Collapsing the FAM when pressed on the FAM
-        floatingActionsMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(famOpen) {
-                    closeFAM();
-                } else {
-                    openFAM();
-                }
-            }
-        });
+        openFAM();
 
         // Collapsing the FAM when pressed on the overlay
         overlay.setOnClickListener(new View.OnClickListener() {
@@ -204,13 +123,13 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             }
         });
 
-        DebtorDetailsActivity.OutletDetailsPagerAdapter adapter = new DebtorDetailsActivity.OutletDetailsPagerAdapter(getSupportFragmentManager());
+        OutletDetailsPagerAdapter adapter = new OutletDetailsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
         viewPager.setPageMargin(pageMargin);
 
         slidingTabStrip.setViewPager(viewPager);
-        slidingTabStrip.setIndicatorColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.md_divider_black));
+        slidingTabStrip.setIndicatorColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.colorPrimaryDark));
 
         fabUnproductive.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,22 +189,21 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
             }
         });
-        fabPayment.setOnClickListener(new View.OnClickListener() {
+
+        fabSalesOrder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                closeFAM();
-
+            public void onClick(View view) {
                 // Only proceed if location service is available
                 if(locationServiceEnabled()){
+                    Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(DebtorDetailsActivity.this, DebtorDetailsActivity.class);
                     intent.putExtra("outlet", "");
+                    intent.putExtra("sales_order", true);
                     startActivity(intent);
 //                    finish();
                 } else {
                     Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
@@ -315,17 +233,23 @@ public class DebtorDetailsActivity extends AppCompatActivity {
      * Function to open the FAM with custom flowing animation
      */
     private void openFAM() {
-        ViewCompat.animate(floatingActionsMenu).rotation(135).setInterpolator(new OvershootInterpolator()).setDuration(400).setStartDelay(0);
+        //ViewCompat.animate(floatingActionsMenu).rotation(135).setInterpolator(new OvershootInterpolator()).setDuration(400).setStartDelay(0);
 //        ViewPropertyAnimator.animate(floatingActionsMenu).rotation(135).setInterpolator(new OvershootInterpolator()).setDuration(400).setStartDelay(0);
         ViewCompat.animate(overlay).alpha(1).setDuration(400).setListener(new ViewPropertyAnimatorListener() {
             @Override
             public void onAnimationStart(View view) {
-                // Set the visibility to visible so the animation will be visible
 
+                fabSalesOrder.setVisibility(View.VISIBLE);
+                fabInvoice.setVisibility(View.VISIBLE);
                 fabReturnNote.setVisibility(View.VISIBLE);
-                fabPayment.setVisibility(View.VISIBLE);
+                fabUnproductive.setVisibility(View.VISIBLE);
+                fabVansale.setVisibility(View.VISIBLE);
+
+                labelUnproductive.setVisibility(View.VISIBLE);
+                labelSalesOrder.setVisibility(View.VISIBLE);
+                labelInvoice.setVisibility(View.VISIBLE);
                 labelReturnNote.setVisibility(View.VISIBLE);
-                labelPayment.setVisibility(View.VISIBLE);
+                labelVanSale.setVisibility(View.VISIBLE);
 
                 overlay.setVisibility(View.VISIBLE);
             }
@@ -341,66 +265,10 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             }
         });
 
-        // Scale in the FABs one by oneViewCompat.animate(fabPayment).scaleX(1).scaleY(1).setDuration(200).setStartDelay(0);
-
         int index = 0;
 
-        ViewCompat.animate(labelPayment).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        ViewCompat.animate(fabPayment).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        index++;
-
-        ViewCompat.animate(fabReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        ViewCompat.animate(labelReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        index++;
-
         if(!invoiced) {
-            fabUnproductive.setVisibility(View.VISIBLE);
-            labelUnproductive.setVisibility(View.VISIBLE);
-            ViewCompat.animate(fabUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-            ViewCompat.animate(labelUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-            index++;
         }
-
-//        if(user.getSalesType() == User.TYPE_INVOICE || user.getSalesType() == User.TYPE_BOTH) {
-//            fabInvoice.setVisibility(View.VISIBLE);
-//            labelInvoice.setVisibility(View.VISIBLE);
-//            ViewCompat.animate(fabInvoice).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-//            ViewCompat.animate(labelInvoice).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-//            index++;
-//        }
-
-//        if(user.getSalesType() == User.TYPE_SALES_ORDER || user.getSalesType() == User.TYPE_BOTH) {
-//            fabSalesOrder.setVisibility(View.VISIBLE);
-//            labelSalesOrder.setVisibility(View.VISIBLE);
-//            ViewCompat.animate(fabSalesOrder).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-//            ViewCompat.animate(labelSalesOrder).scaleX(1).scaleY(1).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-//        }
-
-//        if(invoiced){
-//            ViewCompat.animate(fabReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(100);
-//            ViewCompat.animate(labelReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(100);
-
-//            ViewCompat.animate(fabUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(200);
-//            ViewCompat.animate(labelUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(200);
-
-//            ViewCompat.animate(fabInvoice).scaleX(1).scaleY(1).setDuration(200).setStartDelay(200);
-//            ViewCompat.animate(labelInvoice).scaleX(1).scaleY(1).setDuration(200).setStartDelay(200);
-
-//            ViewCompat.animate(fabSalesOrder).scaleX(1).scaleY(1).setDuration(200).setStartDelay(300);
-//            ViewCompat.animate(labelSalesOrder).scaleX(1).scaleY(1).setDuration(200).setStartDelay(300);
-//        } else {
-//            ViewCompat.animate(fabReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(100);
-//            ViewCompat.animate(labelReturnNote).scaleX(1).scaleY(1).setDuration(200).setStartDelay(100);
-
-//            ViewCompat.animate(fabUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(200);
-//            ViewCompat.animate(labelUnproductive).scaleX(1).scaleY(1).setDuration(200).setStartDelay(200);
-
-//            ViewCompat.animate(fabInvoice).scaleX(1).scaleY(1).setDuration(200).setStartDelay(300);
-//            ViewCompat.animate(labelInvoice).scaleX(1).scaleY(1).setDuration(200).setStartDelay(300);
-
-//            ViewCompat.animate(fabSalesOrder).scaleX(1).scaleY(1).setDuration(200).setStartDelay(400);
-//            ViewCompat.animate(labelSalesOrder).scaleX(1).scaleY(1).setDuration(200).setStartDelay(400);
-//        }
 
         famOpen = true;
     }
@@ -409,11 +277,11 @@ public class DebtorDetailsActivity extends AppCompatActivity {
      * Function to close the FAM with custom flowing animation
      */
     private void closeFAM() {
-        if(invoiced){
-            ViewCompat.animate(floatingActionsMenu).rotation(0).setInterpolator(new OvershootInterpolator()).setDuration(400).setStartDelay(400);
-        } else {
-            ViewCompat.animate(floatingActionsMenu).rotation(0).setInterpolator(new OvershootInterpolator()).setDuration(400).setStartDelay(500);
-        }
+//        if(invoiced){
+//            ViewCompat.animate(floatingActionsMenu).rotation(0).setInterpolator(new OvershootInterpolator()).setDuration(400).setStartDelay(400);
+//        } else {
+//            ViewCompat.animate(floatingActionsMenu).rotation(0).setInterpolator(new OvershootInterpolator()).setDuration(400).setStartDelay(500);
+//        }
 
         ViewCompat.animate(overlay).alpha(0).setDuration(400).setListener(new ViewPropertyAnimatorListener() {
             @Override
@@ -424,18 +292,6 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(View view) {
                 overlay.setVisibility(View.GONE);
-                // Set the visibility to visible to the animation will show
-                labelSalesOrder.setVisibility(View.GONE);
-                labelInvoice.setVisibility(View.GONE);
-                labelUnproductive.setVisibility(View.GONE);
-                labelReturnNote.setVisibility(View.GONE);
-                labelPayment.setVisibility(View.GONE);
-
-                fabSalesOrder.setVisibility(View.GONE);
-                fabInvoice.setVisibility(View.GONE);
-                fabUnproductive.setVisibility(View.GONE);
-                fabReturnNote.setVisibility(View.GONE);
-                fabPayment.setVisibility(View.GONE);
             }
 
             @Override
@@ -445,56 +301,6 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         });
 
         int index = 0;
-
-        // Scale out the FABs one by one
-//        if(user.getSalesType() == User.TYPE_SALES_ORDER || user.getSalesType() == User.TYPE_BOTH) {
-//            ViewCompat.animate(fabSalesOrder).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-//            ViewCompat.animate(labelSalesOrder).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-//            index++;
-//        }
-//
-//        if(user.getSalesType() == User.TYPE_INVOICE || user.getSalesType() == User.TYPE_BOTH) {
-//            ViewCompat.animate(fabInvoice).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-//            ViewCompat.animate(labelInvoice).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-//            index++;
-//        }
-
-        if(!invoiced) {
-            ViewCompat.animate(fabUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-            ViewCompat.animate(labelUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-            index++;
-        }
-
-        ViewCompat.animate(fabReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        ViewCompat.animate(labelReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        index++;
-
-        ViewCompat.animate(fabPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-        ViewCompat.animate(labelPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(famDisplayIntervals[index]);
-
-//        ViewCompat.animate(fabInvoice).scaleX(0).scaleY(0).setDuration(200).setStartDelay(100);
-//        ViewCompat.animate(labelInvoice).scaleX(0).scaleY(0).setDuration(200).setStartDelay(100);
-
-//        if(invoiced) {
-//            ViewCompat.animate(fabUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(100);
-//            ViewCompat.animate(labelUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(100);
-
-//            ViewCompat.animate(fabReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(200);
-//            ViewCompat.animate(labelReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(200);
-
-//            ViewCompat.animate(fabPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(300);
-//            ViewCompat.animate(labelPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(300);
-//        } else {
-//            ViewCompat.animate(fabUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(200);
-//            ViewCompat.animate(labelUnproductive).scaleX(0).scaleY(0).setDuration(200).setStartDelay(200);
-
-//            ViewCompat.animate(fabReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(300);
-//            ViewCompat.animate(labelReturnNote).scaleX(0).scaleY(0).setDuration(200).setStartDelay(300);
-
-//            ViewCompat.animate(fabPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(400);
-//            ViewCompat.animate(labelPayment).scaleX(0).scaleY(0).setDuration(200).setStartDelay(400);
-//        }
-
 
         famOpen = false;
     }
@@ -544,7 +350,6 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         if(famOpen) {
             closeFAM();
         } else {
-//            startActivity(new Intent(DealerDetailsActivity.this, WelcomeActivity.class));
             finish();
         }
     }
@@ -552,39 +357,6 @@ public class DebtorDetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-//        if(outlet != null) {
-//            List<Integer> visitStatuses = dbHandler.getVisitStatusOfOutlet(sharedPref.getLocalSessionId(), outlet.getOutletId());
-//            if(visitStatuses != null) {
-//                invoiced = false;
-//                for(int i=0; i< visitStatuses.size(); i++) {
-//                    if(visitStatuses.get(i) == VisitDetail.STATUS_INVOICED){
-//                        invoiced = true;
-//                        break;
-//                    }
-//                }
-//
-//                if(invoiced) {
-//                    fabUnproductive.setVisibility(View.GONE);
-//                    labelUnproductive.setVisibility(View.GONE);
-//                }
-//            }
-//
-//        }
-
-//        if(outstandingDetailsFragment != null) {
-//            outstandingDetailsFragment.refreshValues();
-//        }
-//
-//        if(historyDetailsFragment != null) {
-//            historyDetailsFragment.refreshValues();
-//        }
-
-//        if(sharedPref.getTransferToDealerList(true)){
-//            startActivity(new Intent(DealerDetailsActivity.this, SelectDealerActivity.class));
-//            finish();
-//        }
-
     }
 }
 

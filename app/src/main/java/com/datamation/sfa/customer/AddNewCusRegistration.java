@@ -101,7 +101,7 @@ public class AddNewCusRegistration extends Fragment implements AsyncTaskListener
         mSharedPref = SharedPref.getInstance(getActivity());
         referenceNum = new ReferenceNum(getActivity());
         localSP = getActivity().getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
-fab = (FloatingActionButton)rootView.findViewById(R.id.fab) ;
+        fab = (FloatingActionButton)rootView.findViewById(R.id.fab) ;
         customerCode = (EditText) rootView.findViewById(R.id.editTextCustomer_Code);
         customerName = (EditText) rootView.findViewById(R.id.editText2);
         editTextCNic = (EditText) rootView.findViewById(R.id.editTextCNic);
@@ -130,9 +130,9 @@ fab = (FloatingActionButton)rootView.findViewById(R.id.fab) ;
 
         //show new customer ref no
         if (mySwitch.isChecked() == true) {
-            customerName.requestFocus();
-            customerCode.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.newCusVal)));
-            CustomerbtnSearch.setEnabled(false);
+//            customerName.requestFocus();
+//            customerCode.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.newCusVal)));
+//            CustomerbtnSearch.setEnabled(false);
         } else {
             CustomerbtnSearch.setEnabled(true);
         }
@@ -721,8 +721,8 @@ fab = (FloatingActionButton)rootView.findViewById(R.id.fab) ;
         Toast.makeText(getActivity(), "New Customer Uploaded Successfuly", Toast.LENGTH_SHORT).show();
 
 
-        NewCustomerController customerDS = new NewCustomerController(getActivity());
-        UtilityContainer.mLoadFragment(new CustomerRegMain(), getActivity());
+//        NewCustomerController customerDS = new NewCustomerController(getActivity());
+//        UtilityContainer.mLoadFragment(new CustomerRegMain(), getActivity());
 //        CustomerRegMain registration = new CustomerRegMain();
 //        getFragmentManager().beginTransaction().replace(
 //                R.id.fragmentContainer, registration)

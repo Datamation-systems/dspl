@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,6 +37,7 @@ import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.controller.RouteController;
+import com.datamation.sfa.customer.AddNewCusRegistration;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.IResponseListener;
 import com.datamation.sfa.helpers.NetworkFunctions;
@@ -58,6 +60,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import at.markushi.ui.CircleButton;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
@@ -71,7 +74,7 @@ public class FragmentSecondary extends Fragment {
     SharedPref mSharedPref;
     IResponseListener listener;
     TextView txtCusName, btnTourCus, btnAllCus;
-    ImageButton btnCust,btnSearch;
+    CircleButton btnNewCust;
     SweetAlertDialog pDialog;
     Spinner spnTour;
     String routeCode="";
@@ -96,11 +99,13 @@ public class FragmentSecondary extends Fragment {
         gpsTracker = new GPSTracker(getActivity());
         localSP = getActivity().getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
 
-        btnCust = (ImageButton) view.findViewById(R.id.btnCust);
+        btnNewCust = (CircleButton) view.findViewById(R.id.btnNewCust);
+        btnNewCust.setColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        btnNewCust.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.fab_add));
+
         txtCusName = (TextView) view.findViewById(R.id.txtSelCust);
         btnTourCus = (TextView) view.findViewById(R.id.btnTourDebtor);
         btnAllCus = (TextView) view.findViewById(R.id.btnAllDebtor);
-        btnSearch = (ImageButton) view.findViewById(R.id.btnsearch_cus);
         spnTour = (Spinner) view.findViewById(R.id.spnTour);
         mactivity = getActivity();
 
@@ -200,163 +205,14 @@ public class FragmentSecondary extends Fragment {
             }
         });
 
-        //-----------------------------------from Reorder Only-----------------------------------------------------------------------------------
-        Bundle mBundle = getArguments();
 
-//        if (mBundle != null) {
-//            tmpsoHed = (TranSOHed) mBundle.getSerializable("order");
-//            if (tmpsoHed != null) {
-//                activity.selectedDebtor = new DebtorDS(getActivity()).getSelectedCustomerByCode(tmpsoHed.getFTRANSOHED_DEBCODE());
-//                Log.d("<>*Pre sales cus****", "" + tmpsoHed.getFTRANSOHED_REFNO());
-//                new SharedPref(getActivity()).setGlobalVal("PrekeyCusCode", activity.selectedDebtor.getFDEBTOR_CODE());
-//                mSharedPref.setGlobalVal("PrekeyCustomer", "Y");
-//            }
-//
-//        }
-////-----------------------------------------------------------------------------------------------------------------------------------
-//        if (activity.selectedSOHed == null) {
-//            TranSOHed SOHed = new TranSOHedDS(getActivity()).getActiveSOHed();
-//            if (SOHed != null) {
-//                if (activity.selectedDebtor == null)
-//                {
-//                    activity.selectedDebtor = new DebtorDS(getActivity()).getSelectedCustomerByCode(SOHed.getFTRANSOHED_DEBCODE());
-//                }
-//
-//
-//            }
-//        }
-
-//        if(activity.selectedDebtor!=null)
-//            txtCusName.setText(activity.selectedDebtor.getFDEBTOR_NAME());
-
-        /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-//        btnCust.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN: {
-//                        btnCust.setBackground(getResources().getDrawable(R.drawable.cus_down));
-//                    }
-//                    break;
-//
-//                    case MotionEvent.ACTION_UP: {
-//                        btnCust.setBackground(getResources().getDrawable(R.drawable.cus));
-//                    }
-//                    break;
-//                }
-//                return false;
-//            }
-//        });
-
-        /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-        btnCust.setOnClickListener(new View.OnClickListener() {
+        btnNewCust.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                if (isTourDebtor)
-                {
-                    if (!spnTour.getSelectedItem().toString().equalsIgnoreCase("Select a Tour to continue ..."))
-                    {
-                        new AsyncTask<Void, Void, Void>() {
-
-                            protected void onPreExecute() {
-                                pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-                                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                                pDialog.setTitleText("Retrieving customers..");
-                                pDialog.setCancelable(false);
-                                pDialog.show();
-                                super.onPreExecute();
-                            }
-
-                            @Override
-                            protected Void doInBackground(Void... params) {
-                                //customerList = new DebtorDS(getActivity()).getRouteCustomers("", "");
-                                //customerList = new Customer(getActivity()).getRouteCustomersByCodeAndName(routeCode, "");
-                                customerAdapter = new CustomerAdapter(getActivity(), customerList);
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid) {
-                                super.onPostExecute(aVoid);
-                                pDialog.dismiss();
-                                //lvCustomers.setAdapter(null);
-                                lvCustomers.setAdapter(customerAdapter);
-                            }
-                        }.execute();
-                    }
-                    else
-                    {
-                        tourSelectionDialogBox();
-                    }
-                }
-                else
-                {
-                    new AsyncTask<Void, Void, Void>() {
-
-                        protected void onPreExecute() {
-                            pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                            pDialog.setTitleText("Retrieving customers..");
-                            pDialog.setCancelable(false);
-                            pDialog.show();
-                            super.onPreExecute();
-                        }
-
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            //customerList = new Customer(getActivity()).getRouteCustomers("", "");
-                            //customerList = new DebtorDS(getActivity()).getRouteCustomersByCodeAndName(routeCode, "");
-                            customerAdapter = new CustomerAdapter(getActivity(), customerList);
-                            return null;
-                        }
-
-                        @Override
-                        protected void onPostExecute(Void aVoid) {
-                            super.onPostExecute(aVoid);
-                            pDialog.dismiss();
-                            lvCustomers.setAdapter(customerAdapter);
-                        }
-                    }.execute();
-                }
-
+            public void onClick(View v)
+            {
+                UtilityContainer.mLoadFragment(new AddNewCusRegistration(), getActivity());
             }
         });
-
-        /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-//        btnSearch.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN: {
-//                        btnSearch.setBackground(getResources().getDrawable(R.drawable.search_cus_down));
-//                    }
-//                    break;
-//
-//                    case MotionEvent.ACTION_UP: {
-//                        btnSearch.setBackground(getResources().getDrawable(R.drawable.search_cus));
-//                    }
-//                    break;
-//                }
-//                return false;
-//            }
-//        });
-        /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSearchDialogBox();
-
-            }
-        });
-        /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         lvCustomers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

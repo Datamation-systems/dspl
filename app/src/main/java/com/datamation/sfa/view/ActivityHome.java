@@ -42,6 +42,7 @@ import com.datamation.sfa.controller.NewCustomerController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
+import com.datamation.sfa.customer.AddNewCusRegistration;
 import com.datamation.sfa.customer.CustomerRegMain;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.expense.ExpenseMain;
@@ -123,13 +124,11 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
                     return true;
                 case R.id.navigation_sales:
-
-                    //salesMenu();
                     UtilityContainer.mLoadFragment(new FragmentSecondary(), ActivityHome.this);
 
                     return true;
                 case R.id.navigation_tools:
-                    managementTools();
+                    UtilityContainer.mLoadFragment(new FragmentTools(), ActivityHome.this);
 
                     return true;
                 case R.id.navigation_logout:
@@ -202,6 +201,32 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
             public void onClick(View view) {
 
                 syncDialog(context);
+            }
+        });
+
+
+        dialog.findViewById(R.id.btn_deposit_entry).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                UtilityContainer.mLoadFragment(new ExpenseMain(), ActivityHome.this);
+                dialog.hide();
+            }
+        });
+        dialog.findViewById(R.id.btn_sales_exec).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                UtilityContainer.mLoadFragment(new FragmentSecondary(), ActivityHome.this);
+                dialog.hide();
+            }
+        });
+        dialog.findViewById(R.id.btn_stock_inquery).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                UtilityContainer.mLoadFragment(new FragmentSecondary(), ActivityHome.this);
+                dialog.hide();
             }
         });
 
@@ -445,10 +470,10 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
         final ArrayList<ContentItem> objects = new ArrayList<ContentItem>();
 
        // objects.add(new ContentItem("Sync Configuration", "config url, server database and header database configuration", icons.getResourceId(0, -1)));
-        objects.add(new ContentItem("Printer Configuration", "Enter your MAC address to connect", icons.getResourceId(1, -1)));
-        objects.add(new ContentItem("SQLite Database", "DB backups and restore", icons.getResourceId(3, -1)));
-        objects.add(new ContentItem("Sales Representative Details", "Reps informations", icons.getResourceId(4, -1)));
-        objects.add(new ContentItem("Sales Rep Route", "Route area and code", icons.getResourceId(5, -1)));
+//        objects.add(new ContentItem("Printer Configuration", "Enter your MAC address to connect", icons.getResourceId(1, -1)));
+//        objects.add(new ContentItem("SQLite Database", "DB backups and restore", icons.getResourceId(3, -1)));
+//        objects.add(new ContentItem("Sales Representative Details", "Reps informations", icons.getResourceId(4, -1)));
+//        objects.add(new ContentItem("Sales Rep Route", "Route area and code", icons.getResourceId(5, -1)));
 
         ListViewDataAdapter adapter = new ListViewDataAdapter(getApplicationContext(), objects);
 
