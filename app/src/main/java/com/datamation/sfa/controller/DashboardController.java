@@ -70,7 +70,7 @@ public class DashboardController {
             open();
         }
 
-        Cursor cursor = dB.rawQuery("select count(refno) from FOrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"' group by DebCode", null);
+        Cursor cursor = dB.rawQuery("select count(DISTINCT DebCode) from FOrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'", null);
 
         while (cursor.moveToNext()) {
 
