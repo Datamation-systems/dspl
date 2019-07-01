@@ -30,10 +30,10 @@ public class HistoryDetail implements Serializable {
     }
     public HistoryDetail(int outletId, Invoice invoice, String remark, long date) {
         this(outletId, remark, date);
-//        this.outletId = outletId;
+        this.outletId = outletId;
         this.invoice = invoice;
-//        this.remark = remark;
-//        this.date = date;
+        this.remark = remark;
+        this.date = date;
     }
 
     public String getRemark() {

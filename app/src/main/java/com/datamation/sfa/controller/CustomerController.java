@@ -9,11 +9,15 @@ import android.util.Log;
 
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.helpers.DatabaseHelper;
+import com.datamation.sfa.model.FddbNote;
+import com.datamation.sfa.model.HistoryDetail;
+import com.datamation.sfa.model.Invoice;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.datamation.sfa.helpers.DatabaseHelper.FDDBNOTE_DEB_CODE;
 import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_ROUTE_CODE;
 
 public class CustomerController {
@@ -80,6 +84,47 @@ public class CustomerController {
 		}
 		return serverdbID;
 
+	}
+
+	public ArrayList<FddbNote>getOutStandingList(String debCode)
+	{
+
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		ArrayList<FddbNote> list = new ArrayList<FddbNote>();
+		Cursor cursor = null;
+		try {
+			String selectQuery = "select * from " + dbHelper.TABLE_FDDBNOTE + " WHERE " + FDDBNOTE_DEB_CODE + "='"
+					+ debCode + "'";
+
+			cursor = dB.rawQuery(selectQuery, null);
+			while (cursor.moveToNext()) {
+
+				FddbNote fddbNote = new FddbNote();
+//
+				fddbNote.setRefNo(cursor.getString(cursor.getColumnIndex(dbHelper.FDDBNOTE_REFNO)));
+				fddbNote.setTxnDate(cursor.getString(cursor.getColumnIndex(dbHelper.FDDBNOTE_TXN_DATE)));
+				fddbNote.setAmt(cursor.getString(cursor.getColumnIndex(dbHelper.FDDBNOTE_AMT)));
+
+				list.add(fddbNote);
+
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+
+		return list;
 	}
 
 //	public int createOrUpdateTempDebtor(ArrayList<Customer> debtors) {

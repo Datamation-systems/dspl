@@ -169,11 +169,11 @@ public class AllCustomerFragment extends Fragment {
             errorDialog("Limit Error", "Credit limit exceed for Selected debtor...");
             return false;
         }
-        else if (customer.getCreditStatus().equals("N"))
-        {
-            errorDialog("Credit Status Error", "Credit status not valid for Selected debtor...");
-            return false;
-        }
+//        else if (customer.getCreditStatus().equals("N"))
+//        {
+//            errorDialog("Credit Status Error", "Credit status not valid for Selected debtor...");
+//            return false;
+//        }
         else
         {
             return true;

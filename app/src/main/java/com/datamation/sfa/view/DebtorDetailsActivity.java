@@ -323,10 +323,10 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             switch (position){
                 case 0:
                     if(outstandingDetailsFragment == null) outstandingDetailsFragment = new OutstandingDetailsFragment();
-                    return personalDetailsFragment;
+                    return outstandingDetailsFragment;
                 case 1:
                     if(personalDetailsFragment == null) personalDetailsFragment = new PersonalDetailsFragment();
-                    return outstandingDetailsFragment;
+                    return personalDetailsFragment;
                 case 2:
                     if(historyDetailsFragment == null) historyDetailsFragment = new HistoryDetailsFragment();
                     return historyDetailsFragment;

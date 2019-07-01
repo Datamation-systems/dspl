@@ -151,6 +151,17 @@ public class SharedPref {
         editor.apply();
     }
 
+    public String getSelectedDebCode() {
+        return sharedPref.getString("selected_out_id", "0");
+    }
+
+    public void setSelectedDebCode(String code) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("selected_out_id", code);
+        editor.apply();
+    }
+
+
 //    public int startDay() {
 //
 //        SharedPreferences.Editor editor = sharedPref.edit();

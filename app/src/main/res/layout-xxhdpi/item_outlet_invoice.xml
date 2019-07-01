@@ -3,7 +3,6 @@
     android:id="@+id/item_payment_invoice_layout"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-
     android:background="?android:attr/selectableItemBackground"
     android:clickable="false">
 
@@ -144,13 +143,14 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/item_payment_txt_invoice_date"
             android:layout_toEndOf="@+id/item_payment_txt_invoice_date"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/item_payment_txt_invoice_net"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:text="Net"
+            android:text="Amount"
             android:gravity="right"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -165,7 +165,7 @@
             android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="Balance"
+            android:text="Due Amt"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:clickable="false"
