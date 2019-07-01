@@ -26,6 +26,7 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.ListViewDataAdapterRestore;
 import com.datamation.sfa.model.ContentItemBackups;
 import com.datamation.sfa.model.Import;
+import com.datamation.sfa.utils.UtilityContainer;
 import com.datamation.sfa.view.FragmentTools;
 
 
@@ -39,10 +40,10 @@ public class SQLiteRestore extends Fragment {
 
         view = inflater.inflate(R.layout.sqlite_restore, container, false);
 
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        //Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //getActivity().setSupportActionBar(toolbar);
         getActivity().setTitle("SQLite Restore");
-        toolbar.setLogo(R.drawable.dm_logo_64);
+        //toolbar.setLogo(R.drawable.dm_logo_64);
         setHasOptionsMenu(true);
 
         objects = new ArrayList<ContentItemBackups>();
@@ -115,12 +116,13 @@ public class SQLiteRestore extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.close:
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.main_container, new FragmentTools());
-                ft.addToBackStack(null);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                ft.commit();
+                UtilityContainer.mLoadFragment(new FragmentTools(),getActivity());
+//                FragmentManager fm = getActivity().getSupportFragmentManager();
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.replace(R.id.main_container, new FragmentTools());
+//                ft.addToBackStack(null);
+//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                ft.commit();
                 return true;
         }
         return false;

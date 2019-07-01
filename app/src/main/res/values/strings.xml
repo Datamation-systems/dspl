@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">SFA</string>
+    <string name="app_name_new">SFA</string>
     <string name="developed_by_rashmi">Developed by Datamation.</string>
     <string name="txt_msg">Your Network is Unavailable.Check Your data or Wi-Fi Connection.</string>
     <string name="title_activity_home">Home</string>
@@ -69,4 +70,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="imageview_no_image_string">NO IMAGE AVAILABLE</string>
+
+    <string name="DATABASE_NAME">sfa_database.db</string>
 </resources>

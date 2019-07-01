@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.datamation.sfa.R;
 import com.datamation.sfa.model.Import;
 
 import java.io.File;
@@ -23,11 +24,17 @@ import java.util.List;
 
 public class SQLiteBackUp {
 
+    String PACKAGE_NAME;
+    String DATABASE_NAME;
+    String APP_NAME;
     Context context;
-    String packageName="com.bit.sfa";
-    String DATABASE_NAME="sfa_database.db";
+
     public SQLiteBackUp (Context context){
         this.context = context;
+
+        PACKAGE_NAME = context.getPackageName();
+        DATABASE_NAME = context.getResources().getString(R.string.DATABASE_NAME);
+        APP_NAME = context.getResources().getString(R.string.app_name_new);
 
     }
 
@@ -37,7 +44,7 @@ public class SQLiteBackUp {
             File sd = Environment.getExternalStorageDirectory();
             File data = Environment.getDataDirectory();
             if (sd.canWrite()) {
-                String currentDBPath = "//data//" + packageName+ "//databases//" + DATABASE_NAME+"";
+                String currentDBPath = "//data//" + PACKAGE_NAME+ "//databases//" + DATABASE_NAME+"";
                 String backupDBPath ="//SFA//"+name; // From SD directory.
                 File backupDB = new File(data, currentDBPath);
                 File currentDB = new File(sd, backupDBPath);
@@ -61,13 +68,13 @@ public class SQLiteBackUp {
     public void exportDB() {
         try {
 
-            File folder = new File(Environment.getExternalStorageDirectory() + "/SFA");
+            File folder = new File(Environment.getExternalStorageDirectory() + "/" + APP_NAME);
             boolean success = true;
             if (!folder.exists()) {
                 success = folder.mkdir();
             }
             if (success) {
-                DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
                 Date date = new Date();
                 System.out.println(dateFormat.format(date));
 
@@ -75,7 +82,7 @@ public class SQLiteBackUp {
                 File data = Environment.getDataDirectory();
 
                 if (sd.canWrite()) {
-                    String currentDBPath = "//data//" + packageName
+                    String currentDBPath = "//data//" + PACKAGE_NAME
                             + "//databases//" + DATABASE_NAME;
                     String backupDBPath = "//SFA//backupname_"+dateFormat.format(date).toString()+".db"; // From SD directory.
                     File currentDB = new File(data, currentDBPath);
