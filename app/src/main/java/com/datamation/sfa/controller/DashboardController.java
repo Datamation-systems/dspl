@@ -37,8 +37,9 @@ public class DashboardController {
         dB = dbHelper.getWritableDatabase();
     }
 
-    public Double getRepTarget(String repCode, int month, int year) {
-
+    public Double getRepTarget() {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -47,17 +48,16 @@ public class DashboardController {
 
         double targetsum =0;
 
-        Cursor cursor = dB.rawQuery("SELECT RepTarget as target from fTarget where RepCode='" + repCode + "' and Month = "+month+" and Year = "+year, null);
+        Cursor cursor = dB.rawQuery("SELECT Target from fTarget where Month = '"+String.format("%02d", curMonth)+"' and Year = '" + curYear +"'", null);
 
         while (cursor.moveToNext()) {
-
-            targetsum = Double.parseDouble(String.valueOf(cursor.getInt(cursor.getColumnIndex("target"))));
+            targetsum = Double.parseDouble(cursor.getString(cursor.getColumnIndex("Target")));
             return targetsum;
         }
 
         cursor.close();
         dB.close();
-        return null;
+        return 0.0;
 
     }
     public int getProductiveCount() {
