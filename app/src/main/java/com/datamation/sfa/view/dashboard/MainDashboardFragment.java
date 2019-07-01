@@ -96,10 +96,16 @@ public class MainDashboardFragment extends Fragment {
         chart.setDescription("");
         double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
         double monthlyAchieve = new DashboardController(getActivity()).getMonthAchievement();
+        double monthlyTarget = new DashboardController(getActivity()).getRepTarget();
+        double monthlyBalance = monthlyTarget - monthlyAchieve;
+        if(monthlyBalance<0){
+            monthlyBalance = 0;
+        }
+        double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
         //chart.set
-        monthTvA.add(new BarEntry(2945f, 0));
+        monthTvA.add(new BarEntry((float)monthlyTarget, 0));
         monthTvA.add(new BarEntry((float)monthlyAchieve, 1));
-        monthTvA.add(new BarEntry(1133f, 2));
+        monthTvA.add(new BarEntry((float)monthlyBalance, 2));
 
 
         ArrayList titl = new ArrayList();
@@ -144,7 +150,7 @@ public class MainDashboardFragment extends Fragment {
 
         pieChart.setDescription("");
 
-        pieChartValues.add(new Entry(1133f, 0));
+        pieChartValues.add(new Entry((float)dailyTarget, 0));
         pieChartValues.add(new Entry((float)dailyAchieve, 1));
 
 
