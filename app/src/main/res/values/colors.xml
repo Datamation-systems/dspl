@@ -95,5 +95,6 @@
     <color name="error_view_text_light">#858585</color>
 
     <color name="red_error">#ffff5252</color>
+    <color name="day_achieve">#ff8a80</color>
 
 </resources>
