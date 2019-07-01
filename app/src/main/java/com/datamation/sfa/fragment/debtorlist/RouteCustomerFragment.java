@@ -1,21 +1,28 @@
 package com.datamation.sfa.fragment.debtorlist;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.CustomerAdapter;
+import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
@@ -29,6 +36,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
 
 public class RouteCustomerFragment extends Fragment {
@@ -51,6 +60,7 @@ public class RouteCustomerFragment extends Fragment {
         lvCustomers = (ListView)view.findViewById(R.id.route_cus_lv);
         mSharedPref = new SharedPref(getActivity());
         gpsTracker = new GPSTracker(getActivity());
+        networkFunctions = new NetworkFunctions(getActivity());
 
         lvCustomers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -66,59 +76,13 @@ public class RouteCustomerFragment extends Fragment {
                 /* If option is selected */
                 if (i > 0) {
                     debtor = customerList.get(position);
-                    String status = debtor.getCusStatus();
-                    String routeName = debtor.getCusRoute();
-                    final String cusCode = debtor.getCusCode();
 
-                    // commented due to less data for NIC and BR for fDebtor .................. Nuwan..... 21.02.2019.......
-//                    if (!debtor.getFDEBTOR_NIC().equals("") && !debtor.getFDEBTOR_BIS_REG().equals(""))
-//                    {
-//                        txtCusName.setText(activity.selectedDebtor.getFDEBTOR_NAME());
-
-                    //Log.d("PRE_SALES", "DEBTOR_CREDIT_DETAILS" + debtor.getFDEBTOR_CRD_LIMIT() + ", " + debtor.getFDEBTOR_CRD_PERIOD());
-
-//                    new SharedPref(getActivity()).setGlobalVal("PrekeyCusCode", debtor.getFDEBTOR_CODE());
-//                    routeName = new RouteDS(getActivity()).getRouteNameByCode(debtor.getFDEBTOR_CODE());
-//                    new SharedPref(getActivity()).setGlobalVal("PrekeyRouteName", routeName);
-
-                    if (!routeCode.equals("")||!routeName.equals(""))
+                    if (isValidateCustomer(debtor))
                     {
-                        String limitFlag = debtor.getCusAdd1();
-                        String period = debtor.getCusAdd2();
-//                        int noOfDays  = new FDDbNoteDS(getActivity()).getOldestFDDBNoteDate(activity.selectedDebtor.getFDEBTOR_CODE());
-                        int noOfDays  = 0;
-                        int noOfOverDue = noOfDays - Integer.valueOf(period);
-
-                        if (status.equals("A"))
-                        {
-                            if (limitFlag.equals("Y"))
-                            {
-                                if (noOfOverDue>0)
-                                {
-                                    //creditDatesExceedDialog(String.valueOf(noOfOverDue));
-                                }
-                                else{
-                                    Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                                    intent.putExtra("CUSTOMER_CODE", "");
-                                    startActivity(intent);
-                                }
-                            }else{
-
-                                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                                intent.putExtra("CUSTOMER_CODE", "");
-                                startActivity(intent);
-                            }
-                        }
-                        else
-                        {
-                            //debtorStatusDialog();
-                        }
+                        Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                        intent.putExtra("CUSTOMER_CODE", "");
+                        startActivity(intent);
                     }
-                    else
-                    {
-                        //routeValidateDialog();
-                    }
-
                 }
                 else {
                     Toast.makeText(getActivity(), "Please tick the 'Automatic Date and Time' option to continue..", Toast.LENGTH_LONG).show();
@@ -128,7 +92,9 @@ public class RouteCustomerFragment extends Fragment {
             }
         });
 
-        new getRouteCustomer("").execute();
+        //String rCode = new SalRepController(getActivity()).getCurrentRepCode().trim();
+
+        new getRouteCustomer("SR01").execute();
 
         return view;
     }
@@ -154,63 +120,15 @@ public class RouteCustomerFragment extends Fragment {
         @Override
         protected Boolean doInBackground(String... arg0) {
 
-            int totalBytes = 0;
+            try
+            {
+                customerList = new CustomerController(getActivity()).getAllCustomersByRoute(repcode);
 
-            try {
-                if (mSharedPref.getLoginUser()!= null && mSharedPref.isLoggedIn()) {
+                return true;
 
-/*****************Customers**********************************************************************/
-
-                    String outlets = "";
-                    try {
-                        outlets = networkFunctions.getCustomer(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    // Processing outlets
-                    try {
-                        JSONObject customersJSON = new JSONObject(outlets);
-                        JSONArray customersJSONArray =customersJSON.getJSONArray("outlets");
-                        for (int i = 0; i < customersJSONArray.length(); i++) {
-                            customerList.add(Customer.parseOutlet(customersJSONArray.getJSONObject(i)));
-                        }
-
-
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
-/*****************end Customers**********************************************************************/
-
-                    return true;
-                } else {
-                    //errors.add("Please enter correct username and password");
-                    return false;
-                }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-                // errors.add("Unable to reach the server.");
 
-//                ErrorUtil.logException(LoginActivity.this, "LoginActivity -> Authenticate -> doInBackground # Login",
-//                        e, null, BugReport.SEVERITY_LOW);
-
-                return false;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                // errors.add("Received an invalid response from the server.");
-
-//                ErrorUtil.logException(LoginActivity.this, "LoginActivity -> Authenticate -> doInBackground # Login",
-//                        e, loginResponse, BugReport.SEVERITY_HIGH);
-
-                return false;
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
                 return false;
             }
         }
@@ -231,8 +149,6 @@ public class RouteCustomerFragment extends Fragment {
                     pdialog.dismiss();
                 }
                 mSharedPref.setLoginStatus(true);
-//                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-//                startActivity(intent);
             } else {
                 if (pdialog.isShowing()) {
                     pdialog.dismiss();
@@ -242,5 +158,55 @@ public class RouteCustomerFragment extends Fragment {
         }
     }
 
+    public boolean isValidateCustomer(Customer customer)
+    {
+        if (customer.getCusRoute().equals(""))
+        {
+            errorDialog("Route Error", "Selected debtor has no route to continue...");
+            return false;
+        }
+        else if (customer.getCusStatus().equals("I"))
+        {
+            errorDialog("Status Error", "Selected debtor is inactive to continue...");
+            return false;
+        }
+        else if (customer.getCreditPeriod().equals("N"))
+        {
+            errorDialog("Period Error", "Credit period expired for Selected debtor...");
+            return false;
+        }
+        else if (Double.parseDouble(customer.getCreditLimit())>0.00)
+        {
+            errorDialog("Limit Error", "Credit limit exceed for Selected debtor...");
+            return false;
+        }
+        else if (customer.getCreditStatus().equals("N"))
+        {
+            errorDialog("Credit Status Error", "Credit status not valid for Selected debtor...");
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
+    public void errorDialog(String title, String msg)
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setMessage(msg);
+        alertDialogBuilder.setTitle(title);
+        alertDialogBuilder.setIcon(R.drawable.info);
+
+
+        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+        alertD.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+    }
 }

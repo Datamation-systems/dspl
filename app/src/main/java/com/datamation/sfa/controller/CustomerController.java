@@ -10,7 +10,11 @@ import android.util.Log;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.helpers.DatabaseHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_ROUTE_CODE;
 
 public class CustomerController {
 
@@ -195,21 +199,78 @@ public class CustomerController {
 		ArrayList<Customer> list = new ArrayList<Customer>();
 		Cursor cursor = null;
 		try {
-			String selectQuery = "select * from " + dbHelper.TABLE_CUSTOMER;
+			String selectQuery = "select * from " + dbHelper.TABLE_FDEBTOR;
 
 			cursor = dB.rawQuery(selectQuery, null);
 			while (cursor.moveToNext()) {
 
 				Customer customer = new Customer();
 
-				customer.setCusCode(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_CODE)));
-				customer.setCusName(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_NAME)));
-				customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_ADD1)));
-				customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_ADD2)));
-				customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_EMAIL)));
-				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_ROUTE)));
-				customer.setCusEmail(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_EMAIL)));
-				customer.setCusStatus(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_STATUS)));
+				customer.setCusCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CODE)));
+				customer.setCusName(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_NAME)));
+				customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD1)));
+				customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD2)));
+				customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_MOB)));
+				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ROUTE_CODE)));
+				customer.setCusEmail(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_EMAIL)));
+				customer.setCusStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_STATUS)));
+				customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
+				customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_PERIOD)));
+				customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CHK_CRD_LIMIT)));
+
+
+				list.add(customer);
+
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+
+		return list;
+	}
+
+	public ArrayList<Customer> getAllCustomersByRoute(String repCode)
+	{
+
+		int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+		int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+		int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+		String curdate = curYear+"-"+ String.format("%02d", curMonth) + "-" + String.format("%02d", curDate);
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		ArrayList<Customer> list = new ArrayList<Customer>();
+		Cursor cursor = null;
+		try {
+
+			cursor = dB.rawQuery("select * from fDebtor where RouteCode in (select RouteCode from fTourHed where '"+curdate+"' between DateFrom And DateTo and RepCode = '"+repCode+"')", null);
+
+			while (cursor.moveToNext()) {
+
+				Customer customer = new Customer();
+
+				customer.setCusCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CODE)));
+				customer.setCusName(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_NAME)));
+				customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD1)));
+				customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD2)));
+				customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_MOB)));
+				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ROUTE_CODE)));
+				customer.setCusEmail(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_EMAIL)));
+				customer.setCusStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_STATUS)));
+				customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
+				customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_PERIOD)));
+				customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CHK_CRD_LIMIT)));
 
 
 				list.add(customer);

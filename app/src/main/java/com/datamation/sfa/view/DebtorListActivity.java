@@ -65,8 +65,7 @@ public class DebtorListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-//                Intent intent = new Intent(getApplicationContext(), NewCustomerActivity.class);
-                Intent intent = new Intent(getApplicationContext(), DebtorDetailsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), NewCustomerActivity.class);
                 startActivity(intent);
             }
         });

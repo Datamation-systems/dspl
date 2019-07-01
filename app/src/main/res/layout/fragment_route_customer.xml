@@ -13,11 +13,11 @@
     <ListView
         android:id="@+id/route_cus_lv"
         android:divider="@color/list_view_diveder"
-        android:dividerHeight="1dp"
+        android:dividerHeight="2dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
+        android:layout_margin="5dp">
 
     </ListView>
 

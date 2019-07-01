@@ -28,6 +28,33 @@ public class Customer {
 	private String cusStatus;
 	private String cusEmail;
 	private boolean selectedOnList;
+	private String creditLimit;
+	private String creditStatus;
+	private String creditPeriod;
+
+	public String getCreditLimit() {
+		return creditLimit;
+	}
+
+	public void setCreditLimit(String creditLimit) {
+		this.creditLimit = creditLimit;
+	}
+
+	public String getCreditStatus() {
+		return creditStatus;
+	}
+
+	public void setCreditStatus(String creditStatus) {
+		this.creditStatus = creditStatus;
+	}
+
+	public String getCreditPeriod() {
+		return creditPeriod;
+	}
+
+	public void setCreditPeriod(String creditPeriod) {
+		this.creditPeriod = creditPeriod;
+	}
 
 	public String getCusCode() {
 		return cusCode;
