@@ -70,7 +70,7 @@ public class DashboardController {
             open();
         }
 
-        Cursor cursor = dB.rawQuery("select count(refno) from FOrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"' group by DebCode", null);
+        Cursor cursor = dB.rawQuery("select count(DISTINCT DebCode) from FOrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'", null);
 
         while (cursor.moveToNext()) {
 
@@ -119,7 +119,7 @@ public class DashboardController {
             open();
         }
 
-        Cursor cursor = dB.rawQuery("select count(DISTINCT DebCode) from fRouteDet where RouteCode = '"+route+"'", null);
+        Cursor cursor = dB.rawQuery("select count(DISTINCT DebCode) from fRouteDet where RouteCode = '"+route.trim()+"'", null);
 
         while (cursor.moveToNext()) {
 
@@ -166,6 +166,49 @@ public class DashboardController {
 
 
                 cursor.close();
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+
+        return 0.0;
+
+    }
+
+    public Double getDailyAchievement() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+        try {
+
+
+            double monthAchieve;
+
+
+            Cursor cursor;
+
+            cursor = dB.rawQuery("select ifnull((sum(a.Amt)),0)  as totAmt from Forddet a where a.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'", null);
+            // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+            while (cursor.moveToNext()) {
+                monthAchieve = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+                return monthAchieve;
+            }
+
+
+            cursor.close();
 
         } catch (NumberFormatException e) {
             e.printStackTrace();

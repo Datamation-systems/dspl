@@ -359,7 +359,7 @@ public class DayNPrdHedController {
             open();
         }
 
-        Cursor cursor = dB.rawQuery("select count(refno) from DaynPrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'", null);
+        Cursor cursor = dB.rawQuery("select count(refno) from FDaynPrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'", null);
 
         while (cursor.moveToNext()) {
 

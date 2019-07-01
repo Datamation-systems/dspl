@@ -94,9 +94,11 @@ public class MainDashboardFragment extends Fragment {
         ArrayList monthTvA = new ArrayList();
 
         chart.setDescription("");
+        double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
+        double monthlyAchieve = new DashboardController(getActivity()).getMonthAchievement();
         //chart.set
         monthTvA.add(new BarEntry(2945f, 0));
-        monthTvA.add(new BarEntry(1540f, 1));
+        monthTvA.add(new BarEntry((float)monthlyAchieve, 1));
         monthTvA.add(new BarEntry(1133f, 2));
 
 
@@ -111,7 +113,7 @@ public class MainDashboardFragment extends Fragment {
       //  bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         bardataset.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.red_error),
                 ContextCompat.getColor(getActivity(), R.color.achievecolor),
-                ContextCompat.getColor(getActivity(), R.color.visit_not_visited)});
+                ContextCompat.getColor(getActivity(), R.color.theme_color_dark)});
         chart.animateY(2000);
         chart.setDrawGridBackground(false);
         chart.getXAxis().setDrawGridLines(false);
@@ -142,8 +144,8 @@ public class MainDashboardFragment extends Fragment {
 
         pieChart.setDescription("");
 
-        pieChartValues.add(new Entry(2945f, 0));
-        pieChartValues.add(new Entry(1133f, 1));
+        pieChartValues.add(new Entry(1133f, 0));
+        pieChartValues.add(new Entry((float)dailyAchieve, 1));
 
 
         PieDataSet dataSet = new PieDataSet(pieChartValues, "(-values-)");
@@ -157,7 +159,7 @@ public class MainDashboardFragment extends Fragment {
         PieData dataPie = new PieData(title, dataSet);
         pieChart.setData(dataPie);
        // dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        dataSet.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.red_error),
+        dataSet.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.day_achieve),
                 ContextCompat.getColor(getActivity(),R.color.achievecolor )});
         //dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pieChart.animateXY(3000, 3000);
@@ -169,17 +171,23 @@ public class MainDashboardFragment extends Fragment {
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
         String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
         int outlets = new DashboardController(getActivity()).getOutletCount(route);
+        int notVisit = outlets - (ordcount+nonprd);
+        if(notVisit > 0){
+            notVisit = outlets - (ordcount+nonprd);
+        }else{
+            notVisit = 0;
+        }
 
         ArrayList<BarEntry> entries = new ArrayList();
         entries.add(new BarEntry((float)ordcount, 0));
-        entries.add(new BarEntry((float)outlets, 1));
+        entries.add(new BarEntry((float)notVisit, 1));
         entries.add(new BarEntry((float)nonprd, 2));
 
 
         BarDataSet dataset = new BarDataSet(entries,"count");
         dataset.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.main_green_stroke_color),
-                ContextCompat.getColor(getActivity(), R.color.visit_not_visited),
-                ContextCompat.getColor(getActivity(), R.color.theme_color_dark)});
+                ContextCompat.getColor(getActivity(), R.color.theme_color_dark),
+                ContextCompat.getColor(getActivity(), R.color.visit_not_visited)});
       //  dataset.setColors(ColorTemplate.COLORFUL_COLORS);
         return dataset;
     }
@@ -189,9 +197,15 @@ public class MainDashboardFragment extends Fragment {
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
         String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
         int outlets = new DashboardController(getActivity()).getOutletCount(route);
+        int notVisit = outlets - (ordcount+nonprd);
+        if(notVisit > 0){
+            notVisit = outlets - (ordcount+nonprd);
+        }else{
+            notVisit = 0;
+        }
         ArrayList<String> labels = new ArrayList();
         labels.add("visit("+ordcount+")");
-        labels.add("not visit("+outlets+")");
+        labels.add("not visit("+notVisit+")");
         labels.add("nonproductive("+nonprd+")");
         return labels;
     }
