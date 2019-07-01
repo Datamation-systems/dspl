@@ -25,6 +25,7 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.SQLiteBackUp;
 import com.datamation.sfa.helpers.SQLiteRestore;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.view.FragmentTools;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -148,12 +149,14 @@ public class UtilityContainer {
 
             @Override
             public void onClick(View v) {
-                FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.main_container, new SQLiteRestore());
-                ft.addToBackStack(null);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                ft.commit();
+
+                mLoadFragment(new SQLiteRestore(), context);
+//                FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.replace(R.id.main_container, new FragmentTools());
+//                ft.addToBackStack(null);
+//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                ft.commit();
                 dialog.dismiss();
             }
         });
