@@ -133,7 +133,8 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
                     return true;
                 case R.id.navigation_logout:
-                    Logout();
+                    //Logout();
+                    logoutMessage("Do you want to log out?", "Logout");
                     return true;
             }
             return false;
@@ -179,6 +180,26 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
             }
         });
+
+    }
+
+    public void logoutMessage(String message, String title) {
+
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(message);
+        alertDialogBuilder.setTitle(title);
+        alertDialogBuilder.setIcon(R.drawable.info);
+
+
+        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        android.app.AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+        alertD.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
     }
 
