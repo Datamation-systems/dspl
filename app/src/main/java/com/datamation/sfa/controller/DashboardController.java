@@ -60,7 +60,80 @@ public class DashboardController {
         return null;
 
     }
+    public int getProductiveCount() {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        Cursor cursor = dB.rawQuery("select count(refno) from FOrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"' group by DebCode", null);
+
+        while (cursor.moveToNext()) {
+
+            int result = cursor.getInt(0);
+
+            if (result>0)
+                return result;
+
+        }
+        cursor.close();
+        dB.close();
+        return 0;
+
+    }
+
+    public String getRoute(String repCode) {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+        String curdate = curYear+"-"+ String.format("%02d", curMonth) + "-" + String.format("%02d", curDate);
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        Cursor cursor = dB.rawQuery("select RouteCode from fTourHed where '"+curdate+"' between DateFrom And DateTo and RepCode = '"+repCode+"'", null);
+
+        while (cursor.moveToNext()) {
+
+           String result = cursor.getString(cursor.getColumnIndex("RouteCode"));
+            return result;
+
+        }
+        cursor.close();
+        dB.close();
+        return "";
+
+    }
+
+    public int getOutletCount(String route) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        Cursor cursor = dB.rawQuery("select count(DISTINCT DebCode) from fRouteDet where RouteCode = '"+route+"'", null);
+
+        while (cursor.moveToNext()) {
+
+            int result = cursor.getInt(0);
+
+            if (result>0)
+                return result;
+
+        }
+        cursor.close();
+        dB.close();
+        return 0;
+
+    }
     public Double getMonthAchievement() {
 
         if (dB == null) {

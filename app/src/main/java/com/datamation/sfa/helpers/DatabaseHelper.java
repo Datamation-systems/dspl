@@ -1076,8 +1076,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FSALREP_REP_NAME = "RepName";
     public static final String FSALREP_REP_EMAIL = "RepEMail";
     public static final String FSALREP_REP_MOB = "RepMob";
-    public static final String FSALREP_PASSWORD = "Password";// Password
+    public static final String FSALREP_PASSWORD = "Password";
     public static final String FSALREP_COSTCODE = "CostCode";// Password
+    public static final String FSALREP_ADDMACH = "AddMach";
+    public static final String FSALREP_ADDUSER = "AddUser";
+    public static final String FSALREP_RECORDID = "RecordId";
+    public static final String FSALREP_REPCODE = "RepCode";
+    public static final String FSALREP_EMAIL = "Email";
+    public static final String FSALREP_REPID = "RepId";
+    public static final String FSALREP_MOBILE = "Mobile";
+    public static final String FSALREP_LOCCODE = "LocCode";
+    public static final String FSALREP_MACID = "macId";
+    public static final String FSALREP_NAME = "name";
+    public static final String FSALREP_PREFIX = "prefix";
+    public static final String FSALREP_STATUS = "status";
+    public static final String FSALREP_TELE = "telephone";
 
     // create String
     private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ASE_CODE + " TEXT, " + FSALREP_AREA_CODE + " TEXT, " + FSALREP_DEAL_CODE + " TEXT, " + FSALREP_RECORD_ID + " TEXT, " + FSALREP_REP_CODE + " TEXT, " + FSALREP_REP_PREFIX + " TEXT, " + FSALREP_REP_TCODE + " TEXT, " + FSALREP_REP_PHONE_NO + " TEXT, " + FSALREP_REP_NAME + " TEXT, " + FSALREP_REP_EMAIL + " TEXT, " + FSALREP_REP_MOB + " TEXT, " + FSALREP_PASSWORD + " TEXT, " + FSALREP_COSTCODE + " TEXT); ";

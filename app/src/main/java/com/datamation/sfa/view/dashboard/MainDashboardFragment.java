@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.DashboardController;
+import com.datamation.sfa.controller.DayNPrdHedController;
+import com.datamation.sfa.controller.SalRepController;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -162,11 +165,15 @@ public class MainDashboardFragment extends Fragment {
     }
 
     private BarDataSet getDataSet() {
+        int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
+        int ordcount = new DashboardController(getActivity()).getProductiveCount();
+        String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
+        int outlets = new DashboardController(getActivity()).getOutletCount(route);
 
         ArrayList<BarEntry> entries = new ArrayList();
-        entries.add(new BarEntry(80f, 0));
-        entries.add(new BarEntry(50f, 1));
-        entries.add(new BarEntry(60f, 2));
+        entries.add(new BarEntry((float)ordcount, 0));
+        entries.add(new BarEntry((float)outlets, 1));
+        entries.add(new BarEntry((float)nonprd, 2));
 
 
         BarDataSet dataset = new BarDataSet(entries,"count");
@@ -178,10 +185,14 @@ public class MainDashboardFragment extends Fragment {
     }
 
     private ArrayList<String> getXAxisValues() {
+        int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
+        int ordcount = new DashboardController(getActivity()).getProductiveCount();
+        String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
+        int outlets = new DashboardController(getActivity()).getOutletCount(route);
         ArrayList<String> labels = new ArrayList();
-        labels.add("visit");
-        labels.add("not visit");
-        labels.add("nonproductive");
+        labels.add("visit("+ordcount+")");
+        labels.add("not visit("+outlets+")");
+        labels.add("nonproductive("+nonprd+")");
         return labels;
     }
 
