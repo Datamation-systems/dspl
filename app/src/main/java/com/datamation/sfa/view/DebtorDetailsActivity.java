@@ -307,7 +307,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
     private class OutletDetailsPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] titles = {"PERSONAL", "OUTSTANDING", "HISTORY", "COMPETITORS"};
+        private final String[] titles = {"OUTSTANDING", "PERSONNEL", "HISTORY", "COMPETITORS"};
 
         public OutletDetailsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -322,10 +322,10 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    if(personalDetailsFragment == null) personalDetailsFragment = new PersonalDetailsFragment();
+                    if(outstandingDetailsFragment == null) outstandingDetailsFragment = new OutstandingDetailsFragment();
                     return personalDetailsFragment;
                 case 1:
-                    if(outstandingDetailsFragment == null) outstandingDetailsFragment = new OutstandingDetailsFragment();
+                    if(personalDetailsFragment == null) personalDetailsFragment = new PersonalDetailsFragment();
                     return outstandingDetailsFragment;
                 case 2:
                     if(historyDetailsFragment == null) historyDetailsFragment = new HistoryDetailsFragment();

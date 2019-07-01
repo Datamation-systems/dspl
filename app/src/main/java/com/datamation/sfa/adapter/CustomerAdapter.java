@@ -44,6 +44,7 @@ public class CustomerAdapter extends ArrayAdapter<Customer> {
 
         code.setText(list.get(position).getCusCode());
         name.setText(list.get(position).getCusName());
+        address.setText(list.get(position).getCusAdd1() + ", " + list.get(position).getCusAdd2() );
 
         return row;
     }
