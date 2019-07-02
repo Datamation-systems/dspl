@@ -560,10 +560,9 @@ public class CustomerController {
 			open();
 		}
 
-		// ArrayList<Debtor> list = new ArrayList<Debtor>();
 		Cursor cursor = null;
 		try {
-			String selectQuery = "select * from " + dbHelper.TABLE_CUSTOMER + " Where " + dbHelper.CUSTOMER_CODE + "='"
+			String selectQuery = "select * from " + dbHelper.TABLE_FDEBTOR + " Where " + dbHelper.FDEBTOR_CODE + "='"
 					+ code + "'";
 
 			cursor = dB.rawQuery(selectQuery, null);
@@ -572,10 +571,13 @@ public class CustomerController {
 
 				Customer customer = new Customer();
 
-				customer.setCusName(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_NAME)));
-				customer.setCusCode(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_CODE)));
-				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.CUSTOMER_ROUTE)));
-
+				customer.setCusName(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_NAME)));
+				customer.setCusCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CODE)));
+				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ROUTE_CODE)));
+				customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD1)));
+				customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD2)));
+				customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_MOB)));
+				customer.setCusStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_STATUS)));
 
 				return customer;
 

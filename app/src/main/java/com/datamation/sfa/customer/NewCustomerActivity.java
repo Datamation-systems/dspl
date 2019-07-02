@@ -1,8 +1,10 @@
 package com.datamation.sfa.customer;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.SQLException;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -11,21 +13,33 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.adapter.CustomerRegListAdapter;
+import com.datamation.sfa.adapter.DistrictAdapter;
+import com.datamation.sfa.adapter.RouteAdapter;
+import com.datamation.sfa.adapter.TownAdapter;
 import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.DistrictController;
 import com.datamation.sfa.controller.NewCustomerController;
 import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.RouteController;
+import com.datamation.sfa.controller.TownController;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.District;
 import com.datamation.sfa.model.NewCustomer;
 import com.datamation.sfa.model.Route;
+import com.datamation.sfa.model.Town;
 import com.datamation.sfa.settings.GPSTracker;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.NetworkUtil;
@@ -47,6 +61,8 @@ public class NewCustomerActivity extends AppCompatActivity {
             town, route, addressline1, addressline2, city, mobile, phone, fax, emailaddress;
     public ImageButton btn_Route, btn_District, btn_Town, CustomerbtnSearch;
     private ArrayList<Route> routeArrayList;
+    private ArrayList<Town> townArrayList;
+    private ArrayList<District> districtArrayList;
     private ArrayList<NewCustomer> newCustomerArrayList;
     ArrayList<Uri> uris = new ArrayList<>();
     SharedPref mSharedPref;
@@ -59,6 +75,7 @@ public class NewCustomerActivity extends AppCompatActivity {
     ActivityHome home;
     CircleButton fabSave, fabDiscard;
     int CUSFLG = 1;
+    private String nCustomerNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +112,6 @@ public class NewCustomerActivity extends AppCompatActivity {
         fabDiscard.setColor(ContextCompat.getColor(this, R.color.main_green_color));
         fabDiscard.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_undo_icon));
 
-
-
         btn_Town = (ImageButton)findViewById(R.id.btn_T);
         btn_Route = (ImageButton)findViewById(R.id.btn_R);
         btn_District = (ImageButton)findViewById(R.id.btn_D);
@@ -106,32 +121,41 @@ public class NewCustomerActivity extends AppCompatActivity {
         //-----------------------------------------------------------------------------------------------------------------
 
         //show new customer ref no
-        if (mySwitch.isChecked() == true) {
-//            customerName.requestFocus();
-//            customerCode.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.newCusVal)));
-//            CustomerbtnSearch.setEnabled(false);
+        if (mySwitch.isChecked())
+        {
+            CustomerbtnSearch.setEnabled(false);
+            fabSave.setEnabled(true);
+            fabDiscard.setEnabled(true);
+            try {
+                nCustomerNo = referenceNum.getCurrentRefNo(getResources().getString(R.string.newCusVal));
+                customerCode.setText(nCustomerNo);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
             CustomerbtnSearch.setEnabled(true);
+            fabSave.setEnabled(false);
+            fabDiscard.setEnabled(false);
         }
 
 
         btn_District.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //prodcutDetailsDialogbox(1);
+                popupDialog(1);
 
             }
         });
         btn_Town.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //prodcutDetailsDialogbox(2);
+                popupDialog(2);
             }
         });
         btn_Route.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //prodcutDetailsDialogbox(3);
+                popupDialog(3);
             }
         });
 
@@ -143,12 +167,12 @@ public class NewCustomerActivity extends AppCompatActivity {
                 if (isChecked) {
 
                     referenceNum = new ReferenceNum(getApplicationContext());
-//                    try {
-//                        nCustomerNo = referenceNum.getCurrentRefNo(getResources().getString(R.string.NCNumVal));
-//                        customerCode.setText(nCustomerNo);
-//                    } catch (SQLException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        nCustomerNo = referenceNum.getCurrentRefNo(getResources().getString(R.string.newCusVal));
+                        customerCode.setText(nCustomerNo);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
                     CUSFLG = 1;
                     customerName.setFocusable(true);
@@ -230,25 +254,25 @@ public class NewCustomerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
                 if (CUSFLG == 1) {
 
                     // if (customerName.getText().length() != 0 && addressline1.getText().length() != 0 && addressline2.getText().length() != 0 && mobile.getText().length() != 0 && town.getText().length() != 0 && route.getText().length() != 0 && city.getText().length() != 0) {
                     if (customerName.getText().length() != 0 && addressline1.getText().length() != 0 && addressline2.getText().length() != 0 && mobile.getText().length() != 0) {
 
-                        if (isEmailValid(emailaddress.getText().toString()) == false) {
+                        if (!isEmailValid(emailaddress.getText().toString()))
+                        {
                             Toast.makeText(getApplicationContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
-                        }  else {
-                            //submit form
+                        }
+                        else
+                            {
 
-
-                            RouteController RO = new RouteController(getApplicationContext());
+                            //RouteController RO = new RouteController(getApplicationContext());
 
                             DateFormat Dformat = new SimpleDateFormat("yyyy-MM-dd");
                             Date date = new Date();
 
                             //SalRepDS fSalRepDS = new SalRepDS(getActivity());
-                            ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(getApplicationContext());
+                            //ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(getApplicationContext());
 
                             GPSTracker gpsTracker = new GPSTracker(getApplicationContext());
                             referenceNum = new ReferenceNum(getApplicationContext());
@@ -258,7 +282,9 @@ public class NewCustomerActivity extends AppCompatActivity {
                             customer.setNAME(customerName.getText().toString());
                             customer.setCUSTOMER_NIC(editTextCNic.getText().toString());
                             customer.setCUSTOMER_ID(customerCode.getText().toString());
-                            // customer.setROUTE_ID(SharedPref.getInstance(getActivity()).getLoginUser().getRoute());
+                            customer.setROUTE_ID(route.getText().toString());
+                            customer.setC_TOWN(town.getText().toString());
+                            customer.setDISTRICT(district.getText().toString());
                             customer.setADDRESS1(addressline1.getText().toString());
                             customer.setADDRESS2(addressline2.getText().toString());
                             customer.setCITY(city.getText().toString());
@@ -271,15 +297,13 @@ public class NewCustomerActivity extends AppCompatActivity {
                             customer.setC_ADDDATE(Dformat.format(date));
                             customer.setC_LATITUDE("" + gpsTracker.getLatitude());
                             customer.setC_LONGITUDE("" + gpsTracker.getLongitude());
-                            // customer.setnNumVal(referenceNum.getCurrentRefNo(getResources().getString(R.string.newCusVal)));
+                            //customer.setnNumVal(referenceNum.getCurrentRefNo(getResources().getString(R.string.newCusVal)));
                             customer.setnNumVal("1");
                             customer.setTxnDate(Dformat.format(date));
                             customer.setCONSOLE_DB(localSP.getString("Console_DB", "").toString());
 
-
                             ArrayList<NewCustomer> cusList = new ArrayList<>();
                             cusList.add(customer);
-
 
                             NewCustomerController customerDS = new NewCustomerController(getApplicationContext());
                             int result = customerDS.createOrUpdateCustomer(cusList);
@@ -317,8 +341,9 @@ public class NewCustomerActivity extends AppCompatActivity {
 
         fabDiscard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View view)
+            {
+                ClearFiled();
             }
         });
 
@@ -367,13 +392,6 @@ public class NewCustomerActivity extends AppCompatActivity {
                 }
             }
         });
-
-//        fabDiscard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ClearFiled();
-//            }
-//        });
     }
 
     public void ClearFiled() {
@@ -426,6 +444,61 @@ public class NewCustomerActivity extends AppCompatActivity {
             return true;
         else
             return false;
+    }
+
+    public void popupDialog(final int Flag) {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.details_search_item);
+        dialog.setCancelable(true);
+
+        final SearchView search = (SearchView) dialog.findViewById(R.id.et_search);
+        final ListView Detlist = (ListView) dialog.findViewById(R.id.lv_product_list);
+
+        final RouteController routeDS = new RouteController(this);
+        final DistrictController distDS = new DistrictController(this);
+        final TownController townDS = new TownController(this);
+
+        Detlist.clearTextFilter();
+        if (Flag == 1)
+        {
+            districtArrayList = distDS.getAllDistrict();
+            Detlist.setAdapter(new DistrictAdapter(this, districtArrayList));
+        }
+        else if (Flag == 2)
+        {
+            townArrayList = townDS.getAllTowns();
+            Detlist.setAdapter(new TownAdapter(this, townArrayList));
+        }
+        else if (Flag == 3)
+        {
+            routeArrayList = routeDS.getRoute();
+            Detlist.setAdapter(new RouteAdapter(this, routeArrayList));
+        }
+
+        Detlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (Flag == 3)
+                {
+                    route.setText(routeArrayList.get(position).getRouteCode());
+                }
+                else if (Flag == 2)
+                {
+                    town.setText(townArrayList.get(position).getTownCode());
+                }
+                else if (Flag == 1)
+                {
+                    district.setText(districtArrayList.get(position).getDistrictCode());
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
     }
 
 }

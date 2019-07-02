@@ -43,74 +43,74 @@ public class OrderMainFragment extends Fragment {
          view = inflater.inflate(R.layout.frag_sales_order, container, false);
 
         //set title
-        getActivity().setTitle("SFA");
-
-        //initializations
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
-
-        salesOrderLst = (ListView) view.findViewById(R.id.sales_lv);
-        fatchData();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UtilityContainer.mLoadFragment(new SalesManagementFragment(), getActivity());
-//                Fragment promosale = new PromoSaleManagement();
-//                getFragmentManager().beginTransaction().replace(
-//                        R.id.fragmentContainer, promosale)
-//                        .commit();
-            }
-        });
-
-        //DISABLED BACK NAVIGATION
-        view.setFocusableInTouchMode(true);
-        view.requestFocus();
-        view.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.i("", "keyCode: " + keyCode);
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    Toast.makeText(getActivity(), "Back Navigationid is disable", Toast.LENGTH_SHORT).show();
-                    return true;
-                } else if ((keyCode == KeyEvent.KEYCODE_HOME)) {
-
-                    getActivity().finish();
-
-                    return true;
-
-                } else {
-                    return false;
-                }
-            }
-        });
-
-
-        this.salesOrderLst.setEmptyView(view.findViewById(android.R.id.empty));
+//        getActivity().setTitle("SFA");
+//
+//        //initializations
+//        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+//
+//        salesOrderLst = (ListView) view.findViewById(R.id.sales_lv);
+//        fatchData();
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                UtilityContainer.mLoadFragment(new SalesManagementFragment(), getActivity());
+////                Fragment promosale = new PromoSaleManagement();
+////                getFragmentManager().beginTransaction().replace(
+////                        R.id.fragmentContainer, promosale)
+////                        .commit();
+//            }
+//        });
+//
+//        //DISABLED BACK NAVIGATION
+//        view.setFocusableInTouchMode(true);
+//        view.requestFocus();
+//        view.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                Log.i("", "keyCode: " + keyCode);
+//                if (keyCode == KeyEvent.KEYCODE_BACK) {
+//                    Toast.makeText(getActivity(), "Back Navigationid is disable", Toast.LENGTH_SHORT).show();
+//                    return true;
+//                } else if ((keyCode == KeyEvent.KEYCODE_HOME)) {
+//
+//                    getActivity().finish();
+//
+//                    return true;
+//
+//                } else {
+//                    return false;
+//                }
+//            }
+//        });
+//
+//
+//        this.salesOrderLst.setEmptyView(view.findViewById(android.R.id.empty));
 
 
         return view;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        myContext = (FragmentActivity) activity;
-        super.onAttach(activity);
-        try {
-            listener = (IResponseListener) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
-        }
-    }
+//    @Override
+//    public void onAttach(Activity activity) {
+//        myContext = (FragmentActivity) activity;
+//        super.onAttach(activity);
+////        try {
+////            listener = (IResponseListener) getActivity();
+////        } catch (ClassCastException e) {
+////            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
+////        }
+//    }
 
 
     public void fatchData() {
 
-        salesOrderLst.clearTextFilter();
-        ordHedList = new OrderController(getActivity()).getAllOrders();
-        if(ordHedList.size()==0){
-            this.salesOrderLst.setEmptyView(view.findViewById(android.R.id.empty));
-        }else{
-            salesOrderLst.setAdapter(new OrderAdapter(getActivity(), ordHedList));
-        }
+//        salesOrderLst.clearTextFilter();
+//        ordHedList = new OrderController(getActivity()).getAllOrders();
+//        if(ordHedList.size()==0){
+//            this.salesOrderLst.setEmptyView(view.findViewById(android.R.id.empty));
+//        }else{
+//            salesOrderLst.setAdapter(new OrderAdapter(getActivity(), ordHedList));
+//        }
 
     }
 

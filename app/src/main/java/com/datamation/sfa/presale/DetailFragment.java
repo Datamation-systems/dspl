@@ -75,7 +75,7 @@ public class DetailFragment extends Fragment{
     private FloatingActionButton save, undo, upload;
     //TODO :: should implement upload button in option menu
     private  String RefNo;
-    public ActivityHome mainActivity;
+    //public ActivityHome mainActivity;
     int seqno = 0;
     ArrayList<tempOrderDet> PreproductList = null, selectedItemList = null;
     ArrayList<OrderDetail> orderList;
@@ -105,7 +105,7 @@ public class DetailFragment extends Fragment{
         seqno = 0;
         mSharedPref =    SharedPref.getInstance(getActivity());
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-        mainActivity = (ActivityHome) getActivity();
+        //mainActivity = (ActivityHome) getActivity();
         tmpsoHed=new Order();
         resultList = new ArrayList<>();
         //------------------------------------------------------------------------------------------------------------------------

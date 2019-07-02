@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -13,6 +15,7 @@ import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
@@ -21,7 +24,10 @@ import android.widget.Toast;
 import com.datamation.sfa.R;
 import at.markushi.ui.CircleButton;
 import com.astuetz.PagerSlidingTabStrip;
+import com.datamation.sfa.customer.CustomerRegMain;
+import com.datamation.sfa.expense.ExpenseMain;
 import com.datamation.sfa.fragment.debtordetails.HistoryDetailsFragment;
+import com.datamation.sfa.fragment.debtorlist.AllCustomerFragment;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.fragment.debtordetails.CompetitorDetailsFragment;
@@ -29,15 +35,21 @@ import com.datamation.sfa.fragment.debtordetails.OutstandingDetailsFragment;
 import com.datamation.sfa.fragment.debtordetails.PersonalDetailsFragment;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.User;
+import com.datamation.sfa.nonproductive.NonProductiveMain;
+import com.datamation.sfa.presale.HeaderFragment;
+import com.datamation.sfa.presale.OrderMainFragment;
+import com.datamation.sfa.presale.SalesManagementFragment;
+import com.datamation.sfa.utils.UtilityContainer;
 
 
 public class DebtorDetailsActivity extends AppCompatActivity {
 
     //private CircleButton floatingActionsMenu;
     private CircleButton fabInvoice, fabUnproductive, fabReturnNote, fabSalesOrder, fabVansale;
-    private TextView labelInvoice, labelUnproductive, labelReturnNote, labelSalesOrder, labelVanSale;
+    //private TextView labelInvoice, labelUnproductive, labelReturnNote, labelSalesOrder, labelVanSale;
 
     private Customer outlet;
+    private Context context;
 
     private View overlay;
 
@@ -68,6 +80,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         sharedPref = SharedPref.getInstance(DebtorDetailsActivity.this);
 
         user = sharedPref.getLoginUser();
+        context = this;
 
         locManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         outlet = new Customer();
@@ -75,7 +88,8 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.outlet_details_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText(outlet.getCusName());
+        title.setText(sharedPref.getSelectedDebName());
+
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.outlet_details_tab_strip);
         ViewPager viewPager = (ViewPager) findViewById(R.id.outlet_details_viewpager);
@@ -86,11 +100,11 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         fabReturnNote = (CircleButton)findViewById(R.id.outlet_details_fab_sales_return);
         fabSalesOrder = (CircleButton) findViewById(R.id.outlet_details_fab_pre_sale);
 
-        labelVanSale = (TextView)findViewById(R.id.outlet_details_label_vansale);
-        labelInvoice = (TextView)findViewById(R.id.outlet_details_label_invoice);
-        labelUnproductive = (TextView)findViewById(R.id.outlet_details_label_non_productive);
-        labelReturnNote = (TextView)findViewById(R.id.outlet_details_label_sales_return);
-        labelSalesOrder = (TextView)findViewById(R.id.outlet_details_label_pre_sale);
+//        labelVanSale = (TextView)findViewById(R.id.outlet_details_label_vansale);
+//        labelInvoice = (TextView)findViewById(R.id.outlet_details_label_invoice);
+//        labelUnproductive = (TextView)findViewById(R.id.outlet_details_label_non_productive);
+//        labelReturnNote = (TextView)findViewById(R.id.outlet_details_label_sales_return);
+//        labelSalesOrder = (TextView)findViewById(R.id.outlet_details_label_pre_sale);
 
         // Setting the expanded options button colors
 //        fabSalesOrder.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
@@ -104,7 +118,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_receipt));
         fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_nonprod));
         fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_return));
-        fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_sales));
+        fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_expensive));
 
         // The overlay when showing expanding the menu
         overlay = findViewById(R.id.outlet_details_view_overlay);
@@ -193,14 +207,16 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Only proceed if location service is available
-                if(locationServiceEnabled()){
+                if(locationServiceEnabled())
+                {
                     Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(DebtorDetailsActivity.this, DebtorDetailsActivity.class);
+                    Intent intent = new Intent(DebtorDetailsActivity.this, PreSalesActivity.class);
                     intent.putExtra("outlet", "");
-                    intent.putExtra("sales_order", true);
+                    intent.putExtra("sales_order", false);
                     startActivity(intent);
-//                    finish();
-                } else {
+                }
+                else
+                    {
                     Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -244,11 +260,11 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 fabUnproductive.setVisibility(View.VISIBLE);
                 fabVansale.setVisibility(View.VISIBLE);
 
-                labelUnproductive.setVisibility(View.VISIBLE);
-                labelSalesOrder.setVisibility(View.VISIBLE);
-                labelInvoice.setVisibility(View.VISIBLE);
-                labelReturnNote.setVisibility(View.VISIBLE);
-                labelVanSale.setVisibility(View.VISIBLE);
+//                labelUnproductive.setVisibility(View.VISIBLE);
+//                labelSalesOrder.setVisibility(View.VISIBLE);
+//                labelInvoice.setVisibility(View.VISIBLE);
+//                labelReturnNote.setVisibility(View.VISIBLE);
+//                labelVanSale.setVisibility(View.VISIBLE);
 
                 overlay.setVisibility(View.VISIBLE);
             }

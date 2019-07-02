@@ -19,9 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
+import com.datamation.sfa.utils.CustomFont;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -43,15 +45,16 @@ public class PersonalDetailsFragment extends Fragment
             tvRemarks,
             tvLocation;
     private ImageView shopFront;
-    private ImageView showcase;
-    private ImageView promotionOne;
-    private ImageView promotionTwo;
+//    private ImageView showcase;
+//    private ImageView promotionOne;
+//    private ImageView promotionTwo;
     private RelativeLayout frontNA;
-    private RelativeLayout showcaseNA;
-    private RelativeLayout promotionOneNA;
-    private RelativeLayout promotionTwoNA;
+//    private RelativeLayout showcaseNA;
+//    private RelativeLayout promotionOneNA;
+//    private RelativeLayout promotionTwoNA;
 
     private Customer outlet;
+    private String debCode;
     private DatabaseHelper dbHandler;
 
     private NumberFormat numberFormat;
@@ -59,8 +62,6 @@ public class PersonalDetailsFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_details, container, false);
-
-        //dbHandler = DatabaseHelper.getDbHandler(getActivity());
         SharedPref pref = SharedPref.getInstance(getActivity());
 
         tvOutletName = (TextView) view.findViewById(R.id.fragment_out_det_personal_tv_outlet);
@@ -77,27 +78,30 @@ public class PersonalDetailsFragment extends Fragment
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMinimumFractionDigits(2);
 
-//        try {
-//            outlet = dbHandler.getOutletOfId(pref.getSelectedOutletId());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        debCode = pref.getSelectedDebCode();
+        outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(debCode);
+
+        Log.d("SELECTED_DEBTOR", "DETOR: " + debCode + ", " + outlet);
 
         if (outlet == null) {
             getActivity().onBackPressed();
             Toast.makeText(getActivity(), "Invalid outlet", Toast.LENGTH_SHORT).show();
         }
+        else
+        {
+            loadDebtor(outlet);
+        }
 
         shopFront = (ImageView) view.findViewById(R.id.fragment_out_det_personal_iv_front_image_view);
-        showcase = (ImageView) view.findViewById(R.id.fragment_out_det_personal_iv_show_image_view);
-        promotionOne = (ImageView) view.findViewById(R.id.fragment_out_det_personal_iv_promotion_one_image_view);
-        promotionTwo = (ImageView) view.findViewById(R.id.fragment_out_det_personal_iv_promotion_two_image_view);
+        //showcase = (ImageView) view.findViewById(R.id.fragment_out_det_personal_iv_show_image_view);
+        //promotionOne = (ImageView) view.findViewById(R.id.fragment_out_det_personal_iv_promotion_one_image_view);
+        //promotionTwo = (ImageView) view.findViewById(R.id.fragment_out_det_personal_iv_promotion_two_image_view);
 
 
         frontNA = (RelativeLayout) view.findViewById(R.id.fragment_out_det_personal_rel_front_image_view_na);
-        showcaseNA = (RelativeLayout) view.findViewById(R.id.fragment_out_det_personal_rel_show_image_view_na);
-        promotionOneNA = (RelativeLayout) view.findViewById(R.id.fragment_out_det_personal_rel_promotion_one_image_view_na);
-        promotionTwoNA = (RelativeLayout) view.findViewById(R.id.fragment_out_det_personal_rel_promotion_two_image_view_na);
+//        showcaseNA = (RelativeLayout) view.findViewById(R.id.fragment_out_det_personal_rel_show_image_view_na);
+//        promotionOneNA = (RelativeLayout) view.findViewById(R.id.fragment_out_det_personal_rel_promotion_one_image_view_na);
+//        promotionTwoNA = (RelativeLayout) view.findViewById(R.id.fragment_out_det_personal_rel_promotion_two_image_view_na);
 
         tvLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +127,17 @@ public class PersonalDetailsFragment extends Fragment
         decorateView();
 
         return view;
+    }
+
+    private void loadDebtor(Customer customer)
+    {
+        tvOutletName.setText(customer.getCusName());
+        tvOutletId.setText(customer.getCusCode());
+        tvOutletAddress.setText(customer.getCusAdd1() + ", " + customer.getCusAdd2());
+        tvOwnerName.setText(customer.getCusName());
+        tvContact.setText(customer.getCusMob());
+        tvTypeAndClass.setText(customer.getCusStatus());
+        tvLocation.setText(customer.getCusRoute());
     }
 
     private void decorateView() {

@@ -72,7 +72,9 @@ public class AllCustomerFragment extends Fragment {
                     if (isValidateCustomer(debtor))
                     {
                         Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                        intent.putExtra("CUSTOMER_CODE", "");
+                        mSharedPref.setSelectedDebCode(debtor.getCusCode());
+                        mSharedPref.setSelectedDebName(debtor.getCusName());
+                        mSharedPref.setSelectedDebRouteCode(debtor.getCusRoute());
                         startActivity(intent);
                     }
                 }
@@ -164,16 +166,16 @@ public class AllCustomerFragment extends Fragment {
             errorDialog("Period Error", "Credit period expired for Selected debtor...");
             return false;
         }
-        else if (Double.parseDouble(customer.getCreditLimit())>0.00)
+        else if (Double.parseDouble(customer.getCreditLimit())==0.00)
         {
             errorDialog("Limit Error", "Credit limit exceed for Selected debtor...");
             return false;
         }
-//        else if (customer.getCreditStatus().equals("N"))
-//        {
-//            errorDialog("Credit Status Error", "Credit status not valid for Selected debtor...");
-//            return false;
-//        }
+        else if (customer.getCreditStatus().equals("N"))
+        {
+            errorDialog("Credit Status Error", "Credit status not valid for Selected debtor...");
+            return false;
+        }
         else
         {
             return true;

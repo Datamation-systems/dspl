@@ -45,7 +45,7 @@ public class DebtorListActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.debtor_list_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("ABCD");
+        title.setText("DEBTOR LIST");
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.debtor_list_tab_strip);
         ViewPager viewPager = (ViewPager) findViewById(R.id.debtor_list_viewpager);

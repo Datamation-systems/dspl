@@ -81,6 +81,8 @@ public class RouteCustomerFragment extends Fragment {
                     {
                         Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
                         mSharedPref.setSelectedDebCode(debtor.getCusCode());
+                        mSharedPref.setSelectedDebName(debtor.getCusName());
+                        mSharedPref.setSelectedDebRouteCode(debtor.getCusRoute());
                         startActivity(intent);
                     }
                 }
@@ -92,9 +94,11 @@ public class RouteCustomerFragment extends Fragment {
             }
         });
 
-        //String rCode = new SalRepController(getActivity()).getCurrentRepCode().trim();
+        String rCode = new SalRepController(getActivity()).getCurrentRepCode().trim();
 
-        new getRouteCustomer("SR01").execute();
+        Log.d("REP_CODE", "IS:" + rCode);
+
+        new getRouteCustomer(rCode).execute();
 
         return view;
     }
@@ -175,16 +179,16 @@ public class RouteCustomerFragment extends Fragment {
             errorDialog("Period Error", "Credit period expired for Selected debtor...");
             return false;
         }
-        else if (Double.parseDouble(customer.getCreditLimit())>0.00)
+        else if (Double.parseDouble(customer.getCreditLimit())==0.00)
         {
-            errorDialog("Limit Error", "Credit limit exceed for Selected debtor...");
+            errorDialog("Limit Error", "Not enough credit limit for Selected debtor...");
             return false;
         }
-//        else if (customer.getCreditStatus().equals("N"))
-//        {
-//            errorDialog("Credit Status Error", "Credit status not valid for Selected debtor...");
-//            return false;
-//        }
+        else if (customer.getCreditStatus().equals("N"))
+        {
+            errorDialog("Credit Status Error", "Credit status not valid for Selected debtor...");
+            return false;
+        }
         else
         {
             return true;

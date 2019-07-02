@@ -170,6 +170,36 @@ public class SalesManagementFragment extends Fragment {
         viewPager.setCurrentItem(1);
     }
 
+    public void backToReturn()
+    {
+
+    }
+
+    public void backToOrdDet()
+    {
+
+    }
+
+    public void backToHeader()
+    {
+
+    }
+
+    public void nextToDetails()
+    {
+
+    }
+
+    public void nextToReturns()
+    {
+
+    }
+
+    public void nextToSummary()
+    {
+
+    }
+
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.datamation.sfa.controller.ReferenceController;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Reference;
 
@@ -32,8 +33,12 @@ public class ReferenceNum {
 
         String sDate = String.valueOf(c.get(Calendar.YEAR)).substring(2) + String.format("%02d", c.get(Calendar.MONTH) + 1);
 
-        String nextNumVal = referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode());
-        ArrayList<Reference> list = referenceDS.getCurrentPreFix(cSettingsCode,pref.getLoginUser().getPrefix());
+
+
+        String nextNumVal = referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim());
+        //String nextNumVal = referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode());
+        ArrayList<Reference> list = referenceDS.getCurrentPreFix(cSettingsCode,"AA");
+        //ArrayList<Reference> list = referenceDS.getCurrentPreFix(cSettingsCode,pref.getLoginUser().getPrefix());
 
         if (!nextNumVal.equals("")) {
 
@@ -60,7 +65,8 @@ public class ReferenceNum {
         ReferenceController referenceDS = new ReferenceController(context);
         int nextNumVal = 0;
 
-        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode())) + 1;
+        //nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode())) + 1;
+        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())) + 1;
 
         int count = referenceDS.InsetOrUpdate(cSettingsCode, nextNumVal);
 
@@ -81,7 +87,7 @@ public class ReferenceNum {
         ReferenceController referenceDS = new ReferenceController(context);
         int nextNumVal = 0;
 
-        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode())) + 1;
+        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())) + 1;
 
         int count = referenceDS.InsetOrUpdate(cSettingsCode, nextNumVal);
 

@@ -161,6 +161,26 @@ public class SharedPref {
         editor.apply();
     }
 
+    public String getSelectedDebName() {
+        return sharedPref.getString("selected_out_name", "0");
+    }
+
+    public void setSelectedDebName(String name) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("selected_out_name", name);
+        editor.apply();
+    }
+
+    public String getSelectedDebRouteCode() {
+        return sharedPref.getString("selected_out_route_code", "0");
+    }
+
+    public void setSelectedDebRouteCode(String code) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("selected_out_route_code", code);
+        editor.apply();
+    }
+
 
 //    public int startDay() {
 //

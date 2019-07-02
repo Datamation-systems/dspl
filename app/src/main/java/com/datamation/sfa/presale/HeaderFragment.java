@@ -1,6 +1,7 @@
 package com.datamation.sfa.presale;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 
@@ -25,10 +26,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.RouteController;
+import com.datamation.sfa.helpers.IResponseListener;
+import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.settings.StaticData;
 import com.datamation.sfa.utils.LocationProvider;
+import com.datamation.sfa.utils.UtilityContainer;
 import com.datamation.sfa.view.ActivityHome;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.R;
@@ -40,13 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-//import static com.bit.sfa.Settings.SharedPreferencesClass.getLocalSharedPreference;
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class HeaderFragment extends Fragment {
-
+public class HeaderFragment extends Fragment{
 
     View view;
     private FloatingActionButton next;
@@ -57,6 +57,8 @@ public class HeaderFragment extends Fragment {
     private LocationProvider locationProvider;
     private Location finalLocation;
     MyReceiver r;
+    SharedPref pref;
+    PreSalesResponseListener preSalesResponseListener;
     //SharedPreferencesClass localSP;
 
 
@@ -72,6 +74,7 @@ public class HeaderFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_frag_promo_sale_header, container, false);
 
         next = (FloatingActionButton) view.findViewById(R.id.fab);
+        pref = SharedPref.getInstance(getActivity());
 
         Date d = Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy"); //change this
@@ -89,14 +92,10 @@ public class HeaderFragment extends Fragment {
         route = (TextView) view.findViewById(R.id.editTextRoute);
         cusName = (TextView) view.findViewById(R.id.textViewCustomer);
 
-
-     //   cusName.setText(home.SAcustomer);
-       // route.setText(StaticData.Route);
-        //rashmi
-//        route.setText(""+home.SAroute);
-//        date.setText(formattedDate);
-//        ordno.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.NumVal)));
-
+        cusName.setText(pref.getSelectedDebName());
+        route.setText(new RouteController(getActivity()).getRouteNameByCode(pref.getSelectedDebRouteCode()));
+        date.setText(formattedDate);
+        ordno.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.NumVal)));
 
         deldate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,18 +106,22 @@ public class HeaderFragment extends Fragment {
             }
         });
 
-
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //validate tabs
-                if (SalesManagementFragment.isheader == true) {
-                    SalesManagementFragment.viewPager.setCurrentItem(2);
+                if (cusName.getText().toString().equals("")|| ordno.getText().toString().equals("")||route.getText().toString().equals(""))
+                {
+                    preSalesResponseListener.moveBackToCustomer_pre(0);
+                }
+                else
+                {
+                    preSalesResponseListener.moveNextToCustomer_pre(1);
                 }
 
             }
         });
+        
         locationProvider = new LocationProvider((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE),
                 new LocationProvider.ICustomLocationListener() {
 
@@ -439,6 +442,16 @@ public class HeaderFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             HeaderFragment.this.mRefreshHeader();
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            preSalesResponseListener = (PreSalesResponseListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
         }
     }
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

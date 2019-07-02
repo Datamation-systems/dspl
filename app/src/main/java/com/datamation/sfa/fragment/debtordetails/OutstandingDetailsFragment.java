@@ -56,7 +56,6 @@ public class OutstandingDetailsFragment extends Fragment
         try {
 
             debtorCode = pref.getSelectedDebCode();
-            //debtorCode = "9";
 
             if(debtorCode != null) {
                 historyDetail = new CustomerController(getActivity()).getOutStandingList(debtorCode);

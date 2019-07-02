@@ -46,7 +46,8 @@
         android:layout_marginRight="21dp"
         android:layout_marginBottom="@dimen/finac_search_edititext_height"
         android:text="VAN SALE"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:visibility="gone"/>
 
     <at.markushi.ui.CircleButton
         android:id="@+id/outlet_details_fab_pre_sale"
@@ -66,7 +67,8 @@
         android:layout_marginRight="21dp"
         android:layout_marginBottom="@dimen/finac_search_edititext_height"
         android:text="PRE SALE"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:visibility="gone"/>
 
     <at.markushi.ui.CircleButton
         android:id="@+id/outlet_details_fab_sales_return"
@@ -86,7 +88,8 @@
         android:layout_marginRight="21dp"
         android:layout_marginBottom="@dimen/finac_search_edititext_height"
         android:text="SALES RETURN"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:visibility="gone"/>
 
     <at.markushi.ui.CircleButton
         android:id="@+id/outlet_details_fab_non_productive"
@@ -106,7 +109,8 @@
         android:layout_marginRight="21dp"
         android:layout_marginBottom="@dimen/finac_search_edititext_height"
         android:text="NON PRODUCTIVE"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:visibility="gone"/>
 
     <at.markushi.ui.CircleButton
         android:id="@+id/outlet_details_fab_receipt"
@@ -126,6 +130,7 @@
         android:layout_marginRight="21dp"
         android:layout_marginBottom="@dimen/finac_search_edititext_height"
         android:text="RECEIPT"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:visibility="gone"/>
 
 </RelativeLayout>

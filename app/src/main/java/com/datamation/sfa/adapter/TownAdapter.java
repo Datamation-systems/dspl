@@ -7,25 +7,21 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.datamation.sfa.model.Route;
 import com.datamation.sfa.R;
+import com.datamation.sfa.model.Route;
+import com.datamation.sfa.model.Town;
 
 import java.util.ArrayList;
 
-/**
- * Created by Rashmi.
- */
-
-public class RouteAdapter extends ArrayAdapter<Route> {
+public class TownAdapter extends ArrayAdapter<Town> {
 
     Context context;
-    ArrayList<Route> list;
+    ArrayList<Town> list;
 
-    public RouteAdapter(Context context, ArrayList<Route> list) {
+    public TownAdapter(Context context, ArrayList<Town> list) {
         super(context, R.layout.item_listview, list);
         this.context = context;
         this.list = list;
-
     }
 
     @Override
@@ -37,13 +33,12 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         row = inflater.inflate(R.layout.item_listview, parent, false);
 
-        TextView routeCodeTxt = (TextView) row.findViewById(R.id.tv_item_code);
-        TextView routeName = (TextView) row.findViewById(R.id.TextView01);
+        TextView townCodeTxt = (TextView) row.findViewById(R.id.tv_item_code);
+        TextView townName = (TextView) row.findViewById(R.id.TextView01);
 
-        routeCodeTxt.setText(list.get(position).getRouteCode());
-        routeName.setText(list.get(position).getRouteName());
+        townCodeTxt.setText(list.get(position).getTownCode());
+        townName.setText(list.get(position).getTownName());
 
         return row;
     }
-
 }
