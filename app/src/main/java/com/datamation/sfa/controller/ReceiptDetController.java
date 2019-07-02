@@ -45,7 +45,7 @@ public class ReceiptDetController {
 		ArrayList<ReceiptDet> list = new ArrayList<ReceiptDet>();
 
 		try {
-			String selectQuery = "select hed.refno, det.refno1, hed.paytype,det.aloamt, fddb.totbal, fddb.txndate from fprecheds hed, fprecdets det," +
+			String selectQuery = "select hed.refno, det.refno1, hed.paytype,det.aloamt, fddb.totbal, det.dtxndate from fprecheds hed, fprecdets det," +
 		//			" fddbnote fddb where hed.refno = det.refno and det.refno1 = fddb.refno and hed.txndate = '2019-04-12'";
 					" fddbnote fddb where hed.refno = det.refno and det.refno1 = fddb.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
@@ -61,7 +61,7 @@ public class ReceiptDetController {
 				recDet.setFPRECDET_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_PAYTYPE)));
 				recDet.setFPRECDET_ALOAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECDET_ALOAMT)));
 				recDet.setFPRECDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TOT_BAL)));
-				recDet.setFPRECDET_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_DATE)));
+				recDet.setFPRECDET_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECDET_DTXNDATE)));
 
 				list.add(recDet);
 			}

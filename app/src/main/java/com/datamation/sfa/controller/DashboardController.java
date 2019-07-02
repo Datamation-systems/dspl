@@ -177,6 +177,185 @@ public class DashboardController {
 
     }
 
+public Double getTodayDiscount() {
+
+    if (dB == null) {
+        open();
+    } else if (!dB.isOpen()) {
+        open();
+    }
+
+    ArrayList<String[]> list = new ArrayList<String[]>();
+
+    int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+    int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+    int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+    try {
+
+
+        double discount;
+
+
+        Cursor cursor;
+
+        cursor = dB.rawQuery("select ifnull((sum(a.DisAmt)),0)  as totAmt from FOrdDisc a where a.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'", null);
+        // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+        while (cursor.moveToNext()) {
+            discount = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+            return discount;
+        }
+
+
+        cursor.close();
+
+    } catch (NumberFormatException e) {
+        e.printStackTrace();
+    } finally {
+        dB.close();
+    }
+
+    return 0.0;
+
+}
+    public Double getTodayReturn() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+        try {
+
+
+            double discount;
+
+
+            Cursor cursor;
+
+            cursor = dB.rawQuery("select ifnull((sum(a.Amt)),0)  as totAmt from FInvRDet a where a.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" +
+                     String.format("%02d", curDate)+"'", null);
+            // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+            while (cursor.moveToNext()) {
+                discount = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+                return discount;
+            }
+
+
+            cursor.close();
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+
+        return 0.0;
+
+    }
+
+    public Double getTodayCashCollection() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+        try {
+
+
+            double discount;
+
+
+            Cursor cursor;
+
+            cursor = dB.rawQuery("select ifnull((sum(det.aloamt)),0)  as totAmt from fprecdets  det, fprecheds hed where det.refno = hed.refno" +
+
+                    "det.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'" +
+                    " and  det.dtxndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"' and hed.paytype = 'CA'", null);
+//                    "det.txndate = '2019-04-12'" +
+//                    " and  det.dtxndate = '2019-02-13'", null);
+            // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+            while (cursor.moveToNext()) {
+                discount = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+                return discount;
+            }
+
+
+            cursor.close();
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+
+        return 0.0;
+
+    }
+    public Double getTodayCashPreviousCollection() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+        try {
+
+
+            double discount;
+
+
+            Cursor cursor;
+
+            cursor = dB.rawQuery("select ifnull((sum(det.aloamt)),0)  as totAmt from fprecdets  det where " +
+                    "det.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'" +
+                    " and  det.dtxndate <> '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'", null);
+//                    "det.txndate = '2019-04-12'" +
+//                    " and  det.dtxndate <> '2019-02-13'", null);
+            // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+            while (cursor.moveToNext()) {
+                discount = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+                return discount;
+            }
+
+
+            cursor.close();
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+
+        return 0.0;
+
+    }
     public Double getDailyAchievement() {
 
         if (dB == null) {

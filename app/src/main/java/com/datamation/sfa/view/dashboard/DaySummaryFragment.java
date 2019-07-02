@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.controller.DashboardController;
+import com.datamation.sfa.controller.DayNPrdHedController;
+import com.datamation.sfa.controller.SalRepController;
 
 import org.json.JSONException;
 
@@ -36,7 +38,7 @@ public class DaySummaryFragment extends Fragment {
     private static final String LOG_TAG = DaySummaryFragment.class.getSimpleName();
     private TextView tvDate;
 
-    private TextView tvSalesGross, tvSalesMarketReturn, tvDiscount, tvNetValue;
+    private TextView tvSalesGross, tvSalesMarketReturn, tvDiscount, tvNetValue, tvTarget,tvProductive,tvNonprdctive;
     private TextView tvDayCredit, tvDayCreditPercentage, tvDayCash, tvDayCashPercentage, tvDayCheque, tvDayChequePercentage;
 //    private TextView tvPreviousCredit, tvPreviousCreditPercentage, tvPreviousCash, tvPreviousCashPercentage, tvPreviousCheque, tvPreviousChequePercentage;
     private TextView tvPreviousCredit, tvPreviousCash, tvPreviousCheque;
@@ -73,6 +75,9 @@ public class DaySummaryFragment extends Fragment {
         tvSalesMarketReturn = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_market_return);
         tvDiscount = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_discount);
         tvNetValue = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_net_sale);
+        tvTarget = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_target);
+        tvProductive = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_productive_calls);
+        tvNonprdctive = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_unproductive_calls);
 
         tvDayCredit = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_day_credit);
         tvDayCreditPercentage = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_day_credit_percentage);
@@ -92,64 +97,33 @@ public class DaySummaryFragment extends Fragment {
         tvChequeTotal = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_total_cheque);
         double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
         double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
+        double dailyDiscount = new DashboardController(getActivity()).getTodayDiscount();
+        double dailyReturn = new DashboardController(getActivity()).getTodayReturn();
+        double dayCash = new DashboardController(getActivity()).getTodayCashCollection();
+        double dayCheque = new DashboardController(getActivity()).getTodayCashCollection();
+        double previousCash = new DashboardController(getActivity()).getTodayReturn();
+        double previousCheque = new DashboardController(getActivity()).getTodayReturn();
+        int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
+        int ordcount = new DashboardController(getActivity()).getProductiveCount();
+        String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
+        int outlets = new DashboardController(getActivity()).getOutletCount(route);
+        int notVisit = outlets - (ordcount+nonprd);
+        if(notVisit > 0){
+            notVisit = outlets - (ordcount+nonprd);
+        }else{
+            notVisit = 0;
+        }
 
         tvSalesGross.setText(""+format.format(dailyAchieve));
         tvNetValue.setText(""+format.format(dailyAchieve));
-
-//        dbHandler = DatabaseHandler.getDbHandler(getActivity());
-//
-//        pinHolders = dbHandler.getTimeFramedPayments(TimeUtils.getDayBeginningTime(timeInMillis), TimeUtils.getDayEndTime(timeInMillis));
-//        try {
-//            outlets = dbHandler.getAllOutlets();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-////        nowCalendar = Calendar.getInstance();
-//
-//        format.setGroupingUsed(true);
-//        format.setMinimumFractionDigits(2);
-//        format.setMaximumFractionDigits(2);
-//
-//        calculateValues();
-//
-//        calendarDatePickerDialog = new CalendarDatePickerDialog();
-//
-//        calendarDatePickerDialog.setOnDateSetListener(new CalendarDatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int year, int month, int day) {
-//                if (year != mYear || month != mMonth || day != mDay) {
-//                    Log.d(LOG_TAG, "Different date selected");
-//                    mYear = year;
-//                    mMonth = month;
-//                    mDay = day;
-//
-////                    nowCalendar.set(mYear, mMonth, mDay);
-//
-//                    timeInMillis = TimeUtils.parseIntoTimeInMillis(mYear, mMonth, mDay);
-//
-//                    tvDate.setText(dateFormat.format(new Date(timeInMillis)));
-//
-//                    pinHolders = dbHandler.getTimeFramedPayments(TimeUtils.getDayBeginningTime(timeInMillis), TimeUtils.getDayEndTime(timeInMillis));
-//                    adapter.setPaymentPinHolders(pinHolders);
-//
-//                    calculateValues();
-//
-//                }
-//            }
-//        });
-//
-//        tvDate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                calendarDatePickerDialog.show(getFragmentManager(), "TAG");
-//            }
-//        });
-//
-//        StickyListHeadersListView listView = (StickyListHeadersListView) rootView.findViewById(R.id.fragment_day_summary_pslv);
-//        adapter = new DaySummaryAdapter(getActivity(), pinHolders);
-//
-//        listView.setAdapter(adapter);
+        tvTarget.setText(""+format.format(dailyTarget));
+        tvProductive.setText(""+ordcount);
+        tvNonprdctive.setText(""+nonprd);
+        tvDayCash.setText(""+format.format(dayCash));
+        tvDayCheque.setText(""+format.format(dayCheque));
+        tvPreviousCash.setText("");
+        tvPreviousCheque.setText("");
+        //TODO::dailyDiscount,dailyDiscount should be set after create tables(FOrdDisc,fInvRdet)
 
         return rootView;
     }
