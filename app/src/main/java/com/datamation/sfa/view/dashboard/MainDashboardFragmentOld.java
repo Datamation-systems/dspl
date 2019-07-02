@@ -124,12 +124,12 @@ public class MainDashboardFragmentOld extends Fragment {
         tvSyncTime = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_sync_time);
 
         tvTodayHeader = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_header);
-        tvTodayGrossSale = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_gross_sale);
-        tvTodayGrossSalePercentage = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_gross_sale_percentage);
-        tvTodayMarketReturn = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_market_return);
-        tvTodayDiscount = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_discount);
-        tvTodayDiscountPercentage = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_discount_percentage);
-        tvTodayNetSale = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_net_sale);
+//        tvTodayGrossSale = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_gross_sale);
+//        tvTodayGrossSalePercentage = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_gross_sale_percentage);
+//        tvTodayMarketReturn = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_market_return);
+//        tvTodayDiscount = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_discount);
+//        tvTodayDiscountPercentage = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_discount_percentage);
+//        tvTodayNetSale = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_net_sale);
         tvTodayTarget = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_target);
         tvTodayProductive = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_productive_calls);
         tvTodayUnproductive = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_unproductive_calls);

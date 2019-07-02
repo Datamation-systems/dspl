@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.DashboardController;
 
 import org.json.JSONException;
 
@@ -89,6 +90,11 @@ public class DaySummaryFragment extends Fragment {
 
         tvCashTotal = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_total_cash);
         tvChequeTotal = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_total_cheque);
+        double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
+        double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
+
+        tvSalesGross.setText(""+format.format(dailyAchieve));
+        tvNetValue.setText(""+format.format(dailyAchieve));
 
 //        dbHandler = DatabaseHandler.getDbHandler(getActivity());
 //
