@@ -110,7 +110,7 @@ public class HeaderFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                if (cusName.getText().toString().equals("")|| ordno.getText().toString().equals("")||route.getText().toString().equals(""))
+                if (cusName.getText().toString().equals("")|| ordno.getText().toString().equals("")||route.getText().toString().equals("")||date.getText().toString().equals(""))
                 {
                     preSalesResponseListener.moveBackToCustomer_pre(0);
                 }
@@ -121,7 +121,7 @@ public class HeaderFragment extends Fragment{
 
             }
         });
-        
+
         locationProvider = new LocationProvider((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE),
                 new LocationProvider.ICustomLocationListener() {
 
