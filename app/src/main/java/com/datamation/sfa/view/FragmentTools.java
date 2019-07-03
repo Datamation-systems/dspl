@@ -59,7 +59,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
 
             case R.id.imgTourInfo:
                 imgTour.startAnimation(animScale);
-                //UtilityContainer.mLoadFragment(new TourInfo(), activity);
+                UtilityContainer.mLoadFragment(new FragmentMarkAttendance(), getActivity());
                 break;
 
             case R.id.imgStockInquiry:

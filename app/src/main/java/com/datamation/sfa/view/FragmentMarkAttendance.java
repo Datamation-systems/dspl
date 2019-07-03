@@ -195,7 +195,7 @@ public class FragmentMarkAttendance extends Fragment implements View.OnClickList
                     tour.setFTOUR_ROUTE(editTextRoute.getText().toString());
                     tour.setFTOUR_IS_SYNCED("0");
                     tour.setFTOUR_MAC(SharedPref.getInstance(getActivity()).getGlobalVal("MAC_Address").toString());
-                    tour.setFTOUR_REPCODE(SharedPref.getInstance(getActivity()).getLoginUser().getCode());
+                 //   tour.setFTOUR_REPCODE(SharedPref.getInstance(getActivity()).getLoginUser().getCode());
 
                     //insert into db
                     long result = tourDS.InsertUpdateTourData(tour);
@@ -207,7 +207,10 @@ public class FragmentMarkAttendance extends Fragment implements View.OnClickList
 
                         Toast.makeText(getActivity(), "Day start info saved! ", Toast.LENGTH_SHORT).show();
                         clearTextFields();
-                        UtilityContainer.mLoadFragment(new SalesManagementFragment(), getActivity());
+                        Intent intent = new Intent(getActivity(), DebtorListActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        //UtilityContainer.mLoadFragment(new SalesManagementFragment(), getActivity());
                     }
                 } else {
                     Toast.makeText(getActivity(), "Fill in the fields!", Toast.LENGTH_SHORT).show();
