@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -15,11 +16,6 @@
             android:layout_marginTop="20dp"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
                 <com.datamation.sfa.utils.CustomFont
                     android:id="@+id/customerName"
                     android:layout_width="wrap_content"
@@ -28,81 +24,118 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:padding="2dp"
                     android:text="DebtorName"
                     android:textColor="@color/greenColor"
                     android:textSize="@dimen/font_for_heading" />
+            <LinearLayout
+                android:id="@+id/dashboard_ll_cards_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/customerName"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-                <TableRow
+                <android.support.v7.widget.CardView
+                    android:id="@+id/dashboard_header_card_this_month"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/custom_label"
-                    android:gravity="center">
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_weight="1"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardElevation="2dp"
+                    card_view:cardPreventCornerOverlap="false"
+                    card_view:cardUseCompatPadding="true">
 
-                    <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/lblMessage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Total Outstanding (Rs.)"
-                        android:textColor="@color/unselected"
-                        android:textSize="@dimen/font_for_all"
-
-                        />
-
-                    <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/lbl_Inv_outstanding_amt"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:enabled="false"
-                        android:gravity="right"
-                        android:text="0.00"
-                        android:textColor="@color/unselected"
-                        android:textSize="@dimen/font_for_all"
-                        android:textStyle="bold"/>
+                        android:paddingBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/dashboard_tv_card_this_month_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@color/theme_color"
+                            android:gravity="center"
+                            android:paddingLeft="16dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:text="Today Outstanding(Rs.)"/>
 
 
-                </TableRow>
 
-                <TableRow
+                        <TextView
+                            android:id="@+id/lbl_Inv_outstanding_amt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0.0"
+                            android:textSize="20sp"
+                            android:layout_below="@+id/dashboard_tv_card_this_month_header"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:layout_marginRight="15dp"/>
+
+
+                    </RelativeLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/dashboard_header_card_prev_month"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/custom_label"
-                    android:gravity="center">
+                    android:layout_weight="1"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardElevation="2dp"
+                    card_view:cardPreventCornerOverlap="false"
+                    card_view:cardUseCompatPadding="true">
 
-                    <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Last Bill value        (Rs.)"
-                        android:textColor="@color/unselected"
-                        android:textSize="@dimen/font_for_all"
-                      />
-
-                    <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/lbl_inv_lastbill"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:enabled="false"
-                        android:gravity="right"
-                        android:text="0.00"
-                        android:textColor="@color/unselected"
-                        android:textSize="@dimen/font_for_all"
-                        android:textStyle="bold">
+                        android:paddingBottom="10dp">
 
-                    </com.datamation.sfa.utils.CustomFont>
-                </TableRow>
+                        <TextView
+                            android:id="@+id/dashboard_tv_card_prev_month_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@color/theme_color"
+                            android:gravity="center"
+                            android:paddingLeft="16dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:text="Last Bill Value(Rs.)" />
+
+
+                        <TextView
+                            android:id="@+id/lbl_inv_lastbill"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+
+                            android:text="0.0"
+                            android:textSize="20sp"
+                            android:layout_below="@+id/dashboard_tv_card_prev_month_header"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:layout_marginRight="15dp"/>
+
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
             </LinearLayout>
+
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -118,218 +151,205 @@
                     android:layout_height="1dp"
                     android:background="@color/blueColor" />
             </LinearLayout>
-
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/fragment_day_summary_card_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="2dp"
+                card_view:cardPreventCornerOverlap="false"
+                card_view:cardUseCompatPadding="true">
 
-                <TableRow
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp">
+                    android:paddingBottom="10dp">
 
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:paddingRight="10dp"
-                        android:text="INVOICE NO"
-                        android:textAllCaps="true"
-                        android:textColor="@color/greenColor"
-                        android:textSize="@dimen/font_for_all" />
-
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text=":-"
-                        android:textSize="@dimen/font_for_all"
-                        android:visibility="visible" />
-
-                    <EditText
-                        android:id="@+id/lbl_InvRefno"
+                    <TableRow
+                        android:id="@+id/tr1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                       android:editable="false"
-                        android:gravity="center"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp">
+                        android:weightSum="2"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp">
 
-                    </EditText>
-                </TableRow>
+                        <com.datamation.sfa.utils.CustomFont
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                             android:layout_weight="1"
+                            android:paddingRight="10dp"
+                            android:gravity="center"
+                            android:text="INVOICE NO"
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical">
+                            android:textAllCaps="true"
+                            android:textColor="@color/greenColor"
+                            android:textSize="@dimen/font_for_all" />
 
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:paddingRight="10dp"
-                        android:text="DATE"
-                        android:textAllCaps="true"
-                        android:textColor="@color/greenColor"
-                        android:textSize="@dimen/font_for_all"
-                        />
 
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text=":-"
-                        android:textSize="@dimen/font_for_all"
-                        android:visibility="visible" />
+                        <TextView
+                            android:id="@+id/invoice_no"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:background="@drawable/edittextstyle"
+                            android:layout_toRightOf="@+id/invoice_no_lbl"
+                            android:textColor="@android:color/primary_text_light" />
+                    </TableRow>
 
-                    <EditText
-                        android:id="@+id/lbl_InvDate"
+                    <TableRow
+                        android:id="@+id/tr2"
+                        android:layout_below="@+id/tr1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:ems="10"
-                        android:editable="false"
-                        android:gravity="center"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp">
+                        android:weightSum="2"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical">
 
-                    </EditText>
-                </TableRow>
+                        <com.datamation.sfa.utils.CustomFont
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingRight="10dp"
+                            android:text="DATE"
+                            android:textAllCaps="true"
+                            android:textColor="@color/greenColor"
+                            android:textSize="@dimen/font_for_all"
+                            />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical">
 
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="130dp"
+
+                        <EditText
+                            android:id="@+id/lbl_InvDate"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="55dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/edittextstyle"
+                            android:ems="10"
+                            android:editable="false"
+                            android:gravity="center"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp">
+
+                        </EditText>
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:id="@+id/tr3"
+                        android:layout_below="@+id/tr2"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="2"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:paddingRight="10dp"
-                        android:text="MANUAL NO"
-                        android:textAllCaps="true"
-                        android:textColor="@color/greenColor"
-                        android:textSize="@dimen/font_for_all" />
 
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text=":-"
-                        android:textSize="@dimen/font_for_all"
-                        android:visibility="visible" />
+                        android:gravity="center_vertical">
 
-                    <EditText
-                        android:id="@+id/txt_InvManual"
+                        <com.datamation.sfa.utils.CustomFont
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+
+                            android:gravity="center"
+                            android:paddingRight="10dp"
+                            android:text="MANUAL NO"
+                            android:textAllCaps="true"
+                            android:textColor="@color/greenColor"
+                            android:textSize="@dimen/font_for_all" />
+
+
+
+
+                        <EditText
+                            android:id="@+id/txt_InvManual"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="55dp"
+                            android:background="@drawable/edittextstyle"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:textSize="14sp"
+                            android:maxLength="12">
+
+                        </EditText>
+
+                    </TableRow>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center"
-                        android:textSize="14sp"
-                        android:maxLength="12"
-                        >
 
-                    </EditText>
+                        android:id="@+id/tr4"
+                        android:layout_below="@+id/tr3"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="2"
+                        android:gravity="center_vertical">
 
-                </TableRow>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical">
+                        <com.datamation.sfa.utils.CustomFont
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingRight="10dp"
+                            android:text="PAYMENT TYPE"
+                            android:textAllCaps="true"
+                            android:textColor="@color/greenColor"
+                            android:textSize="@dimen/font_for_all"/>
 
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:paddingRight="10dp"
-                        android:text="PAYMENT TYPE"
-                        android:textAllCaps="true"
-                        android:textColor="@color/greenColor"
-                        android:textSize="@dimen/font_for_all"/>
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text=":-"
-                        android:textSize="@dimen/font_for_all"
-                        android:visibility="visible" />
 
-                    <Spinner
-                        android:id="@+id/spnnerPayment"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center"
-                        android:textSize="14sp" />
+                        <Spinner
+                            android:id="@+id/spnnerPayment"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="55dp"
+                            android:background="@drawable/edittextstyle"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:textSize="14sp" />
 
-                </LinearLayout>
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    </LinearLayout>
 
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:paddingRight="10dp"
-                        android:text="REMARKS"
-                        android:textAllCaps="true"
-                        android:textColor="@color/greenColor"
-                        android:textSize="@dimen/font_for_all"  />
-
-                    <com.datamation.sfa.utils.CustomFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text=":-"
-                        android:textSize="@dimen/font_for_all"
-                        android:visibility="visible" />
-
-                    <EditText
-                        android:id="@+id/txt_InvRemarks"
+                    <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center"
-                        android:textSize="14sp">
+                        android:id="@+id/tr5"
+                        android:layout_below="@+id/tr4"
+                        android:weightSum="2"
+                        android:layout_marginTop="10dp">
 
-                    </EditText>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="45dp"
-                        android:text="Route"
-                        android:textColor="@color/greenColor"
-                        android:textSize="@dimen/font_size_intermed"
-                        android:textStyle="italic" />
-
-                    <EditText
-                        android:id="@+id/sa_header_route"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:enabled="false"
-                        android:textColor="@android:color/black"></EditText>
-                </TableRow>
+                        <com.datamation.sfa.utils.CustomFont
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingRight="10dp"
+                            android:text="REMARKS"
+                            android:textAllCaps="true"
+                            android:textColor="@color/greenColor"
+                            android:textSize="@dimen/font_for_all"  />
 
 
-            </LinearLayout>
+                        <EditText
+                            android:id="@+id/txt_InvRemarks"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="55dp"
+                            android:background="@drawable/edittextstyle"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:textSize="14sp">
+
+                        </EditText>
+                    </TableRow>
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 

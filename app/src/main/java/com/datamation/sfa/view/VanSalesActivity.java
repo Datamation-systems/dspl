@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
+import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.presale.DetailFragment;
 import com.datamation.sfa.presale.HeaderFragment;
 import com.datamation.sfa.presale.OrderMainFragment;
@@ -29,6 +30,7 @@ public class VanSalesActivity extends AppCompatActivity implements PreSalesRespo
     private VanSalesSummary salesManagementFragment;
     private InnerReturnDetails orderMainFragment;
     private ViewPager viewPager;
+    public Customer selectedDebtor = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
