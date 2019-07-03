@@ -151,14 +151,14 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 closeFAM();
 
                 // Only proceed if location service is available
-                if (locationServiceEnabled()) {
-                    Intent intent = new Intent(DebtorDetailsActivity.this, DebtorDetailsActivity.class);
-                    intent.putExtra("outlet", "");
-                    startActivity(intent);
-//                    finish();
-                } else {
-                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service to proceed", Toast.LENGTH_SHORT).show();
-                }
+//                if (locationServiceEnabled()) {
+//                    Intent intent = new Intent(DebtorDetailsActivity.this, DebtorDetailsActivity.class);
+//                    intent.putExtra("outlet", "");
+//                    startActivity(intent);
+////                    finish();
+//                } else {
+//                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service to proceed", Toast.LENGTH_SHORT).show();
+//                }
 
             }
         });
@@ -170,14 +170,16 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 closeFAM();
 
                 // Only proceed if location service is available
-                if(locationServiceEnabled()){
+                if(locationServiceEnabled())
+                {
                     Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(DebtorDetailsActivity.this, DebtorDetailsActivity.class);
+                    Intent intent = new Intent(DebtorDetailsActivity.this, VanSalesActivity.class);
                     intent.putExtra("outlet", "");
                     intent.putExtra("sales_order", false);
                     startActivity(intent);
-//                    finish();
-                } else {
+                }
+                else
+                {
                     Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
                 }
 
@@ -189,16 +191,16 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 closeFAM();
 
                 // Only proceed if location service is available
-                if(locationServiceEnabled()){
-                    Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(DebtorDetailsActivity.this, DebtorDetailsActivity.class);
-                    intent.putExtra("outlet", "");
-//                    intent.putExtra("sales_order", false);
-                    startActivity(intent);
-//                    finish();
-                } else {
-                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
-                }
+//                if(locationServiceEnabled()){
+//                    Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(DebtorDetailsActivity.this, DebtorDetailsActivity.class);
+//                    intent.putExtra("outlet", "");
+////                    intent.putExtra("sales_order", false);
+//                    startActivity(intent);
+////                    finish();
+//                } else {
+//                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
+//                }
 
             }
         });
