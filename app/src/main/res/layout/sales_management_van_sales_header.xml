@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.datamation.sfa.utils.CustomFont
+                    android:id="@+id/customerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:padding="2dp"
+                    android:text="DebtorName"
+                    android:textColor="@color/greenColor"
+                    android:textSize="@dimen/font_for_heading" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/custom_label"
+                    android:gravity="center">
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/lblMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Total Outstanding (Rs.)"
+                        android:textColor="@color/unselected"
+                        android:textSize="@dimen/font_for_all"
+
+                        />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/lbl_Inv_outstanding_amt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:gravity="right"
+                        android:text="0.00"
+                        android:textColor="@color/unselected"
+                        android:textSize="@dimen/font_for_all"
+                        android:textStyle="bold"/>
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/custom_label"
+                    android:gravity="center">
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Last Bill value        (Rs.)"
+                        android:textColor="@color/unselected"
+                        android:textSize="@dimen/font_for_all"
+                      />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/lbl_inv_lastbill"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:gravity="right"
+                        android:text="0.00"
+                        android:textColor="@color/unselected"
+                        android:textSize="@dimen/font_for_all"
+                        android:textStyle="bold">
+
+                    </com.datamation.sfa.utils.CustomFont>
+                </TableRow>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:divider="@color/blueColor"
+                android:dividerPadding="10dp"
+                android:layout_gravity="center_horizontal">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/blueColor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp">
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="INVOICE NO"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/lbl_InvRefno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                       android:editable="false"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp">
+
+                    </EditText>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="DATE"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all"
+                        />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/lbl_InvDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:ems="10"
+                        android:editable="false"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp">
+
+                    </EditText>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="MANUAL NO"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/txt_InvManual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:maxLength="12"
+                        >
+
+                    </EditText>
+
+                </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="PAYMENT TYPE"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all"/>
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <Spinner
+                        android:id="@+id/spnnerPayment"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="REMARKS"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all"  />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/txt_InvRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:textSize="14sp">
+
+                    </EditText>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="45dp"
+                        android:text="Route"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_size_intermed"
+                        android:textStyle="italic" />
+
+                    <EditText
+                        android:id="@+id/sa_header_route"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:textColor="@android:color/black"></EditText>
+                </TableRow>
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

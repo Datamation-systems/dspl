@@ -93,7 +93,8 @@
     <color name="error_view_text">#656565</color>
     <color name="error_view_text_dark">#CC000000</color>
     <color name="error_view_text_light">#858585</color>
-
+    <color name="lightgray">#AFFFFFFF</color>
+    <color name="btn_colour">#336699</color>
     <color name="red_error">#ffff5252</color>
     <color name="day_achieve">#ff8a80</color>
 
