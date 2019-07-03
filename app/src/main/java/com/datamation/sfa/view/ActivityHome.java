@@ -58,6 +58,7 @@ import com.datamation.sfa.model.ItemPri;
 import com.datamation.sfa.model.NewCustomer;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.controller.RouteController;
+import com.datamation.sfa.model.OrderHeader;
 import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.model.RefSetting;
 import com.datamation.sfa.model.ReferenceDetail;
@@ -98,7 +99,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
     public Customer selectedDebtor = null;
     public boolean FreeTapped = false;
     //fordhed
-    public Order selectedOrdHed = null;
+    public OrderHeader selectedOrdHed = null;
     //ftranHed
     public int cusPosition = 0;
     public int gpsseq = 0;

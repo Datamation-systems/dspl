@@ -9,7 +9,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageInfo;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -26,17 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.RouteController;
-import com.datamation.sfa.helpers.IResponseListener;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
-import com.datamation.sfa.settings.StaticData;
+import com.datamation.sfa.model.OrderHeader;
 import com.datamation.sfa.utils.LocationProvider;
-import com.datamation.sfa.utils.UtilityContainer;
 import com.datamation.sfa.view.ActivityHome;
-import com.datamation.sfa.model.Order;
 import com.datamation.sfa.R;
 import com.datamation.sfa.settings.ReferenceNum;
 //import com.bit.sfa.Settings.SharedPreferencesClass;
@@ -113,10 +109,12 @@ public class HeaderFragment extends Fragment{
                 if (cusName.getText().toString().equals("")|| ordno.getText().toString().equals("")||route.getText().toString().equals("")||date.getText().toString().equals(""))
                 {
                     preSalesResponseListener.moveBackToCustomer_pre(0);
+                    Toast.makeText(getActivity(), "Can not proceed without Route...", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
-                    preSalesResponseListener.moveNextToCustomer_pre(1);
+                    //preSalesResponseListener.moveNextToCustomer_pre(1);
+                    SaveSalesHeader();
                 }
 
             }
@@ -243,49 +241,39 @@ public class HeaderFragment extends Fragment{
 
         if (ordno.getText().length() > 0) {
 
-            //mSharedPref.setGlobalVal("PrekeyCostPos", String.valueOf(spnCostCenter.getSelectedItemPosition()));
+            //ActivityHome activity = (ActivityHome) getActivity();
+            OrderHeader hed =new OrderHeader();
 
-            ActivityHome activity = (ActivityHome) getActivity();
-            RouteController routeDS = new  RouteController(getActivity());
+//            if(activity.selectedOrdHed !=null)
+//            {
+//                hed =activity.selectedOrdHed;//set already enter values objects
+//            }
+//            else
+//            {
+                hed.setORDER_REFNO(ordno.getText().toString());
+                hed.setORDER_DEB_CODE(pref.getSelectedDebCode());
+                hed.setORDER_TXN_DATE(date.getText().toString());
+                hed.setORDER_DELIVERY_DATE(deldate.getText().toString());
+                hed.setORDER_ROUTE_CODE(pref.getSelectedDebRouteCode());
+                hed.setORDER_MANUAL_NUMBER(mNo.getText().toString());
+                hed.setORDER_REMARKS(remarks.getText().toString());
+                hed.setORDER_IS_ACTIVE("1");
+                hed.setORDER_ADD_DATE(date.getText().toString());
+                hed.setORDER_ADD_TIME(currentTime().split(" ")[1]);
+                hed.setORDER_REP_CODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
+                hed.setORDER_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
+                hed.setORDER_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
+            //}
 
-            //LocationsDS locDS = new LocationsDS(activity);
-            Order hed =new Order();
-            String AppVersion = "";
-
-            try{
-                PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-                AppVersion = pInfo.versionName;
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            if(activity.selectedOrdHed !=null)
-                hed =activity.selectedOrdHed;//set already enter values objects
-
-//            hed.setORDHED_REFNO(ordno.getText().toString());
-//            hed.setORDHED_CUS_CODE(SharedPref.getInstance(getActivity()).getGlobalVal("PrekeyCusCode"));
-//            hed.setORDHED_ADD_DATE(date.getText().toString());
-//            hed.setORDHED_DELV_DATE(deldate.getText().toString());
-//           // hed.setORDHED_ROUTE_CODE(SharedPref.getInstance(getActivity()).getLoginUser().getRoute());
-//            hed.setORDHED_MANU_REF(mNo.getText().toString());
-//            hed.setORDHED_REMARKS(remarks.getText().toString());
-//            hed.setORDHED_IS_ACTIVE("1");
-//            hed.setORDHED_TXN_DATE(""+date.getText().toString());
-//            hed.setORDHED_START_TIME(""+currentTime().split(" ")[1]);
-//            hed.setORDHED_REPCODE(""+SharedPref.getInstance(getActivity()).getLoginUser().getCode());
-//            hed.setORDHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
-//            hed.setORDHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
-
-            activity.selectedOrdHed = hed;//new updated object (new data + already enter data)
-
-     //       SharedPreferencesClass.setLocalSharedPreference(activity, "SO_Start_Time",currentTime());
-
-            ArrayList<Order> ordHedList=new ArrayList<Order>();
+            ArrayList<OrderHeader> ordHedList=new ArrayList<OrderHeader>();
             OrderController ordHedDS =new OrderController(getActivity());
-            //head
-            ordHedList.add(activity.selectedOrdHed);
-            ordHedDS.createOrUpdateOrdHed(ordHedList);
+            ordHedList.add(hed);
+
+            if (ordHedDS.createOrUpdateOrdHed(ordHedList)>0)
+            {
+                preSalesResponseListener.moveNextToCustomer_pre(1);
+                Toast.makeText(getActivity(),"Order Header Saved...", Toast.LENGTH_LONG).show();
+            }
         }
     }
     /*-*Rashmi 2018-08-17-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

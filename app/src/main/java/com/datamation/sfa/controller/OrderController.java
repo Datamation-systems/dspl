@@ -8,10 +8,10 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.helpers.DatabaseHelper;
+import com.datamation.sfa.model.OrderHeader;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class OrderController {
     }
 
     @SuppressWarnings("static-access")
-    public int createOrUpdateOrdHed(ArrayList<Order> list) {
+    public int createOrUpdateOrdHed(ArrayList<OrderHeader> list) {
 
         int count = 0;
 
@@ -50,38 +50,37 @@ public class OrderController {
 
         try {
 
-            for (Order ordHed : list) {
+            for (OrderHeader ordHed : list) {
 
-//                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO
-//                        + " = '" + ordHed.getORDHED_REFNO() + "'";
-//
-//                cursor = dB.rawQuery(selectQuery, null);
-//
-//                ContentValues values = new ContentValues();
-//
-//                values.put(dbHelper.ORDER_REFNO, ordHed.getORDHED_REFNO());
-//                values.put(dbHelper.ORDER_ADDDATE, ordHed.getORDHED_ADD_DATE());
-//                values.put(dbHelper.ORDER_CUSCODE, ordHed.getORDHED_CUS_CODE());
-//                values.put(dbHelper.ORDER_START_TIME, ordHed.getORDHED_START_TIME());
-//                values.put(dbHelper.ORDER_END_TIME, ordHed.getORDHED_END_TIME());
-//                values.put(dbHelper.ORDER_LONGITUDE, ordHed.getORDHED_LONGITUDE());
-//                values.put(dbHelper.ORDER_LATITUDE, ordHed.getORDHED_LATITUDE());
-//                values.put(dbHelper.ORDER_MANU_REF, ordHed.getORDHED_MANU_REF());
-//                values.put(dbHelper.ORDER_REMARKS, ordHed.getORDHED_REMARKS());
-//                values.put(dbHelper.ORDER_REPCODE, ordHed.getORDHED_REPCODE());
-//                values.put(dbHelper.ORDER_TOTAL_AMT, ordHed.getORDHED_TOTAL_AMT());
-//                values.put(dbHelper.ORDER_TXN_DATE, ordHed.getORDHED_TXN_DATE());
-//                values.put(dbHelper.ORDER_ROUTE_CODE, ordHed.getORDHED_ROUTE_CODE());
-//                values.put(dbHelper.ORDER_IS_SYNCED, "0");
-//                values.put(dbHelper.ORDER_IS_ACTIVE, ordHed.getORDHED_IS_ACTIVE());
-//
-//                int cn = cursor.getCount();
-//                if (cn > 0) {
-//                    count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.ORDER_REFNO + " =?",
-//                            new String[] { String.valueOf(ordHed.getORDHED_REFNO()) });
-//                } else {
-//                    count = (int) dB.insert(dbHelper.TABLE_ORDER, null, values);
-//                }
+                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO
+                        + " = '" + ordHed.getORDER_REFNO() + "'";
+
+                cursor = dB.rawQuery(selectQuery, null);
+
+                ContentValues values = new ContentValues();
+
+                values.put(dbHelper.ORDER_REFNO, ordHed.getORDER_REFNO());
+                values.put(dbHelper.ORDER_ADDDATE, ordHed.getORDER_ADD_DATE());
+                values.put(dbHelper.ORDER_CUSCODE, ordHed.getORDER_DEB_CODE());
+                values.put(dbHelper.ORDER_START_TIME, ordHed.getORDER_ADD_TIME());
+                values.put(dbHelper.ORDER_LONGITUDE, ordHed.getORDER_LONGITUDE());
+                values.put(dbHelper.ORDER_LATITUDE, ordHed.getORDER_LATITUDE());
+                values.put(dbHelper.ORDER_MANU_REF, ordHed.getORDER_MANUAL_NUMBER());
+                values.put(dbHelper.ORDER_REMARKS, ordHed.getORDER_REMARKS());
+                values.put(dbHelper.ORDER_REPCODE, ordHed.getORDER_REP_CODE());
+                values.put(dbHelper.ORDER_TOTAL_AMT, ordHed.getORDER_TOT_AMT());
+                values.put(dbHelper.ORDER_TXN_DATE, ordHed.getORDER_TXN_DATE());
+                values.put(dbHelper.ORDER_ROUTE_CODE, ordHed.getORDER_ROUTE_CODE());
+                values.put(dbHelper.ORDER_IS_SYNCED, "0");
+                values.put(dbHelper.ORDER_IS_ACTIVE, ordHed.getORDER_IS_ACTIVE());
+
+                int cn = cursor.getCount();
+                if (cn > 0) {
+                    count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.ORDER_REFNO + " =?",
+                            new String[] { String.valueOf(ordHed.getORDER_REFNO()) });
+                } else {
+                    count = (int) dB.insert(dbHelper.TABLE_ORDER, null, values);
+                }
 
             }
         } catch (Exception e) {
