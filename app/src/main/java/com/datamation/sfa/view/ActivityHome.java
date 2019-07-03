@@ -124,8 +124,15 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
                     return true;
                 case R.id.navigation_sales:
-                    Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
-                    startActivity(intent);
+                    SharedPref sharedPref = SharedPref.getInstance(context);
+                    if (sharedPref.getGlobalVal("dayStart").equalsIgnoreCase("Y")) {
+                        Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
+                        startActivity(intent);
+
+                        Log.d("newcus clicked", "position2");
+                    } else {
+                        UtilityContainer.mLoadFragment(new FragmentMarkAttendance(), ActivityHome.this);
+                    }
 
                     return true;
                 case R.id.navigation_tools:
@@ -811,6 +818,12 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
             UtilityContainer.mLoadFragment(new FragmentHome(), ActivityHome.this);
         } else if (position == 1) {
             Log.d(">>>>>>", "position1");
+//            if (pref.getGlobalVal("dayStart").equalsIgnoreCase("Y")) {
+//                UtilityContainer.mLoadFragment(new OrderMainFragment(), ActivityHome.this);
+//                Log.d("Presale clicked", "position1");
+//            } else {
+//                Toast.makeText(context, "Please add the Day start entry first", Toast.LENGTH_SHORT).show();
+//            }
             UtilityContainer.mLoadFragment(new OrderMainFragment(), ActivityHome.this);
         } else if (position == 2) {
             Log.d(">>>>>>", "position2");

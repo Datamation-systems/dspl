@@ -285,7 +285,7 @@ public Double getTodayDiscount() {
 
             Cursor cursor;
 
-            cursor = dB.rawQuery("select ifnull((sum(det.aloamt)),0)  as totAmt from fprecdets  det, fprecheds hed where det.refno = hed.refno" +
+            cursor = dB.rawQuery("select ifnull((sum(det.aloamt)),0)  as totAmt from fprecdets  det, fprecheds hed where det.refno = hed.refno and " +
 
                     "det.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'" +
                     " and  det.dtxndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"' and hed.paytype = 'CA'", null);
