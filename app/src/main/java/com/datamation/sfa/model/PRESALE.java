@@ -1,6 +1,8 @@
 package com.datamation.sfa.model;
 
-public class OrderHeader {
+import java.util.ArrayList;
+
+public class PRESALE {
 
     private String ORDER_REFNO;
     private String ORDER_TXN_DATE;
@@ -16,8 +18,17 @@ public class OrderHeader {
     private String ORDER_ADD_DATE;
     private String ORDER_ADD_TIME;
     private String ORDER_TOT_AMT;
+    private ArrayList<OrderDetail> soDetArrayList;
 
-    public OrderHeader() {
+    public PRESALE() {
+    }
+
+    public ArrayList<OrderDetail> getSoDetArrayList() {
+        return soDetArrayList;
+    }
+
+    public void setSoDetArrayList(ArrayList<OrderDetail> soDetArrayList) {
+        this.soDetArrayList = soDetArrayList;
     }
 
     public String getORDER_TOT_AMT() {

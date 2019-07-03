@@ -28,7 +28,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.controller.AttendanceController;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Attendance;
-import com.datamation.sfa.presale.SalesManagementFragment;
 import com.datamation.sfa.R;
 import com.datamation.sfa.utils.LocationProvider;
 import com.datamation.sfa.utils.UtilityContainer;

@@ -31,6 +31,15 @@ public class Customer {
 	private String creditLimit;
 	private String creditStatus;
 	private String creditPeriod;
+	private String cusPrilCode;
+
+	public String getCusPrilCode() {
+		return cusPrilCode;
+	}
+
+	public void setCusPrilCode(String cusPrilCode) {
+		this.cusPrilCode = cusPrilCode;
+	}
 
 	public String getCreditLimit() {
 		return creditLimit;

@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.User;
+import com.datamation.sfa.utils.CustomFont;
 
 import java.util.List;
 
@@ -178,6 +180,16 @@ public class SharedPref {
     public void setSelectedDebRouteCode(String code) {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("selected_out_route_code", code);
+        editor.apply();
+    }
+
+    public String getSelectedDebtorPrilCode() {
+        return sharedPref.getString("selected_pril_code", "0");
+    }
+
+    public void setSelectedDebtorPrilCode(String prilCode) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("selected_pril_code", prilCode);
         editor.apply();
     }
 

@@ -35,12 +35,6 @@ import com.datamation.sfa.fragment.debtordetails.OutstandingDetailsFragment;
 import com.datamation.sfa.fragment.debtordetails.PersonalDetailsFragment;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.User;
-import com.datamation.sfa.nonproductive.NonProductiveMain;
-import com.datamation.sfa.presale.HeaderFragment;
-import com.datamation.sfa.presale.OrderMainFragment;
-import com.datamation.sfa.presale.SalesManagementFragment;
-import com.datamation.sfa.utils.UtilityContainer;
-
 
 public class DebtorDetailsActivity extends AppCompatActivity {
 
@@ -191,16 +185,15 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 closeFAM();
 
                 // Only proceed if location service is available
-//                if(locationServiceEnabled()){
-//                    Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(DebtorDetailsActivity.this, DebtorDetailsActivity.class);
-//                    intent.putExtra("outlet", "");
-////                    intent.putExtra("sales_order", false);
-//                    startActivity(intent);
-////                    finish();
-//                } else {
-//                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
-//                }
+                if(locationServiceEnabled()){
+                    Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(DebtorDetailsActivity.this, SalesReturnActivity.class);
+                    intent.putExtra("outlet", "");
+                    intent.putExtra("sales_return", false);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

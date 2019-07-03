@@ -1904,27 +1904,78 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_FINVRHED = "FInvRHed";
     // table attributes
-    public static final String FINVRHED_ID = "FInvRHed_id";
+    public static final String FINVRHED_ID = "id";
     public static final String FINVRHED_REFNO = "RefNo";
+    public static final String FINVRHED_MANUREF = "ManuRef";
     public static final String FINVRHED_TXNDATE = "TxnDate";
-    public static final String FINVRHED_INV_REFNO = "InvRefNo";
-    public static final String FINVRHED_INV_DATE = "InvDate";
-    public static final String FINVRHED_REMARKS = "Remarks";
+    public static final String FINVRHED_COSTCODE = "CostCode";
     public static final String FINVRHED_DEBCODE = "DebCode";
+    public static final String FINVRHED_REMARKS = "Remarks";
+    public static final String FINVRHED_TXNTYPE = "TxnType";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public static final String FINVRHED_LOCCODE = "LOCCode";
+    public static final String FINVRHED_REPCODE = "RepCode";
+    public static final String FINVRHED_REASON_CODE = "ReasonCode";
+    public static final String FINVRHED_TOTAL_TAX = "TotalTax";
     public static final String FINVRHED_TOTAL_AMT = "TotalAmt";
+    public static final String FINVRHED_TOTAL_DIS = "TotalDis";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public static final String FINVRHED_TAX_REG = "TaxReg";
     public static final String FINVRHED_ADD_DATE = "AddDate";
     public static final String FINVRHED_ADD_MACH = "AddMach";
     public static final String FINVRHED_ADD_USER = "AddUser";
-    public static final String FINVRHED_MANUREF = "ManuRef";
+    public static final String FINVRHED_ROUTE_CODE = "RouteCode";
+    public static final String FINVRHED_LONGITUDE = "Longitude";
+    public static final String FINVRHED_LATITUDE = "Latitude";
     public static final String FINVRHED_IS_ACTIVE = "IsActive";
     public static final String FINVRHED_IS_SYNCED = "IsSync";
-    public static final String FINVRHED_REPCODE = "RepCode";
-    public static final String FINVRHED_COSTCODE = "CostCode";
-    public static final String FINVRHED_LOCCODE = "LOCCode";
-    public static final String FINVRHED_UPLOAD_DATE = "UploadTime";
+    public static final String FINVRHED_ADDRESS = "Address";
+    public static final String FINVRHED_START_TIME = "StartTime";
+    public static final String FINVRHED_END_TIME = "EndTime";
+    public static final String FINVRHED_RETURN_TYPE = "ReturnType";
+    public static final String FINVRHED_TOURCODE = "TourCode";
+    public static final String FINVRHED_AREACODE = "AreaCode";
+    public static final String FINVRHED_DRIVERCODE = "DriverCode";
+    public static final String FINVRHED_HELPERCODE = "HelperCode";
+    public static final String FINVRHED_LORRYCODE = "LorryCode";
+
 
     // create String
-    private static final String CREATE_FINVRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRHED + " (" + FINVRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVRHED_REFNO + " TEXT, " + FINVRHED_TXNDATE + " TEXT, " + FINVRHED_INV_REFNO + " TEXT, " + FINVRHED_INV_DATE + " TEXT, " + FINVRHED_REMARKS + " TEXT, " + FINVRHED_DEBCODE + " TEXT, " + FINVRHED_TOTAL_AMT + " TEXT, " + FINVRHED_ADD_DATE + " TEXT, " + FINVRHED_ADD_MACH + " TEXT, " + FINVRHED_ADD_USER + " TEXT, " + FINVRHED_MANUREF + " TEXT, " + FINVRHED_IS_ACTIVE + " TEXT, " + FINVRHED_IS_SYNCED + " TEXT, " + FINVRHED_REPCODE + " TEXT, " + FINVRHED_COSTCODE + " TEXT, " + FINVRHED_LOCCODE + " TEXT, " + FINVRHED_UPLOAD_DATE + " TEXT); ";
+    private static final String CREATE_FINVRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRHED + " ("
+            + FINVRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + FINVRHED_REFNO + " TEXT, "
+            + FINVRHED_MANUREF + " TEXT, "
+            + FINVRHED_TXNDATE + " TEXT, "
+            + FINVRHED_COSTCODE + " TEXT, "
+            + FINVRHED_DEBCODE + " TEXT, "
+            + FINVRHED_REMARKS + " TEXT, "
+            + FINVRHED_TXNTYPE + " TEXT, "
+            + FINVRHED_LOCCODE + " TEXT, "
+            + FINVRHED_REPCODE + " TEXT, "
+            + FINVRHED_REASON_CODE + " TEXT, "
+            + FINVRHED_TOTAL_TAX + " TEXT, "
+            + FINVRHED_TOTAL_AMT + " TEXT, "
+            + FINVRHED_TOTAL_DIS + " TEXT, "
+            + FINVRHED_TAX_REG + " TEXT, "
+            + FINVRHED_ADD_DATE + " TEXT, "
+            + FINVRHED_ADD_MACH + " TEXT, "
+            + FINVRHED_ADD_USER + " TEXT, "
+            + FINVRHED_ROUTE_CODE + " TEXT, "
+            + FINVRHED_LONGITUDE + " TEXT, "
+            + FINVRHED_LATITUDE + " TEXT, "
+            + FINVRHED_IS_ACTIVE + " TEXT, "
+            + FINVRHED_IS_SYNCED + " TEXT, "
+            + FINVRHED_ADDRESS + " TEXT, "
+            + FINVRHED_START_TIME + " TEXT, "
+            + FINVRHED_END_TIME + " TEXT, "
+            + FINVRHED_RETURN_TYPE + " TEXT, "
+            + FINVRHED_TOURCODE + " TEXT, "
+            + FINVRHED_AREACODE + " TEXT, "
+            + FINVRHED_DRIVERCODE + " TEXT, "
+            + FINVRHED_HELPERCODE + " TEXT, "
+            + FINVRHED_LORRYCODE + " TEXT); ";
 
     /**
      * ############################ FInvRDet ################################
@@ -2129,6 +2180,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + FGPSLOC_LONGITUDE + " TEXT, " + FGPSLOC_LATITUDE + " TEXT, " + FGPSLOC_BATTPER + " TEXT, "
             + FGPSLOC_SEQNO + " TEXT, " + FGPSLOC_ISSYNCED + " TEXT); ";
 
+    // Pre Product Table
+
+    public static final String TABLE_FPRODUCT_PRE = "fProducts_pre";
+    public static final String FPRODUCT_ID_PRE = "id";
+    public static final String FPRODUCT_ITEMCODE_PRE = "itemcode_pre";
+    public static final String FPRODUCT_ITEMNAME_PRE = "itemname_pre";
+    public static final String FPRODUCT_PRICE_PRE = "price_pre";
+    public static final String FPRODUCT_QOH_PRE = "qoh_pre";
+    public static final String FPRODUCT_QTY_PRE = "qty_pre";
+
+    private static final String CREATE_FPRODUCT_PRE_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRODUCT_PRE + " ("
+            + FPRODUCT_ID_PRE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + FPRODUCT_ITEMCODE_PRE + " TEXT, "
+            + FPRODUCT_ITEMNAME_PRE + " TEXT, "
+            + FPRODUCT_PRICE_PRE + " TEXT, "
+            + FPRODUCT_QOH_PRE + " TEXT, "
+            + FPRODUCT_QTY_PRE + " TEXT); ";
+
     @Override
     public void onCreate(SQLiteDatabase arg0) {
 
@@ -2219,6 +2288,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FPRECDETS_TABLE);
         arg0.execSQL(CREATE_FORDSTAT_TABLE);
         arg0.execSQL(CREATE_FGPSLOC_TABLE);
+        arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
 
     }
 

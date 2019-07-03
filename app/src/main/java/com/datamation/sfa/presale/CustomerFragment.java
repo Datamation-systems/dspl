@@ -131,7 +131,7 @@ public class CustomerFragment extends Fragment {
                     home.selectedDebtor = customer;
                     ActivityHome.SAcustomer = selectedDebtor;
                     ActivityHome.SAroute = customer.getCusRoute();
-                    SalesManagementFragment.iscustomer = true;
+                    //SalesManagementFragment.iscustomer = true;
                     //locationProvider.startLocating();
                    SharedPref.getInstance(getActivity()).setGlobalVal("PrekeyCusName" ,customer.getCusName());
                     SharedPref.getInstance(getActivity()).setGlobalVal("PrekeyCusCode", customer.getCusCode());

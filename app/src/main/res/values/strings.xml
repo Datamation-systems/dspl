@@ -16,7 +16,7 @@
     <string name="ExpenseNumVal">EXPENCE</string>
     <string name="newCusVal">NEWCUS</string>
     <string name="nonprdVal">NONPRD</string>
-
+    <string name="salRet">SFARTN</string>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->

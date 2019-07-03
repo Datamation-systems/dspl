@@ -12,21 +12,18 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
-import com.datamation.sfa.fragment.debtorlist.AllCustomerFragment;
-import com.datamation.sfa.fragment.debtorlist.RouteCustomerFragment;
-import com.datamation.sfa.helpers.IResponseListener;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
-import com.datamation.sfa.presale.DetailFragment;
-import com.datamation.sfa.presale.HeaderFragment;
-import com.datamation.sfa.presale.OrderMainFragment;
-import com.datamation.sfa.presale.SalesManagementFragment;
+import com.datamation.sfa.presale.OrderDetailFragment;
+import com.datamation.sfa.presale.OrderHeaderFragment;
+import com.datamation.sfa.presale.OrderReturnFragment;
+import com.datamation.sfa.presale.OrderSummaryFragment;
 
 public class PreSalesActivity extends AppCompatActivity implements PreSalesResponseListener{
 
-    private HeaderFragment headerFragment;
-    private DetailFragment detailFragment;
-    private SalesManagementFragment salesManagementFragment;
-    private OrderMainFragment orderMainFragment;
+    private OrderHeaderFragment orderHeaderFragment;
+    private OrderDetailFragment orderDetailFragment;
+    private OrderSummaryFragment orderSummaryFragment;
+    private OrderReturnFragment orderReturnFragment;
     private ViewPager viewPager;
 
     @Override
@@ -70,17 +67,17 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    if(headerFragment == null) headerFragment = new HeaderFragment();
-                    return headerFragment;
+                    if(orderHeaderFragment == null) orderHeaderFragment = new OrderHeaderFragment();
+                    return orderHeaderFragment;
                 case 1:
-                    if(detailFragment == null) detailFragment = new DetailFragment();
-                    return detailFragment;
+                    if(orderDetailFragment == null) orderDetailFragment = new OrderDetailFragment();
+                    return orderDetailFragment;
                 case 2:
-                    if(orderMainFragment == null) orderMainFragment = new OrderMainFragment();
-                    return orderMainFragment;
-                case 4:
-                    if(salesManagementFragment == null) salesManagementFragment = new SalesManagementFragment();
-                    return salesManagementFragment;
+                    if(orderReturnFragment == null) orderReturnFragment = new OrderReturnFragment();
+                    return orderReturnFragment;
+                case 3:
+                    if(orderSummaryFragment == null) orderSummaryFragment = new OrderSummaryFragment();
+                    return orderSummaryFragment;
                 default:
                     return null;
             }

@@ -11,7 +11,7 @@ import android.util.Log;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.helpers.DatabaseHelper;
-import com.datamation.sfa.model.OrderHeader;
+import com.datamation.sfa.model.PRESALE;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class OrderController {
     }
 
     @SuppressWarnings("static-access")
-    public int createOrUpdateOrdHed(ArrayList<OrderHeader> list) {
+    public int createOrUpdateOrdHed(ArrayList<PRESALE> list) {
 
         int count = 0;
 
@@ -50,7 +50,7 @@ public class OrderController {
 
         try {
 
-            for (OrderHeader ordHed : list) {
+            for (PRESALE ordHed : list) {
 
                 String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO
                         + " = '" + ordHed.getORDER_REFNO() + "'";
