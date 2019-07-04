@@ -15,6 +15,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.model.Customer;
+import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.presale.DetailFragment;
 import com.datamation.sfa.presale.HeaderFragment;
 import com.datamation.sfa.presale.OrderMainFragment;
@@ -31,6 +32,7 @@ public class VanSalesActivity extends AppCompatActivity implements PreSalesRespo
     private InnerReturnDetails orderMainFragment;
     private ViewPager viewPager;
     public Customer selectedDebtor = null;
+    public InvHed selectedInvHed = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class VanSalesActivity extends AppCompatActivity implements PreSalesRespo
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.presale_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("SALES ORDER");
+        title.setText("INVOICE");
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.presale_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.presale_viewpager);

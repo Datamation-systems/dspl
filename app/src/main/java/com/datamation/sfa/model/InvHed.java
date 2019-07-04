@@ -59,7 +59,9 @@ public class InvHed implements Serializable {
     private String FINVHED_PAYTYPE;
     private String FINVHED_SETTING_CODE;
 
+
     private ArrayList<InvDet>invDetArrayList;
+
 
     public ArrayList<InvDet> getInvDetArrayList() {
         return invDetArrayList;

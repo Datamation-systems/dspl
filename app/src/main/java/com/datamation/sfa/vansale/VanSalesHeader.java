@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.adapter.CustomerDebtAdapter;
+import com.datamation.sfa.controller.InvHedController;
 import com.datamation.sfa.controller.OutstandingController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.SharedPref;
@@ -78,7 +80,7 @@ public class VanSalesHeader extends Fragment {
         });
 
      **/
-
+       lblCustomerName.setText(SharedPref.getInstance(getActivity()).getSelectedDebName());
 
         outStandingAmt.setOnClickListener(new View.OnClickListener() {
 
@@ -92,8 +94,8 @@ public class VanSalesHeader extends Fragment {
                 alertDialogBuilder.setView(promptView);
 
                 final ListView listView = (ListView) promptView.findViewById(R.id.lvCusDebt);
-                ArrayList<FddbNote> list = new OutstandingController(getActivity()).getDebtInfo(activity.selectedDebtor.getCusCode());
-               // listView.setAdapter(new CustomerDebtAdapter(getActivity(), list));
+                ArrayList<FddbNote> list = new OutstandingController(getActivity()).getDebtInfo(SharedPref.getInstance(getActivity()).getSelectedDebCode());
+                listView.setAdapter(new CustomerDebtAdapter(getActivity(), list));
 
                 alertDialogBuilder.setCancelable(false).setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -178,11 +180,11 @@ public class VanSalesHeader extends Fragment {
             hed.setFINVHED_SETTING_CODE(getResources().getString(R.string.VanNumVal));
 
 
-//            activity.selectedInvHed = hed;
-//           // SharedPreferencesClass.setLocalSharedPreference(activity, "Van_Start_Time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()));
-//            ArrayList<InvHed> ordHedList = new ArrayList<>();
-//            ordHedList.add(activity.selectedInvHed);
-//            new InvHedDS(getActivity()).createOrUpdateInvHed(ordHedList);
+            activity.selectedInvHed = hed;
+           // SharedPreferencesClass.setLocalSharedPreference(activity, "Van_Start_Time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()));
+            ArrayList<InvHed> ordHedList = new ArrayList<>();
+            ordHedList.add(activity.selectedInvHed);
+            new InvHedController(getActivity()).createOrUpdateInvHed(ordHedList);
         }
     }
 
