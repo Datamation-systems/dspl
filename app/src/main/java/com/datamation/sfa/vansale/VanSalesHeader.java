@@ -1,5 +1,6 @@
 package com.datamation.sfa.vansale;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,10 +27,12 @@ import android.widget.Toast;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.CustomerDebtAdapter;
+import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.InvHedController;
 import com.datamation.sfa.controller.OutstandingController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.helpers.VanSalesResponseListener;
 import com.datamation.sfa.model.FddbNote;
 import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.settings.ReferenceNum;
@@ -52,6 +55,7 @@ public class VanSalesHeader extends Fragment {
     EditText  currnentDate,txtManual,txtRemakrs;
     Spinner spnPayMethod;
    VanSalesActivity activity;
+   VanSalesResponseListener listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -150,7 +154,17 @@ public class VanSalesHeader extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSaveInvoiceHeader();
+
+                if (lblCustomerName.getText().toString().equals("")|| lblInvRefno.getText().toString().equals("")||txtManual.getText().toString().equals("")||currnentDate.getText().toString().equals(""))
+                {
+                    listener.moveBackToCustomer(0);
+                    Toast.makeText(getActivity(), "Can not proceed with empty fields...", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    listener.moveBackToCustomer(1);
+                    mSaveInvoiceHeader();
+                }
             }
         });
         return view;
@@ -181,6 +195,13 @@ public class VanSalesHeader extends Fragment {
                 hed.setFINVHED_CUSADD3(activity.selectedDebtor.getCusAdd1());
               //  hed.setFINVHED_CUSTELE(activity.selectedDebtor.getCus);
             //    hed.setFINVHED_TAXREG(activity.selectedDebtor.getFDEBTOR_TAX_REG());
+            }else{
+                activity.selectedDebtor  = new CustomerController(getActivity()).getSelectedCustomerByCode(new SharedPref(getActivity()).getSelectedDebCode());
+                hed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
+                hed.setFINVHED_CONTACT(activity.selectedDebtor.getCusMob());
+                hed.setFINVHED_CUSADD1(activity.selectedDebtor.getCusAdd1());
+                hed.setFINVHED_CUSADD2(activity.selectedDebtor.getCusAdd2());
+                hed.setFINVHED_CUSADD3(activity.selectedDebtor.getCusAdd1());
             }
 
             hed.setFINVHED_TXNTYPE("22");
@@ -192,7 +213,7 @@ public class VanSalesHeader extends Fragment {
             hed.setFINVHED_AREACODE(SharedPref.getInstance(getActivity()).getSelectedDebName());
            // hed.setFINVHED_LOCCODE(new SharedPref(getActivity()).getGlobalVal("KeyLocCode"));
             hed.setFINVHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
-            hed.setFINVHED_ROUTECODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
+            hed.setFINVHED_ROUTECODE(new SharedPref(getActivity()).getSelectedDebRouteCode());
             hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
             hed.setFINVHED_COSTCODE("");
             hed.setFINVHED_START_TIME_SO(currentTime());
@@ -227,7 +248,15 @@ public class VanSalesHeader extends Fragment {
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            listener = (VanSalesResponseListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
+        }
+    }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     private String currentTime() {
