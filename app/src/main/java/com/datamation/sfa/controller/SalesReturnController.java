@@ -47,14 +47,14 @@ public class SalesReturnController
 
             for (FInvRHed invrHed : list) {
 
-                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FINVRHED + " WHERE " + dbHelper.FINVRHED_REFNO
+                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FINVRHED + " WHERE " + dbHelper.REFNO
                         + " = '" + invrHed.getFINVRHED_REFNO() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.FINVRHED_REFNO, invrHed.getFINVRHED_REFNO());
+                values.put(dbHelper.REFNO, invrHed.getFINVRHED_REFNO());
                 values.put(dbHelper.FINVRHED_TXNDATE, invrHed.getFINVRHED_TXN_DATE());
                 values.put(dbHelper.FINVRHED_REMARKS, invrHed.getFINVRHED_REMARKS());
                 values.put(dbHelper.FINVRHED_DEBCODE, invrHed.getFINVRHED_DEBCODE());
@@ -86,7 +86,7 @@ public class SalesReturnController
                 int cn = cursor.getCount();
                 if (cn > 0) {
 
-                    count = dB.update(dbHelper.TABLE_FINVRHED, values, dbHelper.FINVRHED_REFNO + " =?",
+                    count = dB.update(dbHelper.TABLE_FINVRHED, values, dbHelper.REFNO + " =?",
                             new String[]{String.valueOf(invrHed.getFINVRHED_REFNO())});
                 } else {
 

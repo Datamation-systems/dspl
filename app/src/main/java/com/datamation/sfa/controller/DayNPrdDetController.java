@@ -44,12 +44,12 @@ public class DayNPrdDetController {
             for (DayNPrdDet nondet : list) {
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.NONPRDDET_REFNO + " = '" + nondet.getNONPRDDET_REFNO() + "'"
+                String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.REFNO + " = '" + nondet.getNONPRDDET_REFNO() + "'"
                         //;
                         + " AND " + DatabaseHelper.NONPRDDET_REASON_CODE + " = '" + nondet.getNONPRDDET_REASON_CODE() + "'";
                 cursor = dB.rawQuery(selectQuery, null);
 
-                values.put(DatabaseHelper.NONPRDDET_REFNO, nondet.getNONPRDDET_REFNO());
+                values.put(DatabaseHelper.REFNO, nondet.getNONPRDDET_REFNO());
                 values.put(DatabaseHelper.NONPRDDET_REASON, nondet.getNONPRDDET_REASON());
                 values.put(DatabaseHelper.NONPRDDET_REASON_CODE, nondet.getNONPRDDET_REASON_CODE());
 
@@ -88,7 +88,7 @@ public class DayNPrdDetController {
 
         ArrayList<DayNPrdDet> list = new ArrayList<DayNPrdDet>();
 
-        String selectQuery = "select * from " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.NONPRDDET_REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
@@ -97,7 +97,7 @@ public class DayNPrdDetController {
 
             // fnonset.setNONPRDDET_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDDET_DEBCODE)));
             fnonset.setNONPRDDET_REASON(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDDET_REASON)));
-            fnonset.setNONPRDDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDDET_REFNO)));
+            fnonset.setNONPRDDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
             fnonset.setNONPRDDET_REASON_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDDET_REASON_CODE)));
 
             list.add(fnonset);
@@ -116,7 +116,7 @@ public class DayNPrdDetController {
 //            open();
 //        }
 //
-//        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.NONPRDDET_DEBCODE + "='" + code + "' AND " + DatabaseHelper.NONPRDDET_REFNO + "='" + RefNo + "'";
+//        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.NONPRDDET_DEBCODE + "='" + code + "' AND " + DatabaseHelper.REFNO + "='" + RefNo + "'";
 //
 //        Cursor cursor = dB.rawQuery(selectQuery, null);
 //
@@ -141,10 +141,10 @@ public class DayNPrdDetController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.NONPRDDET_REFNO + "='" + id + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.REFNO + "='" + id + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(DatabaseHelper.TABLE_NONPRDDET, DatabaseHelper.NONPRDDET_REFNO + "='" + id + "'", null);
+                int success = dB.delete(DatabaseHelper.TABLE_NONPRDDET, DatabaseHelper.REFNO + "='" + id + "'", null);
                 Log.v("FtranDet Deleted ", success + "");
             }
         } catch (Exception e) {
@@ -176,10 +176,10 @@ public class DayNPrdDetController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.NONPRDDET_REFNO + "='" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.REFNO + "='" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(DatabaseHelper.TABLE_NONPRDDET, DatabaseHelper.NONPRDDET_REFNO + "='" + RefNo + "'", null);
+                int success = dB.delete(DatabaseHelper.TABLE_NONPRDDET, DatabaseHelper.REFNO + "='" + RefNo + "'", null);
             }
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -202,7 +202,7 @@ public class DayNPrdDetController {
         }
 
         try {
-            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_NONPRDDET +  " WHERE  " + DatabaseHelper.NONPRDDET_REFNO + "='" + refNo + "'";
+            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_NONPRDDET +  " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {

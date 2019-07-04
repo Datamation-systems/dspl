@@ -44,12 +44,12 @@ public class OutstandingController {
         try {
             for (FddbNote fdDbNote : list) {
 
-                cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FDDBNOTE + " WHERE " + DatabaseHelper.FDDBNOTE_REFNO + "='" + fdDbNote.getFDDBNOTE_REFNO() + "'", null);
+                cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FDDBNOTE + " WHERE " + DatabaseHelper.REFNO + "='" + fdDbNote.getFDDBNOTE_REFNO() + "'", null);
 
                 ContentValues values = new ContentValues();
 
                 values.put(DatabaseHelper.FDDBNOTE_RECORD_ID, fdDbNote.getFDDBNOTE_RECORD_ID());
-                values.put(DatabaseHelper.FDDBNOTE_REFNO, fdDbNote.getFDDBNOTE_REFNO());
+                values.put(DatabaseHelper.REFNO, fdDbNote.getFDDBNOTE_REFNO());
                 values.put(DatabaseHelper.FDDBNOTE_REF_INV, fdDbNote.getFDDBNOTE_REF_INV());
                 values.put(DatabaseHelper.FDDBNOTE_SALE_REF_NO, fdDbNote.getFDDBNOTE_SALE_REF_NO());
                 values.put(DatabaseHelper.FDDBNOTE_MANU_REF, fdDbNote.getFDDBNOTE_MANU_REF());
@@ -79,7 +79,7 @@ public class OutstandingController {
               //  values.put(DatabaseHelper.FDDBNOTE_ENTER_AMT, fdDbNote.getFDDBNOTE_ENTER_AMT());
 
                 if (cursor.getCount() > 0) {
-                    dB.update(DatabaseHelper.TABLE_FDDBNOTE, values, DatabaseHelper.FDDBNOTE_REFNO + "=?", new String[]{fdDbNote.getFDDBNOTE_REFNO().toString()});
+                    dB.update(DatabaseHelper.TABLE_FDDBNOTE, values, DatabaseHelper.REFNO + "=?", new String[]{fdDbNote.getFDDBNOTE_REFNO().toString()});
                 } else {
                     count = (int) dB.insert(DatabaseHelper.TABLE_FDDBNOTE, null, values);
                 }
@@ -189,7 +189,7 @@ public class OutstandingController {
 
             while (cursor.moveToNext()) {
                 FddbNote dbNote = new FddbNote();
-                dbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_REFNO)));
+                dbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 dbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_DATE)));
                 dbNote.setFDDBNOTE_TOT_BAL(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TOT_BAL)));
                 dbNote.setFDDBNOTE_TOT_BAL1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TOT_BAL1)));
@@ -328,10 +328,10 @@ public class OutstandingController {
                 FddbNote fdDbNote = new FddbNote();
 
                 fdDbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_DATE)));
-                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_REFNO)));
+                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 fdDbNote.setFDDBNOTE_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_AMT)));
                 fdDbNote.setFDDBNOTE_TOT_BAL(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TOT_BAL)));
-                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_REFNO)));
+                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 fdDbNote.setFDDBNOTE_ADD_DATE(Daybetween(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_DATE))) + "");
                 fdDbNote.setFDDBNOTE_B_AMT(String.format("%,.2f", Double.parseDouble(fdDbNote.getFDDBNOTE_AMT()) - Double.parseDouble(fdDbNote.getFDDBNOTE_TOT_BAL())));
                 list.add(fdDbNote);
@@ -393,7 +393,7 @@ public class OutstandingController {
                 fdDbNote.setFDDBNOTE_PRT_COPY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_PRT_COPY)));
                 fdDbNote.setFDDBNOTE_RECORD_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_RECORD_ID)));
                 fdDbNote.setFDDBNOTE_REF_INV(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_REF_INV)));
-                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_REFNO)));
+                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 fdDbNote.setFDDBNOTE_REFNO1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_REFNO1)));
                 fdDbNote.setFDDBNOTE_REP_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_REP_CODE)));
                 fdDbNote.setFDDBNOTE_SALE_REF_NO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_SALE_REF_NO)));
@@ -459,7 +459,7 @@ public class OutstandingController {
                 values.put(DatabaseHelper.FDDBNOTE_TOT_BAL, Double.parseDouble(fddb.getFDDBNOTE_TOT_BAL()) - Double.parseDouble(fddb.getFDDBNOTE_ENTER_AMT()));
                 values.put(DatabaseHelper.FDDBNOTE_ENTER_AMT, "");
                 values.put(DatabaseHelper.FDDBNOTE_REMARKS, "");
-                dB.update(DatabaseHelper.TABLE_FDDBNOTE, values, DatabaseHelper.FDDBNOTE_REFNO + "=?", new String[] { fddb.getFDDBNOTE_REFNO().toString() });
+                dB.update(DatabaseHelper.TABLE_FDDBNOTE, values, DatabaseHelper.REFNO + "=?", new String[] { fddb.getFDDBNOTE_REFNO().toString() });
             }
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -483,7 +483,7 @@ public class OutstandingController {
                 ContentValues values = new ContentValues();
                 values.put(DatabaseHelper.FDDBNOTE_TOT_BAL, Double.parseDouble(recDet.getFPRECDET_BAMT()) + Double.parseDouble(recDet.getFPRECDET_ALOAMT()));
                 values.put(DatabaseHelper.FDDBNOTE_ENTER_AMT, "");
-                dB.update(DatabaseHelper.TABLE_FDDBNOTE, values, DatabaseHelper.FDDBNOTE_REFNO + "=?", new String[] { recDet.getFPRECDET_REFNO1().toString() });
+                dB.update(DatabaseHelper.TABLE_FDDBNOTE, values, DatabaseHelper.REFNO + "=?", new String[] { recDet.getFPRECDET_REFNO1().toString() });
             }
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());

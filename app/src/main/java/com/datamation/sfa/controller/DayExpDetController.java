@@ -49,16 +49,16 @@ public class DayExpDetController {
             for (DayExpDet expdet : list) {
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.DAYEXPDET_REFNO + " = '" + expdet.getEXPDET_REFNO() + "'" + " AND " + dbHelper.DAYEXPDET_EXPCODE + " = '" + expdet.getEXPDET_EXPCODE() + "'";
+                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.REFNO + " = '" + expdet.getEXPDET_REFNO() + "'" + " AND " + dbHelper.DAYEXPDET_EXPCODE + " = '" + expdet.getEXPDET_EXPCODE() + "'";
                 cursor = dB.rawQuery(selectQuery, null);
 
-                values.put(dbHelper.DAYEXPDET_REFNO, expdet.getEXPDET_REFNO());
+                values.put(dbHelper.REFNO, expdet.getEXPDET_REFNO());
                 values.put(dbHelper.DAYEXPDET_EXPCODE, expdet.getEXPDET_EXPCODE());
                 values.put(dbHelper.DAYEXPDET_AMT, expdet.getEXPDET_AMOUNT());
 
                 int count = cursor.getCount();
                 if (count > 0) {
-                    serverdbID = dB.update(dbHelper.TABLE_DAYEXPDET, values, dbHelper.DAYEXPDET_REFNO + " =?" + " AND " + dbHelper.DAYEXPDET_EXPCODE + " =?", new String[]{String.valueOf(expdet.getEXPDET_REFNO()), String.valueOf(expdet.getEXPDET_EXPCODE())});
+                    serverdbID = dB.update(dbHelper.TABLE_DAYEXPDET, values, dbHelper.REFNO + " =?" + " AND " + dbHelper.DAYEXPDET_EXPCODE + " =?", new String[]{String.valueOf(expdet.getEXPDET_REFNO()), String.valueOf(expdet.getEXPDET_EXPCODE())});
 
                 } else {
                     serverdbID = (int) dB.insert(dbHelper.TABLE_DAYEXPDET, null, values);
@@ -89,14 +89,14 @@ public class DayExpDetController {
 
         ArrayList<DayExpDet> list = new ArrayList<DayExpDet>();
 
-        String selectQuery = "select * from " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.DAYEXPDET_REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
 
             DayExpDet fdayexpset = new DayExpDet();
 
-            fdayexpset.setEXPDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.DAYEXPDET_REFNO)));
+            fdayexpset.setEXPDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
             fdayexpset.setEXPDET_EXPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.DAYEXPDET_EXPCODE)));
             fdayexpset.setEXPDET_AMOUNT(cursor.getString(cursor.getColumnIndex(dbHelper.DAYEXPDET_AMT)));
 
@@ -115,7 +115,7 @@ public class DayExpDetController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.DAYEXPDET_EXPCODE + "='" + code + "' AND " + dbHelper.DAYEXPDET_REFNO + "='" + RefNo + "'";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.DAYEXPDET_EXPCODE + "='" + code + "' AND " + dbHelper.REFNO + "='" + RefNo + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -170,7 +170,7 @@ public class DayExpDetController {
         }
 
         try {
-            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + dbHelper.TABLE_DAYEXPDET +  " WHERE  " + dbHelper.DAYEXPDET_REFNO + "='" + refNo + "'";
+            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + dbHelper.TABLE_DAYEXPDET +  " WHERE  " + dbHelper.REFNO + "='" + refNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -199,10 +199,10 @@ public class DayExpDetController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.DAYEXPDET_REFNO + "='" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.REFNO + "='" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(dbHelper.TABLE_DAYEXPDET, dbHelper.DAYEXPDET_REFNO + "='" + RefNo + "'", null);
+                int success = dB.delete(dbHelper.TABLE_DAYEXPDET, dbHelper.REFNO + "='" + RefNo + "'", null);
                 Log.v("FtranDet Deleted ", success + "");
             }
         } catch (Exception e) {
@@ -233,10 +233,10 @@ public class DayExpDetController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.DAYEXPDET_REFNO + "='" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.REFNO + "='" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(dbHelper.TABLE_DAYEXPDET, dbHelper.DAYEXPDET_REFNO + "='" + RefNo + "'", null);
+                int success = dB.delete(dbHelper.TABLE_DAYEXPDET, dbHelper.REFNO + "='" + RefNo + "'", null);
                 Log.v("FtranDet Deleted ", success + "");
             }
         } catch (Exception e) {
@@ -292,10 +292,10 @@ public class DayExpDetController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.DAYEXPDET_REFNO + "='" + RefNo + "' AND " + dbHelper.DAYEXPDET_EXPCODE + "='" + expcode + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.REFNO + "='" + RefNo + "' AND " + dbHelper.DAYEXPDET_EXPCODE + "='" + expcode + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(dbHelper.TABLE_DAYEXPDET, dbHelper.DAYEXPDET_REFNO + "='" + RefNo + "' AND " + dbHelper.DAYEXPDET_EXPCODE + "='" + expcode + "' ", null);
+                int success = dB.delete(dbHelper.TABLE_DAYEXPDET, dbHelper.REFNO + "='" + RefNo + "' AND " + dbHelper.DAYEXPDET_EXPCODE + "='" + expcode + "' ", null);
                 Log.v("FtranDet Deleted ", success + "");
             }
         } catch (Exception e) {
@@ -327,12 +327,12 @@ public class DayExpDetController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.DAYEXPDET_REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_DAYEXPDET + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(dbHelper.TABLE_DAYEXPDET, dbHelper.DAYEXPDET_REFNO + " ='" + refno + "'", null);
+                count = dB.delete(dbHelper.TABLE_DAYEXPDET, dbHelper.REFNO + " ='" + refno + "'", null);
                 Log.v("Success Stauts", count + "");
             }
         } catch (Exception e) {

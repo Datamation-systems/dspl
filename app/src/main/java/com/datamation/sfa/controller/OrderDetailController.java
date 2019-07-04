@@ -60,7 +60,7 @@ public class OrderDetailController {
                 values.put(dbHelper.ORDDET_ITEM_CODE, ordDet.getORDDET_ITEMCODE());
                 values.put(dbHelper.ORDDET_PRIL_CODE, ordDet.getORDDET_PRILCODE());
                 values.put(dbHelper.ORDDET_QTY, ordDet.getORDDET_QTY());
-                values.put(dbHelper.ORDDET_REFNO, ordDet.getORDDET_REFNO());
+                values.put(dbHelper.REFNO, ordDet.getORDDET_REFNO());
                 values.put(dbHelper.ORDDET_PRICE, ordDet.getORDDET_PRICE());
                 values.put(dbHelper.ORDDET_IS_ACTIVE, ordDet.getORDDET_IS_ACTIVE());
                 values.put(dbHelper.ORDDET_ITEMNAME, ordDet.getORDDET_ITEMNAME());
@@ -97,7 +97,7 @@ public class OrderDetailController {
         }
 
         try {
-            String selectQuery = "SELECT count(oh.RefNo) as RefNo FROM " + DatabaseHelper.TABLE_ORDER_DETAIL + " od, OrderHeader oh WHERE  od." + DatabaseHelper.ORDDET_REFNO + "='" + refNo + "' and oh.isSynced = '0' and od.refNo = oh.refNo";
+            String selectQuery = "SELECT count(oh.RefNo) as RefNo FROM " + DatabaseHelper.TABLE_ORDER_DETAIL + " od, OrderHeader oh WHERE  od." + DatabaseHelper.REFNO + "='" + refNo + "' and oh.isSynced = '0' and od.refNo = oh.refNo";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -123,7 +123,7 @@ public class OrderDetailController {
         }
 
         try {
-            String selectQuery = "SELECT count(oh.RefNo) as RefNo FROM " + DatabaseHelper.TABLE_ORDER_DETAIL + " od, OrderHeader oh WHERE  od." + DatabaseHelper.ORDDET_REFNO + "='" + refNo + "' and od."+DatabaseHelper.ORDDET_IS_ACTIVE + " = '1' and oh.isSynced = '0' and od.refNo = oh.refNo";
+            String selectQuery = "SELECT count(oh.RefNo) as RefNo FROM " + DatabaseHelper.TABLE_ORDER_DETAIL + " od, OrderHeader oh WHERE  od." + DatabaseHelper.REFNO + "='" + refNo + "' and od."+DatabaseHelper.ORDDET_IS_ACTIVE + " = '1' and oh.isSynced = '0' and od.refNo = oh.refNo";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -155,12 +155,12 @@ public class OrderDetailController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.ORDDET_REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(dbHelper.TABLE_ORDER_DETAIL, dbHelper.ORDDET_REFNO + " ='" + refno + "'", null);
+                count = dB.delete(dbHelper.TABLE_ORDER_DETAIL, dbHelper.REFNO + " ='" + refno + "'", null);
                 Log.v("Success Stauts", count + "");
             }
         } catch (Exception e) {
@@ -189,12 +189,12 @@ public class OrderDetailController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.ORDDET_REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(dbHelper.TABLE_ORDER_DETAIL, dbHelper.ORDDET_REFNO + " = '" + refno + "'", null);
+                count = dB.delete(dbHelper.TABLE_ORDER_DETAIL, dbHelper.REFNO + " = '" + refno + "'", null);
                 Log.v("Success Stauts", count + "");
             }
         } catch (Exception e) {
@@ -223,7 +223,7 @@ public class OrderDetailController {
 
         String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
                 +
-                dbHelper.ORDDET_REFNO + "='" + refno + "' and "+dbHelper.ORDDET_IS_ACTIVE +" = '1'";
+                dbHelper.REFNO + "='" + refno + "' and "+dbHelper.ORDDET_IS_ACTIVE +" = '1'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -237,7 +237,7 @@ public class OrderDetailController {
                 ordDet.setORDDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
                 ordDet.setORDDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
                 ordDet.setORDDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
-                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_REFNO)));
+                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
                 ordDet.setORDDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
                 ordDet.setORDDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
                 ordDet.setORDDET_ITEMNAME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEMNAME)));
@@ -266,10 +266,10 @@ public class OrderDetailController {
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
         //
         // String selectQuery = "select * from "+dbHelper.TABLE_ORDER_DETAIL
-        // +" WHERE "+dbHelper.FORDDET_TXN_TYPE+"!='22' AND "+dbHelper.ORDDET_REFNO+"='"+refno+"'";
+        // +" WHERE "+dbHelper.FORDDET_TXN_TYPE+"!='22' AND "+dbHelper.REFNO+"='"+refno+"'";
 
         String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " +
-                 dbHelper.ORDDET_REFNO + "='" + refno + "'";
+                 dbHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -284,7 +284,7 @@ public class OrderDetailController {
                 ordDet.setORDDET_ITEMNAME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEMNAME)));
                 ordDet.setORDDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
                 ordDet.setORDDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
-                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_REFNO)));
+                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
                 ordDet.setORDDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
                 ordDet.setORDDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
 
@@ -315,7 +315,7 @@ public class OrderDetailController {
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
         String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
-               + dbHelper.ORDDET_REFNO + "='" + refno + "'";
+               + dbHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -329,7 +329,7 @@ public class OrderDetailController {
                 ordDet.setORDDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
                 ordDet.setORDDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
                 ordDet.setORDDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
-                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_REFNO)));
+                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
                 ordDet.setORDDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
                 ordDet.setORDDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
 
@@ -364,7 +364,7 @@ public class OrderDetailController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.ORDDET_REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -375,7 +375,7 @@ public class OrderDetailController {
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(dbHelper.TABLE_ORDER_DETAIL, values, dbHelper.ORDDET_REFNO + " =?", new String[] { String.valueOf(refno) });
+                count = dB.update(dbHelper.TABLE_ORDER_DETAIL, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(refno) });
             }
 
         } catch (Exception e) {
@@ -440,10 +440,10 @@ public class OrderDetailController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.ORDDET_REFNO + "='" + Refno + "' AND "+dbHelper.ORDDET_ITEM_CODE + "='"+itemcode+"'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + "='" + Refno + "' AND "+dbHelper.ORDDET_ITEM_CODE + "='"+itemcode+"'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(dbHelper.TABLE_ORDER_DETAIL, dbHelper.ORDDET_REFNO + "='" + Refno + "' AND "+dbHelper.ORDDET_ITEM_CODE + "='"+itemcode+"'", null);
+                int success = dB.delete(dbHelper.TABLE_ORDER_DETAIL, dbHelper.REFNO + "='" + Refno + "' AND "+dbHelper.ORDDET_ITEM_CODE + "='"+itemcode+"'", null);
                 Log.v("OrdDet Deleted ", success + "");
             }
         } catch (Exception e) {
@@ -469,7 +469,7 @@ public class OrderDetailController {
         }
         @SuppressWarnings("static-access")
         String selectQuery = "SELECT SUM(" +
-                dbHelper.ORDDET_QTY + " * " + dbHelper.ORDDET_PRICE + ") AS 'Gross Value'  FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.ORDDET_REFNO + "='" + refno + "'";
+                dbHelper.ORDDET_QTY + " * " + dbHelper.ORDDET_PRICE + ") AS 'Gross Value'  FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
         Cursor cursor = null;
         cursor = dB.rawQuery(selectQuery, null);
 
@@ -503,7 +503,7 @@ public class OrderDetailController {
 
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.ORDDET_REFNO
+        String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO
                 + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -518,7 +518,7 @@ public class OrderDetailController {
                 ordDet.setORDDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
                 ordDet.setORDDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
                 ordDet.setORDDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
-                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_REFNO)));
+                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
                 ordDet.setORDDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
                 ordDet.setORDDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
 
@@ -549,7 +549,7 @@ public class OrderDetailController {
 
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.ORDDET_REFNO
+        String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO
                 + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -564,7 +564,7 @@ public class OrderDetailController {
                 ordDet.setORDDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
                 ordDet.setORDDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
                 ordDet.setORDDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
-                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_REFNO)));
+                ordDet.setORDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
                 ordDet.setORDDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
                 ordDet.setORDDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
 
@@ -635,10 +635,10 @@ public class OrderDetailController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_ORDER_DETAIL + " WHERE " + DatabaseHelper.ORDDET_REFNO + "='" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_ORDER_DETAIL + " WHERE " + DatabaseHelper.REFNO + "='" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(DatabaseHelper.TABLE_ORDER_DETAIL, DatabaseHelper.NONPRDDET_REFNO + "='" + RefNo + "'", null);
+                int success = dB.delete(DatabaseHelper.TABLE_ORDER_DETAIL, DatabaseHelper.REFNO + "='" + RefNo + "'", null);
             }
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -660,7 +660,7 @@ public class OrderDetailController {
             open();
         }
         try {
-            dB.delete(DatabaseHelper.TABLE_ORDER_DETAIL, DatabaseHelper.ORDDET_REFNO + " ='" + RefNo + "'", null);
+            dB.delete(DatabaseHelper.TABLE_ORDER_DETAIL, DatabaseHelper.REFNO + " ='" + RefNo + "'", null);
 
         } catch (Exception e) {
             e.printStackTrace();
