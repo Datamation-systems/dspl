@@ -944,99 +944,132 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * ################################
      */
 
-    // table
     public static final String TABLE_FINVHED = "finvHed";
-    // table attributes
-    public static final String FINVHED_ID = "finvHed_id";
+    public static final String FINVHED_ID = "Id";
     public static final String FINVHED_REFNO = "RefNo";
-    public static final String FINVHED_ADD_DATE = "AddDate";
-    public static final String FINVHED_ADD_MACH = "AddMach";
-    public static final String FINVHED_ADD_USER = "AddUser";
-    public static final String FINVHED_APP_DATE = "Appdate";
-    public static final String FINVHED_APPSTS = "Appsts";
-    public static final String FINVHED_APP_USER = "AppUser";
-    public static final String FINVHED_BP_TOTAL_DIS = "BPTotalDis";
-    public static final String FINVHED_B_TOTAL_AMT = "BTotalAmt";
-    public static final String FINVHED_B_TOTAL_DIS = "BTotalDis";
-    public static final String FINVHED_B_TOTAL_TAX = "BTotalTax";
-    public static final String FINVHED_COST_CODE = "CostCode";
-    public static final String FINVHED_CUR_CODE = "CurCode";
-    public static final String FINVHED_CUR_RATE = "CurRate";
-    public static final String FINVHED_DEB_CODE = "DebCode";
-    public static final String FINVHED_DIS_PER = "DisPer";
-    public static final String FINVHED_START_TIME_SO = "startTimeSO";
-    public static final String FINVHED_END_TIME_SO = "endTimeSO";
+    public static final String FINVHED_REFNO1 = "RefNo1";
+    public static final String FINVHED_TXNDATE = "TxnDate";
+    public static final String FINVHED_MANUREF = "ManuRef";
+    public static final String FINVHED_COSTCODE = "CostCode";
+    public static final String FINVHED_CURCODE = "CurCode";
+    public static final String FINVHED_CURRATE = "CurRate";
+    public static final String FINVHED_DEBCODE = "DebCode";
+    public static final String FINVHED_REMARKS = "Remarks";
+    public static final String FINVHED_TXNTYPE = "TxnType";
+    public static final String FINVHED_LOCCODE = "LocCode";
+    public static final String FINVHED_PAYTYPE = "PayType";
+    public static final String FINVHED_SETTING_CODE = "SettingCode";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-order discount table-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*/
+    public static final String FINVHED_REPCODE = "RepCode";
+    public static final String FINVHED_CONTACT = "Contact";
+    public static final String FINVHED_CUSADD1 = "CusAdd1";
+    public static final String FINVHED_CUSADD2 = "CusAdd2";
+    public static final String FINVHED_CUSADD3 = "CusAdd3";
+    public static final String FINVHED_CUSTELE = "CusTele";
+    public static final String FINVHED_TOTALDIS = "TotalDis";
+    public static final String FINVHED_TOTALTAX = "TotalTax";
+    public static final String FINVHED_TOTALAMT = "TotalAmt";
+    public static final String FINVHED_TAXREG = "TaxReg";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-fSMS table Details-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*/
+    public static final String FINVHED_ADDUSER = "AddUser";
+    public static final String FINVHED_ADDDATE = "AddDate";
+    public static final String FINVHED_ADDMACH = "AddMach";
+    public static final String FINVHED_START_TIME_SO = "startTime";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-finvHed table Details-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*/
+    public static final String FINVHED_END_TIME_SO = "endTime";
     public static final String FINVHED_LONGITUDE = "Longitude";
     public static final String FINVHED_LATITUDE = "Latitude";
-    public static final String FINVHED_LOC_CODE = "LocCode";
-    public static final String FINVHED_MANU_REF = "ManuRef";
-    public static final String FINVHED_RECORD_ID = "RecordId";
-    public static final String FINVHED_REMARKS = "Remarks";
-    public static final String FINVHED_REPCODE = "RepCode";
-    public static final String FINVHED_TAX_REG = "TaxReg";
-    public static final String FINVHED_TIMESTAMP_COLUMN = "Timestamp_column";
-    public static final String FINVHED_TOTAL_AMT = "TotalAmt";
-    public static final String FINVHED_TOTALDIS = "TotalDis";
-    public static final String FINVHED_TOTAL_TAX = "TotalTax";
-    public static final String FINVHED_TXN_TYPE = "TxnType";
-    public static final String FINVHED_TXN_DATE = "TxnDate";
-    public static final String FINVHED_ADDRESS = "gpsAddress";
-    public static final String FINVHED_TOTAL_ITM_DIS = "TotalItemDis";
-    public static final String FINVHED_TOT_MKR_AMT = "TotMkrAmt";
+    public static final String FINVHED_ADDRESS = "Address";
     public static final String FINVHED_IS_SYNCED = "isSynced";
     public static final String FINVHED_IS_ACTIVE = "isActive";
-    public static final String FINVHED_ROUTE_CODE = "RouteCode";
-    public static final String FINVHED_REFNO1 = "RefNo1";
-
-    public static final String FINVHED_HED_DIS_VAL = "HedDisVal";
-    public static final String FINVHED_HED_DIS_PER_VAL = "HedDisPerVal";
-    public static final String FINVHED_PAYMENT_TYPE = "PaymentType";
-
-    private static final String CREATE_FINVHED_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVHED + " (" + FINVHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVHED_ADD_MACH + " TEXT, " + FINVHED_ADD_DATE + " TEXT," + FINVHED_ADD_USER + " TEXT, " + FINVHED_APP_DATE + " TEXT, " + FINVHED_ADDRESS + " TEXT, " + FINVHED_APPSTS + " TEXT, " + FINVHED_APP_USER + " TEXT, " + FINVHED_BP_TOTAL_DIS + " TEXT, " + FINVHED_B_TOTAL_AMT + " TEXT, " + FINVHED_B_TOTAL_DIS + " TEXT, " + FINVHED_B_TOTAL_TAX + " TEXT, " + FINVHED_COST_CODE + " TEXT, " + FINVHED_CUR_CODE + " TEXT, " + FINVHED_CUR_RATE + " TEXT, " + FINVHED_DEB_CODE + " TEXT, " + FINVHED_LOC_CODE + " TEXT, " + FINVHED_MANU_REF + " TEXT, " + FINVHED_DIS_PER + " TEXT, " + FINVHED_RECORD_ID + " TEXT, " + FINVHED_REFNO + " TEXT, " + FINVHED_REMARKS + " TEXT, " + FINVHED_REPCODE + " TEXT, " + FINVHED_TAX_REG + " TEXT, " + FINVHED_TIMESTAMP_COLUMN + " TEXT, " + FINVHED_TOTAL_TAX + " TEXT, " + FINVHED_TOTAL_AMT + " TEXT, " + FINVHED_TOTALDIS + " TEXT, " + FINVHED_TOTAL_ITM_DIS + " TEXT, " + FINVHED_TOT_MKR_AMT + " TEXT, " + FINVHED_TXN_TYPE + " TEXT, " + FINVHED_TXN_DATE + " TEXT, " + FINVHED_LONGITUDE + " TEXT, " + FINVHED_LATITUDE + " TEXT, " + FINVHED_START_TIME_SO + " TEXT, " + FINVHED_IS_SYNCED + " TEXT, " + FINVHED_IS_ACTIVE + " TEXT, " + FINVHED_REFNO1 + " TEXT, " + FINVHED_ROUTE_CODE + " TEXT, " + FINVHED_HED_DIS_VAL + " TEXT, " + FINVHED_HED_DIS_PER_VAL + " TEXT, " + FINVHED_PAYMENT_TYPE + " TEXT, " + FINVHED_END_TIME_SO + " TEXT); ";
-
-    /**
-     * ############################ finvDet table Details
-     * ################################
-     */
-
-    // table
+    public static final String FINVHED_AREACODE = "areacode";
+    public static final String FINVHED_ROUTECODE = "routecode";
+    public static final String FINVHED_TOURCODE = "tourcode";
     public static final String TABLE_FINVDET = "finvDet";
-    // table attributes
-    public static final String FINVDET_ID = "stodet_id";
+    public static final String FINVDET_ID = "id";
+    public static final String FINVDET_REFNO = "RefNo";
+    public static final String FINVDET_PICE_QTY = "PiceQty";
+    public static final String FINVDET_TYPE = "Types";
+    public static final String FINVDET_IS_ACTIVE = "isActive";
     public static final String FINVDET_AMT = "Amt";
     public static final String FINVDET_BAL_QTY = "BalQty";
     public static final String FINVDET_B_AMT = "BAmt";
-    public static final String FINVDET_B_DIS_AMT = "BDisAmt";
-    public static final String FINVDET_BP_DIS_AMT = "BPDisAmt";
     public static final String FINVDET_B_SELL_PRICE = "BSellPrice";
     public static final String FINVDET_BT_TAX_AMT = "BTaxAmt";
     public static final String FINVDET_BT_SELL_PRICE = "BTSellPrice";
-    public static final String FINVDET_CASE = "Cases";
-    public static final String FINVDET_CASE_QTY = "CaseQty";
     public static final String FINVDET_DIS_AMT = "DisAmt";
     public static final String FINVDET_DIS_PER = "DisPer";
-    public static final String FINVDET_FREE_QTY = "freeqty";
     public static final String FINVDET_ITEM_CODE = "Itemcode";
-    public static final String FINVDET_P_DIS_AMT = "PDisAmt";
     public static final String FINVDET_PRIL_CODE = "PrilCode";
     public static final String FINVDET_QTY = "Qty";
-    public static final String FINVDET_DIS_VAL_AMT = "DisValAmt";
-    public static final String FINVDET_PICE_QTY = "PiceQty";
-    public static final String FINVDET_REA_CODE = "ReaCode";
-    public static final String FINVDET_TYPE = "Types";
     public static final String FINVDET_RECORD_ID = "RecordId";
-    public static final String FINVDET_REFNO = "RefNo";
     public static final String FINVDET_SELL_PRICE = "SellPrice";
     public static final String FINVDET_SEQNO = "SeqNo";
     public static final String FINVDET_TAX_AMT = "TaxAmt";
     public static final String FINVDET_TAX_COM_CODE = "TaxComCode";
-    public static final String FINVDET_TIMESTAMP_COLUMN = "timestamp_column";
     public static final String FINVDET_T_SELL_PRICE = "TSellPrice";
     public static final String FINVDET_TXN_DATE = "TxnDate";
     public static final String FINVDET_TXN_TYPE = "TxnType";
-    public static final String FINVDET_IS_ACTIVE = "isActive";
+    public static final String FINVDET_FREEQTY = "FreeQty";
+    public static final String FINVDET_COMDISPER = "ComDisPer";
+    public static final String FINVDET_BRAND_DISPER = "BrandDisPer";
 
-    private static final String CREATE_FINVDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_DIS_AMT + " TEXT, " + FINVDET_BP_DIS_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_CASE + " TEXT, " + FINVDET_CASE_QTY + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_FREE_QTY + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_P_DIS_AMT + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_DIS_VAL_AMT + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_REA_CODE + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + FINVDET_REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_TIMESTAMP_COLUMN + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + FINVDET_TXN_DATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT); ";
+    /*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-finvDet table Details-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*/
+    public static final String FINVDET_DISVALAMT = "DisValAmt";
+    public static final String FINVDET_COMPDISC = "CompDisc";
+    public static final String FINVDET_BRAND_DISC = "BrandDisc";
+    public static final String FINVDET_QOH = "Qoh";
+    public static final String FINVDET_SCHDISPER = "SchDisPer";
+    public static final String FINVDET_PRICE = "Price";
+    public static final String FINVDET_CHANGED_PRICE = "ChangedPrice";
+    public static final String TABLE_INVTAXRG = "fInvTaxRg";
+    public static final String INVTAXRG_ID = "Id";
+    public static final String INVTAXRG_REFNO = "RefNo";
+    public static final String INVTAXRG_TAXCODE = "TaxCode";
+    public static final String INVTAXRG_RGNO = "RGNo";
+    public static final String CREATE_FINVTAXRG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVTAXRG + " (" + INVTAXRG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + INVTAXRG_REFNO + " TEXT, " + INVTAXRG_TAXCODE + " TEXT, " + INVTAXRG_RGNO + " TEXT ); ";
+    public static final String TABLE_INVTAXDT = "fInvTaxDT";
+    public static final String INVTAXDT_ID = "Id";
+    public static final String INVTAXDT_REFNO = "RefNo";
+    public static final String INVTAXDT_ITEMCODE = "ItemCode";
+    public static final String INVTAXDT_TAXCOMCODE = "TaxComCode";
+    public static final String INVTAXDT_TAXCODE = "TaxCode";
+    public static final String INVTAXDT_TAXPER = "TaxPer";
+    public static final String INVTAXDT_RATE = "TaxRate";
+    public static final String INVTAXDT_SEQ = "TaxSeq";
+    public static final String INVTAXDT_DETAMT = "TaxDetAmt";
+    public static final String INVTAXDT_BDETAMT = "BTaxDetAmt";
+    public static final String INVTAXDT_TAXTYPE = "TaxType";
+    public static final String CREATE_FINVTAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVTAXDT + " (" + INVTAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + INVTAXDT_REFNO + " TEXT, " + INVTAXDT_ITEMCODE + " TEXT, " + INVTAXDT_TAXCOMCODE + " TEXT, " + INVTAXDT_TAXCODE + " TEXT, " + INVTAXDT_TAXPER + " TEXT, " + INVTAXDT_RATE + " TEXT, " + INVTAXDT_SEQ + " TEXT, " + INVTAXDT_DETAMT + " TEXT, " + INVTAXDT_TAXTYPE + " TEXT, " + INVTAXDT_BDETAMT + " TEXT ); ";
+    public static final String TABLE_FTAX = "fTax";
+    public static final String FTAX_ID = "Id";
+    public static final String FTAX_TAXCODE = "TaxCode";
+    public static final String FTAX_TAXNAME = "TaxName";
+    public static final String FTAX_TAXPER = "TaxPer";
+    public static final String FTAX_TAXREGNO = "TaxRegNo";
+    public static final String CREATE_FTAX_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FTAX + " (" + FTAX_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FTAX_TAXCODE + " TEXT, " + FTAX_TAXNAME + " TEXT, " + FTAX_TAXPER + " TEXT, " + FTAX_TAXREGNO + " TEXT ); ";
+    public static final String TABLE_FTAXHED = "fTaxHed";
+    public static final String FTAXHED_ID = "Id";
+    public static final String FTAXHED_COMCODE = "TaxComCode";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-invoice TaxRG -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*/
+    public static final String FTAXHED_COMNAME = "TaxComName";
+    public static final String FTAXHED_ACTIVE = "Active";
+    public static final String CREATE_FTAXHED_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FTAXHED + " (" + FTAXHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FTAXHED_COMCODE + " TEXT, " + FTAXHED_COMNAME + " TEXT, " + FTAXHED_ACTIVE + " TEXT ); ";
+    public static final String TABLE_FTAXDET = "fTaxDet";
+    public static final String FTAXDET_ID = "Id";
+    public static final String FTAXDET_COMCODE = "TaxComCode";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-invoice TAX DT-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*/
+    public static final String FTAXDET_TAXCODE = "TaxCode";
+    public static final String FTAXDET_RATE = "Rate";
+    public static final String FTAXDET_SEQ = "Seq";
+    public static final String FTAXDET_TAXVAL = "TaxVal";
+    public static final String FTAXDET_TAXTYPE = "TaxType";
+    public static final String CREATE_FTAXDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FTAXDET + " (" + FTAXDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FTAXDET_COMCODE + " TEXT, " + FTAXDET_TAXCODE + " TEXT, " + FTAXDET_RATE + " TEXT, " + FTAXDET_TAXVAL + " TEXT, " + FTAXDET_TAXTYPE + " TEXT, " + FTAXDET_SEQ + " TEXT ); ";
     /**
      * ############################ FCompanyBranch table Details
      * ################################
