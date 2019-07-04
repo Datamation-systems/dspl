@@ -1934,7 +1934,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * ############################ FInvRHed ################################
      */
-    public static final String TABLE_FINVRHED = "FInvRHed";
+
+    public static final String TABLE_FINVRHED = "InvRHed";
+
     // table attributes
     public static final String FINVRHED_ID = "id";
     public static final String FINVRHED_MANUREF = "ManuRef";
@@ -1970,39 +1972,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVRHED_HELPERCODE = "HelperCode";
     public static final String FINVRHED_LORRYCODE = "LorryCode";
     // create String
-    private static final String CREATE_FINVRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRHED + " ("
-            + FINVRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 
-            + FINVRHED_MANUREF + " TEXT, "
-            + FINVRHED_TXNDATE + " TEXT, "
-            + FINVRHED_COSTCODE + " TEXT, "
-            + FINVRHED_DEBCODE + " TEXT, "
-            + FINVRHED_REMARKS + " TEXT, "
-            + FINVRHED_TXNTYPE + " TEXT, "
-            + FINVRHED_LOCCODE + " TEXT, "
-            + FINVRHED_REPCODE + " TEXT, "
-            + FINVRHED_REASON_CODE + " TEXT, "
-            + FINVRHED_TOTAL_TAX + " TEXT, "
-            + FINVRHED_TOTAL_AMT + " TEXT, "
-            + FINVRHED_TOTAL_DIS + " TEXT, "
-            + FINVRHED_TAX_REG + " TEXT, "
-            + FINVRHED_ADD_DATE + " TEXT, "
-            + FINVRHED_ADD_MACH + " TEXT, "
-            + FINVRHED_ADD_USER + " TEXT, "
-            + FINVRHED_ROUTE_CODE + " TEXT, "
-            + FINVRHED_LONGITUDE + " TEXT, "
-            + FINVRHED_LATITUDE + " TEXT, "
-            + FINVRHED_IS_ACTIVE + " TEXT, "
-            + FINVRHED_IS_SYNCED + " TEXT, "
-            + FINVRHED_ADDRESS + " TEXT, "
-            + FINVRHED_START_TIME + " TEXT, "
-            + FINVRHED_END_TIME + " TEXT, "
-            + FINVRHED_RETURN_TYPE + " TEXT, "
-            + FINVRHED_TOURCODE + " TEXT, "
-            + FINVRHED_AREACODE + " TEXT, "
-            + FINVRHED_DRIVERCODE + " TEXT, "
-            + FINVRHED_HELPERCODE + " TEXT, "
-            + FINVRHED_LORRYCODE + " TEXT); ";
+    private static final String CREATE_FINVRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRHED + " (" + FINVRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FINVRHED_MANUREF + " TEXT, " + FINVRHED_TXNDATE + " TEXT, " + FINVRHED_COSTCODE + " TEXT, " + FINVRHED_DEBCODE + " TEXT, " + FINVRHED_REMARKS + " TEXT, " + FINVRHED_TXNTYPE + " TEXT, " + FINVRHED_LOCCODE + " TEXT, " + FINVRHED_REPCODE + " TEXT, " + FINVRHED_REASON_CODE + " TEXT, " + FINVRHED_TOTAL_TAX + " TEXT, " + FINVRHED_TOTAL_AMT + " TEXT, " + FINVRHED_TOTAL_DIS + " TEXT, " + FINVRHED_TAX_REG + " TEXT, " + FINVRHED_ADD_DATE + " TEXT, " + FINVRHED_ADD_MACH + " TEXT, " + FINVRHED_ADD_USER + " TEXT, " + FINVRHED_ROUTE_CODE + " TEXT, "             + FINVRHED_LONGITUDE + " TEXT, " + FINVRHED_LATITUDE + " TEXT, " + FINVRHED_IS_ACTIVE + " TEXT, " + FINVRHED_IS_SYNCED + " TEXT, " + FINVRHED_ADDRESS + " TEXT, " + FINVRHED_START_TIME + " TEXT, " + FINVRHED_END_TIME + " TEXT, " + FINVRHED_RETURN_TYPE + " TEXT, " + FINVRHED_TOURCODE + " TEXT, " + FINVRHED_AREACODE + " TEXT, " + FINVRHED_DRIVERCODE + " TEXT, " + FINVRHED_HELPERCODE + " TEXT, " + FINVRHED_LORRYCODE + " TEXT); ";
+
     /**
      * ############################ FInvRDet ################################
      */
@@ -2196,6 +2168,57 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + FPRODUCT_QOH_PRE + " TEXT, "
             + FPRODUCT_QTY_PRE + " TEXT); ";
 
+    public static final String TABLE_INVRDET = "InvRDet";
+    public static final String INVRDET_ID = "id";
+    public static final String INVRDET_ITEMCODE = "ItemCode";
+    public static final String INVRDET_TAXCOMCODE = "TaxComCode";
+    public static final String INVRDET_PRILCODE = "PrilCode";
+    public static final String INVRDET_TXN_DATE = "TxnDate";
+    public static final String INVRDET_TXN_TYPE = "TxnType";
+    public static final String INVRDET_COST_PRICE = "CostPrice";
+    public static final String INVRDET_SELL_PRICE = "SellPrice";
+    public static final String INVRDET_T_SELL_PRICE = "TSellPrice";
+    public static final String INVRDET_AMT = "Amt";
+    public static final String INVRDET_DIS_AMT = "DisAmt";
+    public static final String INVRDET_DIS_RATE = "DisRate";
+    public static final String INVRDET_TAX_AMT = "TaxAmt";
+    public static final String INVRDET_QTY = "Qty";
+    public static final String INVRDET_BAL_QTY = "BalQty";
+    public static final String INVRDET_IS_ACTIVE = "IsActive";
+    public static final String INVRDET_SEQNO = "SeqNo";
+    public static final String INVRDET_REASON_CODE = "ReasonCode";
+    public static final String INVRDET_REASON_NAME = "ReasonName";
+    public static final String INVRDET_RETURN_TYPE = "ReturnType";
+    public static final String INVRDET_FREE_QTY = "ReturnFreeQty";
+    public static final String INVRDET_PRICE = "price";
+    public static final String INVRDET_CHANGED_PRICE = "ChangedPrice";
+
+    private static final String CREATE_INVRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_INVRDET + " ("
+            + INVRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + REFNO + " TEXT, "
+            + INVRDET_ITEMCODE + " TEXT, "
+            + INVRDET_TAXCOMCODE + " TEXT, "
+            + INVRDET_PRILCODE + " TEXT, "
+            + INVRDET_TXN_DATE + " TEXT, "
+            + INVRDET_TXN_TYPE + " TEXT, "
+            + INVRDET_COST_PRICE + " TEXT, "
+            + INVRDET_SELL_PRICE + " TEXT, "
+            + INVRDET_T_SELL_PRICE + " TEXT, "
+            + INVRDET_AMT + " TEXT, "
+            + INVRDET_DIS_AMT + " TEXT, "
+            + INVRDET_DIS_RATE + " TEXT, "
+            + INVRDET_TAX_AMT + " TEXT, "
+            + INVRDET_QTY + " TEXT, "
+            + INVRDET_BAL_QTY + " TEXT, "
+            + INVRDET_IS_ACTIVE + " TEXT, "
+            + INVRDET_REASON_CODE + " TEXT, "
+            + INVRDET_REASON_NAME + " TEXT, "
+            + INVRDET_RETURN_TYPE + " TEXT, "
+            + INVRDET_FREE_QTY + " TEXT, "
+            + INVRDET_PRICE + " TEXT, "
+            + INVRDET_CHANGED_PRICE + " TEXT, "
+            + INVRDET_SEQNO + " TEXT); ";
+
     @Override
     public void onCreate(SQLiteDatabase arg0) {
 
@@ -2246,7 +2269,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FITEDEBDET_TABLE);
         arg0.execSQL(CREATE_FINVHEDL3_TABLE);
         arg0.execSQL(CREATE_FINVDETL3_TABLE);
-       // arg0.execSQL(CREATE_FINVHED_TABLE);
+        //arg0.execSQL(CREATE_FINVHED_TABLE);
         arg0.execSQL(CREATE_FTRANDET_TABLE);
         arg0.execSQL(CREATE_FTRANHED_TABLE);
         arg0.execSQL(CREATE_FTRANISS_TABLE);
@@ -2286,7 +2309,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FPRECDETS_TABLE);
         arg0.execSQL(CREATE_FORDSTAT_TABLE);
         arg0.execSQL(CREATE_FGPSLOC_TABLE);
+
+        // --------------------- Nuwan ------------------------
         arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
+        arg0.execSQL(CREATE_REASON_TABLE);
+        arg0.execSQL(CREATE_INVRDET_TABLE);
+        // ---------------------------------------------------
 
     }
     // --------------------------------------------------------------------------------------------------------------

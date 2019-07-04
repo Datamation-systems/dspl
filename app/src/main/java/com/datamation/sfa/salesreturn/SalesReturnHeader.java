@@ -18,13 +18,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
 import com.datamation.sfa.controller.OrderController;
+import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
@@ -36,6 +39,7 @@ import com.datamation.sfa.presale.OrderHeaderFragment;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.LocationProvider;
 import com.datamation.sfa.view.ActivityHome;
+import com.datamation.sfa.view.SalesReturnActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +59,8 @@ public class SalesReturnHeader extends Fragment {
     SharedPref pref;
     SalesReturnResponseListener salesReturnResponseListener;
     MyReceiver r;
+    private Spinner spnReason;
+    SalesReturnActivity activity;
     //SharedPreferencesClass localSP;
 
     public SalesReturnHeader()
@@ -67,6 +73,7 @@ public class SalesReturnHeader extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_sales_retrun_header, container, false);
 
+        activity = (SalesReturnActivity)getActivity();
         next = (FloatingActionButton) view.findViewById(R.id.fab);
         pref = SharedPref.getInstance(getActivity());
 
@@ -81,11 +88,20 @@ public class SalesReturnHeader extends Fragment {
         remarks    = (EditText) view.findViewById(R.id.editTextRtnRemarks);
         route = (TextView) view.findViewById(R.id.editTextRtnRoute);
         cusName = (TextView) view.findViewById(R.id.textViewrRtnCustomer);
+        spnReason = (Spinner)view.findViewById(R.id.spinnerRtnReason);
 
         cusName.setText(pref.getSelectedDebName());
         route.setText(new RouteController(getActivity()).getRouteNameByCode(pref.getSelectedDebRouteCode()));
         date.setText(formattedDate);
         ordno.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
+
+        ArrayList<String> reasonList = new ArrayList<String>();
+        reasonList.add("Select a Reason");
+        reasonList = new ReasonController(getActivity()).getReasonName();
+
+        final ArrayAdapter<String> reasonAdapter = new ArrayAdapter<String>(getActivity(),R.layout.reason_spinner_item, reasonList);
+        reasonAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnReason.setAdapter(reasonAdapter);
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +211,7 @@ public class SalesReturnHeader extends Fragment {
 
     public void SaveReturnHeader() {
 
-        if (ordno.getText().length() > 0)
+        if (ordno.getText().length() > 0 && !spnReason.getSelectedItem().toString().equals("Tap to select a Reason"))
         {
             FInvRHed hed =new FInvRHed();
 
@@ -211,16 +227,27 @@ public class SalesReturnHeader extends Fragment {
             hed.setFINVRHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
             hed.setFINVRHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
             hed.setFINVRHED_START_TIME(currentTime());
+            hed.setFINVRHED_REASON_CODE(new ReasonController(getActivity()).getReaCodeByName(spnReason.getSelectedItem().toString()));
 
+            activity.selectedReturnHed = hed;
             ArrayList<FInvRHed> ordHedList=new ArrayList<FInvRHed>();
-            SalesReturnController returnHed =new SalesReturnController(getActivity());
             ordHedList.add(hed);
 
-            if (returnHed.createOrUpdateInvRHed(ordHedList)>0)
+            if (ordHedList.size()>0)
             {
                 salesReturnResponseListener.moveNextTo_ret(1);
                 Toast.makeText(getActivity(),"Return Header Saved...", Toast.LENGTH_LONG).show();
             }
+
+//            if (returnHed.createOrUpdateInvRHed(ordHedList)>0)
+//            {
+//                salesReturnResponseListener.moveNextTo_ret(1);
+//                Toast.makeText(getActivity(),"Return Header Saved...", Toast.LENGTH_LONG).show();
+//            }
+        }
+        else
+        {
+            Toast.makeText(getActivity(), "Please select a reason", Toast.LENGTH_LONG).show();
         }
     }
 

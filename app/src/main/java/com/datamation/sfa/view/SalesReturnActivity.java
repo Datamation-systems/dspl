@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.SalesReturnResponseListener;
+import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.salesreturn.SalesReturnHeader;
 import com.datamation.sfa.salesreturn.SalesReturnDetails;
 import com.datamation.sfa.salesreturn.SalesReturnSummary;
@@ -23,6 +24,8 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
     private SalesReturnHeader salesRetrunHeader;
     private SalesReturnDetails salesReturnDetails;
     private SalesReturnSummary salesReturnSummary;
+
+    public FInvRHed selectedReturnHed = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

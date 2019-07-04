@@ -133,10 +133,12 @@ public class ReasonController {
 
 		ArrayList<String> reason = new ArrayList<String>();
 
-		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_CODE + "='RT01' OR reatcode='RT02'";
+		//String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_CODE + "='RT01' OR dbHelper.REASON_CODE='RT02'";
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON;
 
 		Cursor cursor = null;
 		cursor = dB.rawQuery(selectQuery, null);
+		reason.add("Tap to select a Reason");
 
 		while (cursor.moveToNext()) {
 

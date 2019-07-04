@@ -166,7 +166,7 @@
                     android:layout_height="45dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="0.5"
-                    android:background="@drawable/edittextstyle" />
+                    android:background="@drawable/custom_textbox" />
 
 
             </TableRow>
