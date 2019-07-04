@@ -49,7 +49,7 @@ public class DayNPrdHedController {
             for (DayNPrdHed nonhed : list) {
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.NONPRDHED_REFNO, nonhed.getNONPRDHED_REFNO());
+                values.put(dbHelper.REFNO, nonhed.getNONPRDHED_REFNO());
                 values.put(dbHelper.NONPRDHED_TXNDATE, nonhed.getNONPRDHED_TXNDATE());
                 values.put(dbHelper.NONPRDHED_REPCODE, nonhed.getNONPRDHED_REPCODE());
                 values.put(dbHelper.NONPRDHED_REMARK, nonhed.getNONPRDHED_REMARK());
@@ -149,7 +149,7 @@ public class DayNPrdHedController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_NONPRDHED + " WHERE " + DatabaseHelper.NONPRDHED_REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_NONPRDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
 
             if (cursor.getCount() > 0) {
@@ -159,7 +159,7 @@ public class DayNPrdHedController {
                 if (status.equals("1"))
                     Result = false;
                 else {
-                    int success = dB.delete(DatabaseHelper.TABLE_NONPRDHED, DatabaseHelper.NONPRDHED_REFNO + " ='" + refno + "'", null);
+                    int success = dB.delete(DatabaseHelper.TABLE_NONPRDHED, DatabaseHelper.REFNO + " ='" + refno + "'", null);
                     Log.v("Success", success + "");
                     Result = true;
                 }
@@ -193,7 +193,7 @@ public class DayNPrdHedController {
         while (cursor.moveToNext()) {
 
             DayNPrdHed fnonset = new DayNPrdHed();
-            fnonset.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDHED_REFNO)));
+            fnonset.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
             fnonset.setNONPRDHED_ADDDATE(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDHED_ADDDATE)));
             fnonset.setNONPRDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDHED_IS_SYNCED)));
 
@@ -219,10 +219,10 @@ public class DayNPrdHedController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_NONPRDHED + " WHERE " + dbHelper.NONPRDHED_REFNO + "='" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_NONPRDHED + " WHERE " + dbHelper.REFNO + "='" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(dbHelper.TABLE_NONPRDHED, dbHelper.NONPRDHED_REFNO + "='" + RefNo + "'", null);
+                int success = dB.delete(dbHelper.TABLE_NONPRDHED, dbHelper.REFNO + "='" + RefNo + "'", null);
 
             }
         } catch (Exception e) {
@@ -269,7 +269,7 @@ public class DayNPrdHedController {
 //                mapper.setNONPRDHED_COSTCODE("000");
 //                // mapper.setNONPRDHED_DEALCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_DEALCODE)));
 //                mapper.setNONPRDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_IS_SYNCED)));
-//                mapper.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REFNO)));
+//                mapper.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
 //                mapper.setNONPRDHED_REMARK(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REMARK)));
 //                mapper.setNONPRDHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REPCODE)));
 //                mapper.setNONPRDHED_TRANSBATCH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_TRANSBATCH)));
@@ -277,7 +277,7 @@ public class DayNPrdHedController {
 //                mapper.setNONPRDHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_DEBCODE)));
 //                mapper.setNONPRDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_LONGITUDE)));
 //                mapper.setNONPRDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_LATITUDE)));
-//                mapper.setNonPrdDet(new DayNPrdDetController(context).getAllnonprdDetails(mapper.getNONPRDHED_REFNO()));
+//                mapper.setNonPrdDet(new DayNPrdDetController(context).getAllnonprdDetails(mapper.getREFNO()));
 //
 //                list.add(mapper);
 //            }
@@ -309,7 +309,7 @@ public class DayNPrdHedController {
 //            ContentValues values = new ContentValues();
 //            values.put(DatabaseHelper.NONPRDHED_IS_SYNCED, "1");
 //            if (mapper.isSynced()) {
-//                count = dB.update(DatabaseHelper.TABLE_NONPRDHED, values, DatabaseHelper.NONPRDHED_REFNO + " =?", new String[]{String.valueOf(mapper.getNONPRDHED_REFNO())});
+//                count = dB.update(DatabaseHelper.TABLE_NONPRDHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(mapper.getREFNO())});
 //            }
 //
 //        } catch (Exception e) {

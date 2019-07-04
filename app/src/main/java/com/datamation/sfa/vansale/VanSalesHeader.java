@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -46,10 +47,9 @@ public class VanSalesHeader extends Fragment {
     public static SharedPreferences localSP;
     View view;
     SharedPref mSharedPref;
-
+    private FloatingActionButton next;
     TextView lblCustomerName, outStandingAmt, lastBillAmt,lblInvRefno;
     EditText  currnentDate,txtManual,txtRemakrs;
-    MyReceiver r;
     Spinner spnPayMethod;
    VanSalesActivity activity;
 
@@ -60,6 +60,7 @@ public class VanSalesHeader extends Fragment {
         localSP = getActivity().getSharedPreferences(SETTINGS, 0);
         activity = (VanSalesActivity) getActivity();
         mSharedPref = new SharedPref(getActivity());
+        next = (FloatingActionButton) view.findViewById(R.id.fab);
 
         lblCustomerName = (TextView) view.findViewById(R.id.customerName);
         outStandingAmt = (TextView) view.findViewById(R.id.lbl_Inv_outstanding_amt);
@@ -69,18 +70,29 @@ public class VanSalesHeader extends Fragment {
         txtManual = (EditText) view.findViewById(R.id.txt_InvManual);
         txtRemakrs = (EditText) view.findViewById(R.id.txt_InvRemarks);
         spnPayMethod = (Spinner) view.findViewById(R.id.spnnerPayment);
-     //   spnPayMethods = (EditText) view.findViewById(R.id.spnnerPayment);
-       /*
-       comment by dhanushika
-       txtRemakrs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mInputDialogbox(txtRemakrs.getText().toString(), "R");
-            }
-        });
 
-     **/
        lblCustomerName.setText(SharedPref.getInstance(getActivity()).getSelectedDebName());
+
+
+          //  lblCustomerName.setText(activity.selectedDebtor.getCusName());
+            activity.selectedRetDebtor = activity.selectedDebtor;
+            currnentDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            outStandingAmt.setText(String.format("%,.2f", new OutstandingController(getActivity()).getDebtorBalance(SharedPref.getInstance(getActivity()).getSelectedDebCode())));
+            txtRemakrs.setEnabled(true);
+            txtManual.setEnabled(true);
+
+            /*already a header exist*/
+            if (activity.selectedInvHed != null) {
+                txtManual.setText(activity.selectedInvHed.getFINVHED_MANUREF());
+                txtRemakrs.setText(activity.selectedInvHed.getFINVHED_REMARKS());
+                lblInvRefno.setText(activity.selectedInvHed.getFINVHED_REFNO());
+                mSaveInvoiceHeader();
+            } else { /*No header*/
+
+                lblInvRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
+
+            }
+
 
         outStandingAmt.setOnClickListener(new View.OnClickListener() {
 
@@ -134,6 +146,13 @@ public class VanSalesHeader extends Fragment {
 
             }
         });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSaveInvoiceHeader();
+            }
+        });
         return view;
     }
 
@@ -170,7 +189,7 @@ public class VanSalesHeader extends Fragment {
             hed.setFINVHED_IS_SYNCED("0");
             hed.setFINVHED_TOURCODE(new SharedPref(getActivity()).getGlobalVal("KeyTouRef"));
            // hed.setFINVHED_AREACODE(new SharedPref(getActivity()).getGlobalVal("KeyAreaCode"));
-            hed.setFINVHED_AREACODE(activity.selectedDebtor.getCusName());
+            hed.setFINVHED_AREACODE(SharedPref.getInstance(getActivity()).getSelectedDebName());
            // hed.setFINVHED_LOCCODE(new SharedPref(getActivity()).getGlobalVal("KeyLocCode"));
             hed.setFINVHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
             hed.setFINVHED_ROUTECODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
@@ -188,65 +207,26 @@ public class VanSalesHeader extends Fragment {
         }
     }
 
-    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-//    public void mRefreshHeader() {
-//
-//        if (mSharedPref.getGlobalVal("keyVanCustomer").equals("Y")) {
-//
-//            lblCustomerName.setText(activity.selectedDebtor.getCusName());
-//            activity.selectedRetDebtor = activity.selectedDebtor;
-//            currnentDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-//            outStandingAmt.setText(String.format("%,.2f", new OutstandingController(getActivity()).getDebtorBalance(activity.selectedDebtor.getFDEBTOR_CODE())));
-//            txtRemakrs.setEnabled(true);
-//            txtManual.setEnabled(true);
-//
-//            /*already a header exist*/
-//            if (activity.selectedInvHed != null) {
-//                txtManual.setText(activity.selectedInvHed.getFINVHED_MANUREF());
-//                txtRemakrs.setText(activity.selectedInvHed.getFINVHED_REMARKS());
-//                lblInvRefno.setText(activity.selectedInvHed.getFINVHED_REFNO());
-//                mSaveInvoiceHeader();
-//            } else { /*No header*/
-//
-//                    lblInvRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
-//
-//
-//                mSaveInvoiceHeader();
-//            }
-//
-//        } else {
-//            Toast.makeText(getActivity(), "Select a customer to continue...", Toast.LENGTH_SHORT).show();
-//            txtRemakrs.setEnabled(false);
-//            txtManual.setEnabled(false);
-//        }
-//    }
 
 	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
+
     }
 
    	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onResume() {
         super.onResume();
-        r = new MyReceiver();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_HEADER"));
+
     }
 
 
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    private class MyReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-         //   VanSalesHeader.this.mRefreshHeader();
-        }
-    }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 

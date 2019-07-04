@@ -52,14 +52,14 @@ public class OrderController {
 
             for (PRESALE ordHed : list) {
 
-                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO
+                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO
                         + " = '" + ordHed.getORDER_REFNO() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.ORDER_REFNO, ordHed.getORDER_REFNO());
+                values.put(dbHelper.REFNO, ordHed.getORDER_REFNO());
                 values.put(dbHelper.ORDER_ADDDATE, ordHed.getORDER_ADD_DATE());
                 values.put(dbHelper.ORDER_CUSCODE, ordHed.getORDER_DEB_CODE());
                 values.put(dbHelper.ORDER_START_TIME, ordHed.getORDER_ADD_TIME());
@@ -76,7 +76,7 @@ public class OrderController {
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
-                    count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.ORDER_REFNO + " =?",
+                    count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.REFNO + " =?",
                             new String[] { String.valueOf(ordHed.getORDER_REFNO()) });
                 } else {
                     count = (int) dB.insert(dbHelper.TABLE_ORDER, null, values);
@@ -113,13 +113,13 @@ public class OrderController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO + " = '"
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO + " = '"
                     + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                int success = dB.delete(dbHelper.TABLE_ORDER, dbHelper.ORDER_REFNO + " ='" + refno + "'", null);
+                int success = dB.delete(dbHelper.TABLE_ORDER, dbHelper.REFNO + " ='" + refno + "'", null);
                 Log.v("Success", success + "");
             }
 
@@ -153,7 +153,7 @@ public class OrderController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO + " = '"
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO + " = '"
                     + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
@@ -169,7 +169,7 @@ public class OrderController {
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.ORDER_REFNO + " =?",
+                count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.REFNO + " =?",
                         new String[] { String.valueOf(refno) });
             }
 
@@ -206,7 +206,7 @@ public class OrderController {
             values.put(dbHelper.ORDER_IS_SYNCED, "1");
 
             if (status) {
-                count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.ORDER_REFNO + " =?",
+                count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.REFNO + " =?",
                         new String[] { String.valueOf(refNo) });
             }
 
@@ -235,7 +235,7 @@ public class OrderController {
 
         @SuppressWarnings("static-access")
         String selectQuery = "select * from " + dbHelper.TABLE_ORDER + " Where " + dbHelper.ORDER_IS_ACTIVE
-                + "='1' and " + dbHelper.ORDER_REFNO + "='" + refno + "' and " + dbHelper.ORDER_IS_SYNCED + "='0'";
+                + "='1' and " + dbHelper.REFNO + "='" + refno + "' and " + dbHelper.ORDER_IS_SYNCED + "='0'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -244,7 +244,7 @@ public class OrderController {
             Order ordHed = new Order();
 
 //            ordHed.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-//            ordHed.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
+//            ordHed.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
 //            ordHed.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
 //            ordHed.setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
 //            ordHed.setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
@@ -293,7 +293,7 @@ public class OrderController {
 //            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
 //
 //            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
+//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
 //            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
 //
 //            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
@@ -313,7 +313,7 @@ public class OrderController {
 //            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
 //            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
 //
-//            order.setSoDetArrayList(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO))));
+//            order.setSoDetArrayList(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
 ////            preSalesMapper.setIssuList(
 ////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
@@ -347,7 +347,7 @@ public class OrderController {
 //            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
 //
 //            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
+//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
 //            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
 //
 //            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
@@ -371,7 +371,7 @@ public class OrderController {
 //            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
 //
 //            order
-//                    .setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO))));
+//                    .setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
 ////            preSalesMapper.setIssuList(
 ////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
@@ -406,7 +406,7 @@ public class OrderController {
 //            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
 //
 //            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO)));
+//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
 //            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
 //
 //            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
@@ -429,7 +429,7 @@ public class OrderController {
 //            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
 //
 //            order
-//                    .setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REFNO))));
+//                    .setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
 ////            preSalesMapper.setIssuList(
 ////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
@@ -448,7 +448,7 @@ public class OrderController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO + "='"
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO + "='"
                 + refno + "'";
 
         Cursor cursor = null;
@@ -507,7 +507,7 @@ public class OrderController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO + "='"
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO + "='"
                 + refno + "'";
 
         Cursor cursor = null;
@@ -534,10 +534,10 @@ public class OrderController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.ORDER_REFNO + "='" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO + "='" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(dbHelper.TABLE_ORDER, dbHelper.ORDER_REFNO + "='" + RefNo + "'", null);
+                int success = dB.delete(dbHelper.TABLE_ORDER, dbHelper.REFNO + "='" + RefNo + "'", null);
 
             }
         } catch (Exception e) {

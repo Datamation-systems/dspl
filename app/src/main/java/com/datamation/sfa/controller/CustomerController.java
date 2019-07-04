@@ -106,7 +106,7 @@ public class CustomerController {
 
 				FddbNote fddbNote = new FddbNote();
 //
-				fddbNote.setRefNo(cursor.getString(cursor.getColumnIndex(dbHelper.FDDBNOTE_REFNO)));
+				fddbNote.setRefNo(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
 				fddbNote.setTxnDate(cursor.getString(cursor.getColumnIndex(dbHelper.FDDBNOTE_TXN_DATE)));
 				fddbNote.setAmt(cursor.getString(cursor.getColumnIndex(dbHelper.FDDBNOTE_AMT)));
 

@@ -26,6 +26,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SERVER_DB_ID = "server_db_id";
     public static final String SERVER_DB_NAME = "server_db_name";
 
+    //common string
+
+    public static final String REFNO = "RefNo";
+
     private static final String CREATE_SERVER_DB_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SERVER_DB + " (" + SERVER_DB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + SERVER_DB_NAME + " TEXT); ";
     public static final String TABLE_CUSTOMER = "Customer";
     // table attributes
@@ -94,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NONPRDHED = "DaynPrdHed";
     // table attributes
     public static final String NONPRDHED_ID = "NonprdHed_id";
-    public static final String NONPRDHED_REFNO = "RefNo";
+
     public static final String NONPRDHED_REPCODE = "RepCode";
     public static final String NONPRDHED_TXNDATE = "TxnDate";
     public static final String NONPRDHED_REMARK = "Remarks";
@@ -106,7 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String NONPRDHED_IS_ACTIVE = "ISActive";
     // create String
     private static final String CREATE_TABLE_NONPRDHED = "CREATE  TABLE IF NOT EXISTS " + TABLE_NONPRDHED +
-            " (" + NONPRDHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NONPRDHED_REFNO
+            " (" + NONPRDHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO
             + " TEXT, " + NONPRDHED_TXNDATE + " TEXT, "  + NONPRDHED_REPCODE + " TEXT, " + NONPRDHED_REMARK +
             " TEXT, "  + NONPRDHED_ADDDATE + " TEXT,"  + NONPRDHED_IS_SYNCED + " TEXT," + NONPRDHED_DEBCODE +
             " TEXT," + NONPRDHED_LATITUDE + " TEXT," + NONPRDHED_LONGITUDE + " TEXT,"  + NONPRDHED_IS_ACTIVE + " TEXT); ";
@@ -118,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // table attributes
 
     public static final String NONPRDDET_ID = "NonprdDet_id";
-    public static final String NONPRDDET_REFNO = "RefNo";
+
     public static final String NONPRDDET_REASON = "Reason";
     public static final String NONPRDDET_REASON_CODE = "ReasonCode";
 
@@ -126,7 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_NONPRDDET = "CREATE  TABLE IF NOT EXISTS "
             + TABLE_NONPRDDET + " (" + NONPRDDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + NONPRDDET_REFNO + " TEXT, "
+            + REFNO + " TEXT, "
             + NONPRDDET_REASON_CODE + " TEXT, "
             + NONPRDDET_REASON + " TEXT); ";
 
@@ -195,7 +199,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_ORDER = "OrderHeader";
     // table attributes
     public static final String ORDER_ID = "OrderId";
-    public static final String ORDER_REFNO = "RefNo";
     public static final String ORDER_CUSCODE = "CustomerCode";
     public static final String ORDER_START_TIME = "StartTime";
     public static final String ORDER_END_TIME = "EndTime";
@@ -219,7 +222,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ORDER_ADDDATE + " TEXT, " +
             ORDER_CUSCODE + " TEXT, " +
             ORDER_MANU_REF + " TEXT, " +
-            ORDER_REFNO + " TEXT, " +
+            REFNO + " TEXT, " +
             ORDER_REMARKS + " TEXT, " +
             ORDER_REPCODE + " TEXT, " +
             ORDER_TOTAL_AMT + " TEXT, " +
@@ -257,7 +260,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PRODUCT_ITEMCODE = "itemcode";
     public static final String PRODUCT_ITEMNAME = "itemname";
     public static final String PRODUCT_PRICE = "price";
-    public static final String PRODUCT_REFNO = "refno";
+
     public static final String PRODUCT_PRILCODE = "prilcode";
     public static final String PRODUCT_QTY = "qty";   //------------------ temp table crate for PreSales detail data saved------------------------------------
 
@@ -267,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + PRODUCT_ITEMCODE + " TEXT, "
             + PRODUCT_ITEMNAME + " TEXT, "
             + PRODUCT_PRICE + " TEXT, "
-            + PRODUCT_REFNO + " TEXT, "
+            + REFNO + " TEXT, "
             + PRODUCT_PRILCODE + " TEXT, "
             + PRODUCT_QTY + " TEXT); ";
     private static final String INDEX_PRODUCTS = "CREATE UNIQUE INDEX IF NOT EXISTS Products_pre ON " +
@@ -286,7 +289,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String ORDDET_ITEM_CODE = "Itemcode";
     public static final String ORDDET_PRIL_CODE = "PriLCode";
     public static final String ORDDET_QTY = "Qty";
-    public static final String ORDDET_REFNO = "RefNo";
+
     public static final String ORDDET_PRICE = "Price";
     public static final String ORDDET_IS_ACTIVE = "isActive";
     public static final String ORDDET_ITEMNAME = "ItemName";
@@ -299,13 +302,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ORDDET_ITEM_CODE + " TEXT, " +
             ORDDET_PRIL_CODE + " TEXT, " +
             ORDDET_QTY + " TEXT, " +
-            ORDDET_REFNO + " TEXT, " +
+           REFNO + " TEXT, " +
             ORDDET_PRICE + " TEXT, " +
             ORDDET_ITEMNAME + " TEXT, " +
             ORDDET_IS_ACTIVE  + " TEXT); ";
 
     private static final String ORDDET_IDX = "CREATE UNIQUE INDEX IF NOT EXISTS idxordet_duplicate ON " +
-            TABLE_ORDER_DETAIL + " (" + ORDDET_REFNO + "," + ORDDET_ITEM_CODE +  ")";
+            TABLE_ORDER_DETAIL + " (" + REFNO + "," + ORDDET_ITEM_CODE +  ")";
 
 
 
@@ -329,7 +332,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_DAYEXPHED = "DayExpHed";
     // table attributes
     public static final String FDAYEXPHED_ID = "FDayExpHed_id";
-    public static final String FDAYEXPHED_REFNO = "RefNo";
+
     public static final String FDAYEXPHED_TXNDATE = "TxnDate";
     public static final String FDAYEXPHED_REPNAME = "RepName";
     public static final String FDAYEXPHED_DEALCODE = "DealCode";
@@ -348,7 +351,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FDAYEXPHED_ADDRESS = "Address";
 
     // create String
-    private static final String CREATE_DAYEXPHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_DAYEXPHED + " (" + FDAYEXPHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDAYEXPHED_REFNO + " TEXT, " + FDAYEXPHED_TXNDATE + " TEXT, " + FDAYEXPHED_REPNAME + " TEXT, " + FDAYEXPHED_DEALCODE + " TEXT, " + FDAYEXPHED_COSTCODE + " TEXT, " + FDAYEXPHED_REPCODE + " TEXT, " + FDAYEXPHED_REMARKS + " TEXT, " + FDAYEXPHED_AREACODE + " TEXT, " + FDAYEXPHED_ADDUSER + " TEXT, " + FDAYEXPHED_ADDDATE + " TEXT, " + FDAYEXPHED_ADDMATCH + " TEXT, " + FDAYEXPHED_LONGITUDE + " TEXT," + FDAYEXPHED_LATITUDE + " TEXT," + FDAYEXPHED_ISSYNC + " TEXT," + FDAYEXPHED_ACTIVESTATE + " TEXT," + FDAYEXPHED_TOTAMT + " TEXT," + FDAYEXPHED_ADDRESS + " TEXT); ";
+    private static final String CREATE_DAYEXPHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_DAYEXPHED + " (" + FDAYEXPHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDAYEXPHED_TXNDATE + " TEXT, " + FDAYEXPHED_REPNAME + " TEXT, " + FDAYEXPHED_DEALCODE + " TEXT, " + FDAYEXPHED_COSTCODE + " TEXT, " + FDAYEXPHED_REPCODE + " TEXT, " + FDAYEXPHED_REMARKS + " TEXT, " + FDAYEXPHED_AREACODE + " TEXT, " + FDAYEXPHED_ADDUSER + " TEXT, " + FDAYEXPHED_ADDDATE + " TEXT, " + FDAYEXPHED_ADDMATCH + " TEXT, " + FDAYEXPHED_LONGITUDE + " TEXT," + FDAYEXPHED_LATITUDE + " TEXT," + FDAYEXPHED_ISSYNC + " TEXT," + FDAYEXPHED_ACTIVESTATE + " TEXT," + FDAYEXPHED_TOTAMT + " TEXT," + FDAYEXPHED_ADDRESS + " TEXT); ";
 
     /**
      * ############################ FDayExpDet ################################
@@ -356,12 +359,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_DAYEXPDET = "DayExpDet";
     // table attributes
     public static final String DAYEXPDET_ID = "DayExpDet_id";
-    public static final String DAYEXPDET_REFNO = "RefNo";
+
     public static final String DAYEXPDET_EXPCODE = "ExpCode";
     public static final String DAYEXPDET_AMT = "Amt";
 
     // create String
-    private static final String CREATE_DAYEXPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_DAYEXPDET + " (" + DAYEXPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DAYEXPDET_REFNO +  " TEXT, " + DAYEXPDET_EXPCODE + " TEXT, " + DAYEXPDET_AMT + " TEXT); ";
+    private static final String CREATE_DAYEXPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_DAYEXPDET + " (" + DAYEXPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO +  " TEXT, " + DAYEXPDET_EXPCODE + " TEXT, " + DAYEXPDET_AMT + " TEXT); ";
 
 
 
@@ -428,25 +431,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-FOrdDisc table details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public static final String TABLE_FORDDISC = "FOrdDisc";
-    public static final String FORDDISC_REFNO = "RefNo";
+
     public static final String FORDDISC_TXNDATE = "TxnDate";
     public static final String FORDDISC_REFNO1 = "RefNo1";
     public static final String FORDDISC_ITEMCODE = "itemcode";
     public static final String FORDDISC_DISAMT = "DisAmt";
     public static final String FORDDISC_DISPER = "DisPer";
 
-    public static final String CREATE_FORDDISC_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDDISC + " (" + FORDDISC_REFNO + " TEXT, " + FORDDISC_TXNDATE + " TEXT, " + FORDDISC_REFNO1 + " TEXT, " + FORDDISC_ITEMCODE + " TEXT, " + FORDDISC_DISAMT + " TEXT, " + FORDDISC_DISPER + " TEXT ); ";
+    public static final String CREATE_FORDDISC_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDDISC + " (" + REFNO + " TEXT, " + FORDDISC_TXNDATE + " TEXT, " + FORDDISC_REFNO1 + " TEXT, " + FORDDISC_ITEMCODE + " TEXT, " + FORDDISC_DISAMT + " TEXT, " + FORDDISC_DISPER + " TEXT ); ";
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-FOrdFreeIss table info-*-**-**-**-**-**-**-**-*-*-*-*/
 
     public static final String TABLE_FORDFREEISS = "FOrdFreeIss";
-    public static final String FORDFREEISS_REFNO = "RefNo";
+
     public static final String FORDFREEISS_TXNDATE = "TxnDate";
     public static final String FORDFREEISS_REFNO1 = "RefNo1";
     public static final String FORDFREEISS_ITEMCODE = "ItemCode";
     public static final String FORDFREEISS_QTY = "Qty";
 
-    public static final String CREATE_FORDFREEISS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDFREEISS + " (" + FORDFREEISS_REFNO + " TEXT, " + FORDFREEISS_TXNDATE + " TEXT, " + FORDFREEISS_REFNO1 + " TEXT, " + FORDFREEISS_ITEMCODE + " TEXT, " + FORDFREEISS_QTY + " TEXT ); ";
+    public static final String CREATE_FORDFREEISS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDFREEISS + " (" + REFNO + " TEXT, " + FORDFREEISS_TXNDATE + " TEXT, " + FORDFREEISS_REFNO1 + " TEXT, " + FORDFREEISS_ITEMCODE + " TEXT, " + FORDFREEISS_QTY + " TEXT ); ";
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-**-**-**-**-**-**-*-*-*-*/
 
@@ -841,7 +844,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FORDHED = "FOrdHed";
     // table attributes
     public static final String FORDHED_ID = "FOrdHed_id";
-    public static final String FORDHED_REFNO = "RefNo";
     public static final String FORDHED_ADD_DATE = "AddDate";
     public static final String FORDHED_ADD_MACH = "AddMach";
     public static final String FORDHED_ADD_USER = "AddUser";
@@ -885,7 +887,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FORDHED_PAYMENT_TYPE = "PaymentType";
     public static final String FORDHED_UPLOAD_TIME = "UploadTime";
     // create String
-    private static final String CREATE_FORDHED_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDHED + " (" + FORDHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FORDHED_ADD_MACH + " TEXT, " + FORDHED_ADD_DATE + " TEXT," + FORDHED_ADD_USER + " TEXT, " + FORDHED_APP_DATE + " TEXT, " + FORDHED_ADDRESS + " TEXT, " + FORDHED_APPSTS + " TEXT, " + FORDHED_APP_USER + " TEXT, " + FORDHED_BP_TOTAL_DIS + " TEXT, " + FORDHED_B_TOTAL_AMT + " TEXT, " + FORDHED_B_TOTAL_DIS + " TEXT, " + FORDHED_B_TOTAL_TAX + " TEXT, " + FORDHED_COST_CODE + " TEXT, " + FORDHED_CUR_CODE + " TEXT, " + FORDHED_CUR_RATE + " TEXT, " + FORDHED_DEB_CODE + " TEXT, " + FORDHED_LOC_CODE + " TEXT, " + FORDHED_MANU_REF + " TEXT, " + FORDHED_DIS_PER + " TEXT, " + FORDHED_RECORD_ID + " TEXT, " + FORDHED_REFNO + " TEXT, " + FORDHED_REMARKS + " TEXT, " + FORDHED_REPCODE + " TEXT, " + FORDHED_TAX_REG + " TEXT, " + FORDHED_TIMESTAMP_COLUMN + " TEXT, " + FORDHED_TOTAL_TAX + " TEXT, " + FORDHED_TOTAL_AMT + " TEXT, " + FORDHED_TOTALDIS + " TEXT, " + FORDHED_TOTAL_ITM_DIS + " TEXT, " + FORDHED_TOT_MKR_AMT + " TEXT, " + FORDHED_TXN_TYPE + " TEXT, " + FORDHED_TXN_DATE + " TEXT, " + FORDHED_LONGITUDE + " TEXT, " + FORDHED_LATITUDE + " TEXT, " + FORDHED_START_TIME_SO + " TEXT, " + FORDHED_IS_SYNCED + " TEXT, " + FORDHED_IS_ACTIVE + " TEXT, " + FORDHED_DELV_DATE + " TEXT, " + FORDHED_ROUTE_CODE + " TEXT, " + FORDHED_HED_DIS_VAL + " TEXT, " + FORDHED_HED_DIS_PER_VAL + " TEXT," + FORDHED_PAYMENT_TYPE + " TEXT," + FORDHED_END_TIME_SO + " TEXT," + FORDHED_UPLOAD_TIME + " TEXT); ";
+    private static final String CREATE_FORDHED_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDHED + " (" + FORDHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FORDHED_ADD_MACH + " TEXT, " + FORDHED_ADD_DATE + " TEXT," + FORDHED_ADD_USER + " TEXT, " + FORDHED_APP_DATE + " TEXT, " + FORDHED_ADDRESS + " TEXT, " + FORDHED_APPSTS + " TEXT, " + FORDHED_APP_USER + " TEXT, " + FORDHED_BP_TOTAL_DIS + " TEXT, " + FORDHED_B_TOTAL_AMT + " TEXT, " + FORDHED_B_TOTAL_DIS + " TEXT, " + FORDHED_B_TOTAL_TAX + " TEXT, " + FORDHED_COST_CODE + " TEXT, " + FORDHED_CUR_CODE + " TEXT, " + FORDHED_CUR_RATE + " TEXT, " + FORDHED_DEB_CODE + " TEXT, " + FORDHED_LOC_CODE + " TEXT, " + FORDHED_MANU_REF + " TEXT, " + FORDHED_DIS_PER + " TEXT, " + FORDHED_RECORD_ID + " TEXT, " + REFNO + " TEXT, " + FORDHED_REMARKS + " TEXT, " + FORDHED_REPCODE + " TEXT, " + FORDHED_TAX_REG + " TEXT, " + FORDHED_TIMESTAMP_COLUMN + " TEXT, " + FORDHED_TOTAL_TAX + " TEXT, " + FORDHED_TOTAL_AMT + " TEXT, " + FORDHED_TOTALDIS + " TEXT, " + FORDHED_TOTAL_ITM_DIS + " TEXT, " + FORDHED_TOT_MKR_AMT + " TEXT, " + FORDHED_TXN_TYPE + " TEXT, " + FORDHED_TXN_DATE + " TEXT, " + FORDHED_LONGITUDE + " TEXT, " + FORDHED_LATITUDE + " TEXT, " + FORDHED_START_TIME_SO + " TEXT, " + FORDHED_IS_SYNCED + " TEXT, " + FORDHED_IS_ACTIVE + " TEXT, " + FORDHED_DELV_DATE + " TEXT, " + FORDHED_ROUTE_CODE + " TEXT, " + FORDHED_HED_DIS_VAL + " TEXT, " + FORDHED_HED_DIS_PER_VAL + " TEXT," + FORDHED_PAYMENT_TYPE + " TEXT," + FORDHED_END_TIME_SO + " TEXT," + FORDHED_UPLOAD_TIME + " TEXT); ";
 
     /**
      * ############################ FOrddet table Details
@@ -918,7 +920,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FORDDET_REA_CODE = "ReaCode";
     public static final String FORDDET_TYPE = "Types";
     public static final String FORDDET_RECORD_ID = "RecordId";
-    public static final String FORDDET_REFNO = "RefNo";
+
     public static final String FORDDET_SELL_PRICE = "SellPrice";
     public static final String FORDDET_SEQNO = "SeqNo";
     public static final String FORDDET_TAX_AMT = "TaxAmt";
@@ -933,7 +935,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FORDDET_PACKSIZE = "PackSize";
 
     // create String
-    private static final String CREATE_FORDDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDDET + " (" + FORDDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FORDDET_AMT + " TEXT, " + FORDDET_BAL_QTY + " TEXT, " + FORDDET_B_AMT + " TEXT, " + FORDDET_B_DIS_AMT + " TEXT, " + FORDDET_BP_DIS_AMT + " TEXT, " + FORDDET_B_SELL_PRICE + " TEXT, " + FORDDET_BT_TAX_AMT + " TEXT, " + FORDDET_BT_SELL_PRICE + " TEXT, " + FORDDET_CASE + " TEXT, " + FORDDET_CASE_QTY + " TEXT, " + FORDDET_DIS_AMT + " TEXT, " + FORDDET_DIS_PER + " TEXT, " + FORDDET_FREE_QTY + " TEXT, " + FORDDET_ITEM_CODE + " TEXT, " + FORDDET_P_DIS_AMT + " TEXT, " + FORDDET_PRIL_CODE + " TEXT, " + FORDDET_QTY + " TEXT, " + FORDDET_DIS_VAL_AMT + " TEXT, " + FORDDET_PICE_QTY + " TEXT, " + FORDDET_REA_CODE + " TEXT, " + FORDDET_TYPE + " TEXT, " + FORDDET_RECORD_ID + " TEXT, " + FORDDET_REFNO + " TEXT, " + FORDDET_SELL_PRICE + " TEXT, " + FORDDET_SEQNO + " TEXT, " + FORDDET_TAX_AMT + " TEXT, " + FORDDET_TAX_COM_CODE + " TEXT, " + FORDDET_TIMESTAMP_COLUMN + " TEXT, " + FORDDET_T_SELL_PRICE + " TEXT, "
+    private static final String CREATE_FORDDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDDET + " (" + FORDDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FORDDET_AMT + " TEXT, " + FORDDET_BAL_QTY + " TEXT, " + FORDDET_B_AMT + " TEXT, " + FORDDET_B_DIS_AMT + " TEXT, " + FORDDET_BP_DIS_AMT + " TEXT, " + FORDDET_B_SELL_PRICE + " TEXT, " + FORDDET_BT_TAX_AMT + " TEXT, " + FORDDET_BT_SELL_PRICE + " TEXT, " + FORDDET_CASE + " TEXT, " + FORDDET_CASE_QTY + " TEXT, " + FORDDET_DIS_AMT + " TEXT, " + FORDDET_DIS_PER + " TEXT, " + FORDDET_FREE_QTY + " TEXT, " + FORDDET_ITEM_CODE + " TEXT, " + FORDDET_P_DIS_AMT + " TEXT, " + FORDDET_PRIL_CODE + " TEXT, " + FORDDET_QTY + " TEXT, " + FORDDET_DIS_VAL_AMT + " TEXT, " + FORDDET_PICE_QTY + " TEXT, " + FORDDET_REA_CODE + " TEXT, " + FORDDET_TYPE + " TEXT, " + FORDDET_RECORD_ID + " TEXT, " + REFNO + " TEXT, " + FORDDET_SELL_PRICE + " TEXT, " + FORDDET_SEQNO + " TEXT, " + FORDDET_TAX_AMT + " TEXT, " + FORDDET_TAX_COM_CODE + " TEXT, " + FORDDET_TIMESTAMP_COLUMN + " TEXT, " + FORDDET_T_SELL_PRICE + " TEXT, "
 
             + FORDDET_ITEMNAME + " TEXT, " + FORDDET_PACKSIZE + " TEXT, "
 
@@ -946,7 +948,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_FINVHED = "finvHed";
     public static final String FINVHED_ID = "Id";
-    public static final String FINVHED_REFNO = "RefNo";
+
     public static final String FINVHED_REFNO1 = "RefNo1";
     public static final String FINVHED_TXNDATE = "TxnDate";
     public static final String FINVHED_MANUREF = "ManuRef";
@@ -990,7 +992,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVHED_TOURCODE = "tourcode";
     public static final String TABLE_FINVDET = "finvDet";
     public static final String FINVDET_ID = "id";
-    public static final String FINVDET_REFNO = "RefNo";
+
     public static final String FINVDET_PICE_QTY = "PiceQty";
     public static final String FINVDET_TYPE = "Types";
     public static final String FINVDET_IS_ACTIVE = "isActive";
@@ -1025,15 +1027,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVDET_SCHDISPER = "SchDisPer";
     public static final String FINVDET_PRICE = "Price";
     public static final String FINVDET_CHANGED_PRICE = "ChangedPrice";
+
+    private static final String CREATE_FINVHED_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVHED + " (" + FINVHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FINVHED_REFNO1 + " TEXT, " + FINVHED_TXNDATE + " TEXT, " + FINVHED_PAYTYPE + " TEXT, " + FINVHED_SETTING_CODE + " TEXT, "+ FINVHED_MANUREF + " TEXT, " + FINVHED_COSTCODE + " TEXT, " + FINVHED_CURCODE + " TEXT, " + FINVHED_CURRATE + " TEXT, " + FINVHED_DEBCODE + " TEXT, " + FINVHED_REMARKS + " TEXT, " + FINVHED_TXNTYPE + " TEXT, " + FINVHED_LOCCODE + " TEXT, " + FINVHED_REPCODE + " TEXT, " + FINVHED_CONTACT + " TEXT, " + FINVHED_CUSADD1 + " TEXT, " + FINVHED_CUSADD2 + " TEXT, " + FINVHED_CUSADD3 + " TEXT, " + FINVHED_CUSTELE + " TEXT, " + FINVHED_TOTALDIS + " TEXT, " + FINVHED_TOTALTAX + " TEXT, " + FINVHED_TAXREG + " TEXT, " + FINVHED_ADDUSER + " TEXT, " + FINVHED_ADDDATE + " TEXT, " + FINVHED_ADDMACH + " TEXT, " + FINVHED_START_TIME_SO + " TEXT, " + FINVHED_END_TIME_SO + " TEXT, " + FINVHED_TOTALAMT + " TEXT, " + FINVHED_LONGITUDE + " TEXT, " + FINVHED_LATITUDE + " TEXT, " + FINVHED_ADDRESS + " TEXT, " + FINVHED_IS_SYNCED + " TEXT, " + FINVHED_AREACODE + " TEXT, " + FINVHED_ROUTECODE + " TEXT, " + FINVHED_TOURCODE + " TEXT, " + FINVHED_IS_ACTIVE + " TEXT); ";
+    private static final String CREATE_FINVDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + FINVDET_TXN_DATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
+            + FINVDET_PRICE + " TEXT," + FINVDET_CHANGED_PRICE + " TEXT DEFAULT '0' ,"+ FINVDET_COMPDISC + " TEXT DEFAULT '0'); ";
+
     public static final String TABLE_INVTAXRG = "fInvTaxRg";
     public static final String INVTAXRG_ID = "Id";
-    public static final String INVTAXRG_REFNO = "RefNo";
+
     public static final String INVTAXRG_TAXCODE = "TaxCode";
     public static final String INVTAXRG_RGNO = "RGNo";
-    public static final String CREATE_FINVTAXRG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVTAXRG + " (" + INVTAXRG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + INVTAXRG_REFNO + " TEXT, " + INVTAXRG_TAXCODE + " TEXT, " + INVTAXRG_RGNO + " TEXT ); ";
+    public static final String CREATE_FINVTAXRG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVTAXRG + " (" + INVTAXRG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + INVTAXRG_TAXCODE + " TEXT, " + INVTAXRG_RGNO + " TEXT ); ";
     public static final String TABLE_INVTAXDT = "fInvTaxDT";
     public static final String INVTAXDT_ID = "Id";
-    public static final String INVTAXDT_REFNO = "RefNo";
+
     public static final String INVTAXDT_ITEMCODE = "ItemCode";
     public static final String INVTAXDT_TAXCOMCODE = "TaxComCode";
     public static final String INVTAXDT_TAXCODE = "TaxCode";
@@ -1043,7 +1050,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String INVTAXDT_DETAMT = "TaxDetAmt";
     public static final String INVTAXDT_BDETAMT = "BTaxDetAmt";
     public static final String INVTAXDT_TAXTYPE = "TaxType";
-    public static final String CREATE_FINVTAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVTAXDT + " (" + INVTAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + INVTAXDT_REFNO + " TEXT, " + INVTAXDT_ITEMCODE + " TEXT, " + INVTAXDT_TAXCOMCODE + " TEXT, " + INVTAXDT_TAXCODE + " TEXT, " + INVTAXDT_TAXPER + " TEXT, " + INVTAXDT_RATE + " TEXT, " + INVTAXDT_SEQ + " TEXT, " + INVTAXDT_DETAMT + " TEXT, " + INVTAXDT_TAXTYPE + " TEXT, " + INVTAXDT_BDETAMT + " TEXT ); ";
+    public static final String CREATE_FINVTAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVTAXDT + " (" + INVTAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + INVTAXDT_ITEMCODE + " TEXT, " + INVTAXDT_TAXCOMCODE + " TEXT, " + INVTAXDT_TAXCODE + " TEXT, " + INVTAXDT_TAXPER + " TEXT, " + INVTAXDT_RATE + " TEXT, " + INVTAXDT_SEQ + " TEXT, " + INVTAXDT_DETAMT + " TEXT, " + INVTAXDT_TAXTYPE + " TEXT, " + INVTAXDT_BDETAMT + " TEXT ); ";
     public static final String TABLE_FTAX = "fTax";
     public static final String FTAX_ID = "Id";
     public static final String FTAX_TAXCODE = "TaxCode";
@@ -1126,7 +1133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FSALREP_TELE = "telephone";
 
     // create String
-    private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ASE_CODE + " TEXT, " + FSALREP_AREA_CODE + " TEXT, " + FSALREP_DEAL_CODE + " TEXT, " + FSALREP_RECORD_ID + " TEXT, " + FSALREP_REP_CODE + " TEXT, " + FSALREP_REP_PREFIX + " TEXT, " + FSALREP_REP_TCODE + " TEXT, " + FSALREP_REP_PHONE_NO + " TEXT, " + FSALREP_REP_NAME + " TEXT, " + FSALREP_REP_EMAIL + " TEXT, " + FSALREP_REP_MOB + " TEXT, " + FSALREP_PASSWORD + " TEXT, " + FSALREP_COSTCODE + " TEXT); ";
+    private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ASE_CODE + " TEXT, " + FSALREP_AREA_CODE + " TEXT, " + FSALREP_DEAL_CODE + " TEXT, " + FSALREP_RECORD_ID + " TEXT, " + FSALREP_REP_CODE + " TEXT, " + FSALREP_REP_PREFIX + " TEXT, " + FSALREP_REP_TCODE + " TEXT, " + FSALREP_REP_PHONE_NO + " TEXT, " + FSALREP_REP_NAME + " TEXT, " + FSALREP_REP_EMAIL + " TEXT, " + FSALREP_REP_MOB + " TEXT, " + FSALREP_PASSWORD + " TEXT, "+ FSALREP_LOCCODE+ " TEXT, " + FSALREP_COSTCODE + " TEXT); ";
 
     /**
      * ############################ FDDbNote table Details
@@ -1138,7 +1145,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // table attributes
     public static final String FDDBNOTE_ID = "recinv_id";
     public static final String FDDBNOTE_RECORD_ID = "RecordId";
-    public static final String FDDBNOTE_REFNO = "RefNo";
+
     public static final String FDDBNOTE_REF_INV = "RefInv";
     public static final String FDDBNOTE_SALE_REF_NO = "SaleRefNo";
     public static final String FDDBNOTE_MANU_REF = "ManuRef";
@@ -1176,10 +1183,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // create String
     private static final String CREATE_FDDBNOTE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FDDBNOTE + " (" + FDDBNOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDDBNOTE_RECORD_ID + " TEXT, " +
-            FDDBNOTE_REFNO + " TEXT, " + FDDBNOTE_REFNO2 + " TEXT, " + FDDBNOTE_REPNAME + " TEXT, " +
+            REFNO + " TEXT, " + FDDBNOTE_REFNO2 + " TEXT, " + FDDBNOTE_REPNAME + " TEXT, " +
             FDDBNOTE_RECEIPT_TYPE + " TEXT, " + FDDBNOTE_REMARK + " TEXT, " + FDDBNOTE_ENT_REMARK + " TEXT, " + FDDBNOTE_PDAAMT + " TEXT, " + FDDBNOTE_REF_INV + " TEXT, " + FDDBNOTE_ENTER_AMT + " TEXT, " + FDDBNOTE_SALE_REF_NO + " TEXT, " + FDDBNOTE_MANU_REF + " TEXT, " + FDDBNOTE_TXN_TYPE + " TEXT, " + FDDBNOTE_TXN_DATE + " TEXT, " + FDDBNOTE_CUR_CODE + " TEXT, " + FDDBNOTE_CUR_RATE + " TEXT, " + FDDBNOTE_DEB_CODE + " TEXT, " + FDDBNOTE_REP_CODE + " TEXT, " + FDDBNOTE_TAX_COM_CODE + " TEXT, " + FDDBNOTE_TAX_AMT + " TEXT, " + FDDBNOTE_B_TAX_AMT + " TEXT, " + FDDBNOTE_AMT + " TEXT, " + FDDBNOTE_B_AMT + " TEXT, " + FDDBNOTE_TOT_BAL + " TEXT, " + FDDBNOTE_TOT_BAL1 + " TEXT, " + FDDBNOTE_OV_PAY_AMT + " TEXT, " + FDDBNOTE_REMARKS + " TEXT, " + FDDBNOTE_CR_ACC + " TEXT, " + FDDBNOTE_PRT_COPY + " TEXT, " + FDDBNOTE_GL_POST + " TEXT, " + FDDBNOTE_GL_BATCH + " TEXT, " + FDDBNOTE_ADD_USER + " TEXT, " + FDDBNOTE_ADD_DATE + " TEXT, " + FDDBNOTE_ADD_MACH + " TEXT, " + FDDBNOTE_REFNO1 + " TEXT); ";
 
-    private static final String TESTDDBNOTE = "CREATE UNIQUE INDEX IF NOT EXISTS idxddbnote_something ON " + TABLE_FDDBNOTE + " (" + FDDBNOTE_REFNO + ")";
+    private static final String TESTDDBNOTE = "CREATE UNIQUE INDEX IF NOT EXISTS idxddbnote_something ON " + TABLE_FDDBNOTE + " (" + REFNO + ")";
 
     /**
      * ############################ Ffreedeb table Details
@@ -1190,7 +1197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FFREEDEB = "Ffreedeb";
     // table attributes
     public static final String FFREEDEB_ID = "Ffreedeb_id";
-    public static final String FFREEDEB_REFNO = "Refno";
+
     public static final String FFREEDEB_DEB_CODE = "Debcode";
     public static final String FFREEDEB_ADD_USER = "AddUser";
     public static final String FFREEDEB_ADD_DATE = "AddDate";
@@ -1199,9 +1206,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FFREEDEB_TIMESTAMP_COLUMN = "timestamp_column";
 
     // create String
-    private static final String CREATE_FFREEDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEDEB + " (" + FFREEDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FFREEDEB_REFNO + " TEXT, " + FFREEDEB_DEB_CODE + " TEXT, " + FFREEDEB_ADD_USER + " TEXT, " + FFREEDEB_ADD_DATE + " TEXT, " + FFREEDEB_ADD_MACH + " TEXT, " + FFREEDEB_RECORD_ID + " TEXT, " + FFREEDEB_TIMESTAMP_COLUMN + " TEXT); ";
+    private static final String CREATE_FFREEDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEDEB + " (" + FFREEDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FFREEDEB_DEB_CODE + " TEXT, " + FFREEDEB_ADD_USER + " TEXT, " + FFREEDEB_ADD_DATE + " TEXT, " + FFREEDEB_ADD_MACH + " TEXT, " + FFREEDEB_RECORD_ID + " TEXT, " + FFREEDEB_TIMESTAMP_COLUMN + " TEXT); ";
 
-    private static final String TESTFREEDEB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreedeb_something ON " + TABLE_FFREEDEB + " (" + FFREEDEB_REFNO + "," + FFREEDEB_DEB_CODE + ")";
+    private static final String TESTFREEDEB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreedeb_something ON " + TABLE_FFREEDEB + " (" + REFNO + "," + FFREEDEB_DEB_CODE + ")";
 
     /**
      * ############################ Ffreedet table Details
@@ -1212,14 +1219,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FFREEDET = "Ffreedet";
     // table attributes
     public static final String FFREEDET_ID = "Ffreedet_id";
-    public static final String FFREEDET_REFNO = "Refno";
+
     public static final String FFREEDET_ITEM_CODE = "Itemcode";
     public static final String FFREEDET_RECORD_ID = "RecordId";
 
     // create String
-    private static final String CREATE_FFREEDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEDET + " (" + FFREEDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FFREEDET_REFNO + " TEXT, " + FFREEDET_ITEM_CODE + " TEXT, " + FFREEDET_RECORD_ID + " TEXT); ";
+    private static final String CREATE_FFREEDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEDET + " (" + FFREEDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FFREEDET_ITEM_CODE + " TEXT, " + FFREEDET_RECORD_ID + " TEXT); ";
 
-    private static final String IDXFREEDET = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreedet_something ON " + TABLE_FFREEDET + " (" + FFREEDET_REFNO + ", " + FFREEDET_ITEM_CODE + ")";
+    private static final String IDXFREEDET = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreedet_something ON " + TABLE_FFREEDET + " (" + REFNO + ", " + FFREEDET_ITEM_CODE + ")";
 
     /**
      * ############################ Ffreehed table Details
@@ -1230,7 +1237,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FFREEHED = "Ffreehed";
     // table attributes
     public static final String FFREEHED_ID = "Ffreehed_id";
-    public static final String FFREEHED_REFNO = "Refno";
+
     public static final String FFREEHED_TXNDATE = "txndate";
     public static final String FFREEHED_DISC_DESC = "DiscDesc";
     public static final String FFREEHED_PRIORITY = "Priority";
@@ -1243,10 +1250,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FFREEHED_FTYPE = "Ftype";
 
     // create String
-    private static final String CREATE_FFREEHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEHED + " (" + FFREEHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FFREEHED_REFNO + " TEXT, " + FFREEHED_TXNDATE + " TEXT, " + FFREEHED_DISC_DESC + " TEXT, " + FFREEHED_PRIORITY + " TEXT, " + FFREEHED_VDATEF + " TEXT, " + FFREEHED_VDATET + " TEXT, " + FFREEHED_REMARKS + " TEXT, " + FFREEHED_RECORD_ID + " TEXT, " + FFREEHED_ITEM_QTY + " TEXT, " + FFREEHED_FREE_IT_QTY + " TEXT, " + FFREEHED_FTYPE + " TEXT); ";
+    private static final String CREATE_FFREEHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEHED + " (" + FFREEHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FFREEHED_TXNDATE + " TEXT, " + FFREEHED_DISC_DESC + " TEXT, " + FFREEHED_PRIORITY + " TEXT, " + FFREEHED_VDATEF + " TEXT, " + FFREEHED_VDATET + " TEXT, " + FFREEHED_REMARKS + " TEXT, " + FFREEHED_RECORD_ID + " TEXT, " + FFREEHED_ITEM_QTY + " TEXT, " + FFREEHED_FREE_IT_QTY + " TEXT, " + FFREEHED_FTYPE + " TEXT); ";
 
 
-    private static final String IDXFREEHED = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreehed_something ON " + TABLE_FFREEHED + " (" + FFREEHED_REFNO + ")";
+    private static final String IDXFREEHED = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreehed_something ON " + TABLE_FFREEHED + " (" + REFNO + ")";
     /**
      * ############################ FfreeSlab table Details
      * ################################
@@ -1256,7 +1263,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FFREESLAB = "Ffreeslab";
     // table attributes
     public static final String FFREESLAB_ID = "Ffreeslab_id";
-    public static final String FFREESLAB_REFNO = "Refno";
+
     public static final String FFREESLAB_QTY_F = "Qtyf";
     public static final String FFREESLAB_QTY_T = "Qtyt";
     public static final String FFREESLAB_FITEM_CODE = "fItemCode";
@@ -1269,9 +1276,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FFREESLAB_SEQ_NO = "seqno";
 
     // create String
-    private static final String CREATE_FFREESLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREESLAB + " (" + FFREESLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FFREESLAB_REFNO + " TEXT, " + FFREESLAB_QTY_F + " TEXT, " + FFREESLAB_QTY_T + " TEXT, " + FFREESLAB_FITEM_CODE + " TEXT, " + FFREESLAB_FREE_QTY + " TEXT, " + FFREESLAB_ADD_USER + " TEXT, " + FFREESLAB_ADD_DATE + " TEXT, " + FFREESLAB_ADD_MACH + " TEXT, " + FFREESLAB_RECORD_ID + " TEXT, " + FFREESLAB_TIMESTAP_COLUMN + " TEXT, " + FFREESLAB_SEQ_NO + " TEXT); ";
+    private static final String CREATE_FFREESLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREESLAB + " (" + FFREESLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FFREESLAB_QTY_F + " TEXT, " + FFREESLAB_QTY_T + " TEXT, " + FFREESLAB_FITEM_CODE + " TEXT, " + FFREESLAB_FREE_QTY + " TEXT, " + FFREESLAB_ADD_USER + " TEXT, " + FFREESLAB_ADD_DATE + " TEXT, " + FFREESLAB_ADD_MACH + " TEXT, " + FFREESLAB_RECORD_ID + " TEXT, " + FFREESLAB_TIMESTAP_COLUMN + " TEXT, " + FFREESLAB_SEQ_NO + " TEXT); ";
 
-    private static final String IDXFREESLAB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreeslab_something ON " + TABLE_FFREESLAB + " (" + FFREESLAB_REFNO + ", " + FFREESLAB_SEQ_NO + ")";
+    private static final String IDXFREESLAB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreeslab_something ON " + TABLE_FFREESLAB + " (" + REFNO + ", " + FFREESLAB_SEQ_NO + ")";
 
     /**
      * ############################ fFreeItem table Details
@@ -1282,14 +1289,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FFREEITEM = "fFreeItem";
     // table attributes
     public static final String FFREEITEM_ID = "fFreeItem_id";
-    public static final String FFREEITEM_REFNO = "Refno";
+
     public static final String FFREEITEM_ITEMCODE = "Itemcode";
     public static final String FFREEITEM_RECORD_ID = "RecordId";
 
     // create String
-    private static final String CREATE_FFREEITEM_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEITEM + " (" + FFREEITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FFREEITEM_REFNO + " TEXT, " + FFREEITEM_ITEMCODE + " TEXT, " + FFREEITEM_RECORD_ID + " TEXT); ";
+    private static final String CREATE_FFREEITEM_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEITEM + " (" + FFREEITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FFREEITEM_ITEMCODE + " TEXT, " + FFREEITEM_RECORD_ID + " TEXT); ";
 
-    private static final String IDXFREEITEM = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreeitem_something ON " + TABLE_FFREEITEM + " (" + FFREEITEM_REFNO + ", " + FFREEITEM_ITEMCODE + ")";
+    private static final String IDXFREEITEM = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreeitem_something ON " + TABLE_FFREEITEM + " (" + REFNO + ", " + FFREEITEM_ITEMCODE + ")";
     /**
      * ############################ fItem table Details
      * ################################
@@ -1457,7 +1464,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FFREEMSLAB = "FfreeMslab";
     // table attributes
     public static final String FFREEMSLAB_ID = "FfreeMslab_id";
-    public static final String FFREEMSLAB_REFNO = "Refno";
+
     public static final String FFREEMSLAB_QTY_F = "Qtyf";
     public static final String FFREEMSLAB_QTY_T = "Qtyt";
     public static final String FFREEMSLAB_ITEM_QTY = "ItemQty";
@@ -1470,9 +1477,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FFREEMSLAB_SEQ_NO = "seqno";
 
     // create String
-    private static final String CREATE_FFREEMSLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEMSLAB + " (" + FFREEMSLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FFREEMSLAB_REFNO + " TEXT, " + FFREEMSLAB_QTY_F + " TEXT, " + FFREEMSLAB_QTY_T + " TEXT, " + FFREEMSLAB_ITEM_QTY + " TEXT, " + FFREEMSLAB_FREE_IT_QTY + " TEXT, " + FFREEMSLAB_ADD_USER + " TEXT, " + FFREEMSLAB_ADD_DATE + " TEXT, " + FFREEMSLAB_ADD_MACH + " TEXT, " + FFREEMSLAB_RECORD_ID + " TEXT, " + FFREEMSLAB_TIMESTAMP_COLUMN + " TEXT, " + FFREEMSLAB_SEQ_NO + " TEXT); ";
+    private static final String CREATE_FFREEMSLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEMSLAB + " (" + FFREEMSLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FFREEMSLAB_QTY_F + " TEXT, " + FFREEMSLAB_QTY_T + " TEXT, " + FFREEMSLAB_ITEM_QTY + " TEXT, " + FFREEMSLAB_FREE_IT_QTY + " TEXT, " + FFREEMSLAB_ADD_USER + " TEXT, " + FFREEMSLAB_ADD_DATE + " TEXT, " + FFREEMSLAB_ADD_MACH + " TEXT, " + FFREEMSLAB_RECORD_ID + " TEXT, " + FFREEMSLAB_TIMESTAMP_COLUMN + " TEXT, " + FFREEMSLAB_SEQ_NO + " TEXT); ";
 
-    private static final String IDXFREEMSLAB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreemslab_something ON " + TABLE_FFREEMSLAB + " (" + FFREEMSLAB_REFNO + ", " + FFREEMSLAB_SEQ_NO + ")";
+    private static final String IDXFREEMSLAB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreemslab_something ON " + TABLE_FFREEMSLAB + " (" + REFNO + ", " + FFREEMSLAB_SEQ_NO + ")";
     /**
      * ############################ fRouteDet table Details
      * ################################
@@ -1497,7 +1504,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FDISCVHED = "FDiscvhed";
     // table attributes
     public static final String FDISCVHED_ID = "FDiscvhed_id";
-    public static final String FDISCVHED_REF_NO = "Refno";
     public static final String FDISCVHED_TXN_DATE = "Txndate";
     public static final String FDISCVHED_DISC_DESC = "DiscDesc";
     public static final String FDISCVHED_PRIORITY = "Priority";
@@ -1507,7 +1513,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FDISCVHED_REMARKS = "Remarks";
 
     // create String
-    private static final String CREATE_FDISCVHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCVHED + " (" + FDISCVHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISCVHED_REF_NO + " TEXT, " + FDISCVHED_TXN_DATE + " TEXT, " + FDISCVHED_DISC_DESC + " TEXT, " + FDISCVHED_PRIORITY + " TEXT, " + FDISCVHED_DIS_TYPE + " TEXT, " + FDISCVHED_V_DATE_F + " TEXT, " + FDISCVHED_V_DATE_T + " TEXT, " + FDISCVHED_REMARKS + " TEXT); ";
+    private static final String CREATE_FDISCVHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCVHED + " (" + FDISCVHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDISCVHED_TXN_DATE + " TEXT, " + FDISCVHED_DISC_DESC + " TEXT, " + FDISCVHED_PRIORITY + " TEXT, " + FDISCVHED_DIS_TYPE + " TEXT, " + FDISCVHED_V_DATE_F + " TEXT, " + FDISCVHED_V_DATE_T + " TEXT, " + FDISCVHED_REMARKS + " TEXT); ";
     /**
      * ############################ Fdiscvdet table Details
      * ################################
@@ -1516,14 +1522,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FDISCVDET = "Fdiscvdet";
     // table attributes
     public static final String FDISCVDET_ID = "FDiscvdet_id";
-    public static final String FDISCVDET_REF_NO = "Refno";
+
     public static final String FDISCVDET_VALUE_F = "Valuef";
     public static final String FDISCVDET_VALUE_T = "Valuet";
     public static final String FDISCVDET_DISPER = "Disper";
     public static final String FDISCVDET_DIS_AMT = "Disamt";
 
     // create String
-    private static final String CREATE_FDISCVDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCVDET + " (" + FDISCVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISCVDET_REF_NO + " TEXT, " + FDISCVDET_VALUE_F + " TEXT, " + FDISCVDET_VALUE_T + " TEXT, " + FDISCVDET_DISPER + " TEXT, " + FDISCVDET_DIS_AMT + " TEXT); ";
+    private static final String CREATE_FDISCVDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCVDET + " (" + FDISCVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDISCVDET_VALUE_F + " TEXT, " + FDISCVDET_VALUE_T + " TEXT, " + FDISCVDET_DISPER + " TEXT, " + FDISCVDET_DIS_AMT + " TEXT); ";
 
     /**
      * ############################ FDiscvdeb table Details
@@ -1533,11 +1539,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FDISCVDEB = "FDiscvdeb";
     // table attributes
     public static final String FDISCVDEB_ID = "FDiscvdet_id";
-    public static final String FDISCVDEB_REF_NO = "Refno";
+
     public static final String FDISCVDED_DEB_CODE = "Debcode";
 
     // create String
-    private static final String CREATE_FDISCVDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCVDEB + " (" + FDISCVDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISCVDEB_REF_NO + " TEXT, " + FDISCVDED_DEB_CODE + " TEXT); ";
+    private static final String CREATE_FDISCVDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCVDEB + " (" + FDISCVDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDISCVDED_DEB_CODE + " TEXT); ";
 
     /**
      * ############################ fdisched table Details
@@ -1547,7 +1553,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FDISCHED = "fdisched";
     // table attributes
     public static final String FDISCHED_ID = "fdisched_id";
-    public static final String FDISCHED_REF_NO = "RefNo";
+
     public static final String FDISCHED_TXN_DATE = "TxnDate";
     public static final String FDISCHED_DISC_DESC = "DiscDesc";
     public static final String FDISCHED_PRIORITY = "Priority";
@@ -1561,7 +1567,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FDISCHED_RECORD_ID = "RecordId";
     public static final String FDISCHED_TIMESTAMP_COLUMN = "timestamp_column";
     // create String
-    private static final String CREATE_FDISCHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCHED + " (" + FDISCHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISCHED_REF_NO + " TEXT, " + FDISCHED_TXN_DATE + " TEXT, " + FDISCHED_DISC_DESC + " TEXT, " + FDISCHED_PRIORITY + " TEXT, " + FDISCHED_DIS_TYPE + " TEXT, " + FDISCHED_V_DATE_F + " TEXT, " + FDISCHED_V_DATE_T + " TEXT, " + FDISCHED_REMARK + " TEXT, " + FDISCHED_ADD_USER + " TEXT, " + FDISCHED_ADD_DATE + " TEXT, " + FDISCHED_ADD_MACH + " TEXT, " + FDISCHED_RECORD_ID + " TEXT, " + FDISCHED_TIMESTAMP_COLUMN + " TEXT); ";
+    private static final String CREATE_FDISCHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCHED + " (" + FDISCHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDISCHED_TXN_DATE + " TEXT, " + FDISCHED_DISC_DESC + " TEXT, " + FDISCHED_PRIORITY + " TEXT, " + FDISCHED_DIS_TYPE + " TEXT, " + FDISCHED_V_DATE_F + " TEXT, " + FDISCHED_V_DATE_T + " TEXT, " + FDISCHED_REMARK + " TEXT, " + FDISCHED_ADD_USER + " TEXT, " + FDISCHED_ADD_DATE + " TEXT, " + FDISCHED_ADD_MACH + " TEXT, " + FDISCHED_RECORD_ID + " TEXT, " + FDISCHED_TIMESTAMP_COLUMN + " TEXT); ";
 
     /**
      * ############################ FDiscdet table Details
@@ -1572,13 +1578,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FDISCDET = "FDiscdet";
     // table attributes
     public static final String FDISCDET_ID = "FDiscdet_id";
-    public static final String FDISCDET_REF_NO = "RefNo";
+
     public static final String FDISCDET_ITEM_CODE = "itemcode";
     public static final String FDISCDET_RECORD_ID = "RecordId";
     public static final String FDISCHED_TIEMSTAMP_COLUMN = "timestamp_column";
 
     // create String
-    private static final String CREATE_FDISCDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCDET + " (" + FDISCDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISCDET_REF_NO + " TEXT, " + FDISCDET_ITEM_CODE + " TEXT, " + FDISCDET_RECORD_ID + " TEXT, " + FDISCHED_TIEMSTAMP_COLUMN + " TEXT); ";
+    private static final String CREATE_FDISCDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCDET + " (" + FDISCDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDISCDET_ITEM_CODE + " TEXT, " + FDISCDET_RECORD_ID + " TEXT, " + FDISCHED_TIEMSTAMP_COLUMN + " TEXT); ";
 
     /**
      * ############################ FDiscdeb table Details
@@ -1589,13 +1595,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FDISCDEB = "FDiscdeb";
     // table attributes
     public static final String FDISCDEB_ID = "FDiscdet_id";
-    public static final String FDISCDEB_REF_NO = "RefNo";
+
     public static final String FDISCDEB_DEB_CODE = "debcode";
     public static final String FDISCDEB_RECORD_ID = "RecordId";
     public static final String FDISCDEB_TIEMSTAMP_COLUMN = "timestamp_column";
 
     // create String
-    private static final String CREATE_FDISCDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCDEB + " (" + FDISCDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISCDEB_REF_NO + " TEXT, " + FDISCDEB_DEB_CODE + " TEXT, " + FDISCDET_RECORD_ID + " TEXT, " + FDISCHED_TIEMSTAMP_COLUMN + " TEXT); ";
+    private static final String CREATE_FDISCDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCDEB + " (" + FDISCDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDISCDEB_DEB_CODE + " TEXT, " + FDISCDET_RECORD_ID + " TEXT, " + FDISCHED_TIEMSTAMP_COLUMN + " TEXT); ";
 
     /**
      * ############################ FDiscslab table Details
@@ -1606,7 +1612,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FDISCSLAB = "FDiscslab";
     // table attributes
     public static final String FDISCSLAB_ID = "FDiscdet_id";
-    public static final String FDISCSLAB_REF_NO = "RefNo";
+
     public static final String FDISCSLAB_SEQ_NO = "seqno";
     public static final String FDISCSLAB_QTY_F = "Qtyf";
     public static final String FDISCSLAB_QTY_T = "Qtyt";
@@ -1616,7 +1622,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FDISCSLAB_TIMESTAMP_COLUMN = "timestamp_column";
 
     // create String
-    private static final String CREATE_FDISCSLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCSLAB + " (" + FDISCSLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISCSLAB_REF_NO + " TEXT, " + FDISCSLAB_SEQ_NO + " TEXT, " + FDISCSLAB_QTY_F + " TEXT, " + FDISCSLAB_QTY_T + " TEXT, " + FDISCSLAB_DIS_PER + " TEXT, " + FDISCSLAB_DIS_AMUT + " TEXT, " + FDISCSLAB_RECORD_ID + " TEXT, " + FDISCSLAB_TIMESTAMP_COLUMN + " TEXT); ";
+    private static final String CREATE_FDISCSLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCSLAB + " (" + FDISCSLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDISCSLAB_SEQ_NO + " TEXT, " + FDISCSLAB_QTY_F + " TEXT, " + FDISCSLAB_QTY_T + " TEXT, " + FDISCSLAB_DIS_PER + " TEXT, " + FDISCSLAB_DIS_AMUT + " TEXT, " + FDISCSLAB_RECORD_ID + " TEXT, " + FDISCSLAB_TIMESTAMP_COLUMN + " TEXT); ";
 
     /**
      * ############################ FItenrHed table Details
@@ -1630,13 +1636,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FITENRHED_COST_CODE = "CostCode";
     public static final String FITENRHED_DEAL_CODE = "DealCode";
     public static final String FITENRHED_MONTH = "Month";
-    public static final String FITENRHED_REF_NO = "RefNo";
+
     public static final String FITENRHED_REMARKS1 = "Remarks1";
     public static final String FITENRHED_REP_CODE = "RepCode";
     public static final String FITENRHED_YEAR = "Year";
 
     // create String
-    private static final String CREATE_FITENRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRHED + " (" + FITENRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRHED_COST_CODE + " TEXT, " + FITENRHED_DEAL_CODE + " TEXT, " + FITENRHED_MONTH + " TEXT, " + FITENRHED_REF_NO + " TEXT, " + FITENRHED_REMARKS1 + " TEXT, " + FITENRHED_REP_CODE + " TEXT, " + FITENRHED_YEAR + " TEXT); ";
+    private static final String CREATE_FITENRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRHED + " (" + FITENRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRHED_COST_CODE + " TEXT, " + FITENRHED_DEAL_CODE + " TEXT, " + FITENRHED_MONTH + " TEXT, " + REFNO + " TEXT, " + FITENRHED_REMARKS1 + " TEXT, " + FITENRHED_REP_CODE + " TEXT, " + FITENRHED_YEAR + " TEXT); ";
 
     /**
      * ############################ FItenrDet table Details
@@ -1650,13 +1656,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FITENRDET_NO_OUTLET = "NoOutlet";
     public static final String FITENRDET_NO_SHCUCAL = "NoShcuCal";
     public static final String FITENRDET_RD_TARGET = "RDTarget";
-    public static final String FITENRDET_REF_NO = "RefNo";
+
     public static final String FITENRDET_REMARKS = "Remarks";
     public static final String FITENRDET_ROUTE_CODE = "RouteCode";
     public static final String FITENRDET_TXN_DATE = "TxnDate";
 
     // create String
-    private static final String CREATE_FITENRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRDET + " (" + FITENRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRDET_NO_OUTLET + " TEXT, " + FITENRDET_NO_SHCUCAL + " TEXT, " + FITENRDET_RD_TARGET + " TEXT, " + FITENRDET_REF_NO + " TEXT, " + FITENRDET_REMARKS + " TEXT, " + FITENRDET_ROUTE_CODE + " TEXT, " + FITENRDET_TXN_DATE + " TEXT); ";
+    private static final String CREATE_FITENRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRDET + " (" + FITENRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRDET_NO_OUTLET + " TEXT, " + FITENRDET_NO_SHCUCAL + " TEXT, " + FITENRDET_RD_TARGET + " TEXT, " + REFNO + " TEXT, " + FITENRDET_REMARKS + " TEXT, " + FITENRDET_ROUTE_CODE + " TEXT, " + FITENRDET_TXN_DATE + " TEXT); ";
     /**
      * ############################ FIteDebDet table Details
      * ################################
@@ -1667,12 +1673,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // table attributes
     public static final String FITEDEBDET_ID = "FItenrDet_id";
     public static final String FITEDEBDET_DEB_CODE = "DebCode";
-    public static final String FITEDEBDET_REF_NO = "RefNo";
+
     public static final String FITEDEBDET_ROUTE_CODE = "RouteCode";
     public static final String FITEDEBDET_TXN_DATE = "TxnDate";
 
     // create String
-    private static final String CREATE_FITEDEBDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITEDEBDET + " (" + FITEDEBDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITEDEBDET_DEB_CODE + " TEXT, " + FITEDEBDET_REF_NO + " TEXT, " + FITEDEBDET_ROUTE_CODE + " TEXT, " + FITEDEBDET_TXN_DATE + " TEXT); ";
+    private static final String CREATE_FITEDEBDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITEDEBDET + " (" + FITEDEBDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITEDEBDET_DEB_CODE + " TEXT, " + REFNO + " TEXT, " + FITEDEBDET_ROUTE_CODE + " TEXT, " + FITEDEBDET_TXN_DATE + " TEXT); ";
 
     /**
      * ############################ FinvHedL3 table Details
@@ -1684,16 +1690,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // table attributes
     public static final String FINVHEDL3_ID = "FinvHedL3_id";
     public static final String FINVHEDL3_DEB_CODE = "DebCode";
-    public static final String FINVHEDL3_REF_NO = "RefNo";
     public static final String FINVHEDL3_REF_NO1 = "RefNo1";
+
     public static final String FINVHEDL3_TOTAL_AMT = "TotalAmt";
     public static final String FINVHEDL3_TOTAL_TAX = "TotalTax";
     public static final String FINVHEDL3_TXN_DATE = "TxnDate";
 
     // create String
-    private static final String CREATE_FINVHEDL3_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVHEDL3 + " (" + FINVHEDL3_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVHEDL3_DEB_CODE + " TEXT, " + FINVHEDL3_REF_NO + " TEXT, " + FINVHEDL3_REF_NO1 + " TEXT, " + FINVHEDL3_TOTAL_AMT + " TEXT, " + FINVHEDL3_TOTAL_TAX + " TEXT, " + FINVHEDL3_TXN_DATE + " TEXT); ";
+    private static final String CREATE_FINVHEDL3_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVHEDL3 + " (" + FINVHEDL3_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVHEDL3_DEB_CODE + " TEXT, " + REFNO + " TEXT, " + FINVHEDL3_REF_NO1 + " TEXT, " + FINVHEDL3_TOTAL_AMT + " TEXT, " + FINVHEDL3_TOTAL_TAX + " TEXT, " + FINVHEDL3_TXN_DATE + " TEXT); ";
 
-    private static final String TESTINVHEDL3 = "CREATE UNIQUE INDEX IF NOT EXISTS idxinvhedl3_something ON " + TABLE_FINVHEDL3 + " (" + FINVHEDL3_REF_NO + ")";
+    private static final String TESTINVHEDL3 = "CREATE UNIQUE INDEX IF NOT EXISTS idxinvhedl3_something ON " + TABLE_FINVHEDL3 + " (" + REFNO + ")";
 
     /**
      * ############################ FinvHedL3 table Details
@@ -1707,16 +1713,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVDETL3_AMT = "Amt";
     public static final String FINVDETL3_ITEM_CODE = "ItemCode";
     public static final String FINVDETL3_QTY = "Qty";
-    public static final String FINVDETL3_REF_NO = "RefNo";
+
     public static final String FINVDETL3_SEQ_NO = "SeqNo";
     public static final String FINVDETL3_TAX_AMT = "TaxAmt";
     public static final String FINVDETL3_TAX_COM_CODE = "TaxComCode";
     public static final String FINVDETL3_TXN_DATE = "TxnDate";
 
     // create String
-    private static final String CREATE_FINVDETL3_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVDETL3 + " (" + FINVDETL3_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDETL3_AMT + " TEXT, " + FINVDETL3_ITEM_CODE + " TEXT, " + FINVDETL3_QTY + " TEXT, " + FINVDETL3_REF_NO + " TEXT, " + FINVDETL3_SEQ_NO + " TEXT, " + FINVDETL3_TAX_AMT + " TEXT, " + FINVDETL3_TAX_COM_CODE + " TEXT, " + FINVDETL3_TXN_DATE + " TEXT); ";
+    private static final String CREATE_FINVDETL3_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVDETL3 + " (" + FINVDETL3_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDETL3_AMT + " TEXT, " + FINVDETL3_ITEM_CODE + " TEXT, " + FINVDETL3_QTY + " TEXT, " + REFNO + " TEXT, " + FINVDETL3_SEQ_NO + " TEXT, " + FINVDETL3_TAX_AMT + " TEXT, " + FINVDETL3_TAX_COM_CODE + " TEXT, " + FINVDETL3_TXN_DATE + " TEXT); ";
 
-    private static final String TESTINVDETL3 = "CREATE UNIQUE INDEX IF NOT EXISTS idxinvdetl3_something ON " + TABLE_FINVDETL3 + " (" + FINVDETL3_REF_NO + "," + FINVDETL3_ITEM_CODE + ")";
+    private static final String TESTINVDETL3 = "CREATE UNIQUE INDEX IF NOT EXISTS idxinvdetl3_something ON " + TABLE_FINVDETL3 + " (" + REFNO + "," + FINVDETL3_ITEM_CODE + ")";
 
     /**
      * ############################ FTranDet ################################
@@ -1724,7 +1730,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FTRANDET = "FTranDet";
     // table attributes
     public static final String FTRANDET_ID = "FTranDet_id";
-    public static final String FTRANDET_REFNO = "RefNo";
+
     public static final String FTRANDET_TXNDATE = "TxnDate";
     public static final String FTRANDET_LOCCODE = "LocCode";
     public static final String FTRANDET_TXNTYPE = "TxnType";
@@ -1738,7 +1744,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String REMQTY = "remqty";
 
     // create String
-    private static final String CREATE_FTRANDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTRANDET + " (" + FTRANDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FTRANDET_REFNO + " TEXT, " + FTRANDET_TXNDATE + " TEXT, " + FTRANDET_LOCCODE + " TEXT, " + FTRANDET_TXNTYPE + " TEXT, " + FTRANDET_SEQNO + " TEXT, " + FTRANDET_ITEMCODE + " TEXT, " + FTRANDET_QTY + " TEXT, " + FTRANDET_AMT + " TEXT," + FTRANDET_CASEQTY + " TEXT," + FTRANDET_PICEQTY + " TEXT," + REMQTY + " TEXT); ";
+    private static final String CREATE_FTRANDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTRANDET + " (" + FTRANDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FTRANDET_TXNDATE + " TEXT, " + FTRANDET_LOCCODE + " TEXT, " + FTRANDET_TXNTYPE + " TEXT, " + FTRANDET_SEQNO + " TEXT, " + FTRANDET_ITEMCODE + " TEXT, " + FTRANDET_QTY + " TEXT, " + FTRANDET_AMT + " TEXT," + FTRANDET_CASEQTY + " TEXT," + FTRANDET_PICEQTY + " TEXT," + REMQTY + " TEXT); ";
 
     /**
      * ############################ FTranHed ################################
@@ -1747,7 +1753,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FTRANHED = "FTranHed";
     // table attributes
     public static final String FTRANHED_ID = "FTranHed_id";
-    public static final String FTRANHED_REFNO = "RefNo";
+
     public static final String FTRANHED_TXNDATE = "TxnDate";
     public static final String FTRANHED_MANUREF = "ManuRef";
     public static final String FTRANHED_COSTCODE = "CostCode";
@@ -1776,7 +1782,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FTRANHED_ACTIVE_STATE = "ActiveState";
 
     // create String
-    private static final String CREATE_FTRANHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTRANHED + " (" + FTRANHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FTRANHED_REFNO + " TEXT, " + FTRANHED_TXNDATE + " TEXT, " + FTRANHED_MANUREF + " TEXT, " + FTRANHED_COSTCODE + " TEXT, " + FTRANHED_REMARKS + " TEXT, " + FTRANHED_TXNTYPE + " TEXT, " + FTRANHED_TOTALAMT + " TEXT, " + FTRANHED_DELPERSN + " TEXT," + FTRANHED_DELADD1 + " TEXT," + FTRANHED_DELADD2 + " TEXT, " + FTRANHED_DELADD3 + " TEXT, " + FTRANHED_VEHICALNO + " TEXT, " + FTRANHED_PRTCOPY + " TEXT, " + FTRANHED_GLPOST + " TEXT, " + FTRANHED_GLBATCH + " TEXT, " + FTRANHED_ADDUSER + " TEXT," + FTRANHED_ADDDATE + " TEXT," + FTRANHED_ADDMACH + " TEXT," + FTRANHED_DEALCODE + " TEXT," + FTRANHED_LONGITUDE + " TEXT," + FTRANHED_LATITUDE + " TEXT," + FTRANHED_LOCFROM + " TEXT," + FTRANHED_LOCTO + " TEXT," + FTRANHED_IS_SYNCED + " TEXT," + FTRANHED_ACTIVE_STATE + " TEXT); ";
+    private static final String CREATE_FTRANHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTRANHED + " (" + FTRANHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FTRANHED_TXNDATE + " TEXT, " + FTRANHED_MANUREF + " TEXT, " + FTRANHED_COSTCODE + " TEXT, " + FTRANHED_REMARKS + " TEXT, " + FTRANHED_TXNTYPE + " TEXT, " + FTRANHED_TOTALAMT + " TEXT, " + FTRANHED_DELPERSN + " TEXT," + FTRANHED_DELADD1 + " TEXT," + FTRANHED_DELADD2 + " TEXT, " + FTRANHED_DELADD3 + " TEXT, " + FTRANHED_VEHICALNO + " TEXT, " + FTRANHED_PRTCOPY + " TEXT, " + FTRANHED_GLPOST + " TEXT, " + FTRANHED_GLBATCH + " TEXT, " + FTRANHED_ADDUSER + " TEXT," + FTRANHED_ADDDATE + " TEXT," + FTRANHED_ADDMACH + " TEXT," + FTRANHED_DEALCODE + " TEXT," + FTRANHED_LONGITUDE + " TEXT," + FTRANHED_LATITUDE + " TEXT," + FTRANHED_LOCFROM + " TEXT," + FTRANHED_LOCTO + " TEXT," + FTRANHED_IS_SYNCED + " TEXT," + FTRANHED_ACTIVE_STATE + " TEXT); ";
 
     /**
      * ############################ FTranIss ################################
@@ -1785,7 +1791,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FTRANISS = "FTranIss";
     // table attributes
     public static final String FTRANISS_ID = "FTranHed_id";
-    public static final String FTRANISS_REFNO = "RefNo";
+
     public static final String FTRANISS_TXNDATE = "TxnDate";
     public static final String FTRANISS_STKRECNO = "StkreCno";
     public static final String FTRANISS_STKRECDATE = "StkrecDate";
@@ -1800,7 +1806,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FTRANISS_OTHCOST = "OthCost";
 
     // create String
-    private static final String CREATE_FTRANISS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTRANISS + " (" + FTRANISS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FTRANISS_REFNO + " TEXT, " + FTRANISS_TXNDATE + " TEXT, " + FTRANISS_STKRECNO + " TEXT, " + FTRANISS_STKRECDATE + " TEXT, " + FTRANISS_STKTXNNO + " TEXT, " + FTRANISS_STKTXNDATE + " TEXT, " + FTRANISS_STKTXNTYPE + " TEXT, " + FTRANISS_LOCCODE + " TEXT," + FTRANISS_ITEMCODE + " TEXT," + FTRANISS_QTY + " TEXT, " + FTRANISS_COSTPRICE + " TEXT, " + FTRANISS_AMT + " TEXT, " + FTRANISS_OTHCOST + " TEXT); ";
+    private static final String CREATE_FTRANISS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTRANISS + " (" + FTRANISS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FTRANISS_TXNDATE + " TEXT, " + FTRANISS_STKRECNO + " TEXT, " + FTRANISS_STKRECDATE + " TEXT, " + FTRANISS_STKTXNNO + " TEXT, " + FTRANISS_STKTXNDATE + " TEXT, " + FTRANISS_STKTXNTYPE + " TEXT, " + FTRANISS_LOCCODE + " TEXT," + FTRANISS_ITEMCODE + " TEXT," + FTRANISS_QTY + " TEXT, " + FTRANISS_COSTPRICE + " TEXT, " + FTRANISS_AMT + " TEXT, " + FTRANISS_OTHCOST + " TEXT); ";
 
     /**
      * ############################ FDaynonprdHed
@@ -1812,7 +1818,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FDAMHED = "FDamHed";
     // table attributes
     public static final String FDAMHED_ID = "FDamHed_id";
-    public static final String FDAMHED_REFNO = "RefNo";
+
     public static final String FDAMHED_TXNDATE = "TxnDate";
     public static final String FDAMHED_MANUREF = "ManuRef";
     public static final String FDAMHED_DEALCODE = "DealCode";
@@ -1835,7 +1841,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FDAMHED_ACTIVE_STATE = "ActiveState";
 
     // create String
-    private static final String CREATE_FDAMHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDAMHED + " (" + FDAMHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDAMHED_REFNO + " TEXT, " + FDAMHED_TXNDATE + " TEXT, " + FDAMHED_MANUREF + " TEXT, " + FDAMHED_COSTCODE + " TEXT, " + FDAMHED_REMARKS + " TEXT, " + FDAMHED_TXNTYPE + " TEXT, " + FDAMHED_TOTALAMT + " TEXT, " + FDAMHED_REACODE + " TEXT, " + FDAMHED_ITEMTYPE + " TEXT, " + FDAMHED_GLPOST + " TEXT, " + FDAMHED_GLBATCH + " TEXT, " + FDAMHED_ADDUSER + " TEXT," + FDAMHED_ADDDATE + " TEXT," + FDAMHED_ADDMACH + " TEXT," + FDAMHED_DEALCODE + " TEXT," + FDAMHED_LOCFROM + " TEXT," + FDAMHED_LOCTO + " TEXT," + FDAMHED_IS_SYNCED + " TEXT," + FDAMHED_ACTIVE_STATE + " TEXT); ";
+    private static final String CREATE_FDAMHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDAMHED + " (" + FDAMHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDAMHED_TXNDATE + " TEXT, " + FDAMHED_MANUREF + " TEXT, " + FDAMHED_COSTCODE + " TEXT, " + FDAMHED_REMARKS + " TEXT, " + FDAMHED_TXNTYPE + " TEXT, " + FDAMHED_TOTALAMT + " TEXT, " + FDAMHED_REACODE + " TEXT, " + FDAMHED_ITEMTYPE + " TEXT, " + FDAMHED_GLPOST + " TEXT, " + FDAMHED_GLBATCH + " TEXT, " + FDAMHED_ADDUSER + " TEXT," + FDAMHED_ADDDATE + " TEXT," + FDAMHED_ADDMACH + " TEXT," + FDAMHED_DEALCODE + " TEXT," + FDAMHED_LOCFROM + " TEXT," + FDAMHED_LOCTO + " TEXT," + FDAMHED_IS_SYNCED + " TEXT," + FDAMHED_ACTIVE_STATE + " TEXT); ";
 
     /**
      * ############################ FDamDet ################################
@@ -1843,7 +1849,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FDAMDET = "FDamDet";
     // table attributes
     public static final String FDAMDET_ID = "FTranDet_id";
-    public static final String FDAMDET_REFNO = "RefNo";
+
     public static final String FDAMDET_TXNDATE = "TxnDate";
     public static final String FDAMDET_LOCCODE = "LocCode";
     public static final String FDAMDET_TXNTYPE = "TxnType";
@@ -1858,7 +1864,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String REMQTYDAM = "remqty";
 
     // create String
-    private static final String CREATE_FDAMDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDAMDET + " (" + FDAMDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDAMDET_REFNO + " TEXT, " + FDAMDET_TXNDATE + " TEXT, " + FDAMDET_LOCCODE + " TEXT, " + FDAMDET_TXNTYPE + " TEXT, " + FDAMDET_SEQNO + " TEXT, " + FDAMDET_ITEMCODE + " TEXT, " + FDAMDET_REACODE + " TEXT, " + FDAMDET_REANAME + " TEXT, " + FDAMDET_QTY + " TEXT, " + FDAMDET_AMT + " TEXT," + FDAMDET_CASEQTY + " TEXT," + FDAMDET_PICEQTY + " TEXT," + REMQTYDAM + " TEXT); ";
+    private static final String CREATE_FDAMDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDAMDET + " (" + FDAMDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDAMDET_TXNDATE + " TEXT, " + FDAMDET_LOCCODE + " TEXT, " + FDAMDET_TXNTYPE + " TEXT, " + FDAMDET_SEQNO + " TEXT, " + FDAMDET_ITEMCODE + " TEXT, " + FDAMDET_REACODE + " TEXT, " + FDAMDET_REANAME + " TEXT, " + FDAMDET_QTY + " TEXT, " + FDAMDET_AMT + " TEXT," + FDAMDET_CASEQTY + " TEXT," + FDAMDET_PICEQTY + " TEXT," + REMQTYDAM + " TEXT); ";
 
     /**
      * ############################ FAdjHed ################################
@@ -1867,7 +1873,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FADJHED = "FAdjHed";
     // table attributes
     public static final String FADJHED_ID = "FAdjHed_id";
-    public static final String FADJHED_REFNO = "RefNo";
+
     public static final String FADJHED_TXNDATE = "TxnDate";
     public static final String FADJHED_COSTCODE = "CostCode";
     public static final String FADJHED_MANUREF = "ManuRef";
@@ -1888,7 +1894,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FADJHED_ACTIVE_STATE = "ActiveState";
 
     // create String
-    private static final String CREATE_FADJHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FADJHED + " (" + FADJHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FADJHED_REFNO + " TEXT, " + FADJHED_TXNDATE + " TEXT, " + FADJHED_COSTCODE + " TEXT, " + FADJHED_MANUREF + " TEXT, " + FADJHED_REFNO2 + " TEXT, " + FADJHED_TXNTYPE + " TEXT, " + FADJHED_TOTALAMT + " TEXT, " + FADJHED_REMARKS + " TEXT, " + FADJHED_LOCCODE + " TEXT, " + FADJHED_DEALCODE + " TEXT, " + FADJHED_REACODE + " TEXT, " + FADJHED_GLPOST + " TEXT, " + FADJHED_GLBATCH + " TEXT, " + FADJHED_ADDUSER + " TEXT," + FADJHED_ADDDATE + " TEXT," + FADJHED_ADDMACH + " TEXT," + FADJHED_IS_SYNCED + " TEXT," + FADJHED_ACTIVE_STATE + " TEXT); ";
+    private static final String CREATE_FADJHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FADJHED + " (" + FADJHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FADJHED_TXNDATE + " TEXT, " + FADJHED_COSTCODE + " TEXT, " + FADJHED_MANUREF + " TEXT, " + FADJHED_REFNO2 + " TEXT, " + FADJHED_TXNTYPE + " TEXT, " + FADJHED_TOTALAMT + " TEXT, " + FADJHED_REMARKS + " TEXT, " + FADJHED_LOCCODE + " TEXT, " + FADJHED_DEALCODE + " TEXT, " + FADJHED_REACODE + " TEXT, " + FADJHED_GLPOST + " TEXT, " + FADJHED_GLBATCH + " TEXT, " + FADJHED_ADDUSER + " TEXT," + FADJHED_ADDDATE + " TEXT," + FADJHED_ADDMACH + " TEXT," + FADJHED_IS_SYNCED + " TEXT," + FADJHED_ACTIVE_STATE + " TEXT); ";
 
     /**
      * ############################ FAdjDet ################################
@@ -1896,7 +1902,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FADJDET = "FAdjDet";
     // table attributes
     public static final String FADJDET_ID = "FTranDet_id";
-    public static final String FADJDET_REFNO = "RefNo";
+
     public static final String FADJDET_TXNDATE = "TxnDate";
     public static final String FADJDET_TXNTYPE = "TxnType";
     public static final String FADJDET_SEQNO = "SeqNo";
@@ -1910,42 +1916,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FADJDET_REANAME = "ReaName";
 
     // create String
-    private static final String CREATE_FADJDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FADJDET + " (" + FADJDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FADJDET_REFNO + " TEXT, " + FADJDET_TXNDATE + " TEXT, " + FADJDET_TXNTYPE + " TEXT, " + FADJDET_SEQNO + " TEXT, " + FADJDET_ITEMCODE + " TEXT, " + FADJDET_QTY + " TEXT, " + FADJDET_CASEQTY + " TEXT," + FADJDET_PICEQTY + " TEXT," + FADJDET_COSTPRICE + " TEXT, " + FADJDET_AMT + " TEXT, " + FADJDET_REACODE + " TEXT, " + FADJDET_REANAME + " TEXT ); ";
+    private static final String CREATE_FADJDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FADJDET + " (" + FADJDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FADJDET_TXNDATE + " TEXT, " + FADJDET_TXNTYPE + " TEXT, " + FADJDET_SEQNO + " TEXT, " + FADJDET_ITEMCODE + " TEXT, " + FADJDET_QTY + " TEXT, " + FADJDET_CASEQTY + " TEXT," + FADJDET_PICEQTY + " TEXT," + FADJDET_COSTPRICE + " TEXT, " + FADJDET_AMT + " TEXT, " + FADJDET_REACODE + " TEXT, " + FADJDET_REANAME + " TEXT ); ";
 
     /**
      * ############################ FDayExpHed ################################
-
-
      * ############################ FDayExpDet ################################
      */
     public static final String TABLE_FDAYEXPDET = "FDayExpDet";
     // table attributes
     public static final String FDAYEXPDET_ID = "FDayExpDet_id";
-    public static final String FDAYEXPDET_REFNO = "RefNo";
     public static final String FDAYEXPDET_TXNDATE = "TxnDate";
-    ;
     public static final String FDAYEXPDET_SEQNO = "SeqNo";
     public static final String FDAYEXPDET_EXPCODE = "ExpCode";
     public static final String FDAYEXPDET_AMT = "Amt";
-
     // create String
-    private static final String CREATE_FDAYEXPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDAYEXPDET + " (" + FDAYEXPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDAYEXPDET_REFNO + " TEXT, " + FDAYEXPDET_TXNDATE + " TEXT, " + FDAYEXPDET_SEQNO + " TEXT, " + FDAYEXPDET_EXPCODE + " TEXT, " + FDAYEXPDET_AMT + " TEXT); ";
-
+    private static final String CREATE_FDAYEXPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDAYEXPDET + " (" + FDAYEXPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FDAYEXPDET_TXNDATE + " TEXT, " + FDAYEXPDET_SEQNO + " TEXT, " + FDAYEXPDET_EXPCODE + " TEXT, " + FDAYEXPDET_AMT + " TEXT); ";
     /**
      * ############################ FInvRHed ################################
      */
 
     public static final String TABLE_FINVRHED = "InvRHed";
+
     // table attributes
     public static final String FINVRHED_ID = "id";
-    public static final String FINVRHED_REFNO = "RefNo";
     public static final String FINVRHED_MANUREF = "ManuRef";
     public static final String FINVRHED_TXNDATE = "TxnDate";
     public static final String FINVRHED_COSTCODE = "CostCode";
     public static final String FINVRHED_DEBCODE = "DebCode";
     public static final String FINVRHED_REMARKS = "Remarks";
     public static final String FINVRHED_TXNTYPE = "TxnType";
-
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public static final String FINVRHED_LOCCODE = "LOCCode";
     public static final String FINVRHED_REPCODE = "RepCode";
@@ -1953,7 +1952,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVRHED_TOTAL_TAX = "TotalTax";
     public static final String FINVRHED_TOTAL_AMT = "TotalAmt";
     public static final String FINVRHED_TOTAL_DIS = "TotalDis";
-
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public static final String FINVRHED_TAX_REG = "TaxReg";
     public static final String FINVRHED_ADD_DATE = "AddDate";
@@ -1973,10 +1971,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVRHED_DRIVERCODE = "DriverCode";
     public static final String FINVRHED_HELPERCODE = "HelperCode";
     public static final String FINVRHED_LORRYCODE = "LorryCode";
-
-
     // create String
-    private static final String CREATE_FINVRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRHED + " (" + FINVRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVRHED_REFNO + " TEXT, " + FINVRHED_MANUREF + " TEXT, " + FINVRHED_TXNDATE + " TEXT, " + FINVRHED_COSTCODE + " TEXT, " + FINVRHED_DEBCODE + " TEXT, " + FINVRHED_REMARKS + " TEXT, " + FINVRHED_TXNTYPE + " TEXT, " + FINVRHED_LOCCODE + " TEXT, " + FINVRHED_REPCODE + " TEXT, " + FINVRHED_REASON_CODE + " TEXT, " + FINVRHED_TOTAL_TAX + " TEXT, " + FINVRHED_TOTAL_AMT + " TEXT, " + FINVRHED_TOTAL_DIS + " TEXT, " + FINVRHED_TAX_REG + " TEXT, " + FINVRHED_ADD_DATE + " TEXT, " + FINVRHED_ADD_MACH + " TEXT, " + FINVRHED_ADD_USER + " TEXT, " + FINVRHED_ROUTE_CODE + " TEXT, "             + FINVRHED_LONGITUDE + " TEXT, " + FINVRHED_LATITUDE + " TEXT, " + FINVRHED_IS_ACTIVE + " TEXT, " + FINVRHED_IS_SYNCED + " TEXT, " + FINVRHED_ADDRESS + " TEXT, " + FINVRHED_START_TIME + " TEXT, " + FINVRHED_END_TIME + " TEXT, " + FINVRHED_RETURN_TYPE + " TEXT, " + FINVRHED_TOURCODE + " TEXT, " + FINVRHED_AREACODE + " TEXT, " + FINVRHED_DRIVERCODE + " TEXT, " + FINVRHED_HELPERCODE + " TEXT, " + FINVRHED_LORRYCODE + " TEXT); ";
+
+    private static final String CREATE_FINVRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRHED + " (" + FINVRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FINVRHED_MANUREF + " TEXT, " + FINVRHED_TXNDATE + " TEXT, " + FINVRHED_COSTCODE + " TEXT, " + FINVRHED_DEBCODE + " TEXT, " + FINVRHED_REMARKS + " TEXT, " + FINVRHED_TXNTYPE + " TEXT, " + FINVRHED_LOCCODE + " TEXT, " + FINVRHED_REPCODE + " TEXT, " + FINVRHED_REASON_CODE + " TEXT, " + FINVRHED_TOTAL_TAX + " TEXT, " + FINVRHED_TOTAL_AMT + " TEXT, " + FINVRHED_TOTAL_DIS + " TEXT, " + FINVRHED_TAX_REG + " TEXT, " + FINVRHED_ADD_DATE + " TEXT, " + FINVRHED_ADD_MACH + " TEXT, " + FINVRHED_ADD_USER + " TEXT, " + FINVRHED_ROUTE_CODE + " TEXT, "             + FINVRHED_LONGITUDE + " TEXT, " + FINVRHED_LATITUDE + " TEXT, " + FINVRHED_IS_ACTIVE + " TEXT, " + FINVRHED_IS_SYNCED + " TEXT, " + FINVRHED_ADDRESS + " TEXT, " + FINVRHED_START_TIME + " TEXT, " + FINVRHED_END_TIME + " TEXT, " + FINVRHED_RETURN_TYPE + " TEXT, " + FINVRHED_TOURCODE + " TEXT, " + FINVRHED_AREACODE + " TEXT, " + FINVRHED_DRIVERCODE + " TEXT, " + FINVRHED_HELPERCODE + " TEXT, " + FINVRHED_LORRYCODE + " TEXT); ";
 
     /**
      * ############################ FInvRDet ################################
@@ -1984,9 +1981,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_FINVRDET = "FInvRDet";
     // table attributes
     public static final String FINVRDET_ID = "FInvRDet_id";
-    public static final String FINVRDET_REFNO = "RefNo";
     public static final String FINVRDET_ITEMCODE = "ItemCode";
-    ;
     public static final String FINVRDET_TXN_DATE = "TxnDate";
     public static final String FINVRDET_COST_PRICE = "CostPrice";
     public static final String FINVRDET_AMT = "Amt";
@@ -1996,10 +1991,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVRDET_PACKSIZE = "PackSize";
     public static final String FINVRDET_EXPR_DATE = "ExprDate";
     public static final String FINVRDET_RETURN_REASON = "ReturnReason";
-
     // create String
-    private static final String CREATE_FINVRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRDET + " (" + FINVRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVRDET_REFNO + " TEXT, " + FINVRDET_ITEMCODE + " TEXT, " + FINVRDET_TXN_DATE + " TEXT, " + FINVRDET_COST_PRICE + " TEXT, " + FINVRDET_AMT + " TEXT, " + FINVRDET_QTY + " TEXT, " + FINVRDET_FREE_QTY + " TEXT, " + FINVRDET_IS_ACTIVE + " TEXT, " + FINVRDET_PACKSIZE + " TEXT, " + FINVRDET_RETURN_REASON + " TEXT, " + FINVRDET_EXPR_DATE + " TEXT); ";
-
+    private static final String CREATE_FINVRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRDET + " (" + FINVRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FINVRDET_ITEMCODE + " TEXT, " + FINVRDET_TXN_DATE + " TEXT, " + FINVRDET_COST_PRICE + " TEXT, " + FINVRDET_AMT + " TEXT, " + FINVRDET_QTY + " TEXT, " + FINVRDET_FREE_QTY + " TEXT, " + FINVRDET_IS_ACTIVE + " TEXT, " + FINVRDET_PACKSIZE + " TEXT, " + FINVRDET_RETURN_REASON + " TEXT, " + FINVRDET_EXPR_DATE + " TEXT); ";
     /**
      * ############################ FRepLoc ################################
      */
@@ -2008,26 +2001,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FREPLOC_ID = "FRepLoc_id";
     public static final String FREPLOC_REPCODE = "RepCode";
     public static final String FREPLOC_LOCCODE = "LocCode";
-    ;
     public static final String FREPLOC_COSTCODE = "CostCose";
-
     // create String
     private static final String CREATE_FREPLOC_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FREPLOC + " (" + FREPLOC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FREPLOC_REPCODE + " TEXT, " + FREPLOC_LOCCODE + " TEXT, " + FREPLOC_COSTCODE + " TEXT); ";
-
     // --------------------------------------------------------------------------------------------------------------
     public static final String TABLE_TEMP_FDEBTOR = "FTempDebtor";
     // table attributes
-
-
     // create String
     private static final String CREATE_TABLE_TEMP_FDEBTOR = "CREATE  TABLE IF NOT EXISTS " + TABLE_TEMP_FDEBTOR + " (" + FDEBTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDEBTOR_CODE + " TEXT, " + FDEBTOR_NAME + " TEXT); ";
-
     // --------------------------------------------------------------------------------------------------------------
-
     public static final String TABLE_FPRECDET = "fpRecDet";
-
     public static final String FPRECDET_ID = "Id";
-    public static final String FPRECDET_REFNO = "RefNo";
     public static final String FPRECDET_REFNO1 = "RefNo1";
     public static final String FPRECDET_REFNO2 = "RefNo2";
     public static final String FPRECDET_DEBCODE = "DebCode";
@@ -2050,9 +2034,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FPRECDET_TIMESTAMP = "timestamp_column";
     public static final String FPRECDET_ISDELETE = "IsDelete";
     public static final String FPRECDET_REMARK = "Remark";
-
-
-    private static final String CREATE_FPRECDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECDET + " (" + FPRECDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FPRECDET_REFNO + " TEXT, " + FPRECDET_REFNO1 + " TEXT, " + FPRECDET_REFNO2 + " TEXT, " + FPRECDET_DEBCODE + " TEXT, " + FPRECDET_SALEREFNO + " TEXT, "
+    private static final String CREATE_FPRECDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECDET + " (" + FPRECDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FPRECDET_REFNO1 + " TEXT, " + FPRECDET_REFNO2 + " TEXT, " + FPRECDET_DEBCODE + " TEXT, " + FPRECDET_SALEREFNO + " TEXT, "
 
             + FPRECDET_MANUREF + " TEXT, " + FPRECDET_TXNTYPE + " TEXT, " + FPRECDET_TXNDATE + " TEXT, "
 
@@ -2063,11 +2045,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + FPRECDET_ALOAMT + " TEXT, " + FPRECDET_OVPAYAMT + " TEXT, " + FPRECDET_REMARK + " TEXT, " + FPRECDET_OVPAYBAL + " TEXT, " + FPRECDET_RECORDID + " TEXT, " + FPRECDET_ISDELETE + " TEXT, " + FPRECDET_TIMESTAMP + " TEXT );";
 
     /*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
     public static final String TABLE_FPRECHED = "fpRecHed";
-
     public static final String FPRECHED_ID = "Id";
-    public static final String FPRECHED_REFNO = "RefNo";
     public static final String FPRECHED_REFNO1 = "RefNo1";
     public static final String FPRECHED_MANUREF = "ManuRef";
     public static final String FPRECHED_SALEREFNO = "SaleRefNo";
@@ -2102,10 +2081,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FPRECHED_ISDELETE = "IsDelete";
     public static final String FPRECHED_BANKCODE = "BankCode";
     public static final String FPRECHED_BRANCHCODE = "BranchCode";
-
     private static final String CREATE_FPRECHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECHED + " (" + FPRECHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-            FPRECHED_REFNO + " TEXT, " + FPRECHED_REFNO1 + " TEXT, " + FPRECHED_MANUREF + " TEXT, " + FPRECHED_SALEREFNO + " TEXT, " +
+           REFNO + " TEXT, " + FPRECHED_REFNO1 + " TEXT, " + FPRECHED_MANUREF + " TEXT, " + FPRECHED_SALEREFNO + " TEXT, " +
 
             FPRECHED_REPCODE + " TEXT, " + FPRECHED_TXNTYPE + " TEXT, " + FPRECHED_CHQNO + " TEXT, " + FPRECHED_CHQDATE + " TEXT, " + FPRECHED_TXNDATE + " TEXT, " + FPRECHED_CURCODE + " TEXT, " +
 
@@ -2118,12 +2096,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             FPRECHED_LONGITUDE + " TEXT, " + FPRECHED_LATITUDE + " TEXT, " + FPRECHED_ADDRESS + " TEXT, " + FPRECHED_START_TIME + " TEXT, " + FPRECHED_END_TIME + " TEXT, " + FPRECHED_ISACTIVE + " TEXT, " + FPRECHED_ISSYNCED + " TEXT, " + FPRECHED_CURRATE + " TEXT, " + FPRECHED_CUSBANK + " TEXT);";
 
     /*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
     public static final String TABLE_FPRECHEDS = "fpRecHedS";
 
     private static final String CREATE_FPRECHEDS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECHEDS + " (" + FPRECHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-            FPRECHED_REFNO + " TEXT, " + FPRECHED_REFNO1 + " TEXT, " + FPRECHED_MANUREF + " TEXT, " + FPRECHED_SALEREFNO + " TEXT, " +
+            REFNO + " TEXT, " + FPRECHED_REFNO1 + " TEXT, " + FPRECHED_MANUREF + " TEXT, " + FPRECHED_SALEREFNO + " TEXT, " +
 
             FPRECHED_REPCODE + " TEXT, " + FPRECHED_TXNTYPE + " TEXT, " + FPRECHED_CHQNO + " TEXT, " + FPRECHED_CHQDATE + " TEXT, " + FPRECHED_TXNDATE + " TEXT, " + FPRECHED_CURCODE + " TEXT, " +
 
@@ -2137,8 +2114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_FPRECDETS = "fpRecDetS";
 
-
-    private static final String CREATE_FPRECDETS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECDETS + " (" + FPRECDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FPRECDET_REFNO + " TEXT, " + FPRECDET_REFNO1 + " TEXT, " + FPRECDET_REFNO2 + " TEXT, " + FPRECDET_DEBCODE + " TEXT, " + FPRECDET_SALEREFNO + " TEXT, "
+    private static final String CREATE_FPRECDETS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECDETS + " (" + FPRECDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FPRECDET_REFNO1 + " TEXT, " + FPRECDET_REFNO2 + " TEXT, " + FPRECDET_DEBCODE + " TEXT, " + FPRECDET_SALEREFNO + " TEXT, "
 
             + FPRECDET_MANUREF + " TEXT, " + FPRECDET_TXNTYPE + " TEXT, " + FPRECDET_TXNDATE + " TEXT, "
 
@@ -2147,7 +2123,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + FPRECDET_OCURRATE + " TEXT, " + FPRECDET_REPCODE + " TEXT, " + FPRECDET_AMT + " TEXT, " + FPRECDET_BAMT + " TEXT, " + FPRECDET_ISDELETE + " TEXT, "
 
             + FPRECDET_REMARK + " TEXT, " + FPRECDET_ALOAMT + " TEXT, " + FPRECDET_OVPAYAMT + " TEXT, " + FPRECDET_OVPAYBAL + " TEXT, " + FPRECDET_RECORDID + " TEXT, " + FPRECDET_TIMESTAMP + " TEXT );";
-
     /**
      * ############################ fRouteDet table Details
      * ################################
@@ -2159,11 +2134,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FORDSTAT_ORDREFNO = "OrdRefNo";
     public static final String FORDSTAT_INVREFNO = "InvRefNo";
     public static final String FORDSTAT_OFINREFNO = "OfInRef";
-
     // create String
     private static final String CREATE_FORDSTAT_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FORDSTAT + " (" + FORDSTAT_ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FORDSTAT_ORDREFNO + " TEXT, " + FORDSTAT_INVREFNO + " TEXT, " + FORDSTAT_OFINREFNO + " TEXT); ";
-
     public static final String TABLE_FGPSLOC = "fGPSLoc";
     // table attributes
     public static final String FGPSLOC_ID = "fGPSLoc_id";
@@ -2174,15 +2147,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FGPSLOC_BATTPER = "Battper";
     public static final String FGPSLOC_SEQNO = "SeqNo";
     public static final String FGPSLOC_ISSYNCED = "isSync";
-
     // create String
     private static final String CREATE_FGPSLOC_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FGPSLOC + " (" + FGPSLOC_ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FGPSLOC_REPCODE + " TEXT, " + FGPSLOC_GPSDATE + " TEXT, "
             + FGPSLOC_LONGITUDE + " TEXT, " + FGPSLOC_LATITUDE + " TEXT, " + FGPSLOC_BATTPER + " TEXT, "
             + FGPSLOC_SEQNO + " TEXT, " + FGPSLOC_ISSYNCED + " TEXT); ";
-
     // Pre Product Table
-
     public static final String TABLE_FPRODUCT_PRE = "fProducts_pre";
     public static final String FPRODUCT_ID_PRE = "id";
     public static final String FPRODUCT_ITEMCODE_PRE = "itemcode_pre";
@@ -2190,7 +2160,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FPRODUCT_PRICE_PRE = "price_pre";
     public static final String FPRODUCT_QOH_PRE = "qoh_pre";
     public static final String FPRODUCT_QTY_PRE = "qty_pre";
-
     private static final String CREATE_FPRODUCT_PRE_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRODUCT_PRE + " ("
             + FPRODUCT_ID_PRE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + FPRODUCT_ITEMCODE_PRE + " TEXT, "
@@ -2201,7 +2170,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_INVRDET = "InvRDet";
     public static final String INVRDET_ID = "id";
-    public static final String INVRDET_REFNO = "RefNo";
     public static final String INVRDET_ITEMCODE = "ItemCode";
     public static final String INVRDET_TAXCOMCODE = "TaxComCode";
     public static final String INVRDET_PRILCODE = "PrilCode";
@@ -2227,7 +2195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_INVRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_INVRDET + " ("
             + INVRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + INVRDET_REFNO + " TEXT, "
+            + REFNO + " TEXT, "
             + INVRDET_ITEMCODE + " TEXT, "
             + INVRDET_TAXCOMCODE + " TEXT, "
             + INVRDET_PRILCODE + " TEXT, "
@@ -2349,12 +2317,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // ---------------------------------------------------
 
     }
-
     // --------------------------------------------------------------------------------------------------------------
     @Override
     public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
 
         this.onCreate(arg0);
+        try {
+            arg0.execSQL(CREATE_FINVHED_TABLE);
+            arg0.execSQL(CREATE_FINVDET_TABLE);
+            arg0.execSQL(CREATE_FINVRHED_TABLE);
+            arg0.execSQL(CREATE_FINVRDET_TABLE);
 
+        } catch (SQLiteException e) {
+        }
+        try {
+            arg0.execSQL("ALTER TABLE "+TABLE_FSALREP+" ADD COLUMN LocCode TEXT ");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
     }
 }

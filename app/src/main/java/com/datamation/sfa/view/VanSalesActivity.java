@@ -17,6 +17,7 @@ import com.datamation.sfa.helpers.PreSalesResponseListener;
 
 import com.datamation.sfa.model.Customer;
 
+import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.vansale.InnerReturnDetails;
 import com.datamation.sfa.vansale.VanSalesHeader;
@@ -31,6 +32,7 @@ public class VanSalesActivity extends AppCompatActivity implements PreSalesRespo
     private ViewPager viewPager;
     public Customer selectedDebtor = null;
     public InvHed selectedInvHed = null;
+    public Customer selectedRetDebtor = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

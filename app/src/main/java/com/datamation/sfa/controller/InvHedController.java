@@ -49,13 +49,13 @@ public class InvHedController {
 
             for (InvHed invHed : list) {
 
-                String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVHED + " WHERE " + DatabaseHelper.FINVHED_REFNO + " = '" + invHed.getFINVHED_REFNO() + "'";
+                String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVHED + " WHERE " + DatabaseHelper.REFNO + " = '" + invHed.getFINVHED_REFNO() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
                 ContentValues values = new ContentValues();
 
-                values.put(DatabaseHelper.FINVHED_REFNO, invHed.getFINVHED_REFNO());
+                values.put(DatabaseHelper.REFNO, invHed.getFINVHED_REFNO());
                 values.put(DatabaseHelper.FINVHED_ADDDATE, invHed.getFINVHED_ADDDATE());
                 values.put(DatabaseHelper.FINVHED_ADDMACH, invHed.getFINVHED_ADDMACH());
                 values.put(DatabaseHelper.FINVHED_ADDUSER, invHed.getFINVHED_ADDUSER());
@@ -94,7 +94,7 @@ public class InvHedController {
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
-                    count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.FINVHED_REFNO + " =?", new String[]{String.valueOf(invHed.getFINVHED_REFNO())});
+                    count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(invHed.getFINVHED_REFNO())});
                 } else {
                     count = (int) dB.insert(DatabaseHelper.TABLE_FINVHED, null, values);
                 }
@@ -134,7 +134,7 @@ public class InvHedController {
                 while (cursor.moveToNext()) {
 
                     invHed.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ID)));
-                    invHed.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REFNO)));
+                    invHed.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                     invHed.setFINVHED_REFNO1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REFNO1)));
                     invHed.setFINVHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDDATE)));
                     invHed.setFINVHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDMACH)));
@@ -211,7 +211,7 @@ public class InvHedController {
 //            vanSalesMapper.setConsoleDB(localSP.getString("Console_DB", "").toString());
 //
 //            vanSalesMapper.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ID)));
-//            vanSalesMapper.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REFNO)));
+//            vanSalesMapper.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
 //            vanSalesMapper.setFINVHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDDATE)));
 //            vanSalesMapper.setFINVHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDMACH)));
 //            vanSalesMapper.setFINVHED_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDUSER)));
@@ -247,7 +247,7 @@ public class InvHedController {
 //            vanSalesMapper.setFINVHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_PAYTYPE)));
 //            vanSalesMapper.setFINVHED_SETTING_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_SETTING_CODE)));
 //
-//            String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REFNO));
+//            String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
 //
 //            vanSalesMapper.setInvDets(new InvDetDS(context).getAllInvDet(RefNo));
 //            vanSalesMapper.setInvTaxDTs(new InvTaxDTDS(context).getAllTaxDT(RefNo));
@@ -285,7 +285,7 @@ public class InvHedController {
 //            values.put(DatabaseHelper.FINVHED_IS_SYNCED, "1");
 //
 //            if (mapper.isIS_SYNCED()) {
-//                count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.FINVHED_REFNO + " =?", new String[]{String.valueOf(mapper.getFINVHED_REFNO())});
+//                count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(mapper.getREFNO())});
 //            }
 //
 //        } catch (Exception e) {
@@ -317,7 +317,7 @@ public class InvHedController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVHED + " WHERE " + DatabaseHelper.FINVHED_REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -328,7 +328,7 @@ public class InvHedController {
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.FINVHED_REFNO + " =?", new String[]{String.valueOf(refno)});
+                count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(refno)});
             } else {
                 count = (int) dB.insert(DatabaseHelper.TABLE_FINVHED, null, values);
             }
@@ -360,7 +360,7 @@ public class InvHedController {
         InvHed SOHed = new InvHed();
 
         try {
-            String selectQuery = "SELECT TxnDate,DebCode,Remarks,routecode,tourcode,TotalAmt,TotalDis FROM " + DatabaseHelper.TABLE_FINVHED + " WHERE " + DatabaseHelper.FINVHED_REFNO + " = '" + Refno + "'";
+            String selectQuery = "SELECT TxnDate,DebCode,Remarks,routecode,tourcode,TotalAmt,TotalDis FROM " + DatabaseHelper.TABLE_FINVHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -402,7 +402,7 @@ public class InvHedController {
         String locCode = "";
 
         try {
-            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVHED + " WHERE " + DatabaseHelper.FINVHED_REFNO + "='" + refno + "'";
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVHED + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
 
             if (cursor.getCount() > 0) {
@@ -414,7 +414,7 @@ public class InvHedController {
                     locCode = "";
                 } else {
                     locCode = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_LOCCODE));
-                    int success = dB.delete(DatabaseHelper.TABLE_FINVHED, DatabaseHelper.FINVHED_REFNO + "='" + refno + "'", null);
+                    int success = dB.delete(DatabaseHelper.TABLE_FINVHED, DatabaseHelper.REFNO + "='" + refno + "'", null);
                 }
             }
 
@@ -457,7 +457,7 @@ public class InvHedController {
                 InvHed invHed = new InvHed();
 
                 invHed.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ID)));
-                invHed.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REFNO)));
+                invHed.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 invHed.setFINVHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDDATE)));
                 invHed.setFINVHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDMACH)));
                 invHed.setFINVHED_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDUSER)));
@@ -570,7 +570,7 @@ public class InvHedController {
 //                    res = true;
 //                /*if invoice is older, then reset data*/
 //                else {
-//                    String Refno = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REFNO));
+//                    String Refno = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
 //                    restData(Refno);
 //                    new InvDetDS(context).restData(Refno);
 //                    new OrderDiscDS(context).clearData(Refno);
@@ -614,7 +614,7 @@ public class InvHedController {
 
             if (cursor.getCount() > 0) {
                 cursor.moveToNext();
-                res = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REFNO));
+                res = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
                 res += " ( " + new CustomerController(context).getSelectedCustomerByCode(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_DEBCODE))) + " )";
             } else
                 res = "None";
@@ -732,7 +732,7 @@ public class InvHedController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FINVHED + " WHERE " + dbHelper.FINVHED_REFNO + "='" + refno + "'";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FINVHED + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = null;
         cursor = dB.rawQuery(selectQuery, null);

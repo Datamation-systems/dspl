@@ -284,7 +284,7 @@ public class OrderTempController {
                 product.setPREPRODUCT_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRODUCT_ID)));
                 product.setPREPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRODUCT_ITEMCODE)));
                 product.setPREPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRODUCT_ITEMNAME)));
-                product.setPREPRODUCT_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRODUCT_REFNO)));
+                product.setPREPRODUCT_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 product.setPREPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRODUCT_QTY)));
                 product.setPREPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRODUCT_QTY)));
                 product.setPREPRODUCT_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRODUCT_QTY)));
