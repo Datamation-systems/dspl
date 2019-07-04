@@ -2238,7 +2238,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FDEBTOR_TABLE);
         arg0.execSQL(CREATE_FCONTROL_TABLE);
         arg0.execSQL(CREATE_FCOMPANYSETTING_TABLE);
-        arg0.execSQL(CREATE_FINVDET_TABLE);
+       // arg0.execSQL(CREATE_FINVDET_TABLE);
         arg0.execSQL(CREATE_FROUTE_TABLE);
         arg0.execSQL(CREATE_FBANK_TABLE);
         arg0.execSQL(CREATE_FREASON_TABLE);
@@ -2281,7 +2281,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FITEDEBDET_TABLE);
         arg0.execSQL(CREATE_FINVHEDL3_TABLE);
         arg0.execSQL(CREATE_FINVDETL3_TABLE);
-        arg0.execSQL(CREATE_FINVHED_TABLE);
+       // arg0.execSQL(CREATE_FINVHED_TABLE);
         arg0.execSQL(CREATE_FTRANDET_TABLE);
         arg0.execSQL(CREATE_FTRANHED_TABLE);
         arg0.execSQL(CREATE_FTRANISS_TABLE);
