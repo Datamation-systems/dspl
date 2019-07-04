@@ -13,6 +13,7 @@
     <string name="login_btn_sign_in_txt">SIGN IN</string>
     <!--  Num Value -->
     <string name="NumVal">SFAORDER</string>
+    <string name="VanNumVal">SFAINVOICE</string>
     <string name="ExpenseNumVal">EXPENCE</string>
     <string name="newCusVal">NEWCUS</string>
     <string name="nonprdVal">NONPRD</string>
