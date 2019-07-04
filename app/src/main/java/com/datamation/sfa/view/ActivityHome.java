@@ -30,11 +30,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anychart.anychart.AnyChart;
-import com.anychart.anychart.AnyChartView;
-import com.anychart.anychart.DataEntry;
-import com.anychart.anychart.Pie;
-import com.anychart.anychart.ValueDataEntry;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriceController;
@@ -42,7 +37,6 @@ import com.datamation.sfa.controller.NewCustomerController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
-import com.datamation.sfa.customer.AddNewCusRegistration;
 import com.datamation.sfa.customer.CustomerRegMain;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.expense.ExpenseMain;
@@ -55,10 +49,9 @@ import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.ItemPri;
-import com.datamation.sfa.model.NewCustomer;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.controller.RouteController;
-import com.datamation.sfa.model.OrderHeader;
+import com.datamation.sfa.model.PRESALE;
 import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.model.RefSetting;
 import com.datamation.sfa.model.ReferenceDetail;
@@ -66,16 +59,13 @@ import com.datamation.sfa.model.Route;
 import com.datamation.sfa.model.User;
 import com.datamation.sfa.nonproductive.NonProductiveMain;
 import com.datamation.sfa.nonproductive.NonProductiveManage;
-import com.datamation.sfa.presale.DetailFragment;
-import com.datamation.sfa.presale.OrderMainFragment;
-import com.datamation.sfa.presale.SalesManagementFragment;
+//import com.datamation.sfa.presale.OrderMainFragment;
 import com.datamation.sfa.R;
 
 import com.datamation.sfa.settings.ContentItem;
 import com.datamation.sfa.settings.ImportActivity;
 import com.datamation.sfa.adapter.ListViewDataAdapter;
 import com.datamation.sfa.settings.ReferenceNum;
-import com.datamation.sfa.settings.TaskType;
 import com.datamation.sfa.settings.UserSessionManager;
 import com.datamation.sfa.utils.NetworkUtil;
 import com.datamation.sfa.utils.UtilityContainer;
@@ -99,7 +89,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
     public Customer selectedDebtor = null;
     public boolean FreeTapped = false;
     //fordhed
-    public OrderHeader selectedOrdHed = null;
+    public PRESALE selectedOrdHed = null;
     //ftranHed
     public int cusPosition = 0;
     public int gpsseq = 0;
@@ -780,7 +770,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
                 //new OrderController(ActivityHome.this).updateIsSynced(true,order.getORDHED_REFNO());
                 Toast.makeText(ActivityHome.this, "Order synced with the server successfully", Toast.LENGTH_SHORT).show();
 
-                UtilityContainer.mLoadFragment(new SalesManagementFragment(), ActivityHome.this);
+                //UtilityContainer.mLoadFragment(new SalesManagementFragment(), ActivityHome.this);
 
             } else {
                 // Failure
@@ -825,7 +815,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 //            } else {
 //                Toast.makeText(context, "Please add the Day start entry first", Toast.LENGTH_SHORT).show();
 //            }
-            UtilityContainer.mLoadFragment(new OrderMainFragment(), ActivityHome.this);
+            //UtilityContainer.mLoadFragment(new OrderMainFragment(), ActivityHome.this);
         } else if (position == 2) {
             Log.d(">>>>>>", "position2");
             UtilityContainer.mLoadFragment( new CustomerRegMain(), ActivityHome.this);
@@ -860,7 +850,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
         alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int id) {
-                UtilityContainer.mLoadFragment(new SalesManagementFragment(), ActivityHome.this);
+                //UtilityContainer.mLoadFragment(new SalesManagementFragment(), ActivityHome.this);
                 dialog.cancel();
             }
         });
@@ -951,9 +941,9 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
     @Override
     public void moveNextFragment_Pre() {
-        FragmentManager manager = getSupportFragmentManager();
-         SalesManagementFragment frag = (SalesManagementFragment) manager.findFragmentByTag(SalesManagementFragment.class.getSimpleName());
-        frag.mMoveToHeader();
+//        FragmentManager manager = getSupportFragmentManager();
+//         SalesManagementFragment frag = (SalesManagementFragment) manager.findFragmentByTag(SalesManagementFragment.class.getSimpleName());
+//        frag.mMoveToHeader();
     }
 
     @Override

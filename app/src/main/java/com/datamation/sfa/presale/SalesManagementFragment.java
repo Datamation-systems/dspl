@@ -170,35 +170,7 @@ public class SalesManagementFragment extends Fragment {
         viewPager.setCurrentItem(1);
     }
 
-    public void backToReturn()
-    {
 
-    }
-
-    public void backToOrdDet()
-    {
-
-    }
-
-    public void backToHeader()
-    {
-
-    }
-
-    public void nextToDetails()
-    {
-
-    }
-
-    public void nextToReturns()
-    {
-
-    }
-
-    public void nextToSummary()
-    {
-
-    }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -224,9 +196,9 @@ public class SalesManagementFragment extends Fragment {
                 case 0:
                     return new CustomerFragment();
                 case 1:
-                    return new HeaderFragment();
+                    return new OrderHeaderFragment();
                 case 2:
-                    return new DetailFragment();
+                    return new OrderDetailFragment();
                 default:
                     return new CustomerFragment();
             }

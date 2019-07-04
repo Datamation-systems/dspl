@@ -30,8 +30,14 @@ public class FInvRHed implements Serializable{
     private String FINVRHED_START_TIME;
     private String FINVRHED_END_TIME;
     private String FINVRHED_INV_REFNO;
-    private String FINVRHED_REPCODE;
     private String FINVRHED_INV_DATE;
+    private String FINVRHED_REP_CODE;
+    private String FINVRHED_RETURN_TYPE;
+    private String FINVRHED_TOURCODE;
+    private String FINVRHED_AREACODE;
+    private String FINVRHED_LORRYCODE;
+    private String FINVRHED_HELPERCODE;
+    private String FINVRHED_DRIVERCODE;
 
     public String getFINVRHED_INV_REFNO() {
         return FINVRHED_INV_REFNO;
@@ -41,12 +47,60 @@ public class FInvRHed implements Serializable{
         this.FINVRHED_INV_REFNO = FINVRHED_INV_REFNO;
     }
 
-    public String getFINVRHED_REPCODE() {
-        return FINVRHED_REPCODE;
+    public String getFINVRHED_REP_CODE() {
+        return FINVRHED_REP_CODE;
     }
 
-    public void setFINVRHED_REPCODE(String FINVRHED_REPCODE) {
-        this.FINVRHED_REPCODE = FINVRHED_REPCODE;
+    public void setFINVRHED_REP_CODE(String FINVRHED_REP_CODE) {
+        this.FINVRHED_REP_CODE = FINVRHED_REP_CODE;
+    }
+
+    public String getFINVRHED_RETURN_TYPE() {
+        return FINVRHED_RETURN_TYPE;
+    }
+
+    public void setFINVRHED_RETURN_TYPE(String FINVRHED_RETURN_TYPE) {
+        this.FINVRHED_RETURN_TYPE = FINVRHED_RETURN_TYPE;
+    }
+
+    public String getFINVRHED_TOURCODE() {
+        return FINVRHED_TOURCODE;
+    }
+
+    public void setFINVRHED_TOURCODE(String FINVRHED_TOURCODE) {
+        this.FINVRHED_TOURCODE = FINVRHED_TOURCODE;
+    }
+
+    public String getFINVRHED_AREACODE() {
+        return FINVRHED_AREACODE;
+    }
+
+    public void setFINVRHED_AREACODE(String FINVRHED_AREACODE) {
+        this.FINVRHED_AREACODE = FINVRHED_AREACODE;
+    }
+
+    public String getFINVRHED_LORRYCODE() {
+        return FINVRHED_LORRYCODE;
+    }
+
+    public void setFINVRHED_LORRYCODE(String FINVRHED_LORRYCODE) {
+        this.FINVRHED_LORRYCODE = FINVRHED_LORRYCODE;
+    }
+
+    public String getFINVRHED_HELPERCODE() {
+        return FINVRHED_HELPERCODE;
+    }
+
+    public void setFINVRHED_HELPERCODE(String FINVRHED_HELPERCODE) {
+        this.FINVRHED_HELPERCODE = FINVRHED_HELPERCODE;
+    }
+
+    public String getFINVRHED_DRIVERCODE() {
+        return FINVRHED_DRIVERCODE;
+    }
+
+    public void setFINVRHED_DRIVERCODE(String FINVRHED_DRIVERCODE) {
+        this.FINVRHED_DRIVERCODE = FINVRHED_DRIVERCODE;
     }
 
     public String getFINVRHED_INV_DATE() {

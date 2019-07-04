@@ -75,6 +75,7 @@ public class AllCustomerFragment extends Fragment {
                         mSharedPref.setSelectedDebCode(debtor.getCusCode());
                         mSharedPref.setSelectedDebName(debtor.getCusName());
                         mSharedPref.setSelectedDebRouteCode(debtor.getCusRoute());
+                        mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
                         startActivity(intent);
                     }
                 }

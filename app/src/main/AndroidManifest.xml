@@ -56,8 +56,9 @@
         <activity android:name=".view.DebtorDetailsActivity" />
         <activity android:name=".view.DebtorListActivity" />
         <activity android:name=".customer.NewCustomerActivity" />
-        <activity android:name=".view.PreSalesActivity"></activity>
-        <activity android:name=".view.VanSalesActivity"></activity>
+        <activity android:name=".view.PreSalesActivity" />
+        <activity android:name=".view.VanSalesActivity" />
+        <activity android:name=".view.SalesReturnActivity"></activity>
     </application>
 
 </manifest>

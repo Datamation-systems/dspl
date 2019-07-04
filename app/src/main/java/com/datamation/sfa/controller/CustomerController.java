@@ -262,7 +262,7 @@ public class CustomerController {
 				customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
 				customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_PERIOD)));
 				customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CHK_CRD_LIMIT)));
-
+				customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_PRIL_CODE)));
 
 				list.add(customer);
 
@@ -316,7 +316,7 @@ public class CustomerController {
 				customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
 				customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_PERIOD)));
 				customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CHK_CRD_LIMIT)));
-
+				customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_PRIL_CODE)));
 
 				list.add(customer);
 

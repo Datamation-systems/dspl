@@ -1,10 +1,8 @@
-package com.datamation.sfa.presale;
-
+package com.datamation.sfa.salesreturn;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,49 +23,49 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.datamation.sfa.R;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.SalRepController;
-import com.datamation.sfa.helpers.PreSalesResponseListener;
+import com.datamation.sfa.controller.SalesReturnController;
+import com.datamation.sfa.helpers.SalesReturnResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
-import com.datamation.sfa.model.OrderHeader;
+import com.datamation.sfa.model.FInvRHed;
+import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.presale.OrderHeaderFragment;
+import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.LocationProvider;
 import com.datamation.sfa.view.ActivityHome;
-import com.datamation.sfa.R;
-import com.datamation.sfa.settings.ReferenceNum;
-//import com.bit.sfa.Settings.SharedPreferencesClass;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class HeaderFragment extends Fragment{
+
+public class SalesReturnHeader extends Fragment {
 
     View view;
     private FloatingActionButton next;
     public static EditText ordno, date, mNo, deldate, remarks;
-    public String LOG_TAG = "HeaderFragment";
-    public TextView route, costcenter;
-    private TextView cusName;
+    public String LOG_TAG = "OrderHeaderFragment";
+    public TextView route, costcenter, cusName;
     private LocationProvider locationProvider;
     private Location finalLocation;
-    MyReceiver r;
     SharedPref pref;
-    PreSalesResponseListener preSalesResponseListener;
+    SalesReturnResponseListener salesReturnResponseListener;
+    MyReceiver r;
     //SharedPreferencesClass localSP;
 
+    public SalesReturnHeader()
+    {
 
-    public HeaderFragment() {
-        // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_frag_promo_sale_header, container, false);
+        view = inflater.inflate(R.layout.fragment_sales_retrun_header, container, false);
 
         next = (FloatingActionButton) view.findViewById(R.id.fab);
         pref = SharedPref.getInstance(getActivity());
@@ -75,32 +73,19 @@ public class HeaderFragment extends Fragment{
         Date d = Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy"); //change this
         String formattedDate = simpleDateFormat.format(d);
-        ActivityHome home = new ActivityHome();
         ReferenceNum referenceNum = new ReferenceNum(getActivity());
-     //   localSP = new SharedPreferencesClass();
 
-        ordno = (EditText) view.findViewById(R.id.editTextOrdno);
-        date = (EditText) view.findViewById(R.id.editTextDate);
-        mNo        = (EditText) view.findViewById(R.id.editTextManualNo);
-        deldate    = (EditText) view.findViewById(R.id.editTextdelDate);
-        remarks    = (EditText) view.findViewById(R.id.editTextRemarks);
-        costcenter = (TextView) view.findViewById(R.id.editTextcostCenter);
-        route = (TextView) view.findViewById(R.id.editTextRoute);
-        cusName = (TextView) view.findViewById(R.id.textViewCustomer);
+        ordno = (EditText) view.findViewById(R.id.editTextRtnOrdno);
+        date = (EditText) view.findViewById(R.id.editTextRtnDate);
+        mNo        = (EditText) view.findViewById(R.id.editTextRtnManualNo);
+        remarks    = (EditText) view.findViewById(R.id.editTextRtnRemarks);
+        route = (TextView) view.findViewById(R.id.editTextRtnRoute);
+        cusName = (TextView) view.findViewById(R.id.textViewrRtnCustomer);
 
         cusName.setText(pref.getSelectedDebName());
         route.setText(new RouteController(getActivity()).getRouteNameByCode(pref.getSelectedDebRouteCode()));
         date.setText(formattedDate);
-        ordno.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.NumVal)));
-
-        deldate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                MDatePicker newFragment = new MDatePicker();
-                newFragment.show(getFragmentManager(), "date picker");
-            }
-        });
+        ordno.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,13 +93,12 @@ public class HeaderFragment extends Fragment{
 
                 if (cusName.getText().toString().equals("")|| ordno.getText().toString().equals("")||route.getText().toString().equals("")||date.getText().toString().equals(""))
                 {
-                    preSalesResponseListener.moveBackToCustomer_pre(0);
+                    salesReturnResponseListener.moveBackTo_ret(0);
                     Toast.makeText(getActivity(), "Can not proceed without Route...", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
-                    //preSalesResponseListener.moveNextToCustomer_pre(1);
-                    SaveSalesHeader();
+                    SaveReturnHeader();
                 }
 
             }
@@ -148,9 +132,6 @@ public class HeaderFragment extends Fragment{
                             SharedPref.getInstance(getActivity()).setGlobalVal("startLongitude", String.valueOf(finalLocation.getLongitude()));
                             SharedPref.getInstance(getActivity()).setGlobalVal("startLatitude", String.valueOf(finalLocation.getLatitude()));
                             System.currentTimeMillis();
-
-
-
                         }
                     }
 
@@ -200,32 +181,9 @@ public class HeaderFragment extends Fragment{
             e.printStackTrace();
         }
 
+
         return view;
     }
-
-    public static class MDatePicker extends DialogFragment {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            return new DatePickerDialog(getActivity(), dateSetListener, year, month, day);
-        }
-
-        private DatePickerDialog.OnDateSetListener dateSetListener =
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(android.widget.DatePicker view, int i, int i1, int i2) {
-
-                        deldate.setText(view.getDayOfMonth() + "-" + (view.getMonth() + 1) + "-" + view.getYear());
-                    }
-
-                };
-    }
-    /*-*-*-*-*-*-rashmi 2018/08/07*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     private String currentTime() {
         Calendar cal = Calendar.getInstance();
@@ -234,49 +192,37 @@ public class HeaderFragment extends Fragment{
         return sdf.format(cal.getTime());
     }
 
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-    /*-*-*-*-*-*Rashmi 2018-8-17-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    public void SaveSalesHeader() {
+    public void SaveReturnHeader() {
 
-        if (ordno.getText().length() > 0) {
+        if (ordno.getText().length() > 0)
+        {
+            FInvRHed hed =new FInvRHed();
 
-            //ActivityHome activity = (ActivityHome) getActivity();
-            OrderHeader hed =new OrderHeader();
+            hed.setFINVRHED_REFNO(ordno.getText().toString());
+            hed.setFINVRHED_DEBCODE(pref.getSelectedDebCode());
+            hed.setFINVRHED_TXN_DATE(date.getText().toString());
+            hed.setFINVRHED_ROUTE_CODE(pref.getSelectedDebRouteCode());
+            hed.setFINVRHED_MANUREF(mNo.getText().toString());
+            hed.setFINVRHED_REMARKS(remarks.getText().toString());
+            hed.setFINVRHED_IS_ACTIVE("1");
+            hed.setFINVRHED_ADD_DATE(date.getText().toString());
+            hed.setFINVRHED_REP_CODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
+            hed.setFINVRHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
+            hed.setFINVRHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
+            hed.setFINVRHED_START_TIME(currentTime());
 
-//            if(activity.selectedOrdHed !=null)
-//            {
-//                hed =activity.selectedOrdHed;//set already enter values objects
-//            }
-//            else
-//            {
-                hed.setORDER_REFNO(ordno.getText().toString());
-                hed.setORDER_DEB_CODE(pref.getSelectedDebCode());
-                hed.setORDER_TXN_DATE(date.getText().toString());
-                hed.setORDER_DELIVERY_DATE(deldate.getText().toString());
-                hed.setORDER_ROUTE_CODE(pref.getSelectedDebRouteCode());
-                hed.setORDER_MANUAL_NUMBER(mNo.getText().toString());
-                hed.setORDER_REMARKS(remarks.getText().toString());
-                hed.setORDER_IS_ACTIVE("1");
-                hed.setORDER_ADD_DATE(date.getText().toString());
-                hed.setORDER_ADD_TIME(currentTime().split(" ")[1]);
-                hed.setORDER_REP_CODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
-                hed.setORDER_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
-                hed.setORDER_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
-            //}
-
-            ArrayList<OrderHeader> ordHedList=new ArrayList<OrderHeader>();
-            OrderController ordHedDS =new OrderController(getActivity());
+            ArrayList<FInvRHed> ordHedList=new ArrayList<FInvRHed>();
+            SalesReturnController returnHed =new SalesReturnController(getActivity());
             ordHedList.add(hed);
 
-            if (ordHedDS.createOrUpdateOrdHed(ordHedList)>0)
+            if (returnHed.createOrUpdateInvRHed(ordHedList)>0)
             {
-                preSalesResponseListener.moveNextToCustomer_pre(1);
-                Toast.makeText(getActivity(),"Order Header Saved...", Toast.LENGTH_LONG).show();
+                salesReturnResponseListener.moveNextTo_ret(1);
+                Toast.makeText(getActivity(),"Return Header Saved...", Toast.LENGTH_LONG).show();
             }
         }
     }
-    /*-*Rashmi 2018-08-17-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void mRefreshHeader() {
 
@@ -310,7 +256,7 @@ public class HeaderFragment extends Fragment{
                                 SharedPref.getInstance(getActivity()).setGlobalVal("startLongitude", String.valueOf(finalLocation.getLongitude()));
                                 SharedPref.getInstance(getActivity()).setGlobalVal("startLatitude", String.valueOf(finalLocation.getLatitude()));
                                 System.currentTimeMillis();
-                                SaveSalesHeader();
+                                SaveReturnHeader();
 
                             }
                         }
@@ -360,32 +306,19 @@ public class HeaderFragment extends Fragment{
             } catch (UnsupportedOperationException e) {
                 e.printStackTrace();
             }
-//            issueList = new FmisshedDS(getActivity()).getIssuesByDebCode(new SharedPref(getActivity()).getGlobalVal("PrekeyCusCode"));
-//
-//            List<String> issues = new ArrayList<String>();
-//            /* Merge group code with group name to the list */
-//            issues.add("-SELECT REFNO-");
-//            for (Fmisshed iss : issueList) {
-//                issues.add(iss.getRefNo());
-//            }
-//
-//            ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(getActivity(),
-//                    android.R.layout.simple_spinner_item, issues);
-//            dataAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            spnIssueRefNos.setAdapter(dataAdapter3);
 
             date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-          //  route.setText(SharedPref.getInstance(getActivity()).getLoginUser().getRoute()+" - "+new RouteController(getActivity()).getRouteNameByCode(SharedPref.getInstance(getActivity()).getLoginUser().getRoute()));
+            //  route.setText(SharedPref.getInstance(getActivity()).getLoginUser().getRoute()+" - "+new RouteController(getActivity()).getRouteNameByCode(SharedPref.getInstance(getActivity()).getLoginUser().getRoute()));
             deldate.setEnabled(true);
             remarks.setEnabled(true);
             mNo.setEnabled(true);
             cusName.setText(SharedPref.getInstance(getActivity()).getGlobalVal("PrekeyCusName"));
             ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
-           // String debCode= new SharedPref(getActivity()).getGlobalVal("PrekeyCusCode");
+            // String debCode= new SharedPref(getActivity()).getGlobalVal("PrekeyCusCode");
 
             if (home.selectedOrdHed != null) {
                 //if (home.selectedDebtor == null)
-                   // home.selectedDebtor = new FmDebtorDS(getActivity()).getSelectedCustomerByCode(home.selectedOrdHed.getFORDHED_DEB_CODE());
+                // home.selectedDebtor = new FmDebtorDS(getActivity()).getSelectedCustomerByCode(home.selectedOrdHed.getFORDHED_DEB_CODE());
 
 //                cusName.setText(home.selectedDebtor.getCusName());
 //                ordno.setText(home.selectedOrdHed.getORDHED_REFNO());
@@ -397,7 +330,7 @@ public class HeaderFragment extends Fragment{
 
                 ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
                 deldate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                SaveSalesHeader();
+                SaveReturnHeader();
             }
 
         } else {
@@ -408,28 +341,22 @@ public class HeaderFragment extends Fragment{
         }
 
     }
-    /*-*-*-*-Rashmi 2018-08-17*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
     }
 
-    /*-*-*-*-*-*-Rashmi 2018-08-17*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
     public void onResume() {
         super.onResume();
-        r = new HeaderFragment.MyReceiver();
+        r = new MyReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_HEADER"));
     }
-
-
-    /*-*-*-*-*-Rashmi 2018-08-17*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            HeaderFragment.this.mRefreshHeader();
+            SalesReturnHeader.this.mRefreshHeader();
         }
     }
 
@@ -437,10 +364,10 @@ public class HeaderFragment extends Fragment{
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            preSalesResponseListener = (PreSalesResponseListener) getActivity();
+            salesReturnResponseListener = (SalesReturnResponseListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
         }
     }
-    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
 }
