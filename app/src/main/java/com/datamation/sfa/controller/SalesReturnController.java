@@ -67,21 +67,21 @@ public class SalesReturnController
                 values.put(dbHelper.FINVRHED_IS_SYNCED, invrHed.getFINVRHED_IS_SYNCED());
                 values.put(dbHelper.FINVRHED_COSTCODE, invrHed.getFINVRHED_COSTCODE());
                 values.put(dbHelper.FINVRHED_LOCCODE, invrHed.getFINVRHED_LOCCODE());
-                //values.put(dbHelper.FINVRHED_REASON_CODE, invrHed.getFINVRHED_REASON_CODE());
-                //values.put(dbHelper.FINVRHED_TAX_REG, invrHed.getFINVRHED_TAX_REG());
-//                values.put(dbHelper.FINVRHED_TOTAL_TAX, invrHed.getFINVRHED_TOTAL_TAX());
-//                values.put(dbHelper.FINVRHED_TOTAL_DIS, invrHed.getFINVRHED_TOTAL_DIS());
-//                //values.put(dbHelper.FINVRHED_LONGITUDE, invrHed.getFINVRHED_LONGITUDE());
-//                values.put(dbHelper.FINVRHED_LATITUDE, invrHed.getFINVRHED_LATITUDE());
-//                values.put(dbHelper.FINVRHED_START_TIME, invrHed.getFINVRHED_START_TIME());
-//                values.put(dbHelper.FINVRHED_END_TIME, invrHed.getFINVRHED_END_TIME());
-//                values.put(dbHelper.FINVRHED_REPCODE, invrHed.getFINVRHED_REP_CODE());
-//                values.put(dbHelper.FINVRHED_RETURN_TYPE, invrHed.getFINVRHED_RETURN_TYPE());
-//                values.put(dbHelper.FINVRHED_TOURCODE, invrHed.getFINVRHED_TOURCODE());
-//                values.put(dbHelper.FINVRHED_AREACODE, invrHed.getFINVRHED_AREACODE());
-//                values.put(dbHelper.FINVRHED_DRIVERCODE, invrHed.getFINVRHED_DRIVERCODE());
-//                values.put(dbHelper.FINVRHED_HELPERCODE, invrHed.getFINVRHED_HELPERCODE());
-//                values.put(dbHelper.FINVRHED_LORRYCODE, invrHed.getFINVRHED_LORRYCODE());
+                values.put(dbHelper.FINVRHED_REASON_CODE, invrHed.getFINVRHED_REASON_CODE());
+                values.put(dbHelper.FINVRHED_TAX_REG, invrHed.getFINVRHED_TAX_REG());
+                values.put(dbHelper.FINVRHED_TOTAL_TAX, invrHed.getFINVRHED_TOTAL_TAX());
+                values.put(dbHelper.FINVRHED_TOTAL_DIS, invrHed.getFINVRHED_TOTAL_DIS());
+                values.put(dbHelper.FINVRHED_LONGITUDE, invrHed.getFINVRHED_LONGITUDE());
+                values.put(dbHelper.FINVRHED_LATITUDE, invrHed.getFINVRHED_LATITUDE());
+                values.put(dbHelper.FINVRHED_START_TIME, invrHed.getFINVRHED_START_TIME());
+                values.put(dbHelper.FINVRHED_END_TIME, invrHed.getFINVRHED_END_TIME());
+                values.put(dbHelper.FINVRHED_REPCODE, invrHed.getFINVRHED_REP_CODE());
+                values.put(dbHelper.FINVRHED_RETURN_TYPE, invrHed.getFINVRHED_RETURN_TYPE());
+                values.put(dbHelper.FINVRHED_TOURCODE, invrHed.getFINVRHED_TOURCODE());
+                values.put(dbHelper.FINVRHED_AREACODE, invrHed.getFINVRHED_AREACODE());
+                values.put(dbHelper.FINVRHED_DRIVERCODE, invrHed.getFINVRHED_DRIVERCODE());
+                values.put(dbHelper.FINVRHED_HELPERCODE, invrHed.getFINVRHED_HELPERCODE());
+                values.put(dbHelper.FINVRHED_LORRYCODE, invrHed.getFINVRHED_LORRYCODE());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
