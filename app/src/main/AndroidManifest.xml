@@ -59,6 +59,7 @@
         <activity android:name=".view.PreSalesActivity" />
         <activity android:name=".view.VanSalesActivity" />
         <activity android:name=".view.SalesReturnActivity"></activity>
+        <activity android:name=".view.ReceiptActivity"></activity>
     </application>
 
 </manifest>

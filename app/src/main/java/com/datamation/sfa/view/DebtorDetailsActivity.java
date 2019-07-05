@@ -156,8 +156,29 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
             }
         });
-
         fabInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                closeFAM();
+
+                // Only proceed if location service is available
+                if(locationServiceEnabled())
+                {
+                    Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(DebtorDetailsActivity.this, ReceiptActivity.class);
+                    intent.putExtra("outlet", "");
+                    intent.putExtra("sales_order", false);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        fabVansale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

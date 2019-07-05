@@ -27,7 +27,14 @@
         <item name="android:background">@drawable/button</item>
         <item name="android:padding">10dip</item>
     </style>
-
+    <style name="MyStyle" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">#FFFF</item>
+        <item name="tabIndicatorHeight">5dp</item>
+        <item name="tabPaddingStart">8dp</item>
+        <item name="tabPaddingEnd">8dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabSelectedTextColor">#1f2124</item>
+    </style>
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/unselected</item>
