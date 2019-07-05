@@ -19,7 +19,7 @@ public class SalesReturnDetailsAdapter extends ArrayAdapter<FInvRDet> {
 
     public SalesReturnDetailsAdapter(Context context, ArrayList<FInvRDet> list) {
 
-        super(context, R.layout.row_order_details, list);
+        super(context, R.layout.row_retrun_details, list);
         this.context = context;
         this.list = list;
     }
@@ -28,18 +28,18 @@ public class SalesReturnDetailsAdapter extends ArrayAdapter<FInvRDet> {
     public View getView(final int position, final View convertView, final ViewGroup parent) {
 
         LayoutInflater inflater = null;
-        View row = null;
+        View row = convertView;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        row = inflater.inflate(R.layout.row_order_details, parent, false);
+        row = inflater.inflate(R.layout.row_retrun_details, parent, false);
 
         TextView lblItem = (TextView) row.findViewById(R.id.row_item);
-        TextView lblQty = (TextView) row.findViewById(R.id.row_cases);
-        TextView lblAMt = (TextView) row.findViewById(R.id.row_piece);
+        TextView lblQty = (TextView) row.findViewById(R.id.row_qty);
+        TextView lblReason = (TextView) row.findViewById(R.id.row_reason);
 
         lblItem.setText(new ItemController(getContext()).getItemNameByCode(list.get(position).getFINVRDET_ITEMCODE()) + " - " + list.get(position).getFINVRDET_ITEMCODE());
         lblQty.setText(list.get(position).getFINVRDET_QTY());
-        lblAMt.setText(list.get(position).getFINVRDET_RETURN_REASON());
+        lblReason.setText(list.get(position).getFINVRDET_RETURN_REASON());
 
 
         return row;

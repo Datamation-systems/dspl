@@ -1,8 +1,12 @@
 package com.datamation.sfa.view;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +28,7 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
     private SalesReturnHeader salesRetrunHeader;
     private SalesReturnDetails salesReturnDetails;
     private SalesReturnSummary salesReturnSummary;
-
+    Context context;
     public FInvRHed selectedReturnHed = null;
 
     @Override
@@ -35,6 +39,7 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
         Toolbar toolbar = (Toolbar) findViewById(R.id.saleretrun_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setText("SALES RETURN");
+        context = this;
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.saleretrun_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.saleretrun_viewpager);
@@ -49,6 +54,27 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
         viewPager.setPageMargin(pageMargin);
         slidingTabStrip.setViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if (position == 2)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_RET_SUMMARY"));
+                else if (position == 0)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_RET_HEADER"));
+                else if (position == 1)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_RET_DETAILS"));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     @Override

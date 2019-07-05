@@ -145,14 +145,14 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 closeFAM();
 
                 // Only proceed if location service is available
-//                if (locationServiceEnabled()) {
-//                    Intent intent = new Intent(DebtorDetailsActivity.this, DebtorDetailsActivity.class);
-//                    intent.putExtra("outlet", "");
-//                    startActivity(intent);
-////                    finish();
-//                } else {
-//                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service to proceed", Toast.LENGTH_SHORT).show();
-//                }
+                if (locationServiceEnabled()) {
+                    Intent intent = new Intent(DebtorDetailsActivity.this, NonProductiveActivity.class);
+                    intent.putExtra("outlet", "");
+                    startActivity(intent);
+//                    finish();
+                } else {
+                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service to proceed", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

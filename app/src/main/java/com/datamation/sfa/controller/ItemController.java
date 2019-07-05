@@ -9,14 +9,12 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.datamation.sfa.model.Item;
+import com.datamation.sfa.model.Product;
 import com.datamation.sfa.model.tempOrderDet;
 import com.datamation.sfa.helpers.DatabaseHelper;
 
 import java.util.ArrayList;
 
-/**
- * Created by Rashmi on 12/20/2018.
- */
 
 public class ItemController {
 
@@ -36,53 +34,50 @@ public class ItemController {
         dB = dbHelper.getWritableDatabase();
     }
 
-    public long InsertItems(ArrayList<Item> Items) {
-
-        int count = 0;
+    public void InsertOrReplaceItems(ArrayList<Item> list) {
 
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
             open();
         }
-        Cursor cursor = null;
+
         try {
-            dB.beginTransaction();
-            String sql = "Insert or Replace into " + dbHelper.TABLE_ITEMS + " (" + dbHelper.ITEM_CODE + ", "
-                    + dbHelper.ITEM_NAME + ", "
-                    + dbHelper.PRI_LCODE + ", "
-                    + dbHelper.STATUS +") values(?,?,?,?)";
+            dB.beginTransactionNonExclusive();
+            String sql = "INSERT OR REPLACE INTO " + DatabaseHelper.TABLE_FITEM + " (AvgPrice,BrandCode,GroupCode,ItemCode,ItemName,ItemStatus,PrilCode,VenPcode,NouCase,ReOrderLvl,ReOrderQty,UnitCode,TypeCode,TaxComCode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-            SQLiteStatement insert = dB.compileStatement(sql);
+            SQLiteStatement stmt = dB.compileStatement(sql);
 
-            for (Item item : Items) {
+            for (Item items : list) {
 
-                insert.bindString(1, item.getITEM_CODE());
-                insert.bindString(2, item.getITEM_NAME());
-                insert.bindString(3, item.getITEM_PRILCODE());
-                insert.bindString(4, item.getITEM_STATUS());
+                stmt.bindString(1, items.getFITEM_AVGPRICE());
+                stmt.bindString(2, items.getFITEM_BRANDCODE());
+                stmt.bindString(3, items.getFITEM_GROUPCODE());
+                stmt.bindString(4, items.getFITEM_ITEM_CODE());
+                stmt.bindString(5, items.getFITEM_ITEM_NAME());
+                stmt.bindString(6, items.getFITEM_ITEMSTATUS());
+                stmt.bindString(7, items.getFITEM_PRILCODE());
+                stmt.bindString(8, items.getFITEM_NOUCASE());
+                stmt.bindString(9, items.getFITEM_TYPECODE());
+                stmt.bindString(10, items.getFITEM_UNITCODE());
+                stmt.bindString(11, items.getFITEM_VENPCODE());
+                stmt.bindString(12, items.getFITEM_REORDER_LVL());
+                stmt.bindString(13, items.getFITEM_REORDER_QTY());
+                stmt.bindString(14, items.getFITEM_TAXCOMCODE());
 
-                insert.execute();
-
-                count = 1;
+                stmt.execute();
+                stmt.clearBindings();
             }
 
-            dB.setTransactionSuccessful();
-            Log.w(TAG, "Done");
-        } catch (Exception e) {
-
-            Log.v(TAG + " FmItemDS", e.toString());
-
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
+            dB.setTransactionSuccessful();
             dB.endTransaction();
-
             dB.close();
         }
-        return count;
-
 
     }
-    /*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-**-*/
 
     public String getItemNameByCode(String code) {
 
@@ -92,13 +87,13 @@ public class ItemController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_ITEMS + " WHERE " + DatabaseHelper.ITEM_CODE + "='" + code + "'";
+        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FITEM + " WHERE " + DatabaseHelper.FITEM_ITEM_CODE + "='" + code + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
             while (cursor.moveToNext()) {
 
-                return cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEM_NAME));
+                return cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_NAME));
 
             }
         } catch (Exception e) {
@@ -113,36 +108,34 @@ public class ItemController {
         return "";
     }
 
-    /*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-**-*-*-*/
-//---------------------------------------------------get Items for promo order----rashmi 2018-08-20------------------------------------------------
+    public ArrayList<Product> getAllItems(String LocCode, String prillcode) {
 
-    public ArrayList<tempOrderDet> getAllItemForPreSales(String newText, String refno) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
             open();
         }
 
-        ArrayList<tempOrderDet> list = new ArrayList<tempOrderDet>();
+        ArrayList<Product> list = new ArrayList<>();
         String selectQuery;
-       // selectQuery = "SELECT itm.GItemName, itm.GItemCode, itm.PRI_LCODE, itm.GIType, itm.GITypeS, itm.GItemNameD, itm.MarkUp, itm.MarkUpPer, itm.PriceChange, itm.lGrnPrice, loc.QOH FROM fitem itm, fitemLoc loc WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.ItemCode=itm.ItemCode AND  itm.ItemCode not in (SELECT DISTINCT ItemCode FROM FTranSODet WHERE " + type + " And RefNo ='" + refno + "') ORDER BY CAST(loc.QOH AS FLOAT) DESC";
-        selectQuery = "SELECT itm.ItemName, itm.ItemCode, itm.PriLCode, itm.Status, pri.Price FROM Items itm," +
-                " ItemPri pri WHERE itm.ItemName || itm.ItemCode LIKE '%" + newText + "%' AND  itm.ItemCode not in" +
-                " (SELECT DISTINCT ItemCode FROM OrderDetail WHERE RefNo ='" + refno + "') AND itm.PriLCode = pri.PrilCode ";
+        selectQuery = "SELECT itm.* , loc.QOH FROM fitem itm, fitemLoc loc WHERE  loc.itemcode=itm.itemcode AND  loc.LocCode='" + LocCode + "' order by CAST(loc.QOH AS Integer) DESC";
+
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
             while (cursor.moveToNext()) {
 
+                Product product = new Product();
+                double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMLOC_QOH)));
 
-                tempOrderDet preProduct=new tempOrderDet();
-                preProduct.setPREPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEM_CODE)));
-                preProduct.setPREPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEM_NAME)));
-                preProduct.setPREPRODUCT_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRI_LCODE)));
-                preProduct.setPREPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEMPRI_PRICE)));
-                 preProduct.setPREPRODUCT_QTY("0");
-
-                list.add(preProduct);
-                // }
+                /* Get rid of 0 QOH items */
+                if (qoh > 0) {
+                    product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_NAME)));
+                    product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_CODE)));
+                    product.setFPRODUCT_PRICE(new ItemPriceController(context).getProductPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode));
+                    product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMLOC_QOH)));
+                    product.setFPRODUCT_QTY("0");
+                    list.add(product);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,70 +148,71 @@ public class ItemController {
         }
         return list;
     }
-    public ArrayList<Item> getAllItems() {
 
+    public ArrayList<Item> getAllItemForSalesReturn(String newText, String type, String refno, String LocCode, String prillcode ) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
             open();
         }
-        Cursor cursor = null;
+
         ArrayList<Item> list = new ArrayList<Item>();
+        String selectQuery;
+//        selectQuery = "SELECT itm.ItemName, itm.NouCase, itm.ItemCode, itm.brandcode, itm.avgprice, loc.QOH, pric.price FROM fitem itm, fitemLoc loc, fitempri pric WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.ItemCode=itm.ItemCode AND loc.LocCode='" + LocCode + "' AND pric.ItemCode=itm.ItemCode AND pric.prilcode='" + prillcode + "' AND  itm.ItemCode not in (SELECT DISTINCT ItemCode FROM FTranSODet WHERE " + type + " And RefNo ='" + refno + "') ORDER BY CAST(loc.QOH AS FLOAT) DESC";
+        selectQuery = "SELECT itm.ItemName, itm.NouCase, itm.ItemCode, itm.brandcode, itm.avgprice, loc.QOH, pric.price FROM fitem itm, fitemLoc loc, fitempri pric WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.ItemCode=itm.ItemCode AND loc.LocCode='" + LocCode + "' AND pric.ItemCode=itm.ItemCode AND pric.prilcode='" + prillcode + "' ORDER BY CAST(loc.QOH AS FLOAT) DESC";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
-
-
-            String searchsql = "";
-            searchsql = "SELECT * FROM " + DatabaseHelper.TABLE_ITEMS;
-            cursor = dB.rawQuery(searchsql, null);
-
-
             while (cursor.moveToNext()) {
-
-                Item item = new Item();
-                item.setITEM_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEM_CODE)));
-                item.setITEM_NAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEM_NAME)));
-                list.add(item);
+                Item items=new Item();
+                items.setFITEM_ITEM_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_CODE)));
+                items.setFITEM_ITEM_NAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_NAME)));
+                items.setFITEM_AVGPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMPRI_PRICE)));
+                items.setFITEM_QOH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMLOC_QOH)));
+                list.add(items);
             }
         } catch (Exception e) {
             e.printStackTrace();
+
         } finally {
-            cursor.close();
-            dB.close();
-        }
-
-        return list;
-    }
-    public ArrayList<Item> findAllItems(String key) {
-
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
-        Cursor cursor = null;
-        ArrayList<Item> list = new ArrayList<Item>();
-        try {
-
-
-            String searchsql = "";
-            searchsql = "SELECT * FROM " + DatabaseHelper.TABLE_ITEMS + " WHERE ItemName LIKE '" + key + "%'";
-            cursor = dB.rawQuery(searchsql, null);
-
-
-            while (cursor.moveToNext()) {
-
-                Item item = new Item();
-                item.setITEM_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEM_CODE)));
-                item.setITEM_NAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEM_NAME)));
-                list.add(item);
+            if (cursor != null) {
+                cursor.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            cursor.close();
             dB.close();
         }
-
         return list;
     }
+
+//    public ArrayList<Item> findAllItems(String key) {
+//
+//        if (dB == null) {
+//            open();
+//        } else if (!dB.isOpen()) {
+//            open();
+//        }
+//        Cursor cursor = null;
+//        ArrayList<Item> list = new ArrayList<Item>();
+//        try {
+//
+//
+//            String searchsql = "";
+//            searchsql = "SELECT * FROM " + DatabaseHelper.TABLE_ITEMS + " WHERE ItemName LIKE '" + key + "%'";
+//            cursor = dB.rawQuery(searchsql, null);
+//
+//
+//            while (cursor.moveToNext()) {
+//
+//                Item item = new Item();
+//                item.setITEM_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEM_CODE)));
+//                item.setITEM_NAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ITEM_NAME)));
+//                list.add(item);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            cursor.close();
+//            dB.close();
+//        }
+//
+//        return list;
+//    }
 }

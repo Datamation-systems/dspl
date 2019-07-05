@@ -50,7 +50,7 @@
     <string name="head_sal_refno">Order Number</string>
     <string name="head_sal_remarks">Remarks</string>
     <string name="head_rep_phone">Phone #</string>
-    <string name="head_sal_date">Order Date</string>
+    <string name="head_sal_date">Return Date</string>
     <string name="compulsory">Compulsory</string>
     <string name="trans_detail_Product_Discount">Disc</string>
     <string name="trans_detail_Product_CSPC">(CS/PS)</string>

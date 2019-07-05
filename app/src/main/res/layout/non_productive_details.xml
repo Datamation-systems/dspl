@@ -52,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:ems="10"
-                android:editable="false"
                 android:gravity="center"
                 android:textSize="14sp"
                 android:textColor="@android:color/black">
