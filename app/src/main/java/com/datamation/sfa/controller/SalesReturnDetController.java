@@ -50,7 +50,7 @@ public class SalesReturnDetController
 
                 cursor = dB.rawQuery(selectQuery, null);
 
-                values.put(dbHelper.INVRDET_REFNO, invrDet.getFINVRDET_REFNO());
+                values.put(dbHelper.REFNO, invrDet.getFINVRDET_REFNO());
                 values.put(dbHelper.INVRDET_TXN_DATE, invrDet.getFINVRDET_TXN_DATE());
                 values.put(dbHelper.INVRDET_QTY, invrDet.getFINVRDET_QTY());
                 values.put(dbHelper.INVRDET_BAL_QTY, invrDet.getFINVRDET_BAL_QTY());
@@ -107,7 +107,7 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select * from " + DatabaseHelper.TABLE_INVRDET + " WHERE " + DatabaseHelper.INVRDET_REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_INVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
@@ -123,7 +123,7 @@ public class SalesReturnDetController
             invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_ITEMCODE)));
             invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_QTY)));
             invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_BAL_QTY)));
-            invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_REFNO)));
+            invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
             invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TXN_DATE)));
             invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TAXCOMCODE)));
             invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_PRILCODE)));
@@ -141,5 +141,101 @@ public class SalesReturnDetController
         }
 
         return list;
+    }
+
+    public int restData(String refno) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            count = dB.delete(DatabaseHelper.TABLE_FINVRDET, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
+
+    public int getItemCount(String refNo) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_FINVRDET + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+                return Integer.parseInt(cursor.getString(cursor.getColumnIndex("RefNo")));
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            dB.close();
+        }
+        return 0;
+
+    }
+
+    public int InactiveStatusUpdate(String refno) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            ContentValues values = new ContentValues();
+
+            values.put(DatabaseHelper.FINVRDET_IS_ACTIVE, "0");
+
+            int cn = cursor.getCount();
+
+            if (cn > 0) {
+                count = dB.update(DatabaseHelper.TABLE_FINVRDET, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(refno)});
+            } else {
+                count = (int) dB.insert(DatabaseHelper.TABLE_FINVRDET, null, values);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
     }
 }

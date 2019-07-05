@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -68,6 +70,26 @@ public class UtilityContainer {
     protected static void sacaSnackbar (Context context, View view, String s)
     {
 
+    }
+
+    public static void ClearReturnSharedPref(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove("returnKeyRoute");
+        editor.remove("returnKeyCostCode");
+        editor.remove("returnKeyLocCode");
+        editor.remove("returnKeyTouRef");
+        editor.remove("returnKeyAreaCode");
+        editor.remove("returnKeyRouteCode");
+        editor.remove("returnKeyTourPos");
+        editor.remove("returnkeyCustomer");
+        editor.remove("returnkeyReasonCode");
+        editor.remove("returnKeyRepCode");
+        editor.remove("returnKeyDriverCode");
+        editor.remove("returnKeyHelperCode");
+        editor.remove("returnKeyLorryCode");
+        editor.remove("returnKeyReason");
+        editor.commit();
     }
 
 
