@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.datamation.sfa.R;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
+import com.datamation.sfa.dialog.PrintPreviewAlertBox;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
@@ -49,6 +50,7 @@ public class SalesReturnSummary extends Fragment {
     FloatingActionMenu fam;
     boolean isSalesReturnPending = false;
     SharedPref mSharedPref;
+    Activity thisActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +63,12 @@ public class SalesReturnSummary extends Fragment {
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
         fam = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
+        lblNetVal = (TextView) view.findViewById(R.id.lblNetVal);
+        lblDisc = (TextView) view.findViewById(R.id.lblDisc);
+        lblGross = (TextView) view.findViewById(R.id.lblGross);
+
         activity = (SalesReturnActivity)getActivity();
+        thisActivity = getActivity();
 
         fam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +111,8 @@ public class SalesReturnSummary extends Fragment {
             isSalesReturnPending = false;
         }
 
+        //mRefreshData();
+
         return view;
     }
 
@@ -111,10 +120,6 @@ public class SalesReturnSummary extends Fragment {
         String itemCode = "";
 
         RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
-
-        lblNetVal = (TextView) view.findViewById(R.id.lblNetVal);
-        lblDisc = (TextView) view.findViewById(R.id.lblDisc);
-        lblGross = (TextView) view.findViewById(R.id.lblGross);
         HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
         returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
 
@@ -252,8 +257,10 @@ public class SalesReturnSummary extends Fragment {
                         new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
                         Toast.makeText(getActivity(), "Return saved successfully !", Toast.LENGTH_LONG).show();
                         UtilityContainer.ClearReturnSharedPref(getActivity());
-                        Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                        startActivity(intent);
+                        //UtilityContainer.mLoadFragment();
+                        new PrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(),"SALES RETURN", RefNo);
+//                        Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                        startActivity(intent);
 
                         //new SalesPrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Sales return", RefNo, true);
                     } else {
@@ -290,17 +297,14 @@ public class SalesReturnSummary extends Fragment {
             startActivity(intent);
         }
         else
-            Toast.makeText(activity, "Add items before pause ...!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Add items before pause ...!", Toast.LENGTH_SHORT).show();
     }
 
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-//    @Override
-//    public void onAttach(Activity activity) {
-//        this.getActivity() = activity;
-//        super.onAttach(activity);
-//    }
-
+    @Override
+    public void onAttach(Activity activity) {
+        this.thisActivity = activity;
+        super.onAttach(activity);
+    }
 
     private class MyReceiver extends BroadcastReceiver {
         @Override
@@ -337,11 +341,11 @@ public class SalesReturnSummary extends Fragment {
                 }
 
                 if (isSalesReturnPending) {
-                    SalesReturnDetails salesReturn = new SalesReturnDetails();
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean("Active", true);
-                    salesReturn.setArguments(bundle);
-                    UtilityContainer.mLoadFragment(salesReturn, activity);
+//                    SalesReturnDetails salesReturn = new SalesReturnDetails();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putBoolean("Active", true);
+//                    salesReturn.setArguments(bundle);
+//                    UtilityContainer.mLoadFragment(salesReturn, activity);
                 }
 
             }

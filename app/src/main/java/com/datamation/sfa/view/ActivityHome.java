@@ -31,7 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.controller.CustomerController;
-import com.datamation.sfa.controller.ItemController;
+//import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriceController;
 import com.datamation.sfa.controller.NewCustomerController;
 import com.datamation.sfa.controller.ReasonController;
@@ -822,7 +822,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
          //   newFragment = new CustomerRegMain();
         } else if (position == 3) {
             Log.d(">>>>>>", "position3");
-                UtilityContainer.mLoadFragment(new NonProductiveMain(), ActivityHome.this);
+                //UtilityContainer.mLoadFragment(new NonProductiveMain(), ActivityHome.this);
 
         } else if (position == 4) {
             Log.d(">>>>>>", "position4");
@@ -948,9 +948,9 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
     @Override
     public void moveNextFragment_NonProd() {
-        FragmentManager manager = getSupportFragmentManager();
-        NonProductiveManage frag = (NonProductiveManage) manager.findFragmentByTag(NonProductiveManage.class.getSimpleName());
-        frag.mMoveToHeader();
+//        FragmentManager manager = getSupportFragmentManager();
+//        NonProductiveManage frag = (NonProductiveManage) manager.findFragmentByTag(NonProductiveManage.class.getSimpleName());
+//        frag.mMoveToHeader();
     }
 
     private class secondarySync extends AsyncTask<String, Integer, Boolean> {
@@ -1222,22 +1222,22 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
                     });
 
                     // Processing items
-                    try {
-                        JSONObject itemJSON = new JSONObject(items);
-                        JSONArray itemJSONArray =itemJSON.getJSONArray("items");
-                        ArrayList<Item> itemList = new ArrayList<Item>();
-                        ItemController itemController = new ItemController(ActivityHome.this);
-                        for (int i = 0; i < itemJSONArray.length(); i++) {
-                            itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
-                        }
-                        itemController.InsertItems(itemList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
+//                    try {
+//                        JSONObject itemJSON = new JSONObject(items);
+//                        JSONArray itemJSONArray =itemJSON.getJSONArray("items");
+//                        ArrayList<Item> itemList = new ArrayList<Item>();
+//                        ItemController itemController = new ItemController(ActivityHome.this);
+//                        for (int i = 0; i < itemJSONArray.length(); i++) {
+//                            itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
+//                        }
+//                        itemController.InsertItems(itemList);
+//                    } catch (JSONException | NumberFormatException e) {
+//
+////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+////                                e, routes, BugReport.SEVERITY_HIGH);
+//
+//                        throw e;
+//                    }
                     /*****************end items**********************************************************************/
                     /*****************prices**********************************************************************/
 

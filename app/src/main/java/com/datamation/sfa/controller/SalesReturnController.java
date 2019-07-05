@@ -282,4 +282,44 @@ public class SalesReturnController
         return count;
 
     }
+
+    public FInvRHed getReturnDetailsForPrint(String Refno) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        FInvRHed REHed = new FInvRHed();
+
+        try {
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                REHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TXNDATE)));
+                REHed.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_AMT)));
+                REHed.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_DEBCODE)));
+                REHed.setFINVRHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_REMARKS)));
+                REHed.setFINVRHED_TAX_REG(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TAX_REG)));
+                REHed.setFINVRHED_TOTAL_TAX(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_TAX)));
+                REHed.setFINVRHED_TOTAL_DIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_DIS)));
+//                REHed.setFTRANSOHED_TOTQTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSOHED_TOTQTY)));
+//                REHed.setFTRANSOHED_TOTFREE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSOHED_TOTFREE)));
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return REHed;
+    }
 }

@@ -106,8 +106,38 @@ public class ItemPriceController {
 		return count;
 
 	}
- 
 
+	public String getProductPriceByCode(String code, String prilcode) {
+
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+		Cursor cursor = null;
+		try {
+			String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FITEMPRI + " WHERE " + DatabaseHelper.FITEMPRI_ITEM_CODE + "='" + code + "' AND " + DatabaseHelper.FITEMPRI_PRIL_CODE + "='" + prilcode + "'";
+
+
+			cursor = dB.rawQuery(selectQuery, null);
+
+			while (cursor.moveToNext()) {
+
+				return cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMPRI_PRICE));
+
+			}
+		}catch (Exception e) {
+
+			e.printStackTrace();
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+		return "";
+
+	}
 
 	public String getPrilCodeByItemCode(String code) {
 

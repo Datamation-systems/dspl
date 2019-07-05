@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.controller.CustomerController;
-import com.datamation.sfa.controller.ItemController;
+//import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriceController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.ReferenceDetailDownloader;
@@ -427,22 +427,22 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     });
 
                     // Processing items
-                    try {
-                        JSONObject itemJSON = new JSONObject(items);
-                        JSONArray itemJSONArray =itemJSON.getJSONArray("items");
-                        ArrayList<Item> itemList = new ArrayList<Item>();
-                        ItemController itemController = new ItemController(ActivityLogin.this);
-                        for (int i = 0; i < itemJSONArray.length(); i++) {
-                            itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
-                        }
-                        itemController.InsertItems(itemList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
+//                    try {
+//                        JSONObject itemJSON = new JSONObject(items);
+//                        JSONArray itemJSONArray =itemJSON.getJSONArray("items");
+//                        ArrayList<Item> itemList = new ArrayList<Item>();
+//                        ItemController itemController = new ItemController(ActivityLogin.this);
+//                        for (int i = 0; i < itemJSONArray.length(); i++) {
+//                            itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
+//                        }
+//                        itemController.InsertItems(itemList);
+//                    } catch (JSONException | NumberFormatException e) {
+//
+////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+////                                e, routes, BugReport.SEVERITY_HIGH);
+//
+//                        throw e;
+//                    }
                     /*****************end items**********************************************************************/
                     /*****************prices**********************************************************************/
 

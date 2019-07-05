@@ -156,7 +156,7 @@ public class SalesReturnDetController
 
         try {
 
-            count = dB.delete(DatabaseHelper.TABLE_FINVRDET, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+            count = dB.delete(DatabaseHelper.TABLE_INVRDET, DatabaseHelper.REFNO + " ='" + refno + "'", null);
 
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -179,11 +179,11 @@ public class SalesReturnDetController
         }
 
         try {
-            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_FINVRDET + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+            String selectQuery = "SELECT count(RefNo) as RefNoCount FROM " + DatabaseHelper.TABLE_INVRDET + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
-                return Integer.parseInt(cursor.getString(cursor.getColumnIndex("RefNo")));
+                return Integer.parseInt(cursor.getString(cursor.getColumnIndex("RefNoCount")));
             }
             cursor.close();
         } catch (Exception e) {
@@ -237,5 +237,53 @@ public class SalesReturnDetController
         }
         return count;
 
+    }
+
+    public ArrayList<FInvRDet> getReturnItemsforPrint(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        Cursor cursor = null;
+        ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
+
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_INVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+
+        try {
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                FInvRDet reDet = new FInvRDet();
+
+                reDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_AMT)));
+                reDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_ITEMCODE)));
+                reDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_QTY)));
+                reDet.setFINVRDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TXN_TYPE)));
+                reDet.setFINVRDET_REFNO(refno);
+                reDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_DIS_AMT)));
+                //reDet.setFTRANSODET_SCHDISC(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_DISVALAMT)));
+                reDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_SELL_PRICE)));
+                reDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_T_SELL_PRICE)));
+                reDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_RETURN_TYPE)));
+                reDet.setFINVRDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TAX_AMT)));
+
+                list.add(reDet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return list;
     }
 }

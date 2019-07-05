@@ -217,6 +217,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
                         changedPrice = value;
                         lblPrice.setText(""+changedPrice);
+
                     }
                 });
                 keypadPrice.show();
@@ -279,16 +280,15 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
                             ReturnDet.setFINVRDET_T_SELL_PRICE(""+price);
                             ReturnDet.setFINVRDET_DIS_AMT(editTotDisc.getText().toString());
                             ReturnDet.setFINVRDET_AMT(
-                                    String.format("%.2f", Double.parseDouble(txtQty.getText().toString())
-                                            * changedPrice));
+                                    String.format("%.2f", amt));
                             ReturnDet.setFINVRDET_TAX_AMT(TaxedAmt);
                             ReturnDet.setFINVRDET_QTY(totPieces + "");
                             ReturnDet.setFINVRDET_BAL_QTY(totPieces + "");
                             ReturnDet.setFINVRDET_RETURN_REASON(new ReasonController(getActivity()).getReaNameByCode(activity.selectedReturnHed.getFINVRHED_REASON_CODE()));
                             ReturnDet.setFINVRDET_RETURN_REASON_CODE(activity.selectedReturnHed.getFINVRHED_REASON_CODE());
                             ReturnDet.setFINVRDET_REFNO(RefNo);
-                            ReturnDet.setFINVRDET_ITEMCODE(selectedItem.getITEM_CODE());
-                            ReturnDet.setFINVRDET_PRILCODE(selectedItem.getITEM_PRILCODE());
+                            ReturnDet.setFINVRDET_ITEMCODE(selectedItem.getFITEM_ITEM_CODE());
+                            ReturnDet.setFINVRDET_PRILCODE(selectedItem.getFITEM_PRILCODE());
                             ReturnDet.setFINVRDET_IS_ACTIVE("1");
                             ReturnDet.setFINVRDET_TAXCOMCODE("VAT15");
                             ReturnDet.setFINVRDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -345,7 +345,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         @Override
         protected ArrayList<Item> doInBackground(Object... objects) {
 
-            list = new ItemController(getActivity()).getAllItems();
+            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
             Log.v("Return Item count", ">>>>>"+list.size());
             return list;
         }
@@ -398,7 +398,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
                 selectedItem = list.get(position);
                 //brandDisPer = new DebItemPriDS(getActivity()).getBrandDiscount(selectedItem.getITEM_CODE(),activity.selectedRetDebtor.getFDEBTOR_CODE());
-                lblItemName.setText(selectedItem.getITEM_NAME());
+                lblItemName.setText(selectedItem.getFITEM_ITEM_NAME());
                 //lblNou.setText(selectedItem.get());
 //
                 if (returnType.getSelectedItem().toString().equalsIgnoreCase("FR"))
@@ -437,7 +437,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
             public boolean onQueryTextChange(String newText) {
 
                 list.clear();
-                list = new ItemController(getActivity()).getAllItems();
+                list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
                 productList.clearTextFilter();
                 productList.setAdapter(new ProductAdapter(getActivity(), list));
 

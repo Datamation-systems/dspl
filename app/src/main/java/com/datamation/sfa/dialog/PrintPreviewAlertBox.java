@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +18,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.OrderController;
-import com.datamation.sfa.controller.OrderDetailController;
+import com.datamation.sfa.adapter.PrintReturnItemAdapter;
+import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.SalRepController;
+import com.datamation.sfa.controller.SalesReturnController;
+import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
+import com.datamation.sfa.model.FInvRDet;
+import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.OrderDetail;
+import com.datamation.sfa.model.SalRep;
 import com.datamation.sfa.model.User;
+import com.datamation.sfa.view.DebtorDetailsActivity;
 
 import java.io.OutputStream;
 import java.lang.reflect.Method;
@@ -129,7 +134,7 @@ public class PrintPreviewAlertBox {
 
         final TextView txtTotVal = (TextView) promptView.findViewById(R.id.printTotalVal);
         final TextView TotalPieceQty = (TextView) promptView.findViewById(R.id.printpiecesqty);
-        final TextView txtRoute = (TextView) promptView.findViewById(R.id.printRoute);
+        //final TextView txtRoute = (TextView) promptView.findViewById(R.id.printRoute);
 
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -140,60 +145,56 @@ public class PrintPreviewAlertBox {
 
         PRefno = refno;
 
-        Companyname.setText("Amashi Distributors (Pvt) Ltd");
-        Companyaddress1.setText("No.123, Sadhu Mawatha, ");
-        Companyaddress2.setText("Maharagama");
-        CompanyTele.setText("Tele: " +"0114856985");
-        Companyweb.setText("");
-        Companyemail.setText("amashidistributors@gmail.com");
+        Companyname.setText("DATAMATION SYSTEMS (PVT) LTD");
+        Companyaddress1.setText("No.15, SHRUBBERY GARDENS,");
+        Companyaddress2.setText("COLOMBO 04");
+        CompanyTele.setText("Tele: " +"0114100100");
+        Companyweb.setText("datamation.lk");
+        Companyemail.setText("info@datamation.lk");
 
-        User salrep = SharedPref.getInstance(context).getLoginUser();
-        SalesRepname.setText(salrep.getCode() + "/ " + salrep.getName());
-        SalesRepPhone.setText("Tele: " + salrep.getMobile());
+        String repCode = new SalRepController(context).getCurrentRepCode();
+        SalRep salRep = new SalRepController(context).getSaleRep(repCode);
 
-      //  OrderController invhed = new OrderController(context).getDetailsforPrint(refno);
+//        User salrep = SharedPref.getInstance(context).getLoginUser();
+        SalesRepname.setText(salRep.getREPCODE() + "/ " + salRep.getNAME());
+        SalesRepPhone.setText("Tele: " + salRep.getMOBILE());
 
-     //   ArrayList<OrderDetail> list = new OrderDetailController(context).getAllItemsforPrint(refno);
-     //   ArrayList<FInvRDet> Rlist = new FInvRDetDS(context).getAllInvRDetForPrint(refno.trim());
+        FInvRHed retHed = new SalesReturnController(context).getReturnDetailsForPrint(refno);
+        ArrayList<FInvRDet> retDetList = new SalesReturnDetController(context).getReturnItemsforPrint(refno);
 
-     //   Debtor debtor = new DebtorDS(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
+        Customer debtor = new CustomerController(context).getSelectedCustomerByCode(retHed.getFINVRHED_DEBCODE());
+        Debname.setText(debtor.getCusName());
 
-        Debname.setText("Test Customer");
-//        Debaddress1.setText(debtor.getFDEBTOR_ADD1() + ", " + debtor.getFDEBTOR_ADD2());
-//        Debaddress2.setText(debtor.getFDEBTOR_ADD3());
-//        DebTele.setText(debtor.getFDEBTOR_TELE());
-
-//        SalOrdDate.setText("Date: " + invhed.getFINVHED_TXNDATE() + " " + currentTime());
-//        Remarks.setText("Remarks: " + invhed.getFINVHED_REMARKS());
+        SalOrdDate.setText("Date: " + retHed.getFINVRHED_TXN_DATE() + " " + currentTime());
+        Remarks.setText("Remarks: " + retHed.getFINVRHED_REMARKS());
         OrderNo.setText("Ref No: " + refno);
-       // txtRoute.setText(invhed.getFINVHED_TOURCODE() + " / " + invhed.getFINVHED_ROUTECODE());
+        //txtRoute.setText(retHed.getFINVRHED_TOURCODE() + " / " + retHed.getFINVRHED_ROUTE_CODE());
 
         int qty = 0, fiQty = 0, returnQty = 0;
         double dDisc = 0, dTotAmt = 0, returnTot = 0;
 
-//        for (InvDet det : list) {
-//
-//            if (det.getFINVDET_TYPE().equals("SA"))
-//                qty += Integer.parseInt(det.getFINVDET_QTY());
-////            else
-////                fiQty += Integer.parseInt(det.getFINVDET_QTY());
-//
-//           // dDisc += Double.parseDouble(det.getFINVDET_DISVALAMT());
-//            dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
-//        }
-//        for (FInvRDet retrnDet :Rlist){
-//                returnQty += Integer.parseInt(retrnDet.getFINVRDET_QTY());
-//                returnTot += Double.parseDouble(retrnDet.getFINVRDET_AMT());
-//        }
+        for (FInvRDet det : retDetList) {
+
+            if (det.getFINVRDET_RETURN_TYPE().equals("SA"))
+            {
+                qty += Integer.parseInt(det.getFINVRDET_QTY());
+            }
+
+//            else
+//                fiQty += Integer.parseInt(det.getFINVDET_QTY());
+
+           // dDisc += Double.parseDouble(det.getFINVDET_DISVALAMT());
+            dTotAmt += Double.parseDouble(det.getFINVRDET_AMT());
+        }
 
         lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
-        //lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, list));
+        lvItemDetails.setAdapter(new PrintReturnItemAdapter(context, retDetList,refno, debtor.getCusCode()));
 
 		/*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         TotalPieceQty.setText(String.valueOf(qty));
-        TotalNetValue.setText(String.format("%,.2f", (dTotAmt-returnTot)));
-        txtfiQty.setText(String.valueOf(returnQty));
+        TotalNetValue.setText(String.format("%,.2f", (dTotAmt)));
+        //txtfiQty.setText(String.valueOf(returnQty));
         txtTotVal.setText(String.format("%,.2f", dTotAmt));
 
         PRINTER_MAC_ID =  SharedPref.getInstance(context).getGlobalVal("printer_mac_address").toString();
@@ -206,6 +207,7 @@ public class PrintPreviewAlertBox {
 
         alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+
                 dialog.cancel();
             }
         });
@@ -226,6 +228,11 @@ public class PrintPreviewAlertBox {
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/
+
+//	public void goBack()
+//    {
+//        Intent intent = Intent.getIntentOld()
+//    }
 
     public void printItems() {
         final int LINECHAR = 44;

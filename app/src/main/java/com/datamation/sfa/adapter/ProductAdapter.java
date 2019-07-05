@@ -36,8 +36,8 @@ public class ProductAdapter extends ArrayAdapter<Item> {
         TextView itemCode = (TextView) row.findViewById(R.id.tv_item_code);
         TextView ItemName = (TextView) row.findViewById(R.id.tv_item_name);
 
-        itemCode.setText(list.get(position).getITEM_CODE());
-        ItemName.setText(list.get(position).getITEM_NAME());
+        itemCode.setText(list.get(position).getFITEM_ITEM_CODE());
+        ItemName.setText(list.get(position).getFITEM_ITEM_NAME());
 
         return row;
     }

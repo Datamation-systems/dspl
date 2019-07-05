@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.R;
 
@@ -57,8 +55,7 @@ public class OrderDetailsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.lblItem.setText(list.get(position).getORDDET_ITEMCODE()+ " - " +new ItemController(convertView.getContext()).getItemNameByCode(list.get(position)
-                .getORDDET_ITEMCODE()));
+        //viewHolder.lblItem.setText(list.get(position).getORDDET_ITEMCODE()+ " - " +new ItemController(convertView.getContext()).getItemNameByCode(list.get(position).getORDDET_ITEMCODE()));
         viewHolder.lblQty.setText(list.get(position).getORDDET_QTY());
         viewHolder.lblAMt.setText("0.0");
 

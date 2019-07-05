@@ -129,34 +129,42 @@ public class SalRepController {
             open();
         }
 
-        String selectRep = "SELECT * FROM fSalRep WHERE RepCode='" + Repcode + "'";
-        Cursor curRep = null;
-        curRep = dB.rawQuery(selectRep, null);
         SalRep newRep = new SalRep();
 
         try {
+
+            //String selectRep = "SELECT * FROM fSalRep WHERE RepCode='" + Repcode + "'";
+
+            String selectRep = "SELECT * FROM " + DatabaseHelper.TABLE_FSALREP + " WHERE " + DatabaseHelper.FSALREP_REP_CODE + " = '" + Repcode + "'";
+
+            Cursor curRep = dB.rawQuery(selectRep, null);
+
             while (curRep.moveToNext()) {
 
-                newRep.setADDMACH(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ADDMACH)));
-                newRep.setADDUSER(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ADDUSER)));
-                newRep.setEMAIL(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_EMAIL)));
-                newRep.setId(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ID)));
-                newRep.setMACID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_MACID)));
-                newRep.setMOBILE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_MOBILE)));
-                newRep.setNAME(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_NAME)));
-                newRep.setPASSWORD(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_PASSWORD)));
-                newRep.setPREFIX(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_PREFIX)));
-                newRep.setRECORDID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_RECORDID)));
-                newRep.setREPCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REPCODE)));
-                newRep.setREPID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REPID)));
-                newRep.setSTATUS(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_STATUS)));
-                newRep.setTELE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_TELE)));
 
+                newRep.setMOBILE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_MOB)));
+                newRep.setNAME(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_NAME)));
+                newRep.setPASSWORD(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_PASSWORD)));
+                newRep.setPREFIX(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_PREFIX)));
+                newRep.setRECORDID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_RECORD_ID)));
+                newRep.setREPCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_CODE)));
+                newRep.setLOCCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_LOCCODE)));
+                newRep.setEMAIL(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_EMAIL)));
+                newRep.setTELE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_PHONE_NO)));
+
+//                newRep.setSTATUS(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_STATUS)));
+//                newRep.setADDMACH(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ADDMACH)));
+//                newRep.setADDUSER(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ADDUSER)));
+//                newRep.setId(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ID)));
+//                newRep.setMACID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_MACID)));
             }
+
+            curRep.close();
+
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
         } finally {
-            curRep.close();
+
             dB.close();
         }
 

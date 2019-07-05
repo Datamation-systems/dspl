@@ -2,67 +2,23 @@ package com.datamation.sfa.presale;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
-
-import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.datamation.sfa.adapter.NewPreProductAdapter;
-import com.datamation.sfa.adapter.OrderDetailsAdapter;
-import com.datamation.sfa.controller.ItemController;
-import com.datamation.sfa.controller.OrderDetailController;
-import com.datamation.sfa.controller.OrderController;
-import com.datamation.sfa.controller.OrderTempController;
-import com.datamation.sfa.controller.PreProductController;
-import com.datamation.sfa.dialog.CustomProgressDialog;
-import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.PRESALE;
-import com.datamation.sfa.model.PreProduct;
-import com.datamation.sfa.utils.UtilityContainer;
-import com.datamation.sfa.view.ActivityHome;
-import com.datamation.sfa.model.OrderDetail;
-import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.tempOrderDet;
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.utils.NetworkUtil;
 import com.datamation.sfa.settings.ReferenceNum;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
