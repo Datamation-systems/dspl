@@ -15,6 +15,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 
+import com.datamation.sfa.helpers.VanSalesResponseListener;
 import com.datamation.sfa.model.Customer;
 
 import com.datamation.sfa.model.FInvRHed;
@@ -24,7 +25,7 @@ import com.datamation.sfa.vansale.VanSalesHeader;
 import com.datamation.sfa.vansale.VanSalesOrderDetails;
 import com.datamation.sfa.vansale.VanSalesSummary;
 
-public class VanSalesActivity extends AppCompatActivity implements PreSalesResponseListener {
+public class VanSalesActivity extends AppCompatActivity implements VanSalesResponseListener {
     private VanSalesHeader headerFragment;
     private VanSalesOrderDetails detailFragment;
     private VanSalesSummary salesManagementFragment;
@@ -98,7 +99,7 @@ public class VanSalesActivity extends AppCompatActivity implements PreSalesRespo
     }
 
     @Override
-    public void moveBackToCustomer_pre(int index) {
+    public void moveBackToCustomer(int index) {
 
         if (index == 0)
         {
@@ -122,7 +123,7 @@ public class VanSalesActivity extends AppCompatActivity implements PreSalesRespo
     }
 
     @Override
-    public void moveNextToCustomer_pre(int index) {
+    public void moveNextToCustomer(int index) {
 
         if (index == 0)
         {
