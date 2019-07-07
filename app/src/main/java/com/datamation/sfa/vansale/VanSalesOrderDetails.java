@@ -7,12 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.SearchView;
 import android.text.Editable;
@@ -27,32 +24,31 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.dialog.CustomKeypadDialog;
+import com.datamation.sfa.controller.InvDetDS;
+import com.datamation.sfa.controller.OrdFreeIssueDS;
+import com.datamation.sfa.controller.ProductDS;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.FreeIssue;
+import com.datamation.sfa.model.FreeItemDetails;
 import com.datamation.sfa.model.InvDet;
 import com.datamation.sfa.model.InvHed;
-import com.datamation.sfa.model.Item;
-import com.datamation.sfa.model.ItemNew;
-import com.squareup.picasso.Picasso;
+import com.datamation.sfa.model.Product;
+import com.datamation.sfa.settings.ReferenceNum;
+import com.datamation.sfa.view.VanSalesActivity;
 
-import java.io.File;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -65,9 +61,9 @@ public class VanSalesOrderDetails extends Fragment {
     ArrayList<InvDet> orderList;
     SharedPref mSharedPref;
     String RefNo, locCode;
-  //  MainActivity mainActivity;
+    VanSalesActivity mainActivity;
     MyReceiver r;
-   // ArrayList<Product> productList = null, selectedItemList = null;
+    ArrayList<Product> productList = null, selectedItemList = null;
     ImageButton ibtProduct, ibtDiscount;
     private  SweetAlertDialog pDialog;
     private InvHed tmpinvHed=null;
@@ -80,441 +76,217 @@ public class VanSalesOrderDetails extends Fragment {
         view = inflater.inflate(R.layout.sales_management_van_sales_new_details, container, false);
         mSharedPref = new SharedPref(getActivity());
         locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
-       // mainActivity = (MainActivity) getActivity();
-//        if(mainActivity.selectedDebtor != null)
-//        {
-//            if(mainActivity.selectedDebtor.getFDEBTOR_TAX_REG().equals("Y")){
-//                RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumValTax));
-//            }else {
-//                RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumValNonTax));
-//            }
-//        }
-//        else
-//        {
-//            Toast.makeText(mainActivity,"Select a customer to continue...",Toast.LENGTH_SHORT);
-//        }
+        mainActivity = (VanSalesActivity) getActivity();
+        if(mainActivity.selectedDebtor != null)
 
-//        lv_order_det = (ListView) view.findViewById(R.id.lvProducts_Inv);
-//        lvFree = (ListView) view.findViewById(R.id.lvFreeIssue_Inv);
-//
-//        ibtDiscount = (ImageButton) view.findViewById(R.id.ibtDisc);
-//        ibtProduct = (ImageButton) view.findViewById(R.id.ibtProduct);
+                RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
+
+
+
+        lv_order_det = (ListView) view.findViewById(R.id.lvProducts_Inv);
+        lvFree = (ListView) view.findViewById(R.id.lvFreeIssue_Inv);
+
+        ibtDiscount = (ImageButton) view.findViewById(R.id.ibtDisc);
+        ibtProduct = (ImageButton) view.findViewById(R.id.ibtProduct);
         tmpinvHed=new InvHed();
+        showData();
 
-
-//        ibtDiscount.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN: {
-//                       // ibtDiscount.setBackground(getResources().getDrawable(R.drawable.discount_down));
-//                    }
-//                    break;
-//
-//                    case MotionEvent.ACTION_UP: {
-//                        ibtDiscount.setBackground(getResources().getDrawable(R.drawable.discount));
-//                    }
-//                    break;
-//                }
-//                return false;
-//            }
-//        });
 
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*//
 
 
 
+        //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*//
+
+        ibtProduct.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new LoardingProductFromDB().execute();
+            }
+        });
+
+
+
+        //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*//
+
+        ibtDiscount.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateFreeIssue();
+            }
+        });
+
+        //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*//
+
+        lv_order_det.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                new InvDetDS(getActivity()).restFreeIssueData(RefNo);
+                //new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
+                newDeleteOrderDialog(position);
+                return true;
+            }
+        });
 
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*//*
 
-//        lv_order_det.setOnItemClickListener(new OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view2, int position, long id) {
-//                /*new InvDetDS(getActivity()).restFreeIssueData(RefNo);
-//                new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
-//                InvDet invDet = orderList.get(position);
-//
-//                FreeIssue issue = new FreeIssue(getActivity());
-//                ArrayList<FreeItemDetails> list = issue.getEligibleFreeItemsByInvoiceItem( orderList.get(position), new SharedPref(getActivity()).getGlobalVal("KeyCostCode"));
-//                popEditDialogBox(invDet,list);*/
-//
-//            }
-//        });
+        lv_order_det.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view2, int position, long id) {
+                /*new InvDetDS(getActivity()).restFreeIssueData(RefNo);
+                new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
+                InvDet invDet = orderList.get(position);
+
+                FreeIssue issue = new FreeIssue(getActivity());
+                ArrayList<FreeItemDetails> list = issue.getEligibleFreeItemsByInvoiceItem( orderList.get(position), new SharedPref(getActivity()).getGlobalVal("KeyCostCode"));
+                popEditDialogBox(invDet,list);*/
+
+            }
+        });
 
         return view;
 
     }
 
-
-    private static class ViewHolder {
-
-        TextView categoryIndicator;
-
-        ImageView icon;
-        RelativeLayout rl;
-        TextView name, packaging, displayPrice, /*qtySuggested, */
-                qtyAvailable, price, qtySelected, flavour;
-        TextView freeQty;
-        ImageView plus;
-        TextView freeIssueOverflow;
-
-        // Flavoured layout additional views
-        RelativeLayout rl2;
-        ImageView icon2;
-        TextView /*qtySuggested2, */qtyAvailable2, price2, qtySelected2, flavour2, details2, displayPrice2;
-        TextView freeQty2;
-        ImageView plus2;
-        TextView freeIssueOverflow2;
-
-        RelativeLayout rl3;
-        ImageView icon3;
-        TextView /*qtySuggested3, */qtyAvailable3, price3, qtySelected3, flavour3, details3, displayPrice3;
-        TextView freeQty3;
-        ImageView plus3;
-        TextView freeIssueOverflow3;
-
-        RelativeLayout rl4;
-        ImageView icon4;
-        TextView /*qtySuggested4, */qtyAvailable4, price4, qtySelected4, flavour4, details4, displayPrice4;
-        TextView freeQty4;
-        ImageView plus4;
-        TextView freeIssueOverflow4;
-
-        RelativeLayout rl5;
-        ImageView icon5;
-        TextView /*qtySuggested5,*/ qtyAvailable5, price5, qtySelected5, flavour5, details5, displayPrice5;
-        TextView freeQty5;
-        ImageView plus5;
-        TextView freeIssueOverflow5;
-    }
-
-    private static class ItemsAdapter extends BaseAdapter {
-
-        private Context context;
-        private LayoutInflater inflater;
-        private List<ItemNew> allItems;
-        private int mode = 0; // 0 : View All, 1 : View Categorized, 2 : Line Items, 3 : Return Items
-        private int categoryId = 0;
-        private boolean adding = true;
-//        private int discountItemCount = 0;
-
-        private int lastCategoryId = 0;
-
-        public ItemsAdapter(Context context, List<ItemNew> allItems) {
-            this.context = context;
-            inflater = LayoutInflater.from(this.context);
-            this.allItems = allItems;
-
-
-
+    //------------------------------------------------------------------------------------------------------------------------------------
+    public class LoardingProductFromDB extends AsyncTask<Object, Object, ArrayList<Product>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Fetch Data Please Wait.");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
-        public int getCount() {
-            if (allItems != null) {
-                return allItems.size();
-            }
-            return 0;
-        }
+        protected ArrayList<Product> doInBackground(Object... objects) {
 
-        @Override
-        public ItemNew getItem(int position) {
-            return allItems.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        // Think of a better name for this shit.
-        public void setIsAdding(boolean isAdding) {
-            adding = isAdding;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-
-            final ItemNew item = allItems.get(position);
-
-
-            ViewHolder viewHolder;
-            if (convertView == null) {
-                viewHolder = new ViewHolder();
-
-                convertView = inflater.inflate(R.layout.item_with_flavour, parent, false);
-
-                viewHolder.categoryIndicator = (TextView) convertView.findViewById(R.id.item_order_tv_category_indicator);
-
-                viewHolder.rl = (RelativeLayout) convertView.findViewById(R.id.item_order_rl1);
-                viewHolder.icon = (ImageView) convertView.findViewById(R.id.item_order_imageview_icon);
-                viewHolder.name = (TextView) convertView.findViewById(R.id.item_order_tv_name);
-                viewHolder.packaging = (TextView) convertView.findViewById(R.id.item_order_tv_additional_details);
-                viewHolder.qtyAvailable = (TextView) convertView.findViewById(R.id.item_order_tv_available_qty);
-                viewHolder.price = (TextView) convertView.findViewById(R.id.item_order_tv_selected_price);
-                viewHolder.qtySelected = (TextView) convertView.findViewById(R.id.item_order_tv_selected_qty);
-                viewHolder.plus = (ImageView) convertView.findViewById(R.id.item_order_plus_imageview);
-                viewHolder.flavour = (TextView) convertView.findViewById(R.id.item_order_tv_flavour);
-                viewHolder.displayPrice = (TextView) convertView.findViewById(R.id.item_order_tv_display_price);
-                viewHolder.freeQty = (TextView) convertView.findViewById(R.id.item_order_tv_free_qty);
-                viewHolder.freeIssueOverflow = (TextView) convertView.findViewById(R.id.item_order_tv_free_overflow);
-
-                viewHolder.rl2 = (RelativeLayout) convertView.findViewById(R.id.item_order_rl2);
-                viewHolder.icon2 = (ImageView) convertView.findViewById(R.id.item_order_imageview_product_image2);
-                viewHolder.qtySelected2 = (TextView) convertView.findViewById(R.id.item_order_tv_selected_qty2);
-                viewHolder.qtyAvailable2 = (TextView) convertView.findViewById(R.id.item_order_tv_available_qty2);
-                viewHolder.price2 = (TextView) convertView.findViewById(R.id.item_order_tv_selected_price2);
-                viewHolder.flavour2 = (TextView) convertView.findViewById(R.id.item_order_tv_flavour2);
-                viewHolder.plus2 = (ImageView) convertView.findViewById(R.id.item_order_plus_imageview2);
-                viewHolder.details2 = (TextView) convertView.findViewById(R.id.item_order_tv_additional_details2);
-                viewHolder.displayPrice2 = (TextView) convertView.findViewById(R.id.item_order_tv_display_price2);
-                viewHolder.freeQty2 = (TextView) convertView.findViewById(R.id.item_order_tv_free_qty2);
-                viewHolder.freeIssueOverflow2 = (TextView) convertView.findViewById(R.id.item_order_tv_free_overflow2);
-
-                viewHolder.rl3 = (RelativeLayout) convertView.findViewById(R.id.item_order_rl3);
-                viewHolder.icon3 = (ImageView) convertView.findViewById(R.id.item_order_imageview_product_image3);
-                viewHolder.qtySelected3 = (TextView) convertView.findViewById(R.id.item_order_tv_selected_qty3);
-                viewHolder.qtyAvailable3 = (TextView) convertView.findViewById(R.id.item_order_tv_available_qty3);
-                viewHolder.price3 = (TextView) convertView.findViewById(R.id.item_order_tv_selected_price3);
-                viewHolder.flavour3 = (TextView) convertView.findViewById(R.id.item_order_tv_flavour3);
-                viewHolder.plus3 = (ImageView) convertView.findViewById(R.id.item_order_plus_imageview3);
-                viewHolder.details3 = (TextView) convertView.findViewById(R.id.item_order_tv_additional_details3);
-                viewHolder.displayPrice3 = (TextView) convertView.findViewById(R.id.item_order_tv_display_price3);
-                viewHolder.freeQty3 = (TextView) convertView.findViewById(R.id.item_order_tv_free_qty3);
-                viewHolder.freeIssueOverflow3 = (TextView) convertView.findViewById(R.id.item_order_tv_free_overflow3);
-
-                viewHolder.rl4 = (RelativeLayout) convertView.findViewById(R.id.item_order_rl4);
-                viewHolder.icon4 = (ImageView) convertView.findViewById(R.id.item_order_imageview_product_image4);
-                viewHolder.qtySelected4 = (TextView) convertView.findViewById(R.id.item_order_tv_selected_qty4);
-                viewHolder.qtyAvailable4 = (TextView) convertView.findViewById(R.id.item_order_tv_available_qty4);
-                viewHolder.price4 = (TextView) convertView.findViewById(R.id.item_order_tv_selected_price4);
-                viewHolder.flavour4 = (TextView) convertView.findViewById(R.id.item_order_tv_flavour4);
-                viewHolder.plus4 = (ImageView) convertView.findViewById(R.id.item_order_plus_imageview4);
-                viewHolder.details4 = (TextView) convertView.findViewById(R.id.item_order_tv_additional_details4);
-                viewHolder.displayPrice4 = (TextView) convertView.findViewById(R.id.item_order_tv_display_price4);
-                viewHolder.freeQty4 = (TextView) convertView.findViewById(R.id.item_order_tv_free_qty4);
-                viewHolder.freeIssueOverflow4 = (TextView) convertView.findViewById(R.id.item_order_tv_free_overflow4);
-
-                viewHolder.rl5 = (RelativeLayout) convertView.findViewById(R.id.item_order_rl5);
-                viewHolder.icon5 = (ImageView) convertView.findViewById(R.id.item_order_imageview_product_image5);
-                viewHolder.qtySelected5 = (TextView) convertView.findViewById(R.id.item_order_tv_selected_qty5);
-                viewHolder.qtyAvailable5 = (TextView) convertView.findViewById(R.id.item_order_tv_available_qty5);
-                viewHolder.price5 = (TextView) convertView.findViewById(R.id.item_order_tv_selected_price5);
-                viewHolder.flavour5 = (TextView) convertView.findViewById(R.id.item_order_tv_flavour5);
-                viewHolder.plus5 = (ImageView) convertView.findViewById(R.id.item_order_plus_imageview5);
-                viewHolder.details5 = (TextView) convertView.findViewById(R.id.item_order_tv_additional_details5);
-                viewHolder.displayPrice5 = (TextView) convertView.findViewById(R.id.item_order_tv_display_price5);
-                viewHolder.freeQty5 = (TextView) convertView.findViewById(R.id.item_order_tv_free_qty5);
-                viewHolder.freeIssueOverflow5 = (TextView) convertView.findViewById(R.id.item_order_tv_free_overflow5);
-
-                convertView.setTag(viewHolder);
-
+            if (new ProductDS(getActivity()).tableHasRecords()) {
+                //productList = new ProductDS(getActivity()).getAllItems("");
+                productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
             } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
+                //rashmi 2018-10-22 - (getAllItemForVanSales) for mega.because debtor has no prillcode, it get from fitems
+                //productList = new ItemsDS(getActivity()).getAllItemForVanSales(new SalRepDS(getActivity()).getCurrentLocCode().trim(), mainActivity.selectedDebtor.getFDEBTOR_PRILLCODE());
+                //new ProductDS(getActivity()).insertOrUpdateProducts(productList);
 
-            viewHolder.rl2.setVisibility(View.GONE);
-            viewHolder.rl3.setVisibility(View.GONE);
-            viewHolder.rl4.setVisibility(View.GONE);
-            viewHolder.rl5.setVisibility(View.GONE);
+                //yasith 2019-01-14
+                // new ProductDS(getActivity()).insertIntoProductAsBulk(new SalRepDS(getActivity()).getCurrentLocCode().trim(), mainActivity.selectedDebtor.getFDEBTOR_PRILLCODE());
+                //rashmi 2019-03-12 prilcode get from fsalrep
+                new ProductDS(getActivity()).insertIntoProductAsBulk(new SalRepController
 
+                        (getActivity()).getCurrentLocCode().trim(), new SalRepController(getActivity()).getCurrentPriLCode().trim());
 
+                if(tmpinvHed!=null) {
 
+                    ArrayList<InvDet> invDetArrayList = tmpinvHed.getInvDetArrayList();
+                    if (invDetArrayList != null) {
+                        for (int i = 0; i < invDetArrayList.size(); i++) {
+                            String tmpItemName = invDetArrayList.get(i).getFINVDET_ITEM_CODE();
+                            String tmpQty = invDetArrayList.get(i).getFINVDET_QTY();
+                            //Update Qty in  fProducts_pre table
+                            int count = new ProductDS(getActivity()).updateProductQtyfor(tmpItemName, tmpQty);
+                            if (count > 0) {
 
-//                Log.d(LOG_TAG, item.toString() + " is not flavoured");
-
-//                Log.d(LOG_TAG, item.toString());
-
-//                if(mode == 0 && item.getCategoryId() != lastCategoryId) {
-//                    // Start of a new category
-//                    for(ItemCategory category : categories) {
-//                        if(item.getCategoryId() == category.getCategoryId()) {
-//                            viewHolder.categoryIndicator.setText(category.getCategoryName());
-//                            viewHolder.categoryIndicator.setVisibility(View.VISIBLE);
-//                            lastCategoryId = category.getCategoryId();
-//                        }
-//                    }
-//                } else {
-//                    viewHolder.categoryIndicator.setVisibility(View.GONE);
-//                }
-
-//                File image = new File(Environment.getExternalStorageDirectory(), "/Chelcey/Products/" + item.getImageUri());
-//                if (image.exists()) {
-//                    Uri uri = Uri.fromFile(image);
-//                    viewHolder.icon.setVisibility(View.VISIBLE);
-//                    Picasso.with(context).load(uri).resize(96, 96).centerInside().into(viewHolder.icon);
-//                } else {
-//                    viewHolder.icon.setImageDrawable(null);
-//                    viewHolder.icon.setVisibility(View.INVISIBLE);
-//                }
-
-                viewHolder.freeQty.setVisibility(View.GONE);
-//                for (FreeIssueStructure freeIssueStructure : freeIssueStructures) {
-//                    if (freeIssueStructure.isItemEligibleForFree(item.getItemNo())) {
-//                        int freeQty = freeIssueStructure.getSelectedQtyOfItem(item.getItemNo());
-//
-//                        if (freeIssueStructure.getBalanceFreeQty() > 0 && freeIssueStructure.getBalanceFreeItemId() == item.getItemNo()) {
-//                            // Show overflow view
-//                            viewHolder.freeIssueOverflow.setVisibility(View.VISIBLE);
-//                        } else {
-//                            viewHolder.freeIssueOverflow.setVisibility(View.GONE);
-//                        }
-//
-//                        if (freeQty > 0) {
-//                            Log.d(LOG_TAG, item.toString() + " available for free " + freeQty);
-//                            viewHolder.freeQty.setText("Free : " + freeQty);
-//                            viewHolder.freeQty.setVisibility(View.VISIBLE);
-//                        }
-//
-//                        break;
-//                    }
-//                }
-                NumberFormat format = NumberFormat.getInstance();
-                viewHolder.name.setText(item.getItemName() + " (" + format.format(item.getConsumerPrice()) + ")");
-                viewHolder.packaging.setText(item.getPackaging());
-                viewHolder.displayPrice.setText(format.format(item.getWholesalePrice()) + "/" + item.getUnit());
-
-//                viewHolder.qtySuggested.setText("0");
-                viewHolder.qtyAvailable.setText(format.format(item.getStockQty()));
-
-                viewHolder.flavour.setVisibility(View.INVISIBLE);
-
-                if (item.getSelectedQty() == 0) {
-                    viewHolder.qtySelected.setText("");
-                } else {
-                    viewHolder.qtySelected.setText(String.valueOf(item.getSelectedQty()));
-                }
-
-                viewHolder.price.setText(format.format(item.getWholesalePrice() * item.getSelectedQty()));
-
-                if (adding) {
-                    viewHolder.plus.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_plus));
-                } else {
-                    viewHolder.plus.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_minus));
-                }
-
-                viewHolder.qtySelected.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-//                        CustomKeypadDialog keypad = new CustomKeypadDialog(context) {
-//                            @Override
-//                            public double onOkClicked() {
-//                                double value = super.onOkClicked();
-//                                if (value > item.getStockQty()) {
-//                                    Toast.makeText(context, "Exceeds available stock", Toast.LENGTH_SHORT).show();
-//                                } else {
-//                                    item.setSelectedQty(value);
-//                                }
-//                                calculateHeaderDetails();
-//                                notifyDataSetChanged();
-//                                return value;
-//                            }
-//                        };
-
-                        CustomKeypadDialog keypad = new CustomKeypadDialog(context, true, new CustomKeypadDialog.IOnOkClickListener() {
-                            @Override
-                            public void okClicked(double value) {
-                                if (value > item.getStockQty()) {
-                                    Toast.makeText(context, "Exceeds available stock", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    item.setSelectedQty(value);
-                                }
-
-                                notifyDataSetChanged();
-                            }
-                        });
-
-                        keypad.show();
-
-                        keypad.setHeader("SELECT QUANTITY");
-                        keypad.loadValue(item.getSelectedQty());
-
-                    }
-                });
-                // plus button
-                viewHolder.plus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        freeIssueType2DetailList = null;
-//                        changed = true;
-                        if (adding) {
-                            double newQty = item.getSelectedQty() ;
-                            if (newQty > item.getStockQty()) {
-                                Toast.makeText(context, "Exceeds available stock", Toast.LENGTH_SHORT).show();
+                                Log.d("InsertOrUpdate", "success");
                             } else {
-                                item.setSelectedQty(newQty);
-//                                if(item.getItemNo()==186){
-//                                    if(item.getSelectedQty()>12){
-//                                        int free = (int) (item.getSelectedQty()/12);
-//                                        item.setFreeIssue(free);
-//                                    }
-//                                }
-//                                if(item.getItemNo()==187){
-//                                    if(item.getSelectedQty()>12){
-//                                        int free = (int) (item.getSelectedQty()/12);
-//                                        item.setFreeIssue(free);
-//                                    }
-//                                }
-                                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                Log.d("InsertOrUpdate", "Failed");
                             }
-                        } else {
-                            double newQty = item.getSelectedQty() ;
-                            if (newQty < 0) {
-                                item.setSelectedQty(0);
-                            } else {
-                                item.setSelectedQty(newQty);
-                            }
+
                         }
-                        notifyDataSetChanged();
-
-
-                        Log.d("", "Item ID : " + item.getItemNo());
                     }
-                });
-
-
-
-            return convertView;
+                }
+                //----------------------------------------------------------------------------
+            }
+            //productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
+            return productList;
         }
+
 
         @Override
-        public void notifyDataSetChanged() {
+        protected void onPostExecute(ArrayList<Product> products) {
+            super.onPostExecute(products);
 
-//            if (mode == 0) {
-//                this.categoryId = 0;
-//                this.mode = 0;
-//                this.itemsOfCategory = null;
-//                selectedItems = null;
-//            } else
-
-//            else if (mode == 3) {
-////                this.itemsOfCategory = null;
-////                this.selectedItems = null;
-//            } else if (mode == 4) {
-//
-//            }
-
-            super.notifyDataSetChanged();
+            if(pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+            ProductDialogBox();
         }
-
-
-
-
-
-
-
-
-
-
-
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    public void calculateFreeIssue() {
+
+        //ibtDiscount.setClickable(false);
+
+        /* GET CURRENT ORDER DETAILS FROM TABLE */
+        ArrayList<InvDet> dets = new InvDetDS(getActivity()).getSAForFreeIssueCalc(RefNo);
+        //ArrayList<InvDet> dets = new ProductDS(getActivity()).getSelectedItemsForInvoice(RefNo);
+
+        /* CLEAR ORDERDET TABLE RECORD IF FREE ITEMS ARE ALREADY ADDED. */
+        new InvDetDS(getActivity()).restFreeIssueData(RefNo);
+        /* Clear free issues in OrdFreeIss */
+        new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
+        /*
+         * JUST LOAD ORDER ITEMS TO LISTVIEW & CLEAR FREE ITEM FROM LISTVIEW
+         * USER ALREADY RETREIVED FREE ISSUES
+         */
+        //FetchData();
+
+        FreeIssue issue = new FreeIssue(getActivity());
+
+        /* Get discounts for assorted items */
+        ArrayList<ArrayList<InvDet>> metaOrdList = issue.SortInvoiceDiscount(dets);
+
+        /* Iterate through for discounts for items */
+        for (ArrayList<InvDet> OrderList : metaOrdList) {
+            // DiscountDialogBox(OrderList);
+
+            double totAmt = 0;
+            double freeVal = Double.parseDouble(OrderList.get(0).getFINVDET_B_AMT());
+            String discPer = OrderList.get(0).getFINVDET_SCHDISPER();
+            String discType = OrderList.get(0).getFINVDET_DISCTYPE();
+            String discRef = OrderList.get(0).getFINVDET_DISC_REF();
+            OrderList.get(0).setFINVDET_B_AMT("0");
+
+            for (InvDet det : OrderList)
+                totAmt += Double.parseDouble(det.getFINVDET_PRICE()) * (Double.parseDouble(det.getFINVDET_QTY()));
+
+            for (InvDet det : OrderList) {
+                det.setFINVDET_SCHDISPER(discPer);
+                det.setFINVDET_DISCTYPE(discType);
+                det.setFINVDET_DISC_REF(discRef);
+
+                double disc;
+
+                /*
+                 * For value, calculate amount portion & for percentage ,
+                 * calculate percentage portion
+                 */
+                disc = (freeVal / totAmt) * Double.parseDouble(det.getFINVDET_PRICE()) * (Double.parseDouble(det.getFINVDET_QTY()));
+
+                /* Calculate discount amount from disc percentage portion */
+                if (discType.equals("P"))
+                    disc = (Double.parseDouble(det.getFINVDET_AMT()) / 100) * disc;
+
+                new InvDetDS(getActivity()).updateDiscount(det, disc, det.getFINVDET_DISCTYPE());
+            }
+        }
+
+        // GET ARRAY OF FREE ITEMS BY PASSING IN ORDER DETAILS
+        ArrayList<FreeItemDetails> list = issue.getFreeItemsByInvoiceItem(dets, new SharedPref(getActivity()).getGlobalVal("KeyCostCode"));
+        // PASS EACH ITEM IN TO DIALOG BOX FOR USER SELECTION
+        for (FreeItemDetails freeItemDetails : list) {
+           // freeIssueDialogBox(freeItemDetails);//comment on 07-07-2019 till error free
+
+        }
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     /*@Override
     public void onClick(View v) {
@@ -605,14 +377,122 @@ public class VanSalesOrderDetails extends Fragment {
         }
     }*/
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
+    public void showData() {
+        try {
+            orderList = new InvDetDS(getActivity()).getAllInvDet(mainActivity.selectedInvHed.getFINVHED_REFNO());
+            //ArrayList<InvDet> freeList = new InvDetDS(getActivity()).getAllFreeIssue(mainActivity.selectedInvHed.getFINVHED_REFNO());
+          //  lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));//2019-07-07 till error free
+            //lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
+        } catch (NullPointerException e) {
+            Log.v("SA Error", e.toString());
+        }
+    }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
+//    private boolean DiscountDialogBox(final ArrayList<InvDet> OrderList) {
+//
+//        // get discount value from the first instance
+//        final double DiscValue = Double.parseDouble(OrderList.get(0).getFINVDET_B_AMT());
+//        OrderList.get(0).setFINVDET_B_AMT("0.00");
+//        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+//        View promptView = layoutInflater.inflate(R.layout.free_issues_items_dialog, null);
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//        alertDialogBuilder.setTitle("Please allocate discounts...");
+//        alertDialogBuilder.setView(promptView);
+//
+//        final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
+//        final TextView itemName = (TextView) promptView.findViewById(R.id.tv_free_issue_item_name);
+//        final TextView freeQty = (TextView) promptView.findViewById(R.id.tv_free_qty);
+//
+//        freeQty.setText("Discount you have : " + DiscValue);
+//
+//        listView.setAdapter(new InvoiceDiscountAdapter(getActivity(), OrderList));
+//        listView.setOnItemClickListener(new OnItemClickListener() {
+//
+//            // double avaliableQty = getAvailableTotal(OrderList);
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view2, final int position, long id) {
+//
+//                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+//
+//                View promptView = layoutInflater.inflate(R.layout.set_free_issue_dialog, null);
+//
+//                final TextView leftQty = (TextView) promptView.findViewById(R.id.tv_free_item_left_qty);
+//                final EditText enteredQty = (EditText) promptView.findViewById(R.id.et_free_qty);
+//
+//                leftQty.setText("Discount : " + getAvailableTotal(DiscValue, OrderList));
+//                enteredQty.addTextChangedListener(new TextWatcher() {
+//                    public void afterTextChanged(Editable s) {
+//                        if (enteredQty.getText().toString().equals("")) {
+//
+//                        } else {
+//                            if ((getAvailableTotal(DiscValue, OrderList) - (Double.parseDouble(enteredQty.getText().toString()))) < 0) {
+//                                enteredQty.setText("");
+//                                leftQty.setText("Discount : " + (getAvailableTotal(DiscValue, OrderList)));
+//                                android.widget.Toast.makeText(getActivity(), "No more discounts remaining ..!", android.widget.Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                leftQty.setText("Discount left : " + (getAvailableTotal(DiscValue, OrderList) - (Double.parseDouble(enteredQty.getText().toString()))));
+//                            }
+//
+//                        }
+//                    }
+//
+//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                    }
+//
+//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                    }
+//                });
+//
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//                alertDialogBuilder.setView(promptView);
+//
+//                alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//
+//                        if (!(enteredQty.getText().toString().equals(""))) {
+//                            OrderList.get(position).setFINVDET_DISVALAMT(enteredQty.getText().toString());
+//                            freeQty.setText("Discount left : " + getAvailableTotal(DiscValue, OrderList));
+//                        }
+//
+//                        listView.clearTextFilter();
+//                        listView.setAdapter(new InvoiceDiscountAdapter(getActivity(), OrderList));
+//
+//                    }
+//                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//
+//                    }
+//                });
+//                AlertDialog alertD = alertDialogBuilder.create();
+//                alertD.show();
+//
+//            }
+//        });
+//
+//        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                new InvDetDS(getActivity()).UpdateArrayDiscount(OrderList);
+//                android.widget.Toast.makeText(getActivity(), "Discount updated successfully..", android.widget.Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//        return true;
+//    }
 
-
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public double getAvailableTotal(double discVal, ArrayList<InvDet> OrderList) {
         double avQTY = 0;
@@ -626,8 +506,184 @@ public class VanSalesOrderDetails extends Fragment {
 
     }
 
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-
+//   private boolean freeIssueDialogBox(final FreeItemDetails itemDetails) {
+//
+//        final ArrayList<ItemFreeIssue> itemFreeIssues;
+//        final String FIRefNo = itemDetails.getRefno();
+//        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+//        View promptView = layoutInflater.inflate(R.layout.free_issues_items_dialog, null);
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//        alertDialogBuilder.setTitle("FREE PRODUCTS");
+//        alertDialogBuilder.setView(promptView);
+//
+//        final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
+//        final TextView itemName = (TextView) promptView.findViewById(R.id.tv_free_issue_item_name);
+//        final TextView freeQty = (TextView) promptView.findViewById(R.id.tv_free_qty);
+//
+//        freeQty.setText("Free Quantity : " + itemDetails.getFreeQty());
+//        itemName.setText("Product : " + new ItemsDS(getActivity()).getItemNameByCode(itemDetails.getFreeIssueSelectedItem()));
+//
+//        final ItemsDS itemsDS = new ItemsDS(getActivity());
+//        itemFreeIssues = itemsDS.getAllFreeItemNameByRefno(itemDetails.getRefno());
+//        listView.setAdapter(new FreeIssueAdapter(getActivity(), itemFreeIssues));
+//
+//        listView.setOnItemClickListener(new OnItemClickListener() {
+//
+//            int avaliableQty = 0;
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view2, final int position, long id) {
+//
+//                if (itemDetails.getFreeQty() > 0) {
+//
+//                    ItemFreeIssue freeIssue = itemFreeIssues.get(position);
+//                    LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+//                    View promptView = layoutInflater.inflate(R.layout.set_free_issue_dialog, null);
+//                    final TextView leftQty = (TextView) promptView.findViewById(R.id.tv_free_item_left_qty);
+//                    final EditText enteredQty = (EditText) promptView.findViewById(R.id.et_free_qty);
+//
+//                    leftQty.setText("Free Items Left = " + itemDetails.getFreeQty());
+//
+//                    enteredQty.addTextChangedListener(new TextWatcher() {
+//                        public void afterTextChanged(Editable s) {
+//
+//                            if (enteredQty.getText().toString().equals("")) {
+//
+//                                leftQty.setText("Free Items Left = " + itemDetails.getFreeQty());
+//
+//                            } else {
+//                                avaliableQty = itemDetails.getFreeQty() - Integer.parseInt(enteredQty.getText().toString());
+//
+//                                if (avaliableQty < 0) {
+//                                    enteredQty.setText("");
+//                                    leftQty.setText("Free Items Left = " + itemDetails.getFreeQty());
+//                                    android.widget.Toast.makeText(getActivity(), "You don't have enough sufficient quantity to order", android.widget.Toast.LENGTH_SHORT).show();
+//                                } else {
+//                                    leftQty.setText("Free Items Left = " + avaliableQty);
+//                                }
+//                            }
+//                        }
+//
+//                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                        }
+//
+//                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                        }
+//                    });
+//
+//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//                    alertDialogBuilder.setTitle(freeIssue.getItems().getFITEM_ITEM_NAME());
+//                    alertDialogBuilder.setView(promptView);
+//
+//                    alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//
+//                            itemDetails.setFreeQty(avaliableQty);
+//                            freeQty.setText("Free Qty you have : " + itemDetails.getFreeQty());
+//                            itemFreeIssues.get(position).setAlloc(enteredQty.getText().toString());
+//                            listView.clearTextFilter();
+//                            listView.setAdapter(new FreeIssueAdapter(getActivity(), itemFreeIssues));
+//                        }
+//                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            dialog.cancel();
+//
+//                        }
+//                    });
+//
+//                    AlertDialog alertD = alertDialogBuilder.create();
+//
+//                    alertD.show();
+//                } else {
+//                    android.widget.Toast.makeText(getActivity(), "You don't have enough sufficient quantity to order", android.widget.Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        });
+//
+//        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//
+//                for (ItemFreeIssue itemFreeIssue : itemFreeIssues) {
+//
+//                    if (Integer.parseInt(itemFreeIssue.getAlloc()) > 0) {
+//
+//                        seqno++;
+//                        InvDet ordDet = new InvDet();
+//                        ArrayList<InvDet> ordList = new ArrayList<>();
+//
+//                        ordDet.setFINVDET_ID("0");
+//                        ordDet.setFINVDET_AMT("0");
+//                        ordDet.setFINVDET_BAL_QTY(itemFreeIssue.getAlloc());
+//                        ordDet.setFINVDET_B_AMT("0");
+//                        //String unitPrice = new ItemPriDS(getActivity()).getProductPriceByCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mainActivity.selectedDebtor.getFDEBTOR_PRILLCODE());
+//                        //rashmi 2019-03-12
+//                        String unitPrice = new ItemPriDS(getActivity()).getProductPriceByCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), new SalRepDS(getActivity()).getCurrentPriLCode().trim());
+//                        ordDet.setFINVDET_B_SELL_PRICE("0");
+//                        ordDet.setFINVDET_BT_SELL_PRICE(unitPrice);
+//                        ordDet.setFINVDET_DIS_AMT("0");
+//                        ordDet.setFINVDET_SCHDISPER("0");
+//                        ordDet.setFINVDET_FREEQTY("0");
+//                        ordDet.setFINVDET_ITEM_CODE(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
+//                        ordDet.setFINVDET_PRIL_CODE(new SalRepDS(getActivity()).getCurrentPriLCode().trim());
+//                        ordDet.setFINVDET_QTY(itemFreeIssue.getAlloc());
+//                        ordDet.setFINVDET_PICE_QTY(itemFreeIssue.getAlloc());
+//                        ordDet.setFINVDET_TYPE("FI");
+//                        ordDet.setFINVDET_RECORD_ID("");
+//                        ordDet.setFINVDET_REFNO(RefNo);
+//                        ordDet.setFINVDET_SELL_PRICE("0");
+//                        ordDet.setFINVDET_SEQNO(seqno + "");
+//                        ordDet.setFINVDET_TAX_AMT("0");
+//                        ordDet.setFINVDET_TAX_COM_CODE(new ItemsDS(getActivity()).getTaxComCodeByItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
+//                        ordDet.setFINVDET_T_SELL_PRICE(unitPrice);
+//                        ordDet.setFINVDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//                        ordDet.setFINVDET_TXN_TYPE("27");
+//                        ordDet.setFINVDET_IS_ACTIVE("1");
+//                        ordDet.setFINVDET_LOCCODE(locCode);
+//                        ordDet.setFINVDET_IS_SYNCED("0");
+//                        ordDet.setFINVDET_QOH("0");
+//                        ordDet.setFINVDET_DISVALAMT("0");
+//                        ordDet.setFINVDET_BRAND_DISC("0");
+//                        ordDet.setFINVDET_BRAND_DISCPER("0");
+//                        ordDet.setFINVDET_COMDISC("0");
+//                        ordDet.setFINVDET_COM_DISCPER("0");
+//                        ordDet.setFINVDET_PRICE(unitPrice);
+//                        ordDet.setFINVDET_DIS_PER("0");
+//
+//                        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*OrdFreeIssue table update*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+//
+//                        OrdFreeIssue ordFreeIssue = new OrdFreeIssue();
+//                        ordFreeIssue.setOrdFreeIssue_ItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
+//                        ordFreeIssue.setOrdFreeIssue_Qty(itemFreeIssue.getAlloc());
+//                        ordFreeIssue.setOrdFreeIssue_RefNo(FIRefNo);
+//                        ordFreeIssue.setOrdFreeIssue_RefNo1(mainActivity.selectedInvHed.getFINVHED_REFNO());
+//                        ordFreeIssue.setOrdFreeIssue_TxnDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//                        new OrdFreeIssueDS(getActivity()).UpdateOrderFreeIssue(ordFreeIssue);
+//
+//                        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*/
+//
+//                        ordList.add(ordDet);
+//
+//                        if (new InvDetDS(getActivity()).createOrUpdateInvDet(ordList) > 0) {
+//                            android.widget.Toast.makeText(getActivity(), "Added successfully", Toast.LENGTH_SHORT).show();
+//                            showData();
+//                        }
+//                    }
+//                }
+//            }
+//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        AlertDialog alertD = alertDialogBuilder.create();
+//        alertD.show();
+//        return true;
+//    }
+//
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void mToggleTextbox() {
@@ -654,7 +710,7 @@ public class VanSalesOrderDetails extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
     }
 
-   	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onResume() {
         super.onResume();
@@ -662,11 +718,178 @@ public class VanSalesOrderDetails extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_DETAILS"));
     }
 
-	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    public void ProductDialogBox() {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptView = layoutInflater.inflate(R.layout.product_dialog_layout, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(promptView);
+
+        final ListView lvProducts = (ListView) promptView.findViewById(R.id.lv_product_list);
+        final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
+
+        lvProducts.clearTextFilter();
+        //himas
+        // lvProducts.setAdapter(new NewProductAdapter(getActivity(), productList));
 
 
+        //productList = new ProductDS(getActivity()).getAllItems("");
+        productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
+       // lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
+//2019-07-07 till error free
+        alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
 
-	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+                selectedItemList = new ProductDS(getActivity()).getSelectedItems("SA");
+                updateInvoiceDet(selectedItemList);
+                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //productList = new ProductDS(getActivity()).getAllItems(query);
+                productList = new ProductDS(getActivity()).getAllItems(query,"SA");//Rashmi 2018-10-26
+                // lvProducts.setAdapter(new NewProductAdapter(getActivity(), productList));
+               // lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));//2019-07-07 till error free
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                productList.clear();
+                //productList = new ProductDS(getActivity()).getAllItems(newText);
+                productList = new ProductDS(getActivity()).getAllItems(newText,"SA");//rashmi-2018-10-26
+                //  lvProducts.setAdapter(new NewProductAdapter(getActivity(), productList));
+                //added dhanushika
+                //lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));//2019-07-07 till error free
+                return true;
+            }
+        });
+    }
+
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    public void newDeleteOrderDialog(final int position) {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle("Confirm Deletion !");
+        alertDialogBuilder.setMessage("Do you want to delete this item ?");
+        alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                new ProductDS(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
+                new InvDetDS(getActivity()).mDeleteProduct(mainActivity.selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
+                android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
+                showData();
+
+            }
+        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+    }
+
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-click on list view row by items*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+//    public void popEditDialogBox(final InvDet invDet,ArrayList<FreeItemDetails> itemDetailsArrayList) {
+//
+//        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+//        View promptView = layoutInflater.inflate(R.layout.input_dialog_layout, null);
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//        alertDialogBuilder.setTitle("Enter Quantity");
+//        alertDialogBuilder.setView(promptView);
+//
+//        final EditText txtInputBox = (EditText) promptView.findViewById(R.id.txtInputBox);
+//        final TextView lblQoh = (TextView) promptView.findViewById(R.id.lblQOH);
+//
+//        final TextView itemName = (TextView) promptView.findViewById(R.id.tv_free_issue_item_name);
+//        final TextView freeQty = (TextView) promptView.findViewById(R.id.tv_free_qty);
+//
+//        if(itemDetailsArrayList==null){
+//            freeQty.setVisibility(View.GONE);
+//            itemName.setVisibility(View.GONE);
+//        }else{
+//            for(FreeItemDetails itemDetails :itemDetailsArrayList){
+//                freeQty.setText("Free Quantity : " + itemDetails.getFreeQty());
+//                itemName.setText("Product : " + new ItemsDS(getActivity()).getItemNameByCode(itemDetails.getFreeIssueSelectedItem()));
+//            }
+//        }
+//
+//
+//
+//        lblQoh.setText(invDet.getFINVDET_QOH());
+//        txtInputBox.setText(invDet.getFINVDET_QTY());
+//        txtInputBox.selectAll();
+//
+//        txtInputBox.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//                if (txtInputBox.length() > 0) {
+//
+//                    int enteredQty = Integer.parseInt(txtInputBox.getText().toString());
+//
+//                    if (enteredQty > Double.parseDouble(invDet.getFINVDET_QOH())) {
+//                        Toast.makeText(getActivity(), "Quantity exceeds QOH !", Toast.LENGTH_SHORT).show();
+//                        txtInputBox.setText("0");
+//                        txtInputBox.selectAll();
+//                    } else
+//                        lblQoh.setText((int) Double.parseDouble(invDet.getFINVDET_QOH()) - enteredQty + "");
+//                } else {
+//                    txtInputBox.setText("0");
+//                    txtInputBox.selectAll();
+//                }
+//            }
+//        });
+//
+//        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//
+//            public void onClick(DialogInterface dialog, int id) {
+//
+//                if (Integer.parseInt(txtInputBox.getText().toString()) > 0) {
+//                    new ProductDS(getActivity()).updateProductQty(invDet.getFINVDET_ITEM_CODE(), txtInputBox.getText().toString());
+//                    mUpdateInvoice(invDet.getFINVDET_ID(), invDet.getFINVDET_ITEM_CODE(), txtInputBox.getText().toString(), invDet.getFINVDET_PRICE(), invDet.getFINVDET_SEQNO(), invDet.getFINVDET_QOH(),invDet.getFINVDET_CHANGED_PRICE());
+//                } else
+//                    Toast.makeText(getActivity(), "Enter Qty above Zero !", Toast.LENGTH_SHORT).show();
+//
+//                showData();
+//            }
+//
+//        }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        AlertDialog alertD = alertDialogBuilder.create();
+//        alertD.show();
+//
+//    }
+
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     private class MyReceiver extends BroadcastReceiver {
         @Override
@@ -675,5 +898,107 @@ public class VanSalesOrderDetails extends Fragment {
         }
     }
 
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    public void updateInvoiceDet(final ArrayList<Product> list) {
+
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected void onPreExecute() {
+                pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("Updating products...");
+                pDialog.setCancelable(false);
+                pDialog.show();
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                int i = 0;
+                new InvDetDS(getActivity()).mDeleteRecords(mainActivity.selectedInvHed.getFINVHED_REFNO());
+
+                for (Product product : list) {
+                    i++;
+                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_PRICE(), i + "", product.getFPRODUCT_QOH(),product.getFPRODUCT_CHANGED_PRICE());
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                if(pDialog.isShowing()){
+                    pDialog.dismiss();
+                }
+
+                showData();
+            }
+
+        }.execute();
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    public void mUpdateInvoice(String id, String itemCode, String Qty, String price, String seqno, String qoh, String changedPrice) {
+
+        ArrayList<InvDet> arrList = new ArrayList<>();
+        double amt = 0.0;
+        if(changedPrice.equals("0.0") || changedPrice.equals("0")) {
+            amt = Double.parseDouble(price) * Double.parseDouble(Qty);
+        }else{
+            amt = Double.parseDouble(changedPrice) * Double.parseDouble(Qty);
+        }
+      //  String TaxedAmt = new TaxDetDS(getActivity()).calculateTax(itemCode, new BigDecimal(amt));//2019-07-07 till error free
+        InvDet invDet = new InvDet();
+
+        invDet.setFINVDET_ID(id + "");
+        //2018/10/23 no need deduct taxed for amount - mega heaters
+        // invDet.setFINVDET_AMT(String.format("%.2f", amt - Double.parseDouble(TaxedAmt)));
+        invDet.setFINVDET_AMT(String.format("%.2f", amt));
+
+        invDet.setFINVDET_BAL_QTY(Qty);
+        //2018/10/23 no need deduct taxed for amount - mega heaters
+        //invDet.setFINVDET_B_AMT(String.format("%.2f", amt - Double.parseDouble(TaxedAmt)));
+        invDet.setFINVDET_B_AMT(String.format("%.2f", amt));
+        invDet.setFINVDET_B_SELL_PRICE(price);
+        invDet.setFINVDET_BT_SELL_PRICE(price);
+        invDet.setFINVDET_DIS_AMT("0");
+        invDet.setFINVDET_DIS_PER("0");
+        invDet.setFINVDET_ITEM_CODE(itemCode);
+        invDet.setFINVDET_PRIL_CODE(new SalRepController(getActivity()).getCurrentPriLCode().trim());
+        invDet.setFINVDET_QTY(Qty);
+        invDet.setFINVDET_PICE_QTY(Qty);
+        invDet.setFINVDET_TYPE("SA");
+        invDet.setFINVDET_BT_TAX_AMT("0");
+        invDet.setFINVDET_RECORD_ID("");
+        //2019-07-07 till error free
+//        invDet.setFINVDET_SELL_PRICE(String.format("%.2f", (amt - Double.parseDouble(TaxedAmt)) / Double.parseDouble(invDet.getFINVDET_QTY())));
+//        invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", (amt - Double.parseDouble(TaxedAmt)) / Double.parseDouble(invDet.getFINVDET_QTY())));
+        invDet.setFINVDET_SEQNO(seqno + "");
+      //  invDet.setFINVDET_TAX_AMT(TaxedAmt);//2019-07-07 till error free
+     //   invDet.setFINVDET_TAX_COM_CODE(new ItemsDS(getActivity()).getTaxComCodeByItemCode(itemCode));//2019-07-07 till error free
+        invDet.setFINVDET_T_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
+        invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
+        invDet.setFINVDET_REFNO(mainActivity.selectedInvHed.getFINVHED_REFNO());
+     //   invDet.setFINVDET_COM_DISCPER(new ControlDS(getActivity()).getCompanyDisc() + "");//2019-07-07 till error free
+        invDet.setFINVDET_BRAND_DISCPER("0");
+        invDet.setFINVDET_BRAND_DISC("0");
+        invDet.setFINVDET_COMDISC("0");
+        invDet.setFINVDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        invDet.setFINVDET_TXN_TYPE("22");
+        invDet.setFINVDET_IS_ACTIVE("1");
+        invDet.setFINVDET_QOH(qoh);
+        invDet.setFINVDET_DISVALAMT("0");
+        invDet.setFINVDET_PRICE(price);
+        invDet.setFINVDET_CHANGED_PRICE(changedPrice);
+
+        arrList.add(invDet);
+        new InvDetDS(getActivity()).createOrUpdateInvDet(arrList);
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 }

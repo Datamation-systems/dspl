@@ -839,6 +839,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * ############################ FOrdHed table Details
      * ################################
      */
+    public static final String TABLE_FPRODUCT = "fProducts";
+    public static final String FPRODUCT_ID = "id";
+    public static final String FPRODUCT_ITEMCODE = "itemcode";
+    public static final String FPRODUCT_ITEMNAME = "itemname";
+    public static final String FPRODUCT_PRICE = "price";
+    public static final String FPRODUCT_QOH = "qoh";
+    public static final String FPRODUCT_MIN_PRICE = "minPrice";
+    public static final String FPRODUCT_MAX_PRICE = "maxPrice";
+    public static final String FPRODUCT_QTY = "qty";
+    public static final String FPRODUCT_CHANGED_PRICE = "ChangedPrice";
+    public static final String FPRODUCT_TXNTYPE= "TxnType";
+
+    private static final String CREATE_FPRODUCT_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRODUCT + " ("
+            + FPRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + FPRODUCT_ITEMCODE + " TEXT, "
+            + FPRODUCT_ITEMNAME + " TEXT, "
+            + FPRODUCT_PRICE + " TEXT, "
+            + FPRODUCT_MIN_PRICE + " TEXT, "
+            + FPRODUCT_MAX_PRICE + " TEXT, "
+            + FPRODUCT_QOH + " TEXT, "
+            + FPRODUCT_CHANGED_PRICE + " TEXT, "
+            + FPRODUCT_TXNTYPE + " TEXT, "
+            + FPRODUCT_QTY + " TEXT); ";
+    private static final String INDEX_FPRODUCTS = "CREATE UNIQUE INDEX IF NOT EXISTS ui_product ON " + TABLE_FPRODUCT + " (itemcode);";
 
     // table
     public static final String TABLE_FORDHED = "FOrdHed";
@@ -1131,9 +1155,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FSALREP_PREFIX = "prefix";
     public static final String FSALREP_STATUS = "status";
     public static final String FSALREP_TELE = "telephone";
+    public static final String FSALREP_PRILCODE = "prillcode";
 
     // create String
-    private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ASE_CODE + " TEXT, " + FSALREP_AREA_CODE + " TEXT, " + FSALREP_DEAL_CODE + " TEXT, " + FSALREP_RECORD_ID + " TEXT, " + FSALREP_REP_CODE + " TEXT, " + FSALREP_REP_PREFIX + " TEXT, " + FSALREP_REP_TCODE + " TEXT, " + FSALREP_REP_PHONE_NO + " TEXT, " + FSALREP_REP_NAME + " TEXT, " + FSALREP_REP_EMAIL + " TEXT, " + FSALREP_REP_MOB + " TEXT, " + FSALREP_PASSWORD + " TEXT, "+ FSALREP_LOCCODE+ " TEXT, " + FSALREP_COSTCODE + " TEXT); ";
+    private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ASE_CODE + " TEXT, "+ FSALREP_PRILCODE + " TEXT, " + FSALREP_AREA_CODE + " TEXT, " + FSALREP_DEAL_CODE + " TEXT, " + FSALREP_RECORD_ID + " TEXT, " + FSALREP_REP_CODE + " TEXT, " + FSALREP_REP_PREFIX + " TEXT, " + FSALREP_REP_TCODE + " TEXT, " + FSALREP_REP_PHONE_NO + " TEXT, " + FSALREP_REP_NAME + " TEXT, " + FSALREP_REP_EMAIL + " TEXT, " + FSALREP_REP_MOB + " TEXT, " + FSALREP_PASSWORD + " TEXT, "+ FSALREP_LOCCODE+ " TEXT, " + FSALREP_COSTCODE + " TEXT); ";
 
     /**
      * ############################ FDDbNote table Details
@@ -2332,6 +2357,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         try {
             arg0.execSQL("ALTER TABLE "+TABLE_FSALREP+" ADD COLUMN LocCode TEXT ");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
+        try {
+            arg0.execSQL("ALTER TABLE "+TABLE_FSALREP+" ADD COLUMN prillcode TEXT ");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }
