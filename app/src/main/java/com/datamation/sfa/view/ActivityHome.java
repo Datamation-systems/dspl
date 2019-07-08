@@ -39,7 +39,6 @@ import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.customer.CustomerRegMain;
 import com.datamation.sfa.dialog.CustomProgressDialog;
-import com.datamation.sfa.expense.ExpenseMain;
 import com.datamation.sfa.helpers.IResponseListener;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.helpers.NetworkFunctions;
@@ -229,7 +228,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
             @Override
             public void onClick(View view) {
 
-                UtilityContainer.mLoadFragment(new ExpenseMain(), ActivityHome.this);
+                //UtilityContainer.mLoadFragment(new ExpenseMain(), ActivityHome.this);
                 dialog.hide();
             }
         });
@@ -830,7 +829,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
             UtilityContainer.mLoadFragment(new FragmentMarkAttendance(), ActivityHome.this);
         } else if (position == 5) {
             Log.d(">>>>>>", "position5");
-            UtilityContainer.mLoadFragment(new ExpenseMain(), ActivityHome.this);
+            //UtilityContainer.mLoadFragment(new ExpenseMain(), ActivityHome.this);
 
         }
 

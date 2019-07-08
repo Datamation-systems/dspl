@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.datamation.sfa.adapter.SalesExpenseDetailAdapter;
 import com.datamation.sfa.adapter.SalesExpenseGridDetails;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.settings.ReferenceNum;
 
 import com.datamation.sfa.controller.DayExpDetController;
@@ -37,10 +39,13 @@ import com.datamation.sfa.model.DayExpDet;
 import com.datamation.sfa.model.DayExpHed;
 import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.utils.UtilityContainer;
+import com.datamation.sfa.view.ActivityHome;
+import com.datamation.sfa.view.FragmentTools;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 
+import java.sql.Ref;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,9 +73,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
         //setHasOptionsMenu(true);
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        //activity.setSupportActionBar(toolbar);
-        getActivity().setTitle("Expence specifics");
-       // toolbar.setLogo(R.drawable.dm_logo_64);
+        getActivity().setTitle("Expence Details");
 
         seqno = 0;
         fam = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
@@ -87,8 +90,9 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
         referenceNum = new ReferenceNum(getActivity());
         RefNo.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal)));
         btnAdd = (Button) view.findViewById(R.id.btn_add);
+        lv_invent_load = (ListView) view.findViewById(R.id.lv_loading_sum);
         btnAdd.setOnClickListener(this);
-        fatchData();
+        //fatchData();
 
 
         ReSearch.setOnClickListener(new OnClickListener() {
@@ -147,7 +151,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
         fabPause.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPauseExpense();
+                //mPauseExpense();
             }
         });
 
@@ -161,7 +165,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
         fabDiscard.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                undoEditingData(getActivity());
+                undoEditingData(getActivity(), RefNo.getText().toString());
             }
         });
 
@@ -219,35 +223,6 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
         dialog.show();
     }
 
-	/*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*/
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//
-//        for (int i = 0; i < menu.size(); ++i) {
-//            menu.removeItem(menu.getItem(i).getItemId());
-//        }
-//
-//        inflater.inflate(R.menu.frag_per_sales_summary, menu);
-//
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-
-	/*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*/
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.action_pre_sale_undo) {
-//            undoEditingData(getActivity());
-//        }
-//        if (item.getItemId() == R.id.action_pre_sales_save) {
-//            saveSummaryDialog(getActivity());
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
-	/*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*/
-
     @Override
     public void onClick(View arg0) {
         switch (arg0.getId()) {
@@ -283,6 +258,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
                         }
 
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
                 } else {
@@ -300,9 +276,9 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 
     public void fatchData() {
         try {
-            lv_invent_load = (ListView) view.findViewById(R.id.lv_loading_sum);
             DayExpDetController detDS = new DayExpDetController(getActivity());
-            loadlist = detDS.getAllExpDetails(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal)));
+            //loadlist = detDS.getAllExpDetails(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal)));
+            loadlist = detDS.getAllExpDetails(RefNo.getText().toString());
             lv_invent_load.setAdapter(new SalesExpenseGridDetails(getActivity(), loadlist));
         } catch (NullPointerException e) {
             Log.v("Loading Error", e.toString());
@@ -336,7 +312,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 
                     String refno = RefNo.getText().toString();
                     exphed.setEXPHED_REFNO(RefNo.getText() + "");
-                    exphed.setEXPHED_REPCODE(SharedPref.getInstance(getActivity()).getLoginUser().getCode());
+                    exphed.setEXPHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
                     exphed.setEXPHED_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                     exphed.setEXPHED_REMARK(Remark.getText() + "");
                     exphed.setEXPHED_ADDDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -350,7 +326,10 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 
                     if (new DayExpHedController(getActivity()).createOrUpdateNonPrdHed(ExpHedList) > 0) {
                         referenceNum.nNumValueInsertOrUpdate(getResources().getString(R.string.ExpenseNumVal));
-                        UtilityContainer.mLoadFragment(new ExpenseMain(), getActivity());
+                        Toast.makeText(getActivity(), "Successfully saved Expense. ", Toast.LENGTH_LONG).show();
+//                        UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
+                        Intent intent = new Intent(getActivity(), ActivityHome.class);
+                        startActivity(intent);
                     }
 
                 } else {
@@ -403,7 +382,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 
 	/*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*/
 
-    private void undoEditingData(final Context context) {
+    private void undoEditingData(final Context context, final String RefNo) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setMessage("Are you sure you want to Undo this entry?");
@@ -416,17 +395,21 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
                 ReferenceNum referenceNum = new ReferenceNum(getActivity());
 
                 try {
-                    expHED.undoExpHedByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpHed
+                    //expHED.undoExpHedByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpHed
+                    expHED.undoExpHedByID(RefNo); // FExpHed
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
                 try {
-                    expDET.ExpDetByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpDet
+                    //expDET.ExpDetByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpDet
+                    expDET.ExpDetByID(RefNo); // FExpDet
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
 
-                UtilityContainer.mLoadFragment(new ExpenseMain(), getActivity());
+//                UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
+                Intent intent = new Intent(getActivity(), ActivityHome.class);
+                startActivity(intent);
                 Toast.makeText(getActivity(), "Undo Success", Toast.LENGTH_LONG).show();
 
             }
@@ -463,9 +446,15 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
     public void mPauseExpense() {
 
         if (new DayExpDetController(getActivity()).getExpenceCount(RefNo.getText().toString().trim()) > 0)
-            UtilityContainer.mLoadFragment(new ExpenseMain(), getActivity());
+        {
+            UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
+        }
+
         else
+        {
             Toast.makeText(getActivity(), "Add expenses before pause ...!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 }

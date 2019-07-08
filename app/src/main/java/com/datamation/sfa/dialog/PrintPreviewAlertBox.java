@@ -23,12 +23,12 @@ import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
+import com.datamation.sfa.helpers.ListExpandHelper;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.Order;
-import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.model.SalRep;
 import com.datamation.sfa.model.User;
 import com.datamation.sfa.view.DebtorDetailsActivity;
@@ -39,7 +39,6 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 public class PrintPreviewAlertBox {
 
@@ -75,6 +74,7 @@ public class PrintPreviewAlertBox {
     BluetoothSocket mBTSocket = null;
     String PRINTER_MAC_ID;
     Context context;
+
     public BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
@@ -179,22 +179,22 @@ public class PrintPreviewAlertBox {
             {
                 qty += Integer.parseInt(det.getFINVRDET_QTY());
             }
+            else
+            {
+                fiQty += Integer.parseInt(det.getFINVRDET_QTY());
+            }
 
-//            else
-//                fiQty += Integer.parseInt(det.getFINVDET_QTY());
-
-           // dDisc += Double.parseDouble(det.getFINVDET_DISVALAMT());
             dTotAmt += Double.parseDouble(det.getFINVRDET_AMT());
         }
 
-        lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
+        lvItemDetails = (ListView) promptView.findViewById(R.id.salesreturnList);
         lvItemDetails.setAdapter(new PrintReturnItemAdapter(context, retDetList,refno, debtor.getCusCode()));
 
 		/*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         TotalPieceQty.setText(String.valueOf(qty));
+        txtfiQty.setText(String.valueOf(fiQty));
         TotalNetValue.setText(String.format("%,.2f", (dTotAmt)));
-        //txtfiQty.setText(String.valueOf(returnQty));
         txtTotVal.setText(String.format("%,.2f", dTotAmt));
 
         PRINTER_MAC_ID =  SharedPref.getInstance(context).getGlobalVal("printer_mac_address").toString();
@@ -207,14 +207,14 @@ public class PrintPreviewAlertBox {
 
         alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-
+                onCancelClick(dialog, id);
                 dialog.cancel();
             }
         });
 
         AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
-        //ListExpandHelper.getListViewSize(lvItemDetails);
+        ListExpandHelper.getListViewSize(lvItemDetails);
 
         return 1;
 
@@ -223,6 +223,12 @@ public class PrintPreviewAlertBox {
         {
             return -1;
         }
+    }
+
+    public void onCancelClick(DialogInterface dialog, int which) {
+        Intent intent = new Intent(context, DebtorDetailsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

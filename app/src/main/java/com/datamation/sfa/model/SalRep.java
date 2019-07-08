@@ -16,6 +16,24 @@ public class SalRep {
     private String TELE;
     private String STATUS;
     private String MACID;
+    private String DEALCODE;
+    private String AREACODE;
+
+    public String getAREACODE() {
+        return AREACODE;
+    }
+
+    public void setAREACODE(String AREACODE) {
+        this.AREACODE = AREACODE;
+    }
+
+    public String getDEALCODE() {
+        return DEALCODE;
+    }
+
+    public void setDEALCODE(String DEALCODE) {
+        this.DEALCODE = DEALCODE;
+    }
 
     public String getLOCCODE() {
         return LOCCODE;

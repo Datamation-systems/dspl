@@ -359,7 +359,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_DAYEXPDET = "DayExpDet";
     // table attributes
     public static final String DAYEXPDET_ID = "DayExpDet_id";
-
     public static final String DAYEXPDET_EXPCODE = "ExpCode";
     public static final String DAYEXPDET_AMT = "Amt";
 

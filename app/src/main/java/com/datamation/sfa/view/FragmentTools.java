@@ -2,6 +2,7 @@ package com.datamation.sfa.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.expense.ExpenseDetail;
+import com.datamation.sfa.expense.ExpenseMain;
 import com.datamation.sfa.utils.UtilityContainer;
 
 
@@ -21,7 +24,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
 
     View view;
     Animation animScale;
-    ImageView imgSync, imgUpload, imgPrinter, imgDatabase, imgStockDown, imgStockInq, imgSalesRep, imgTour, imgMktShr;
+    ImageView imgSync, imgUpload, imgPrinter, imgDatabase, imgStockDown, imgStockInq, imgSalesRep, imgTour, imgDayExp;
 
     @Nullable
     @Override
@@ -37,7 +40,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
         imgPrinter = (ImageView) view.findViewById(R.id.imgPrinter);
         imgDatabase = (ImageView) view.findViewById(R.id.imgSqlite);
         imgSalesRep = (ImageView) view.findViewById(R.id.imgSalrep);
-        imgMktShr= (ImageView) view.findViewById(R.id.imgMrkShr);
+        imgDayExp= (ImageView) view.findViewById(R.id.imgDayExp);
 
         imgTour.setOnClickListener(this);
         imgStockInq.setOnClickListener(this);
@@ -47,7 +50,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
         imgPrinter.setOnClickListener(this);
         imgDatabase.setOnClickListener(this);
         imgSalesRep.setOnClickListener(this);
-        imgMktShr.setOnClickListener(this);
+        imgDayExp.setOnClickListener(this);
 
         return view;
     }
@@ -95,12 +98,14 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
 
             case R.id.imgSalrep:
                 imgSalesRep.startAnimation(animScale);
-                //UtilityContainer.mRepsDetailsDialogbox(activity);
+                UtilityContainer.mRepsDetailsDialogBox(getActivity());
                 break;
 
-            case R.id.imgMrkShr:
-                imgMktShr.startAnimation(animScale);
-                //UtilityContainer.mLoadFragment(new DepositInvoice(),activity);
+            case R.id.imgDayExp:
+                imgDayExp.startAnimation(animScale);
+//                UtilityContainer.mLoadFragment(new ExpenseDetail(), getActivity());
+                Intent intent = new Intent(getActivity(), DayExpenseActivity.class);
+                startActivity(intent);
 
                 break;
 

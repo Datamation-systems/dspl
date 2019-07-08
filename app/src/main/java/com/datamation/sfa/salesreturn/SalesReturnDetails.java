@@ -1,5 +1,6 @@
 package com.datamation.sfa.salesreturn;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -32,6 +33,7 @@ import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.dialog.CustomKeypadDialog;
+import com.datamation.sfa.helpers.SalesReturnResponseListener;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.Item;
@@ -70,6 +72,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
     SalesReturnActivity activity;
     SweetAlertDialog pDialog;
     String RefNo;
+    SalesReturnResponseListener salesReturnResponseListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -244,70 +247,79 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
                         itemSearch.setEnabled(true);
 
-                        RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+                        if (activity.selectedReturnHed != null)
+                        {
+                            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
 
-                        FInvRDet ReturnDet = new FInvRDet();
-                        ArrayList<FInvRDet> ReturnList = new ArrayList<FInvRDet>();
-                        ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
+                            FInvRDet ReturnDet = new FInvRDet();
+                            ArrayList<FInvRDet> ReturnList = new ArrayList<FInvRDet>();
+                            ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
 
-                        String TaxedAmt = "0.0";
+                            String TaxedAmt = "0.0";
 
-                        activity.selectedReturnHed.setFINVRHED_COSTCODE("000");
-                        activity.selectedReturnHed.setFINVRHED_LOCCODE("0001");
-                        activity.selectedReturnHed.setFINVRHED_RETURN_TYPE(returnType.getSelectedItem().toString());
-                        activity.selectedReturnHed.setFINVRHED_TOTAL_TAX(TaxedAmt);
+                            activity.selectedReturnHed.setFINVRHED_COSTCODE("000");
+                            activity.selectedReturnHed.setFINVRHED_LOCCODE("0001");
+                            activity.selectedReturnHed.setFINVRHED_RETURN_TYPE(returnType.getSelectedItem().toString());
+                            activity.selectedReturnHed.setFINVRHED_TOTAL_TAX(TaxedAmt);
 
-                        returnHedList.add(activity.selectedReturnHed);
+                            returnHedList.add(activity.selectedReturnHed);
 
-                        if (new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList) > 0) {
-                            seqno++;
-                            ReturnDet.setFINVRDET_ID(index_id + "");
-                            ReturnDet.setFINVRDET_SEQNO(seqno + "");
-                            ReturnDet.setFINVRDET_COST_PRICE("0.00");
-                            ReturnDet.setFINVRDET_SELL_PRICE(lblPrice.getText().toString());
-                            double price = Double.parseDouble(lblPrice.getText().toString());
-                            double disc = Double.parseDouble(editTotDisc.getText().toString());
-                            double qty = Double.parseDouble(txtQty.getText().toString());
-                            double tax = Double.parseDouble(TaxedAmt);
-                            //String unitPrice = new TaxDetDS(getActivity()).calculateReverseTaxFromDebTax(activity.selectedReturnHed.getFINVRHED_DEBCODE(),selectedItem.getFITEM_ITEM_CODE(), new BigDecimal(price));
-                            double amt = price * qty;
-                            String sellPrice = String.format("%.2f",price);
-                            String tSellPrice = String.format("%.2f",amt);
+                            if (new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList) > 0) {
+                                seqno++;
+                                ReturnDet.setFINVRDET_ID(index_id + "");
+                                ReturnDet.setFINVRDET_SEQNO(seqno + "");
+                                ReturnDet.setFINVRDET_COST_PRICE("0.00");
+                                ReturnDet.setFINVRDET_SELL_PRICE(lblPrice.getText().toString());
+                                double price = Double.parseDouble(lblPrice.getText().toString());
+                                double disc = Double.parseDouble(editTotDisc.getText().toString());
+                                double qty = Double.parseDouble(txtQty.getText().toString());
+                                double tax = Double.parseDouble(TaxedAmt);
+                                //String unitPrice = new TaxDetDS(getActivity()).calculateReverseTaxFromDebTax(activity.selectedReturnHed.getFINVRHED_DEBCODE(),selectedItem.getFITEM_ITEM_CODE(), new BigDecimal(price));
+                                double amt = price * qty;
+                                String sellPrice = String.format("%.2f",price);
+                                String tSellPrice = String.format("%.2f",amt);
 
-                            ReturnDet.setFINVRDET_CHANGED_PRICE(String.format("%.2f",changedPrice));
-                            ReturnDet.setFINVRDET_COST_PRICE(lblPrice.getText().toString());
-                            ReturnDet.setFINVRDET_SELL_PRICE(""+price);
-                            ReturnDet.setFINVRDET_T_SELL_PRICE(""+price);
-                            ReturnDet.setFINVRDET_DIS_AMT(editTotDisc.getText().toString());
-                            ReturnDet.setFINVRDET_AMT(
-                                    String.format("%.2f", amt));
-                            ReturnDet.setFINVRDET_TAX_AMT(TaxedAmt);
-                            ReturnDet.setFINVRDET_QTY(totPieces + "");
-                            ReturnDet.setFINVRDET_BAL_QTY(totPieces + "");
-                            ReturnDet.setFINVRDET_RETURN_REASON(new ReasonController(getActivity()).getReaNameByCode(activity.selectedReturnHed.getFINVRHED_REASON_CODE()));
-                            ReturnDet.setFINVRDET_RETURN_REASON_CODE(activity.selectedReturnHed.getFINVRHED_REASON_CODE());
-                            ReturnDet.setFINVRDET_REFNO(RefNo);
-                            ReturnDet.setFINVRDET_ITEMCODE(selectedItem.getFITEM_ITEM_CODE());
-                            ReturnDet.setFINVRDET_PRILCODE(selectedItem.getFITEM_PRILCODE());
-                            ReturnDet.setFINVRDET_IS_ACTIVE("1");
-                            ReturnDet.setFINVRDET_TAXCOMCODE("VAT15");
-                            ReturnDet.setFINVRDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                            ReturnDet.setFINVRDET_TXN_TYPE("25");
-                            ReturnDet.setFINVRDET_RETURN_TYPE(returnType.getSelectedItem().toString());
+                                ReturnDet.setFINVRDET_CHANGED_PRICE(String.format("%.2f",changedPrice));
+                                ReturnDet.setFINVRDET_COST_PRICE(lblPrice.getText().toString());
+                                ReturnDet.setFINVRDET_SELL_PRICE(""+price);
+                                ReturnDet.setFINVRDET_T_SELL_PRICE(""+price);
+                                ReturnDet.setFINVRDET_DIS_AMT(editTotDisc.getText().toString());
+                                ReturnDet.setFINVRDET_AMT(
+                                        String.format("%.2f", amt));
+                                ReturnDet.setFINVRDET_TAX_AMT(TaxedAmt);
+                                ReturnDet.setFINVRDET_QTY(totPieces + "");
+                                ReturnDet.setFINVRDET_BAL_QTY(totPieces + "");
+                                ReturnDet.setFINVRDET_RETURN_REASON(new ReasonController(getActivity()).getReaNameByCode(activity.selectedReturnHed.getFINVRHED_REASON_CODE()));
+                                ReturnDet.setFINVRDET_RETURN_REASON_CODE(activity.selectedReturnHed.getFINVRHED_REASON_CODE());
+                                ReturnDet.setFINVRDET_REFNO(RefNo);
+                                ReturnDet.setFINVRDET_ITEMCODE(selectedItem.getFITEM_ITEM_CODE());
+                                ReturnDet.setFINVRDET_PRILCODE(selectedItem.getFITEM_PRILCODE());
+                                ReturnDet.setFINVRDET_IS_ACTIVE("1");
+                                ReturnDet.setFINVRDET_TAXCOMCODE("VAT15");
+                                ReturnDet.setFINVRDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                                ReturnDet.setFINVRDET_TXN_TYPE("25");
+                                ReturnDet.setFINVRDET_RETURN_TYPE(returnType.getSelectedItem().toString());
 
-                            ReturnList.add(ReturnDet);
+                                ReturnList.add(ReturnDet);
 
-                            if (new SalesReturnDetController(getActivity()).createOrUpdateInvRDet(ReturnList)>0)
-                            {
-                                //if (bAdd.getText().equals("EDIT"))
+                                if (new SalesReturnDetController(getActivity()).createOrUpdateInvRDet(ReturnList)>0)
+                                {
+                                    //if (bAdd.getText().equals("EDIT"))
                                     //Toast.makeText(getActivity(), "Edited successfully !", Toast.LENGTH_LONG).show();
-                                //else
+                                    //else
                                     Toast.makeText(getActivity(), "Added successfully !", Toast.LENGTH_LONG).show();
+                                }
+
+                                FetchData();
+
+                                clearTextFields();
                             }
 
-                            FetchData();
-
-                            clearTextFields();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Invalid sales return head..." , Toast.LENGTH_LONG).show();
+                            salesReturnResponseListener.moveBackTo_ret(0);
 
                         }
                     }
@@ -445,5 +457,15 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
             }
         });
         dialog.show();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            salesReturnResponseListener = (SalesReturnResponseListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
+        }
     }
 }
