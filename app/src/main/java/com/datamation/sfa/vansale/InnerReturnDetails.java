@@ -527,7 +527,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         dialog.setCancelable(true);
         reasonListView.clearTextFilter();
 
-        reasonList = new ReasonController(getActivity()).getAllReasonsByRtCode("RT02");
+        reasonList = new ReasonController(getActivity()).getAllReasons();
 
         reasonListView.setAdapter(new ReturnReasonAdapter(getActivity(), reasonList));
 

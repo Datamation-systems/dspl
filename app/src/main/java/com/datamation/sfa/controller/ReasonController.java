@@ -150,7 +150,31 @@ public class ReasonController {
 
 		return list;
 	}
+	public ArrayList<Reason> getAllReasons() {
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
 
+		ArrayList<Reason> list = new ArrayList<Reason>();
+
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON;
+
+		Cursor cursor = dB.rawQuery(selectQuery, null);
+		while (cursor.moveToNext()) {
+
+			Reason reason = new Reason();
+
+			reason.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			reason.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+
+			list.add(reason);
+
+		}
+
+		return list;
+	}
 	public ArrayList<String> getReasonName() {
 		if (dB == null) {
 			open();
