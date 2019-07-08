@@ -252,5 +252,31 @@ public class SalRepController {
         return "";
     }
 
+    public String getCurrentPriLCode() {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT " + DatabaseHelper.FSALREP_PRILCODE+ " FROM " + DatabaseHelper.TABLE_FSALREP;
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_PRILCODE));
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return "";
+    }
 }

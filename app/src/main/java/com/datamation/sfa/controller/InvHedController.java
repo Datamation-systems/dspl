@@ -77,16 +77,11 @@ public class InvHedController {
                 values.put(DatabaseHelper.FINVHED_TOTALTAX, invHed.getFINVHED_TOTALTAX());
                 values.put(DatabaseHelper.FINVHED_TXNTYPE, invHed.getFINVHED_TXNTYPE());
                 values.put(DatabaseHelper.FINVHED_TXNDATE, invHed.getFINVHED_TXNDATE());
-                values.put(DatabaseHelper.FINVHED_ADDRESS, invHed.getFINVHED_ADDRESS());
+               // values.put(DatabaseHelper.FINVHED_ADDRESS, invHed.getFINVHED_ADDRESS());
                 values.put(DatabaseHelper.FINVHED_IS_SYNCED, "0");
                 values.put(DatabaseHelper.FINVHED_IS_ACTIVE, invHed.getFINVHED_IS_ACTIVE());
                 values.put(DatabaseHelper.FINVHED_REFNO1, invHed.getFINVHED_REFNO1());
-                values.put(DatabaseHelper.FINVHED_CONTACT, invHed.getFINVHED_CONTACT());
-                values.put(DatabaseHelper.FINVHED_CUSADD1, invHed.getFINVHED_CUSADD1());
-                values.put(DatabaseHelper.FINVHED_CUSADD2, invHed.getFINVHED_CUSADD2());
-                values.put(DatabaseHelper.FINVHED_CUSADD3, invHed.getFINVHED_CUSADD3());
-                values.put(DatabaseHelper.FINVHED_CUSTELE, invHed.getFINVHED_CUSTELE());
-                values.put(DatabaseHelper.FINVHED_AREACODE, invHed.getFINVHED_AREACODE());
+               // values.put(DatabaseHelper.FINVHED_AREACODE, invHed.getFINVHED_AREACODE());
                 values.put(DatabaseHelper.FINVHED_ROUTECODE, invHed.getFINVHED_ROUTECODE());
                 values.put(DatabaseHelper.FINVHED_TOURCODE, invHed.getFINVHED_TOURCODE());
                 values.put(DatabaseHelper.FINVHED_PAYTYPE, invHed.getFINVHED_PAYTYPE());

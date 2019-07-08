@@ -475,9 +475,9 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         ArrayList<ItemPri> priceList = new ArrayList<ItemPri>();
                         ItemPriceController priceController = new ItemPriceController(ActivityLogin.this);
                         for (int i = 0; i < priceJSONArray.length(); i++) {
-                            priceList.add(ItemPri.parsePrices(priceJSONArray.getJSONObject(i)));
+                           // priceList.add(ItemPri.parsePrices(priceJSONArray.getJSONObject(i)));
                         }
-                        priceController.createOrUpdateItemPri(priceList);
+                      //  priceController.createOrUpdateItemPri(priceList);
                     } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",

@@ -65,7 +65,7 @@ public class PriceRange implements Serializable {
         JSONArray array = instance.getJSONArray("free_issue");
 
         for(int i=0;i<array.length();i++){
-            freeIssue=FreeIssue.parceFreeIssue((JSONObject) array.get(i));
+            //freeIssue=FreeIssue.parceFreeIssue((JSONObject) array.get(i));
         }
         return new PriceRange(
                 instance.getInt("price_category_id"),

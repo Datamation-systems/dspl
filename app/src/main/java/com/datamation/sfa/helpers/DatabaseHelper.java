@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // database information
     public static final String DATABASE_NAME = "sfa_database.db";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 5;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -838,6 +838,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * ############################ FOrdHed table Details
      * ################################
      */
+    public static final String TABLE_FPRODUCT = "fProducts";
+    public static final String FPRODUCT_ID = "id";
+    public static final String FPRODUCT_ITEMCODE = "itemcode";
+    public static final String FPRODUCT_ITEMNAME = "itemname";
+    public static final String FPRODUCT_PRICE = "price";
+    public static final String FPRODUCT_QOH = "qoh";
+    public static final String FPRODUCT_MIN_PRICE = "minPrice";
+    public static final String FPRODUCT_MAX_PRICE = "maxPrice";
+    public static final String FPRODUCT_QTY = "qty";
+    public static final String FPRODUCT_CHANGED_PRICE = "ChangedPrice";
+    public static final String FPRODUCT_TXNTYPE= "TxnType";
+
+    private static final String CREATE_FPRODUCT_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRODUCT + " ("
+            + FPRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + FPRODUCT_ITEMCODE + " TEXT, "
+            + FPRODUCT_ITEMNAME + " TEXT, "
+            + FPRODUCT_PRICE + " TEXT, "
+            + FPRODUCT_MIN_PRICE + " TEXT, "
+            + FPRODUCT_MAX_PRICE + " TEXT, "
+            + FPRODUCT_QOH + " TEXT, "
+            + FPRODUCT_CHANGED_PRICE + " TEXT, "
+            + FPRODUCT_TXNTYPE + " TEXT, "
+            + FPRODUCT_QTY + " TEXT); ";
+    private static final String INDEX_FPRODUCTS = "CREATE UNIQUE INDEX IF NOT EXISTS ui_product ON " + TABLE_FPRODUCT + " (itemcode);";
 
     // table
     public static final String TABLE_FORDHED = "FOrdHed";
@@ -989,6 +1013,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVHED_AREACODE = "areacode";
     public static final String FINVHED_ROUTECODE = "routecode";
     public static final String FINVHED_TOURCODE = "tourcode";
+
+
     public static final String TABLE_FINVDET = "finvDet";
     public static final String FINVDET_ID = "id";
 
@@ -1028,7 +1054,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVDET_CHANGED_PRICE = "ChangedPrice";
 
     private static final String CREATE_FINVHED_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVHED + " (" + FINVHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FINVHED_REFNO1 + " TEXT, " + FINVHED_TXNDATE + " TEXT, " + FINVHED_PAYTYPE + " TEXT, " + FINVHED_SETTING_CODE + " TEXT, "+ FINVHED_MANUREF + " TEXT, " + FINVHED_COSTCODE + " TEXT, " + FINVHED_CURCODE + " TEXT, " + FINVHED_CURRATE + " TEXT, " + FINVHED_DEBCODE + " TEXT, " + FINVHED_REMARKS + " TEXT, " + FINVHED_TXNTYPE + " TEXT, " + FINVHED_LOCCODE + " TEXT, " + FINVHED_REPCODE + " TEXT, " + FINVHED_CONTACT + " TEXT, " + FINVHED_CUSADD1 + " TEXT, " + FINVHED_CUSADD2 + " TEXT, " + FINVHED_CUSADD3 + " TEXT, " + FINVHED_CUSTELE + " TEXT, " + FINVHED_TOTALDIS + " TEXT, " + FINVHED_TOTALTAX + " TEXT, " + FINVHED_TAXREG + " TEXT, " + FINVHED_ADDUSER + " TEXT, " + FINVHED_ADDDATE + " TEXT, " + FINVHED_ADDMACH + " TEXT, " + FINVHED_START_TIME_SO + " TEXT, " + FINVHED_END_TIME_SO + " TEXT, " + FINVHED_TOTALAMT + " TEXT, " + FINVHED_LONGITUDE + " TEXT, " + FINVHED_LATITUDE + " TEXT, " + FINVHED_ADDRESS + " TEXT, " + FINVHED_IS_SYNCED + " TEXT, " + FINVHED_AREACODE + " TEXT, " + FINVHED_ROUTECODE + " TEXT, " + FINVHED_TOURCODE + " TEXT, " + FINVHED_IS_ACTIVE + " TEXT); ";
-    private static final String CREATE_FINVDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + FINVDET_TXN_DATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
+    private static final String CREATE_FINVDET_TABLENEW = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET +
+            " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + FINVDET_TXN_DATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
             + FINVDET_PRICE + " TEXT," + FINVDET_CHANGED_PRICE + " TEXT DEFAULT '0' ,"+ FINVDET_COMPDISC + " TEXT DEFAULT '0'); ";
 
     public static final String TABLE_INVTAXRG = "fInvTaxRg";
@@ -1130,9 +1157,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FSALREP_PREFIX = "prefix";
     public static final String FSALREP_STATUS = "status";
     public static final String FSALREP_TELE = "telephone";
+    public static final String FSALREP_PRILCODE = "prillcode";
 
     // create String
-    private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ASE_CODE + " TEXT, " + FSALREP_AREA_CODE + " TEXT, " + FSALREP_DEAL_CODE + " TEXT, " + FSALREP_RECORD_ID + " TEXT, " + FSALREP_REP_CODE + " TEXT, " + FSALREP_REP_PREFIX + " TEXT, " + FSALREP_REP_TCODE + " TEXT, " + FSALREP_REP_PHONE_NO + " TEXT, " + FSALREP_REP_NAME + " TEXT, " + FSALREP_REP_EMAIL + " TEXT, " + FSALREP_REP_MOB + " TEXT, " + FSALREP_PASSWORD + " TEXT, "+ FSALREP_LOCCODE+ " TEXT, " + FSALREP_COSTCODE + " TEXT); ";
+    private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ASE_CODE + " TEXT, "+ FSALREP_PRILCODE + " TEXT, " + FSALREP_AREA_CODE + " TEXT, " + FSALREP_DEAL_CODE + " TEXT, " + FSALREP_RECORD_ID + " TEXT, " + FSALREP_REP_CODE + " TEXT, " + FSALREP_REP_PREFIX + " TEXT, " + FSALREP_REP_TCODE + " TEXT, " + FSALREP_REP_PHONE_NO + " TEXT, " + FSALREP_REP_NAME + " TEXT, " + FSALREP_REP_EMAIL + " TEXT, " + FSALREP_REP_MOB + " TEXT, " + FSALREP_PASSWORD + " TEXT, "+ FSALREP_LOCCODE+ " TEXT, " + FSALREP_COSTCODE + " TEXT); ";
 
     /**
      * ############################ FDDbNote table Details
@@ -2225,7 +2253,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FDEBTOR_TABLE);
         arg0.execSQL(CREATE_FCONTROL_TABLE);
         arg0.execSQL(CREATE_FCOMPANYSETTING_TABLE);
-       // arg0.execSQL(CREATE_FINVDET_TABLE);
+        arg0.execSQL(CREATE_FINVDET_TABLENEW);
         arg0.execSQL(CREATE_FROUTE_TABLE);
         arg0.execSQL(CREATE_FBANK_TABLE);
         arg0.execSQL(CREATE_FREASON_TABLE);
@@ -2308,6 +2336,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FPRECDETS_TABLE);
         arg0.execSQL(CREATE_FORDSTAT_TABLE);
         arg0.execSQL(CREATE_FGPSLOC_TABLE);
+        arg0.execSQL(CREATE_FPRODUCT_TABLE);
 
         // --------------------- Nuwan ------------------------
         arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
@@ -2322,15 +2351,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         this.onCreate(arg0);
         try {
+            arg0.execSQL(CREATE_FINVDET_TABLENEW);
+            arg0.execSQL(CREATE_FPRODUCT_TABLE);
             arg0.execSQL(CREATE_FINVHED_TABLE);
-            arg0.execSQL(CREATE_FINVDET_TABLE);
             arg0.execSQL(CREATE_FINVRHED_TABLE);
             arg0.execSQL(CREATE_FINVRDET_TABLE);
 
         } catch (SQLiteException e) {
         }
+//        try {
+//            arg0.execSQL("ALTER TABLE "+TABLE_FSALREP+" ADD COLUMN LocCode TEXT ");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//        try {
+//            arg0.execSQL("ALTER TABLE "+TABLE_FSALREP+" ADD COLUMN prillcode TEXT ");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//        try {
+//            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN SettingCode TEXT ");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//        try {
+//            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN areacode TEXT ");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//        try {
+//            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN endTime TEXT ");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//        try {
+//            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN startTime TEXT ");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//                try {
+//            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN PayType TEXT ");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
         try {
-            arg0.execSQL("ALTER TABLE "+TABLE_FSALREP+" ADD COLUMN LocCode TEXT ");
+            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN tourcode TEXT ");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }
