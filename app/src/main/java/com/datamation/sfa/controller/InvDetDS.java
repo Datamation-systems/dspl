@@ -47,10 +47,11 @@ public class InvDetDS {
 
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVDET + " WHERE " + DatabaseHelper.FINVDET_ID + " = '" + invDet.getFINVDET_ID() + "'";
+                String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVDET + " WHERE " + DatabaseHelper.FINVDET_ITEM_CODE+ " = '" + invDet.getFINVDET_ITEM_CODE() + "' and "+ DatabaseHelper.REFNO+ " = '" + invDet.getFINVDET_REFNO()+ "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
+              //  values.put(DatabaseHelper.FINVDET_ID, invDet.getFINVDET_ID());
                 values.put(DatabaseHelper.FINVDET_AMT, invDet.getFINVDET_AMT());
                 values.put(DatabaseHelper.FINVDET_BAL_QTY, invDet.getFINVDET_BAL_QTY());
                 values.put(DatabaseHelper.FINVDET_B_AMT, invDet.getFINVDET_B_AMT());
@@ -75,14 +76,14 @@ public class InvDetDS {
                 values.put(DatabaseHelper.FINVDET_TXN_TYPE, invDet.getFINVDET_TXN_TYPE());
                 values.put(DatabaseHelper.FINVDET_IS_ACTIVE, invDet.getFINVDET_IS_ACTIVE());
 
-                values.put(DatabaseHelper.FINVDET_BRAND_DISC, invDet.getFINVDET_BRAND_DISC());
-                values.put(DatabaseHelper.FINVDET_COMDISPER, invDet.getFINVDET_COM_DISCPER());
-                values.put(DatabaseHelper.FINVDET_BRAND_DISPER, invDet.getFINVDET_BRAND_DISCPER());
-                values.put(DatabaseHelper.FINVDET_COMPDISC, invDet.getFINVDET_COMDISC());
-                values.put(DatabaseHelper.FINVDET_DISVALAMT, invDet.getFINVDET_DISVALAMT());
-                values.put(DatabaseHelper.FINVDET_QOH, invDet.getFINVDET_QOH());
-                values.put(DatabaseHelper.FINVDET_PRICE, invDet.getFINVDET_PRICE());
-                values.put(DatabaseHelper.FINVDET_CHANGED_PRICE, invDet.getFINVDET_CHANGED_PRICE());
+              //  values.put(DatabaseHelper.FINVDET_BRAND_DISC, invDet.getFINVDET_BRAND_DISC());
+//                values.put(DatabaseHelper.FINVDET_COMDISPER, invDet.getFINVDET_COM_DISCPER());
+//                values.put(DatabaseHelper.FINVDET_BRAND_DISPER, invDet.getFINVDET_BRAND_DISCPER());
+//                values.put(DatabaseHelper.FINVDET_COMPDISC, invDet.getFINVDET_COMDISC());
+//                values.put(DatabaseHelper.FINVDET_DISVALAMT, invDet.getFINVDET_DISVALAMT());
+//                values.put(DatabaseHelper.FINVDET_QOH, invDet.getFINVDET_QOH());
+//                values.put(DatabaseHelper.FINVDET_PRICE, invDet.getFINVDET_PRICE());
+//                values.put(DatabaseHelper.FINVDET_CHANGED_PRICE, invDet.getFINVDET_CHANGED_PRICE());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
@@ -217,7 +218,7 @@ public class InvDetDS {
 
                 InvDet invDet = new InvDet();
 
-                invDet.setFINVDET_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_ID)));
+             //   invDet.setFINVDET_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_ID)));
                 invDet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_AMT)));
                 invDet.setFINVDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_BAL_QTY)));
                 invDet.setFINVDET_B_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_B_AMT)));
@@ -242,14 +243,14 @@ public class InvDetDS {
                 invDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TXN_TYPE)));
                 invDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_IS_ACTIVE)));
 
-                invDet.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_DISVALAMT)));
-                invDet.setFINVDET_COM_DISCPER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_COMDISPER)));
-                invDet.setFINVDET_BRAND_DISCPER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_BRAND_DISPER)));
-                invDet.setFINVDET_COMDISC(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_COMPDISC)));
-                invDet.setFINVDET_BRAND_DISC(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_BRAND_DISC)));
-                invDet.setFINVDET_QOH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_QOH)));
-                invDet.setFINVDET_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_PRICE)));
-                invDet.setFINVDET_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_CHANGED_PRICE)));
+//                invDet.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_DISVALAMT)));
+//                invDet.setFINVDET_COM_DISCPER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_COMDISPER)));
+//                invDet.setFINVDET_BRAND_DISCPER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_BRAND_DISPER)));
+//                invDet.setFINVDET_COMDISC(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_COMPDISC)));
+//                invDet.setFINVDET_BRAND_DISC(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_BRAND_DISC)));
+//                invDet.setFINVDET_QOH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_QOH)));
+//                invDet.setFINVDET_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_PRICE)));
+//                invDet.setFINVDET_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_CHANGED_PRICE)));
 
                 list.add(invDet);
 

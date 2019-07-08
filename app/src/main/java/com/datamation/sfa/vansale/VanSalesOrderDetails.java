@@ -32,6 +32,10 @@ import android.widget.Toast;
 
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.adapter.FreeItemsAdapter;
+import com.datamation.sfa.adapter.InvDetAdapter;
+import com.datamation.sfa.adapter.NewProductAdapter;
+import com.datamation.sfa.adapter.NewProduct_Adapter;
 import com.datamation.sfa.controller.InvDetDS;
 import com.datamation.sfa.controller.OrdFreeIssueDS;
 import com.datamation.sfa.controller.ProductDS;
@@ -176,9 +180,9 @@ public class VanSalesOrderDetails extends Fragment {
                 //yasith 2019-01-14
                 // new ProductDS(getActivity()).insertIntoProductAsBulk(new SalRepDS(getActivity()).getCurrentLocCode().trim(), mainActivity.selectedDebtor.getFDEBTOR_PRILLCODE());
                 //rashmi 2019-03-12 prilcode get from fsalrep
-                new ProductDS(getActivity()).insertIntoProductAsBulk(new SalRepController
-
-                        (getActivity()).getCurrentLocCode().trim(), new SalRepController(getActivity()).getCurrentPriLCode().trim());
+                String loc = new SalRepController(getActivity()).getCurrentLocCode().trim();
+                String pril = new SalRepController(getActivity()).getCurrentPriLCode().trim();
+                new ProductDS(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), new SalRepController(getActivity()).getCurrentPriLCode().trim());
 
                 if(tmpinvHed!=null) {
 
@@ -201,7 +205,7 @@ public class VanSalesOrderDetails extends Fragment {
                 }
                 //----------------------------------------------------------------------------
             }
-            //productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
+            productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
             return productList;
         }
 
@@ -382,9 +386,9 @@ public class VanSalesOrderDetails extends Fragment {
     public void showData() {
         try {
             orderList = new InvDetDS(getActivity()).getAllInvDet(mainActivity.selectedInvHed.getFINVHED_REFNO());
-            //ArrayList<InvDet> freeList = new InvDetDS(getActivity()).getAllFreeIssue(mainActivity.selectedInvHed.getFINVHED_REFNO());
-          //  lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));//2019-07-07 till error free
-            //lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
+            ArrayList<InvDet> freeList = new InvDetDS(getActivity()).getAllFreeIssue(mainActivity.selectedInvHed.getFINVHED_REFNO());
+            lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));//2019-07-07 till error free
+            lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
         } catch (NullPointerException e) {
             Log.v("SA Error", e.toString());
         }
@@ -687,20 +691,20 @@ public class VanSalesOrderDetails extends Fragment {
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void mToggleTextbox() {
-
-        if (mSharedPref.getGlobalVal("keyCustomer").equals("Y")) {
-            ibtProduct.setEnabled(true);
-            ibtDiscount.setEnabled(true);
-
-            Bundle mBundle = getArguments();
-            if (mBundle != null) {
-                tmpinvHed = (InvHed) mBundle.getSerializable("order");
-            }
-
-        } else {
-            ibtProduct.setEnabled(false);
-            ibtDiscount.setEnabled(false);
-        }
+        showData();
+//        if (mSharedPref.getGlobalVal("keyCustomer").equals("Y")) {
+//            ibtProduct.setEnabled(true);
+//            ibtDiscount.setEnabled(true);
+//
+//            Bundle mBundle = getArguments();
+//            if (mBundle != null) {
+//                tmpinvHed = (InvHed) mBundle.getSerializable("order");
+//            }
+//
+//        } else {
+//            ibtProduct.setEnabled(false);
+//            ibtDiscount.setEnabled(false);
+//        }
     }
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -737,8 +741,8 @@ public class VanSalesOrderDetails extends Fragment {
 
         //productList = new ProductDS(getActivity()).getAllItems("");
         productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
-       // lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
-//2019-07-07 till error free
+        lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
+
         alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
@@ -760,7 +764,7 @@ public class VanSalesOrderDetails extends Fragment {
                 //productList = new ProductDS(getActivity()).getAllItems(query);
                 productList = new ProductDS(getActivity()).getAllItems(query,"SA");//Rashmi 2018-10-26
                 // lvProducts.setAdapter(new NewProductAdapter(getActivity(), productList));
-               // lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));//2019-07-07 till error free
+                lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
                 return true;
             }
 
@@ -772,7 +776,7 @@ public class VanSalesOrderDetails extends Fragment {
                 productList = new ProductDS(getActivity()).getAllItems(newText,"SA");//rashmi-2018-10-26
                 //  lvProducts.setAdapter(new NewProductAdapter(getActivity(), productList));
                 //added dhanushika
-                //lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));//2019-07-07 till error free
+                lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
                 return true;
             }
         });
@@ -954,7 +958,7 @@ public class VanSalesOrderDetails extends Fragment {
       //  String TaxedAmt = new TaxDetDS(getActivity()).calculateTax(itemCode, new BigDecimal(amt));//2019-07-07 till error free
         InvDet invDet = new InvDet();
 
-        invDet.setFINVDET_ID(id + "");
+       // invDet.setFINVDET_ID(id + "");
         //2018/10/23 no need deduct taxed for amount - mega heaters
         // invDet.setFINVDET_AMT(String.format("%.2f", amt - Double.parseDouble(TaxedAmt)));
         invDet.setFINVDET_AMT(String.format("%.2f", amt));
