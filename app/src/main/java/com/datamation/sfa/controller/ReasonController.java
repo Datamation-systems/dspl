@@ -123,6 +123,33 @@ public class ReasonController {
 		return count;
 
 	}
+	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+	public ArrayList<Reason> getAllReasonsByRtCode(String RTcode) {
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		ArrayList<Reason> list = new ArrayList<Reason>();
+
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_REATCODE + "='" + RTcode + "'";
+
+		Cursor cursor = dB.rawQuery(selectQuery, null);
+		while (cursor.moveToNext()) {
+
+			Reason reason = new Reason();
+
+			reason.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			reason.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+
+			list.add(reason);
+
+		}
+
+		return list;
+	}
 
 	public ArrayList<String> getReasonName() {
 		if (dB == null) {
