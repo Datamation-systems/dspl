@@ -58,11 +58,10 @@
         <activity android:name=".customer.NewCustomerActivity" />
         <activity android:name=".view.PreSalesActivity" />
         <activity android:name=".view.VanSalesActivity" />
-
-        <activity android:name=".view.SalesReturnActivity"></activity>
-        <activity android:name=".view.ReceiptActivity"></activity>
-        <activity android:name=".view.NonProductiveActivity"></activity>
-
+        <activity android:name=".view.SalesReturnActivity" />
+        <activity android:name=".view.ReceiptActivity" />
+        <activity android:name=".view.NonProductiveActivity" />
+        <activity android:name=".view.DayExpenseActivity"></activity>
     </application>
 
 </manifest>

@@ -104,7 +104,7 @@ public class ExpenseMain extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.enterNewItem) {
-            UtilityContainer.mLoadFragment(new ExpenseDetail(), getActivity());
+            //UtilityContainer.mLoadFragment(new ExpenseDetail(), getActivity());
         } else if (item.getItemId() == R.id.exitExpence) {
             //UtilityContainer.mLoadFragment(new IconPallet_mega(), getActivity());
             Intent intent = new Intent(getActivity(), ActivityHome.class);

@@ -276,13 +276,17 @@
                 android:orientation="horizontal">
 
                 <ListView
-                    android:id="@+id/vansaleList"
+                    android:id="@+id/salesreturnList"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:divider="#8b8b83"
                     android:dividerHeight="1dp"
-                    android:drawSelectorOnTop="false"></ListView>
+                    android:drawSelectorOnTop="false">
+
+                </ListView>
+
             </LinearLayout>
+
             <TextView
                 android:id="@+id/docdetaillineret"
                 android:layout_width="wrap_content"
@@ -323,15 +327,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="28dip"
                 android:layout_marginTop="0dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/transsummarytotalvalue"
                     android:layout_width="0.0dip"
                     android:layout_height="fill_parent"
                     android:layout_weight="2.3"
-                    android:text="Total Return Quantity"
+                    android:text="Total Free Quantity"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 
@@ -341,7 +344,6 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1.0"
                     android:gravity="right"
-                    android:text="@string/trans_summary_previewvalue"
                     android:textColor="#040d19"
                     android:textStyle="bold"
                     />

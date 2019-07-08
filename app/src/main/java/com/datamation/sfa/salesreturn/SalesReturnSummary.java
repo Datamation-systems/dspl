@@ -22,6 +22,7 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.dialog.PrintPreviewAlertBox;
+import com.datamation.sfa.helpers.SalesReturnResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
@@ -51,6 +52,7 @@ public class SalesReturnSummary extends Fragment {
     boolean isSalesReturnPending = false;
     SharedPref mSharedPref;
     Activity thisActivity;
+    SalesReturnResponseListener salesReturnResponseListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,16 +121,18 @@ public class SalesReturnSummary extends Fragment {
     public void mRefreshData() {
         String itemCode = "";
 
-        RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
-        HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
-        returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
+        if (activity.selectedReturnHed != null)
+        {
+            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+            HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
+            returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
 
-        for (FInvRDet retDet : returnDetList) {
-            ftotAmt += Double.parseDouble(retDet.getFINVRDET_AMT());
-            totReturnDiscount += Double.parseDouble(retDet.getFINVRDET_DIS_AMT());
-            fTotQty += Double.parseDouble(retDet.getFINVRDET_QTY());
-            itemCode = retDet.getFINVRDET_ITEMCODE();
-        }
+            for (FInvRDet retDet : returnDetList) {
+                ftotAmt += Double.parseDouble(retDet.getFINVRDET_AMT());
+                totReturnDiscount += Double.parseDouble(retDet.getFINVRDET_DIS_AMT());
+                fTotQty += Double.parseDouble(retDet.getFINVRDET_QTY());
+                itemCode = retDet.getFINVRDET_ITEMCODE();
+            }
 //        String grossArray[] = new TaxDetDS(getActivity()).calculateTaxForwardFromDebTax("", itemCode, ftotAmt + totReturnDiscount );
 //        String NetArray[] = new TaxDetDS(getActivity()).calculateTaxForwardFromDebTax("", itemCode, ftotAmt );
 //        String disArray[] = new TaxDetDS(getActivity()).calculateTaxForwardFromDebTax("", itemCode, totReturnDiscount );
@@ -136,14 +140,19 @@ public class SalesReturnSummary extends Fragment {
 //        lblDisc.setText(String.format("%.2f", Double.parseDouble(disArray[0])));
 //        lblNetVal.setText(String.format("%.2f", Double.parseDouble(NetArray[0])));
 
-        lblGross.setText(String.format("%.2f", ftotAmt));
-        lblDisc.setText(String.format("%.2f", totReturnDiscount));
-        lblNetVal.setText(String.format("%.2f", (ftotAmt - totReturnDiscount)));
+            lblGross.setText(String.format("%.2f", ftotAmt));
+            lblDisc.setText(String.format("%.2f", totReturnDiscount));
+            lblNetVal.setText(String.format("%.2f", (ftotAmt - totReturnDiscount)));
 
-        ftotAmt = 0;
-        totReturnDiscount = 0;
-        fTotQty = 0;
-
+            ftotAmt = 0;
+            totReturnDiscount = 0;
+            fTotQty = 0;
+        }
+        else
+        {
+            Toast.makeText(getActivity(), "Invalid sales return head..." , Toast.LENGTH_LONG).show();
+            salesReturnResponseListener.moveBackTo_ret(0);
+        }
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- Save final Sales order to database-*-*-*-**-*-*-*-*-*-*-*-*-*/
@@ -300,10 +309,20 @@ public class SalesReturnSummary extends Fragment {
             Toast.makeText(getActivity(), "Add items before pause ...!", Toast.LENGTH_SHORT).show();
     }
 
+//    @Override
+//    public void onAttach(Activity activity) {
+//        this.thisActivity = activity;
+//        super.onAttach(activity);
+//    }
+
     @Override
     public void onAttach(Activity activity) {
-        this.thisActivity = activity;
         super.onAttach(activity);
+        try {
+            salesReturnResponseListener = (SalesReturnResponseListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
+        }
     }
 
     private class MyReceiver extends BroadcastReceiver {

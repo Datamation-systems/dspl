@@ -151,6 +151,8 @@ public class SalRepController {
                 newRep.setLOCCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_LOCCODE)));
                 newRep.setEMAIL(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_EMAIL)));
                 newRep.setTELE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_PHONE_NO)));
+                newRep.setDEALCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_DEAL_CODE)));
+                newRep.setAREACODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_AREA_CODE)));
 
 //                newRep.setSTATUS(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_STATUS)));
 //                newRep.setADDMACH(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ADDMACH)));

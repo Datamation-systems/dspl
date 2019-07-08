@@ -24,11 +24,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.SQLiteBackUp;
 import com.datamation.sfa.helpers.SQLiteRestore;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.SalRep;
 import com.datamation.sfa.view.FragmentTools;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,9 +125,15 @@ public class UtilityContainer {
                         if (serverURL.length() > 0) {
 
                             if (validate(serverURL.getText().toString().toUpperCase()))
+                            {
                                 SharedPref.getInstance(context).setMacAddress(serverURL.getText().toString().toUpperCase());
+                                dialog.dismiss();
+                            }
+
                             else
+                            {
                                 Toast.makeText(context, "Enter Valid MAC Address", Toast.LENGTH_LONG).show();
+                            }
                         } else
                             Toast.makeText(context, "Type in the MAC Address", Toast.LENGTH_LONG).show();
                     }
@@ -146,6 +155,42 @@ public class UtilityContainer {
         Pattern p = Pattern.compile("^([a-fA-F0-9]{2}[:-]){5}[a-fA-F0-9]{2}$");
         Matcher m = p.matcher(mac);
         return m.find();
+    }
+
+    public static void mRepsDetailsDialogBox(final Context context) {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View promptView = layoutInflater.inflate(R.layout.settings_reps_details_layout, null);
+
+        final EditText etUserName = (EditText) promptView.findViewById(R.id.et_rep_username);
+        final EditText etRepCode = (EditText) promptView.findViewById(R.id.et_rep_code);
+        final EditText etPreFix = (EditText) promptView.findViewById(R.id.et_rep_prefix);
+        final EditText etLocCode = (EditText) promptView.findViewById(R.id.et_rep_loc_code);
+        final EditText etAreaCode = (EditText) promptView.findViewById(R.id.et_rep_area_code);
+        final EditText etDealerCode = (EditText) promptView.findViewById(R.id.et_rep_deal_code);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle("Sales Executive");
+        alertDialogBuilder.setView(promptView);
+        SalRep Vre = new SalRepController(context).getSaleRep(new SalRepController(context).getCurrentRepCode());
+
+        //for (SalRep salRep : Vre) {
+            etUserName.setText(Vre.getNAME());
+            etRepCode.setText(Vre.getREPCODE());
+            etPreFix.setText(Vre.getPREFIX());
+            etLocCode.setText(Vre.getLOCCODE());
+            etAreaCode.setText(Vre.getAREACODE());
+            etDealerCode.setText(Vre.getDEALCODE());
+        //}
+
+        alertDialogBuilder.setCancelable(false).setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
     }
 
     public static void mSQLiteDatabase(final Context context) {
