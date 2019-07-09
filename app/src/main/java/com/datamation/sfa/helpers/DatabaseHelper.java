@@ -1106,6 +1106,75 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * ############################ FCompanyBranch table Details
      * ################################
      */
+    public static final String TABLE_DEBITEMPRI = "fDebItemPri";
+    public static final String DEBITEMPRI_ID = "Id";
+    public static final String DEBITEMPRI_BRANDCODE = "BrandCode";
+    public static final String DEBITEMPRI_DEBCODE = "DebCode";
+    public static final String DEBITEMPRI_DISPER = "Disper";
+
+    private static final String CREATE_DEBITEMPRI_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_DEBITEMPRI + " (" + DEBITEMPRI_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DEBITEMPRI_BRANDCODE + " TEXT, " + DEBITEMPRI_DEBCODE + " TEXT, " + DEBITEMPRI_DISPER + " TEXT); ";
+    public static final String TABLE_FDISPHED = "FDispHed";
+    public static final String FDISPHED_ID = "Id";
+    public static final String FDISPHED_REFNO = "RefNo";
+    public static final String FDISPHED_TXNDATE = "TxnDate";
+    public static final String FDISPHED_REFNO1 = "RefNo1";
+    public static final String FDISPHED_MANUREF = "ManuRef";
+    public static final String FDISPHED_TOTALAMT = "TotalAmt";
+    public static final String FDISPHED_LOCCODE = "LocCode";
+    public static final String FDISPHED_COSTCODE = "CostCode";
+    public static final String FDISPHED_DEBCODE = "DebCode";
+    public static final String FDISPHED_REPCODE = "RepCode";
+    public static final String FDISPHED_REMARKS = "Remarks";
+    public static final String FDISPHED_TXNTYPE = "TxnType";
+    public static final String FDISPHED_INVOICE = "Invoice";
+    public static final String FDISPHED_CONTACT = "Contact";
+    public static final String FDISPHED_CUSADD1 = "CusAdd1";
+    public static final String FDISPHED_CUSADD2 = "CusAdd2";
+    public static final String FDISPHED_CUSADD3 = "CusAdd3";
+    public static final String FDISPHED_CUSTELE = "CusTele";
+    public static final String FDISPHED_ADDUSER = "AddUser";
+    public static final String FDISPHED_ADDDATE = "AddDate";
+    public static final String FDISPHED_ADDMACH = "AddMach";
+    public static final String TABLE_FDISPDET = "FDispDet";
+    public static final String FDISPDET_ID = "Id";
+    public static final String FDISPDET_REFNO = "RefNo";
+    public static final String FDISPDET_TXNDATE = "TxnDate";
+    public static final String FDISPDET_TXNTYPE = "TxnType";
+    public static final String FDISPDET_ITEMCODE = "ItemCode";
+    public static final String FDISPDET_QTY = "Qty";
+    public static final String FDISPDET_BALQTY = "BalQty";
+    public static final String FDISPDET_SAQTY = "SAQty";
+    public static final String FDISPDET_BALSAQTY = "BalSAQty";
+    public static final String FDISPDET_FIQTY = "FIQty";
+    public static final String FDISPDET_BALFIQTY = "BalFIQty";
+    public static final String FDISPDET_COSTPRICE = "CostPrice";
+    public static final String FDISPDET_AMT = "Amt";
+    public static final String FDISPDET_SEQNO = "SeqNo";
+    public static final String FDISPDET_REFNO1 = "RefNo1";
+    public static final String TABLE_FDISPISS = "FDispIss";
+    public static final String FDISPISS_ID = "Id";
+    public static final String FDISPISS_REFNO = "RefNo";
+    public static final String FDISPISS_TXNDATE = "TxnDate";
+    public static final String FDISPISS_LOCCODE = "LocCode";
+    public static final String FDISPISS_STKRECNO = "StkRecNo";
+    ;
+    public static final String FDISPISS_STKRECDATE = "StkRecDate";
+    public static final String FDISPISS_STKTXNNO = "StkTxnNo";
+    public static final String FDISPISS_STKTXNDATE = "StkTxnDate";
+    public static final String FDISPISS_STKTXNTYPE = "StkTxnType";
+
+    // --------------------------------------------------------------------------------------------------------------
+    public static final String FDISPISS_ITEMCODE = "ItemCode";
+    public static final String FDISPISS_QTY = "Qty";
+    public static final String FDISPISS_BALQTY = "BalQty";
+    public static final String FDISPISS_COSTPRICE = "CostPrice";
+    public static final String FDISPISS_AMT = "Amt";
+    public static final String FDISPISS_OTHCOST = "OthCost";
+    public static final String FDISPISS_REFNO1 = "Refno1";
+
+    private static final String CREATE_FDISPHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPHED + " (" + FDISPHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISPHED_REFNO + " TEXT," + FDISPHED_TXNDATE + " TEXT," + FDISPHED_REFNO1 + " TEXT," + FDISPHED_MANUREF + " TEXT," + FDISPHED_TOTALAMT + " TEXT," + FDISPHED_LOCCODE + " TEXT," + FDISPHED_COSTCODE + " TEXT," + FDISPHED_DEBCODE + " TEXT," + FDISPHED_REPCODE + " TEXT," + FDISPHED_REMARKS + " TEXT," + FDISPHED_TXNTYPE + " TEXT," + FDISPHED_INVOICE + " TEXT," + FDISPHED_CONTACT + " TEXT," + FDISPHED_CUSADD1 + " TEXT," + FDISPHED_CUSADD2 + " TEXT," + FDISPHED_CUSADD3 + " TEXT," + FDISPHED_CUSTELE + " TEXT," + FDISPHED_ADDUSER + " TEXT," + FDISPHED_ADDDATE + " TEXT," + FDISPHED_ADDMACH + " TEXT);";
+    private static final String CREATE_FDISPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPDET + " (" + FDISPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISPDET_REFNO + " TEXT ," + FDISPDET_TXNDATE + " TEXT," + FDISPDET_TXNTYPE + " TEXT," + FDISPDET_ITEMCODE + " TEXT," + FDISPDET_QTY + " TEXT DEFAULT '0'," + FDISPDET_BALQTY + " TEXT DEFAULT '0'," + FDISPDET_SAQTY + " TEXT DEFAULT '0'," + FDISPDET_BALSAQTY + " TEXT DEFAULT '0'," + FDISPDET_FIQTY + " TEXT DEFAULT '0'," + FDISPDET_BALFIQTY + " TEXT DEFAULT '0'," + FDISPDET_COSTPRICE + " TEXT," + FDISPDET_AMT + " TEXT," + FDISPDET_REFNO1 + " TEXT," + FDISPDET_SEQNO + " TEXT);";
+    private static final String CREATE_FDISPISS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPISS + " (" + FDISPISS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDISPISS_REFNO + " TEXT," + FDISPISS_TXNDATE + " TEXT," + FDISPISS_LOCCODE + " TEXT," + FDISPISS_STKRECNO + " TEXT," + FDISPISS_STKRECDATE + " TEXT," + FDISPISS_STKTXNNO + " TEXT," + FDISPISS_STKTXNDATE + " TEXT," + FDISPISS_STKTXNTYPE + " TEXT," + FDISPISS_ITEMCODE + " TEXT," + FDISPISS_QTY + " TEXT," + FDISPISS_BALQTY + " TEXT," + FDISPISS_COSTPRICE + " TEXT," + FDISPISS_AMT + " TEXT," + FDISPISS_REFNO1 + " TEXT," + FDISPISS_OTHCOST + " TEXT);";
 
     // table
     public static final String TABLE_FCOMPANYBRANCH = "FCompanyBranch";
@@ -2153,6 +2222,63 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * ############################ fRouteDet table Details
      * ################################
      */
+    public static final String TABLE_FSTKIN = "fSTKIn";
+    public static final String FSTKIN_ID = "Id";
+    public static final String FSTKIN_BALQTY = "BalQty";
+    public static final String FSTKIN_COSTPRICE = "CostPrice";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-fTaxDet table Details-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*/
+    public static final String FSTKIN_INQTY = "InQty";
+    public static final String FSTKIN_ITEMCODE = "ItemCode";
+    public static final String FSTKIN_LOCCODE = "LocCode";
+    public static final String FSTKIN_OTHCOST = "OthCost";
+    public static final String FSTKIN_REFNO = "RefNo";
+    public static final String FSTKIN_STKREC_DATE = "StkRecDate";
+    public static final String FSTKIN_STKRECNO = "StkRecNo";
+    public static final String FSTKIN_TXNDATE = "TxnDate";
+    public static final String FSTKIN_TXNTYPE = "TxnType";
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-fTOUR-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public static final String TABLE_FSIZEIN = "fSizeIn";
+    public static final String FSIZEIN_ID = "Id";
+    public static final String FSIZEIN_REFNO = "RefNo";
+    public static final String FSIZEIN_TXNDATE = "TxnDate";
+    public static final String FSIZEIN_STKRECDATE = "STKRecDate";
+    public static final String FSIZEIN_LOCCODE = "LocCode";
+    public static final String FSIZEIN_TXNTYPE = "TxnType";
+    public static final String FSIZEIN_STKRECNO = "STKRecNo";
+    public static final String FSIZEIN_ITEMCODE = "ItemCode";
+    public static final String FSIZEIN_SIZECODE = "SizeCode";
+    public static final String FSIZEIN_GROUPCODE = "GroupCode";
+    public static final String FSIZEIN_QTY = "Qty";
+    public static final String FSIZEIN_BALQTY = "BalQty";
+    public static final String FSIZEIN_COSTPRICE = "CostPrice";
+    public static final String FSIZEIN_PRICE = "Price";
+    public static final String FSIZEIN_OTHCOST = "OthCost";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-STKIN-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public static final String FSIZEIN_APPSTAT = "AppStat";
+    public static final String FSIZEIN_ADDDATE = "AddDate";
+    public static final String FSIZEIN_MRPPRICE = "MRPPrice";
+    public static final String FSIZEIN_ORDREFNO = "OrdRefNo";
+    public static final String TABLE_FSTKISS = "fStkIss";
+    public static final String FSTKISS_ID = "Id";
+    public static final String FSTKISS_REFNO = "RefNo";
+    public static final String FSTKISS_TXNDATE = "TxnDate";
+    public static final String FSTKISS_LOCCODE = "LocCode";
+    public static final String FSTKISS_STKRECNO = "STKRecNo";
+    public static final String FSTKISS_STKTXNNO = "STKTxnNo";
+    public static final String FSTKISS_STKTXNDATE = "STKTxnDate";
+    public static final String FSTKISS_STKRECDATE = "STKRecDate";
+    public static final String FSTKISS_STKTXNTYPE = "STKTxnType";
+
+    /*-*-*-*--*-*-*-*-*-*-fSizeIn table-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public static final String FSTKISS_ITEMCODE = "ItemCode";
+    public static final String FSTKISS_QTY = "Qty";
+    public static final String FSTKISS_COSTPRICE = "CostPrice";
+    private static final String CREATE_STKIN_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSTKIN + " (" + FSTKIN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSTKIN_REFNO + " TEXT," + FSTKIN_TXNDATE + " TEXT," + FSTKIN_STKREC_DATE + " TEXT," + FSTKIN_LOCCODE + " TEXT," + FSTKIN_ITEMCODE + " TEXT," + FSTKIN_INQTY + " TEXT," + FSTKIN_BALQTY + " TEXT," + FSTKIN_COSTPRICE + " TEXT," + FSTKIN_OTHCOST + " TEXT," + FSTKIN_STKRECNO + " TEXT," + FSTKIN_TXNTYPE + " TEXT); ";
+    private static final String CREATE_FSIZEIN_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSIZEIN + " (" + FSIZEIN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSIZEIN_REFNO + " TEXT," + FSIZEIN_TXNDATE + " TEXT," + FSIZEIN_STKRECDATE + " TEXT," + FSIZEIN_LOCCODE + " TEXT," + FSIZEIN_TXNTYPE + " TEXT," + FSIZEIN_STKRECNO + " TEXT," + FSIZEIN_ITEMCODE + " TEXT," + FSIZEIN_SIZECODE + " TEXT," + FSIZEIN_GROUPCODE + " TEXT," + FSIZEIN_QTY + " TEXT," + FSIZEIN_BALQTY + " TEXT," + FSIZEIN_COSTPRICE + " TEXT," + FSIZEIN_PRICE + " TEXT," + FSIZEIN_OTHCOST + " TEXT," + FSIZEIN_APPSTAT + " TEXT," + FSIZEIN_ORDREFNO + " TEXT," + FSIZEIN_ADDDATE + " TEXT," + FSIZEIN_MRPPRICE + " TEXT); ";
+    private static final String CREATE_FSTKISS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSTKISS + " (" + FSTKISS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSIZEIN_REFNO + " TEXT," + FSTKISS_TXNDATE + " TEXT," + FSTKISS_LOCCODE + " TEXT," + FSTKISS_STKRECNO + " TEXT," + FSTKISS_STKTXNNO + " TEXT," + FSTKISS_STKTXNDATE + " TEXT," + FSTKISS_STKRECDATE + " TEXT," + FSTKISS_STKTXNTYPE + " TEXT," + FSTKISS_ITEMCODE + " TEXT," + FSTKISS_COSTPRICE + " TEXT," + FSTKISS_QTY + " TEXT); ";
+
     // table
     public static final String TABLE_FORDSTAT = "fOrdStat";
     // table attributes

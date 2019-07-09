@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:maxLines="1"
-                android:text="@string/head_rep_phone"
+                android:text="@string/head_dist_phone"
                 android:textColor="#000000"
                 android:textSize="15dip" />
 
@@ -126,7 +126,35 @@
                 android:textColor="#000000"
                 android:textSize="15dip" />
 
+            <TextView
+                android:id="@+id/headcusaddress1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_dist_address1"
+                android:textColor="#000000"
+                android:textSize="15dip" />
 
+            <TextView
+                android:id="@+id/headcusaddress2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_dist_address2"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/headcustele"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_dist_phone"
+                android:textColor="#000000"
+                android:textSize="15dip" />
 
             <TextView
                 android:id="@+id/docheadcustomer"
@@ -145,7 +173,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="@string/head_sal_date"
+                android:text="@string/head_van_sal_date"
                 android:textColor="#000000"
                 android:textSize="15dip" />
 
@@ -176,10 +204,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:maxLines="1"
-                android:text="Route"
+                android:text="route"
                 android:textColor="#000000"
-                android:textSize="15dip"
-                android:visibility="gone"/>
+                android:textSize="15dip" />
             <TextView
                 android:id="@+id/docheadtitledd"
                 android:layout_width="wrap_content"
@@ -195,7 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:maxLines="1"
-                android:text="RETURN DETAILS"
+                android:text="INVOICE DETAILS"
                 android:textColor="#000000"
                 android:textSize="15dip" />
             <TextView
@@ -234,6 +261,16 @@
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="DISC"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
 
 
                 <TextView
@@ -276,17 +313,13 @@
                 android:orientation="horizontal">
 
                 <ListView
-                    android:id="@+id/salesreturnList"
+                    android:id="@+id/vansaleList"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:divider="#8b8b83"
                     android:dividerHeight="1dp"
-                    android:drawSelectorOnTop="false">
-
-                </ListView>
-
+                    android:drawSelectorOnTop="false"></ListView>
             </LinearLayout>
-
             <TextView
                 android:id="@+id/docdetaillineret"
                 android:layout_width="wrap_content"
@@ -296,7 +329,116 @@
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+            <TextView
+                android:id="@+id/docdetailline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="RETURN DETAILS"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+            <TextView
+                android:id="@+id/detoverline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="20dip"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/transdetProduct"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="2.5"
+                    android:text="PRODUCT"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="MRP"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="DISC"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/printRetQty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="QTY"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/printretAmt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:text="AMT"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/retdetoverline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/returnList"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:divider="#8b8b83"
+                    android:dividerHeight="1dp"
+                    android:drawSelectorOnTop="false"></ListView>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/returndetoverline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="28dip"
@@ -334,7 +476,7 @@
                     android:layout_width="0.0dip"
                     android:layout_height="fill_parent"
                     android:layout_weight="2.3"
-                    android:text="Total Free Quantity"
+                    android:text="Total Return Quantity"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 
@@ -344,9 +486,9 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1.0"
                     android:gravity="right"
+                    android:text="@string/trans_summary_previewvalue"
                     android:textColor="#040d19"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -356,6 +498,15 @@
                 android:layout_marginTop="0dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txtview22"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="		Company Discount"
+                    android:textColor="#040d19"
+                    android:textStyle="bold|italic" />
 
                 <TextView
                     android:id="@+id/printCompDisc"
@@ -395,6 +546,60 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="28dip"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/transsummarytotaldisc"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="Total Return"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/printtotaldisamt"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="right"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:text="@string/trans_summary_previewvalue"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textview02"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tax"
+                    android:textColor="#040d19"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/txtTax"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:text="@string/trans_summary_previewvalue"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/transsummarylinestart"
@@ -493,7 +698,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Developed by W G M Rashmi."
+                android:text="Developed by Datamation Systems. \n +94 11 2 501202 .\n www.datamation.lk"
                 android:textColor="@color/greenColor"
                 android:textStyle="italic" />
         </LinearLayout>

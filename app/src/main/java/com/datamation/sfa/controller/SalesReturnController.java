@@ -237,7 +237,40 @@ public class SalesReturnController
         return count;
 
     }
+    public FInvRHed getDetailsforPrint(String Refno) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        FInvRHed SRHed = new FInvRHed();
+
+        try {
+            String selectQuery = "SELECT RefNo,TotalAmt FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                SRHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                SRHed.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_AMT)));
+
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return SRHed;
+
+    }
     public int InactiveStatusUpdate(String refno) {
 
         int count = 0;
