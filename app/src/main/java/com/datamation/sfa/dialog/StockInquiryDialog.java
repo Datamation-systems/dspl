@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +27,15 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.StockInquiryAdaptor;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.SalRepController;
+import com.datamation.sfa.controller.TourController;
 import com.datamation.sfa.helpers.ListExpandHelper;
 import com.datamation.sfa.model.StockInfo;
+import com.datamation.sfa.model.TourHed;
 
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class StockInquiryDialog
 {
@@ -42,36 +44,17 @@ public class StockInquiryDialog
     ListView lvStockData;
     String LocCode = "";
     ArrayList<StockInfo> arrayList;
-    Spinner spnTrans;
+    Spinner spnTrans, spnTourcode;
     TextView txtTotQty;
     String PRINTER_MAC_ID;
     BluetoothAdapter mBTAdapter;
     BluetoothSocket mBTSocket;
     Dialog dialogProgress;
     String printString = "";
-    //ArrayList<TourHed> tourList;
+    ArrayList<TourHed> tourList;
     //SearchView searchView;
     Context context;
-
-    public BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-
-            try {
-                String action = intent.getAction();
-                if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    if (device.getAddress().equalsIgnoreCase(PRINTER_MAC_ID)) {
-                        mBTAdapter.cancelDiscovery();
-                        dialogProgress.dismiss();
-                        printBillToDevice(PRINTER_MAC_ID, printString);
-                    }
-                }
-            } catch (Exception e) {
-                Log.e("Class  ", "fire 1 ", e);
-
-            }
-        }
-    };
+    boolean isPreSale = false;
 
     public StockInquiryDialog(final Context context) {
         this.context = context;
@@ -82,15 +65,12 @@ public class StockInquiryDialog
         alertDialogBuilder.setView(view);
 
         lvStockData = (ListView) view.findViewById(R.id.listviewStockData);
-//        localSP = context.getSharedPreferences(SETTINGS, Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
         PRINTER_MAC_ID = localSP.getString("printer_mac_address", "").toString();
 
         spnTrans = (Spinner) view.findViewById(R.id.spnTrans);
-        //spnTourcode = (Spinner) view.findViewById(R.id.spnTourCode);
+        spnTourcode = (Spinner) view.findViewById(R.id.spnTourCode);
         txtTotQty = (TextView) view.findViewById(R.id.txtTotQty);
-        //searchView = (SearchView) view.findViewById(R.id.stock_search);
-
         ArrayList<String> strList = new ArrayList<>();
         strList.add("- Select a Transaction -");
         strList.add("Pre Sales");
@@ -107,15 +87,30 @@ public class StockInquiryDialog
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 if (position > 0) {
-//                    tourList = new TourHedDS(context).getTourDetails(position == 1 ? "S" : "V");
-//                    loadTourCodes(tourList);
-                    LocCode = new SalRepController(context).getCurrentLocCode().trim();
-                    txtTotQty.setText(new ItemController(context).getTotalStockQOH(LocCode));
+                    if (position == 1)//pre sale
+                    {
+                        isPreSale = true;
+                        spnTourcode.setVisibility(View.VISIBLE);
+                        lvStockData.setAdapter(null);
+                        txtTotQty.setText("");
+                        tourList = new TourController(context).getTourDetails();
+                        loadTourCodes(tourList);
+                    }
+                    else if (position == 2)//van sale
+                    {
+                        txtTotQty.setText("");
+                        isPreSale = false;
+                        spnTourcode.setVisibility(View.GONE);
+                        lvStockData.setAdapter(null);
+                        String lCode = "";
+                        lCode = new SalRepController(context).getCurrentLocCode().trim();
+                        txtTotQty.setText(new ItemController(context).getTotalStockQOH(lCode));
+                        new TaskRunner().execute();
+                    }
 
-                    new TaskRunner().execute();
                 } else {
                     lvStockData.setAdapter(null);
-                    //spnTourcode.setSelection(0);
+                    spnTourcode.setSelection(0);
                 }
             }
 
@@ -124,53 +119,33 @@ public class StockInquiryDialog
             }
         });
 
-        /*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+        spnTourcode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-//        spnTourcode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                if (position > 0) {
-//                    searchView.setVisibility(View.VISIBLE);
-//
-//                    if (!LocCode.equals(tourList.get(position - 1).getTOURHED_LOCCODE())) {
-//                        txtTotQty.setText(new ItemsDS(context).getTotalStockQOH(tourList.get(position - 1).getTOURHED_LOCCODE()));
-//                        new TaskRunner().execute();
-//                    }
-//                    LocCode = tourList.get(position - 1).getTOURHED_LOCCODE();
-//                } else {
-//                    lvStockData.setAdapter(null);
-//                    LocCode = "";
-//                    txtTotQty.setText("");
-//                    searchView.setVisibility(View.GONE);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                if (searchView.getWidth() > 0)
-//                    new TaskRunner().execute(newText);
-//                return false;
-//            }
-//        });
+                if (position > 0)
+                {
+                    LocCode = tourList.get(position - 1).getTOURHED_LOCCODE();
+                    txtTotQty.setText(new ItemController(context).getTotalStockQOH(LocCode));
+                    new TaskRunner().execute();
+
+                } else {
+                    lvStockData.setAdapter(null);
+                    LocCode = "";
+                    txtTotQty.setText("");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                //mPrintStock();
+                mPrintStock();
             }
         });
 
@@ -220,28 +195,28 @@ public class StockInquiryDialog
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-//    public void mPrintStock() {
-//
-//        setBluetooth(true);
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-//        alertDialogBuilder.setMessage("Please confirm printing ?");
-//        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-//        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//            public void onClick(DialogInterface dialog, int id) {
-//                PrintStock();
-//                doProgress("Stock details being printed..!", 3000);
-//            }
-//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                setBluetooth(false);
-//                dialog.cancel();
-//            }
-//        });
-//
-//        AlertDialog alertD = alertDialogBuilder.create();
-//        alertD.show();
-//    }
+    public void mPrintStock() {
+
+        setBluetooth(true);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setMessage("Please confirm printing ?");
+        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+                //PrintStock();
+                doProgress("Stock details being printed..!", 3000);
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                setBluetooth(false);
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+    }
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -363,26 +338,25 @@ public class StockInquiryDialog
 
     }
 
-    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public void loadTourCodes(ArrayList<TourHed> list) {
 
-//    public void loadTourCodes(ArrayList<TourHed> list) {
-//
-//        ArrayList<String> strList = new ArrayList<String>();
-//        strList.add("- Select a Tour -");
-//
-//        for (TourHed hed : list) {
-//            strList.add(hed.getTOURHED_REFNO() + " - " + hed.getTOURHED_ID());
-//        }
-//
-//        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, strList);
-//        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spnTourcode.setAdapter(dataAdapter2);
-//
-//    }
+        ArrayList<String> strList = new ArrayList<String>();
+        strList.add("- Select a Tour -");
+
+        for (TourHed hed : list) {
+            strList.add(hed.getTOURHED_REFNO() + " - " + hed.getTOURHED_ID());
+        }
+
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, strList);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnTourcode.setAdapter(dataAdapter2);
+
+    }
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     class TaskRunner extends AsyncTask<String, String, String> {
+
         ProgressDialog progressDialog;
         StockInquiryAdaptor adaptor;
 
@@ -400,10 +374,18 @@ public class StockInquiryDialog
         @Override
         protected String doInBackground(String... params) {
 
-            if (params.length > 0)
-                arrayList = new ItemController(context).getStocks(params[0], LocCode);
+            String lCode ="";
+
+            if (!isPreSale)
+            {
+                lCode = new SalRepController(context).getCurrentLocCode().trim();
+                //txtTotQty.setText(new ItemController(context).getTotalStockQOH(lCode));
+                arrayList = new ItemController(context).getStocks("", lCode);
+            }
             else
+            {
                 arrayList = new ItemController(context).getStocks("", LocCode);
+            }
 
             adaptor = new StockInquiryAdaptor(context, arrayList);
             return null;

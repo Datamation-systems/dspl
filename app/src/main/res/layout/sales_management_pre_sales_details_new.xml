@@ -1,217 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     android:padding="2dp">
-
-
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/finac_medium_top_margin"
-        android:weightSum="2"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/finac_large_image_height"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <com.datamation.sfa.utils.CustomFont
-                    android:id="@+id/textView_hed"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/custom_textbox"
-                    android:text="PRODUCTS"
-                    android:textColor="@color/greenColor"
-                    android:textSize="@dimen/customer_spinner_text_size" />
+                    android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/btnPreSalesProduct"
-                    android:layout_width="@dimen/finac_large_image_height"
-                    android:layout_height="@dimen/finac_large_image_height"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/product" />
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/textView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_textbox"
+                        android:text="PRODUCTS"
+                        android:textColor="@color/greenColor"
+                        android:textSize="18sp"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/ibtProduct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/product" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/add"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dip"
+                        android:layout_weight="3"
+                        android:background="@drawable/custom_label"
+                        android:gravity="center"
+                        android:text="PRODUCT"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/unselected"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/indexhistory3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dip"
+                        android:layout_marginRight="1dip"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_label"
+                        android:gravity="center"
+                        android:text="QTY"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/unselected"
+                        android:textSize="14sp"
+                        />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/indexmanual3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dip"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/custom_label"
+                        android:gravity="center"
+                        android:text="AMOUNT"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/unselected"
+                        android:textSize="14sp"
+                        />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/lvProducts_Inv"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_marginTop="1dp"
+                    android:divider="@color/list_view_diveder"
+                    android:dividerHeight="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/custom_textbox" />
+
 
             </LinearLayout>
-
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/finac_medium_textview_height"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
 
-                <com.datamation.sfa.utils.CustomFont
-                    android:id="@+id/add"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginRight="1dip"
-                    android:layout_weight="3"
-                    android:background="@drawable/custom_label"
-                    android:gravity="center"
-                    android:text="PRODUCT"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/unselected"
-                    android:textSize="@dimen/finac_extra_medium_text_size"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-                <com.datamation.sfa.utils.CustomFont
-                    android:id="@+id/indexhistory3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dip"
-                    android:layout_marginRight="1dip"
-                    android:layout_weight="1"
-                    android:background="@drawable/custom_label"
-                    android:gravity="center"
-                    android:text="QTY"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/unselected"
-                    android:textSize="@dimen/finac_extra_medium_text_size" />
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_textbox"
+                        android:text="FREE ISSUES"
+                        android:textColor="@color/greenColor"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <com.datamation.sfa.utils.CustomFont
-                    android:id="@+id/indexmanual3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dip"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/custom_label"
-                    android:gravity="center"
-                    android:text="AMOUNT"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/unselected"
-                    android:textSize="@dimen/finac_extra_medium_text_size" />
+                    <ImageButton
+                        android:id="@+id/ibtDisc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/discount" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dip"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/custom_label"
+                        android:gravity="center"
+                        android:text="CODE"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/unselected"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/textView13"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dip"
+                        android:layout_weight="3"
+                        android:background="@drawable/custom_label"
+                        android:gravity="center"
+                        android:text="PRODUCT"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/unselected"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/textView12"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dip"
+                        android:layout_marginRight="1dip"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_label"
+                        android:gravity="center"
+                        android:text="QTY"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/unselected"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/lvFreeIssue_Inv"
+                    android:layout_width="match_parent"
+                    android:layout_height="320dp"
+                    android:layout_marginTop="1dp"
+                    android:divider="@color/list_view_diveder"
+                    android:dividerHeight="1dp"
+                    android:layout_gravity="center_horizontal"
+
+                    android:background="@drawable/custom_textbox" />
 
             </LinearLayout>
-
-            <ListView
-                android:id="@+id/lvProducts_Pre"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/custom_textbox"
-                android:divider="@color/list_view_diveder"
-                android:dividerHeight="1dp" />
-
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/finac_large_image_height"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <com.datamation.sfa.utils.CustomFont
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@drawable/custom_textbox"
-                    android:text="FREE ISSUES"
-                    android:textColor="@color/greenColor"
-                    android:textSize="@dimen/customer_spinner_text_size"
-                    android:textStyle="bold" />
-
-                <ImageButton
-                    android:id="@+id/btnPreSalesDisc"
-                    android:layout_width="@dimen/finac_large_image_height"
-                    android:layout_height="@dimen/finac_large_image_height"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/discount" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/finac_medium_textview_height"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal">
-
-                <com.datamation.sfa.utils.CustomFont
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dip"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1.5"
-                    android:background="@drawable/custom_label"
-                    android:gravity="center"
-                    android:text="CODE"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/unselected"
-                    android:textSize="@dimen/finac_extra_medium_text_size"
-                    android:textStyle="bold" />
-
-                <com.datamation.sfa.utils.CustomFont
-                    android:id="@+id/textView13"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginRight="1dip"
-                    android:layout_weight="3"
-                    android:background="@drawable/custom_label"
-                    android:gravity="center"
-                    android:text="PRODUCT"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/unselected"
-                    android:textSize="@dimen/finac_extra_medium_text_size"
-                    android:textStyle="bold" />
-
-                <com.datamation.sfa.utils.CustomFont
-                    android:id="@+id/textView12"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dip"
-                    android:layout_marginRight="1dip"
-                    android:layout_weight="1"
-                    android:background="@drawable/custom_label"
-                    android:gravity="center"
-                    android:text="QTY"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/unselected"
-                    android:textSize="@dimen/finac_extra_medium_text_size"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <ListView
-                android:id="@+id/lvFreeIssue_Pre"
-                android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_textbox"
-                android:divider="@color/list_view_diveder"
-                android:dividerHeight="1dp" />
-
-        </LinearLayout>
-    </LinearLayout>
-
+    </ScrollView>
 
 </LinearLayout>

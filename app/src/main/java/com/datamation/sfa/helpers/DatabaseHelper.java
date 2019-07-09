@@ -2371,6 +2371,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + INVRDET_CHANGED_PRICE + " TEXT, "
             + INVRDET_SEQNO + " TEXT); ";
 
+    public static final String TABLE_FTOURHED = "fTourHed";
+    public static final String TOURHED_ID = "Id";
+    public static final String TOURHED_REFNO = "Refno";
+    public static final String TOURHED_MANUREF = "ManuRef";
+    public static final String TOURHED_TXNDATE = "TxnDate";
+    public static final String TOURHED_LORRYCODE = "LorryCode";
+    public static final String TOURHED_ROUTECODE = "RouteCode";
+    public static final String TOURHED_AREACODE = "AreaCode";
+    public static final String TOURHED_COSTCODE = "CostCode";
+    public static final String TOURHED_REMARKS = "Remarks";
+    public static final String TOURHED_LOCCODEF = "LocCodeF";
+    public static final String TOURHED_LOCCODE = "LocCode";
+    public static final String TOURHED_REPCODE = "RepCode";
+    public static final String TOURHED_HELPERCODE = "HelperCode";
+    public static final String TOURHED_ADDUSER = "AddUser";
+    public static final String TOURHED_ADDMACH = "AddMach";
+    public static final String TOURHED_DRIVERCODE = "DriverCode";
+    public static final String TOURHED_VANLOADFLG = "VanLoadFlg";
+    public static final String TOURHED_CLSFLG = "Clsflg";
+    public static final String TOURHED_TOURTYPE = "TourType";
+
+    private static final String CREATE_FTOURHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTOURHED + " (" + TOURHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TOURHED_REFNO + " TEXT, " + TOURHED_MANUREF + " TEXT, " + TOURHED_TXNDATE + " TEXT, " + TOURHED_LORRYCODE + " TEXT, " + TOURHED_ROUTECODE + " TEXT, " + TOURHED_AREACODE + " TEXT, " + TOURHED_COSTCODE + " TEXT, " + TOURHED_REMARKS + " TEXT, " + TOURHED_LOCCODEF + " TEXT, " + TOURHED_LOCCODE + " TEXT, " + TOURHED_REPCODE + " TEXT, " + TOURHED_HELPERCODE + " TEXT, " + TOURHED_ADDUSER + " TEXT, " + TOURHED_ADDMACH + " TEXT, " + TOURHED_DRIVERCODE + " TEXT, " + TOURHED_VANLOADFLG + " TEXT, " + TOURHED_CLSFLG + " TEXT, " + TOURHED_TOURTYPE + " TEXT); ";
+
     @Override
     public void onCreate(SQLiteDatabase arg0) {
 
@@ -2467,6 +2490,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
         arg0.execSQL(CREATE_REASON_TABLE);
         arg0.execSQL(CREATE_INVRDET_TABLE);
+        arg0.execSQL(CREATE_FTOURHED_TABLE);
         // ---------------------------------------------------
 
     }
@@ -2514,7 +2538,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        } catch (SQLiteException e) {
 //            Log.v("SQLiteException", e.toString());
 //        }
-//                try {
+//        try {
 //            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN PayType TEXT ");
 //        } catch (SQLiteException e) {
 //            Log.v("SQLiteException", e.toString());

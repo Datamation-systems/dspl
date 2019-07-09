@@ -237,6 +237,7 @@ public class ItemController {
                 if (qoh > 0) {
                     items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_CODE)));
                     items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_NAME)));
+                    items.setStock_Pril_Code(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_PRIL_CODE)));
                     items.setStock_Qoh(((int) qoh) + "");
                     list.add(items);
                 }
