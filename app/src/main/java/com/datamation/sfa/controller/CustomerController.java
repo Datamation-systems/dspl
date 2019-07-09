@@ -107,7 +107,7 @@ public class CustomerController {
 				FddbNote fddbNote = new FddbNote();
 //
 				fddbNote.setRefNo(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-				fddbNote.setTxnDate(cursor.getString(cursor.getColumnIndex(dbHelper.FDDBNOTE_TXN_DATE)));
+				fddbNote.setTxnDate(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
 				fddbNote.setAmt(cursor.getString(cursor.getColumnIndex(dbHelper.FDDBNOTE_AMT)));
 
 				list.add(fddbNote);
@@ -127,7 +127,7 @@ public class CustomerController {
 		return list;
 	}
 
-//	public int createOrUpdateTempDebtor(ArrayList<Customer> debtors) {
+	//	public int createOrUpdateTempDebtor(ArrayList<Customer> debtors) {
 //		int serverdbID = 0;
 //		if (dB == null) {
 //			open();
@@ -334,7 +334,7 @@ public class CustomerController {
 
 		return list;
 	}
-//
+	//
 //
 //	public ArrayList<Customer> getAllSelectedCustomers() {
 //		if (dB == null) {

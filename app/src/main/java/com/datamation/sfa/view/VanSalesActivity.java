@@ -35,6 +35,7 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
     private ViewPager viewPager;
     public Customer selectedDebtor = null;
     public InvHed selectedInvHed = null;
+    public FInvRHed selectedReturnHed = null;
     public Customer selectedRetDebtor = null;
     Context context;
 

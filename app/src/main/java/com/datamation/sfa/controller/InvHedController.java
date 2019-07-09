@@ -76,12 +76,12 @@ public class InvHedController {
                 values.put(DatabaseHelper.FINVHED_TOTALDIS, invHed.getFINVHED_TOTALDIS());
                 values.put(DatabaseHelper.FINVHED_TOTALTAX, invHed.getFINVHED_TOTALTAX());
                 values.put(DatabaseHelper.FINVHED_TXNTYPE, invHed.getFINVHED_TXNTYPE());
-                values.put(DatabaseHelper.FINVHED_TXNDATE, invHed.getFINVHED_TXNDATE());
-               // values.put(DatabaseHelper.FINVHED_ADDRESS, invHed.getFINVHED_ADDRESS());
+                values.put(DatabaseHelper.TXNDATE, invHed.getFINVHED_TXNDATE());
+                // values.put(DatabaseHelper.FINVHED_ADDRESS, invHed.getFINVHED_ADDRESS());
                 values.put(DatabaseHelper.FINVHED_IS_SYNCED, "0");
                 values.put(DatabaseHelper.FINVHED_IS_ACTIVE, invHed.getFINVHED_IS_ACTIVE());
                 values.put(DatabaseHelper.FINVHED_REFNO1, invHed.getFINVHED_REFNO1());
-               // values.put(DatabaseHelper.FINVHED_AREACODE, invHed.getFINVHED_AREACODE());
+                // values.put(DatabaseHelper.FINVHED_AREACODE, invHed.getFINVHED_AREACODE());
                 values.put(DatabaseHelper.FINVHED_ROUTECODE, invHed.getFINVHED_ROUTECODE());
                 values.put(DatabaseHelper.FINVHED_TOURCODE, invHed.getFINVHED_TOURCODE());
                 values.put(DatabaseHelper.FINVHED_PAYTYPE, invHed.getFINVHED_PAYTYPE());
@@ -108,7 +108,7 @@ public class InvHedController {
         return count;
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public InvHed getActiveInvhed() {
         if (dB == null) {
@@ -147,7 +147,7 @@ public class InvHedController {
                     invHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALDIS)));
                     invHed.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALTAX)));
                     invHed.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TXNTYPE)));
-                    invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TXNDATE)));
+                    invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                     invHed.setFINVHED_SETTING_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_SETTING_CODE)));
 
                     invHed.setFINVHED_CONTACT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CONTACT)));
@@ -178,7 +178,7 @@ public class InvHedController {
         return null;
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 //
 //    public ArrayList<VanSalesMapper> getAllUnsynced() {
 //        if (dB == null) {
@@ -261,7 +261,7 @@ public class InvHedController {
 //        return list;
 //    }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 //
 //    public int updateIsSynced(VanSalesMapper mapper) {
 //
@@ -297,7 +297,7 @@ public class InvHedController {
 //
 //    }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public int InactiveStatusUpdate(String refno) {
 
@@ -342,7 +342,7 @@ public class InvHedController {
 
     }
 
-	/*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public InvHed getDetailsforPrint(String Refno) {
 
@@ -361,7 +361,7 @@ public class InvHedController {
 
             while (cursor.moveToNext()) {
 
-                SOHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TXNDATE)));
+                SOHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 SOHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_DEBCODE)));
                 SOHed.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REMARKS)));
                 SOHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOURCODE)));
@@ -383,7 +383,7 @@ public class InvHedController {
 
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Reset invoice headers-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Reset invoice headers-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String restData(String refno) {
 
@@ -424,7 +424,7 @@ public class InvHedController {
         return locCode;
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public ArrayList<InvHed> getAllUnsyncedInvHed(String newText, String uploaded) {
 
@@ -473,7 +473,7 @@ public class InvHedController {
                 invHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALDIS)));
                 invHed.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALTAX)));
                 invHed.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TXNTYPE)));
-                invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TXNDATE)));
+                invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 invHed.setFINVHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDRESS)));
                 invHed.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_IS_SYNCED)));
                 invHed.setFINVHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_IS_ACTIVE)));
@@ -500,7 +500,7 @@ public class InvHedController {
         return list;
     }
 
-	/* Check if all records are synced */
+    /* Check if all records are synced */
 
     public boolean isAllSynced() {
 
@@ -536,7 +536,7 @@ public class InvHedController {
 
     }
 
-	/*-*-*--*-*-*-*---*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*-*-*-*---*-*-*--*/
+    /*-*-*--*-*-*-*---*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*-*-*-*---*-*-*--*/
 
 //    public boolean validateActiveInvoices() {
 //
@@ -590,7 +590,7 @@ public class InvHedController {
 //
 //    }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getActiveInvoiceRef() {
 
@@ -628,7 +628,7 @@ public class InvHedController {
 
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public double getLastBillAmount() {
 
@@ -665,7 +665,7 @@ public class InvHedController {
 
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public ArrayList<Entry> getMonthlySales(int iMonth) {
 
@@ -717,7 +717,7 @@ public class InvHedController {
         return list;
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getRefnoByDebcode(String refno) {
 
@@ -740,7 +740,7 @@ public class InvHedController {
 
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getMonthlySales(String costCode) {
 
@@ -781,7 +781,7 @@ public class InvHedController {
         return String.format("%,.2f", invSum - retSum);
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getMonthlyVisits(String costCode) {
 
@@ -822,7 +822,7 @@ public class InvHedController {
         return String.valueOf(invVisit + retVisit);
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getCurrentMonthlySales(String costCode) {
 
@@ -856,7 +856,7 @@ public class InvHedController {
         return String.valueOf(invVisit);
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getTodaySales(String costCode) {
 
@@ -896,7 +896,7 @@ public class InvHedController {
         return String.format("%,.2f", invSum - retSum);
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getTodaySalesVisit(String costCode) {
 

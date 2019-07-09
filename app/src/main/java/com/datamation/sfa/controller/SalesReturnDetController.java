@@ -97,7 +97,28 @@ public class SalesReturnDetController
         }
         return count;
     }
+    public int mDeleteRetDet(String Itemcode, String RefNo)
+    {
 
+        int retVla = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        try
+        {
+            return retVla = dB.delete(DatabaseHelper.TABLE_FINVRDET, DatabaseHelper.REFNO + " ='" + RefNo.trim() + "' AND " + DatabaseHelper.FINVRDET_ITEMCODE + " ='" + Itemcode.trim() + "'", null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+
+        return retVla;
+    }
     public ArrayList<FInvRDet> getAllInvRDet(String refno) {
         if (dB == null) {
             open();
@@ -142,7 +163,28 @@ public class SalesReturnDetController
 
         return list;
     }
+    public int updateProductPrice(String itemCode, String price) {
+        int count = 0;
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(DatabaseHelper.INVRDET_SELL_PRICE, price);
+            values.put(DatabaseHelper.INVRDET_T_SELL_PRICE, price);
+            count=(int)dB.update(DatabaseHelper.TABLE_FINVRDET, values, DatabaseHelper.FINVRDET_ITEMCODE + " =?", new String[]{String.valueOf(itemCode)});
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+        return  count;
+    }
     public int restData(String refno) {
 
         int count = 0;
