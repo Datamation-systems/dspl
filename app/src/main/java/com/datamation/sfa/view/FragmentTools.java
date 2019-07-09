@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.dialog.StockInquiryDialog;
 import com.datamation.sfa.expense.ExpenseDetail;
 import com.datamation.sfa.expense.ExpenseMain;
 import com.datamation.sfa.utils.UtilityContainer;
@@ -67,7 +68,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
 
             case R.id.imgStockInquiry:
                 imgStockInq.startAnimation(animScale);//
-                mDevelopingMessage("Still under development", "Stock Inquiry");
+                //mDevelopingMessage("Still under development", "Stock Inquiry");
+                new StockInquiryDialog(getActivity());
                 break;
 
             case R.id.imgSync:

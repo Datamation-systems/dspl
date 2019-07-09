@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.Product;
+import com.datamation.sfa.model.StockInfo;
 import com.datamation.sfa.model.tempOrderDet;
 import com.datamation.sfa.helpers.DatabaseHelper;
 
@@ -215,4 +216,69 @@ public class ItemController {
 //
 //        return list;
 //    }
+
+    public ArrayList<StockInfo> getStocks(String newText, String LocCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<StockInfo> list = new ArrayList<StockInfo>();
+
+        String selectQuery = "SELECT itm.* , loc.QOH FROM fitem itm, fitemLoc loc WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.itemcode=itm.itemcode AND  loc.LocCode='" + LocCode + "' order by loc.QOH DESC";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+
+            while (cursor.moveToNext()) {
+
+                StockInfo items = new StockInfo();
+                double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMLOC_QOH)));
+                if (qoh > 0) {
+                    items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_CODE)));
+                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_NAME)));
+                    items.setStock_Qoh(((int) qoh) + "");
+                    list.add(items);
+                }
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            dB.close();
+        }
+        return list;
+    }
+
+    public String getTotalStockQOH(String LocCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT SUM(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode AND  loc.LocCode='" + LocCode + "'";
+
+        try {
+
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex("totqty"));
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            dB.close();
+        }
+
+        return null;
+    }
 }

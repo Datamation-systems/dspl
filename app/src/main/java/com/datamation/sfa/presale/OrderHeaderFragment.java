@@ -392,22 +392,17 @@ public class OrderHeaderFragment extends Fragment{
         }
 
     }
-    /*-*-*-*-Rashmi 2018-08-17*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
     }
 
-    /*-*-*-*-*-*-Rashmi 2018-08-17*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
     public void onResume() {
         super.onResume();
         r = new OrderHeaderFragment.MyReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_HEADER"));
     }
-
-    /*-*-*-*-*-Rashmi 2018-08-17*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     private class MyReceiver extends BroadcastReceiver {
         @Override
