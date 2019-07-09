@@ -44,7 +44,7 @@ public class OrdFreeIssueDS {
             ContentValues values = new ContentValues();
 
             values.put(DatabaseHelper.REFNO, ordFreeIssue.getOrdFreeIssue_RefNo());
-            values.put(DatabaseHelper.FORDFREEISS_TXNDATE, ordFreeIssue.getOrdFreeIssue_TxnDate());
+            values.put(DatabaseHelper.TXNDATE, ordFreeIssue.getOrdFreeIssue_TxnDate());
             values.put(DatabaseHelper.FORDFREEISS_REFNO1, ordFreeIssue.getOrdFreeIssue_RefNo1());
             values.put(DatabaseHelper.FORDFREEISS_ITEMCODE, ordFreeIssue.getOrdFreeIssue_ItemCode());
             values.put(DatabaseHelper.FORDFREEISS_QTY, ordFreeIssue.getOrdFreeIssue_Qty());
@@ -142,7 +142,7 @@ public class OrdFreeIssueDS {
                 freeIssue.setOrdFreeIssue_Qty(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDFREEISS_QTY)));
                 freeIssue.setOrdFreeIssue_RefNo1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 freeIssue.setOrdFreeIssue_RefNo(cursor.getString(cursor.getColumnIndex("RefNo1")));
-                freeIssue.setOrdFreeIssue_TxnDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDFREEISS_TXNDATE)));
+                freeIssue.setOrdFreeIssue_TxnDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 list.add(freeIssue);
             }
             cursor.close();

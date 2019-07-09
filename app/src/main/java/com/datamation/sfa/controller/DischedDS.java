@@ -52,7 +52,7 @@ public class DischedDS {
                 ContentValues values = new ContentValues();
 
                 values.put(dbHelper.REFNO, disched.getFDISCHED_REF_NO());
-                values.put(dbHelper.FDISCHED_TXN_DATE, disched.getFDISCHED_TXN_DATE());
+                values.put(dbHelper.TXNDATE, disched.getFDISCHED_TXN_DATE());
                 values.put(dbHelper.FDISCHED_DISC_DESC, disched.getFDISCHED_DISC_DESC());
                 values.put(dbHelper.FDISCHED_PRIORITY, disched.getFDISCHED_PRIORITY());
                 values.put(dbHelper.FDISCHED_DIS_TYPE, disched.getFDISCHED_DIS_TYPE());
@@ -143,7 +143,7 @@ public class DischedDS {
             while (cursor.moveToNext()) {
 
                 DiscHed.setFDISCHED_REF_NO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-                DiscHed.setFDISCHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.FDISCHED_TXN_DATE)));
+                DiscHed.setFDISCHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
                 DiscHed.setFDISCHED_DIS_TYPE(cursor.getString(cursor.getColumnIndex(dbHelper.FDISCHED_DIS_TYPE)));
                 DiscHed.setFDISCHED_DISC_DESC(cursor.getString(cursor.getColumnIndex(dbHelper.FDISCHED_DISC_DESC)));
                 DiscHed.setFDISCHED_PRIORITY(cursor.getString(cursor.getColumnIndex(dbHelper.FDISCHED_PRIORITY)));

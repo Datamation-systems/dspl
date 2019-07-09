@@ -50,7 +50,7 @@ public class DayNPrdHedController {
                 ContentValues values = new ContentValues();
 
                 values.put(dbHelper.REFNO, nonhed.getNONPRDHED_REFNO());
-                values.put(dbHelper.NONPRDHED_TXNDATE, nonhed.getNONPRDHED_TXNDATE());
+                values.put(dbHelper.TXNDATE, nonhed.getNONPRDHED_TXNDATE());
                 values.put(dbHelper.NONPRDHED_REPCODE, nonhed.getNONPRDHED_REPCODE());
                 values.put(dbHelper.NONPRDHED_REMARK, nonhed.getNONPRDHED_REMARK());
                 values.put(dbHelper.NONPRDHED_ADDDATE, nonhed.getNONPRDHED_ADDDATE());

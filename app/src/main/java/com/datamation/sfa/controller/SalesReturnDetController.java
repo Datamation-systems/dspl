@@ -51,7 +51,7 @@ public class SalesReturnDetController
                 cursor = dB.rawQuery(selectQuery, null);
 
                 values.put(dbHelper.REFNO, invrDet.getFINVRDET_REFNO());
-                values.put(dbHelper.INVRDET_TXN_DATE, invrDet.getFINVRDET_TXN_DATE());
+                values.put(dbHelper.TXNDATE, invrDet.getFINVRDET_TXN_DATE());
                 values.put(dbHelper.INVRDET_QTY, invrDet.getFINVRDET_QTY());
                 values.put(dbHelper.INVRDET_BAL_QTY, invrDet.getFINVRDET_BAL_QTY());
                 values.put(dbHelper.INVRDET_ITEMCODE, invrDet.getFINVRDET_ITEMCODE());
@@ -145,7 +145,7 @@ public class SalesReturnDetController
             invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_QTY)));
             invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_BAL_QTY)));
             invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-            invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TXN_DATE)));
+            invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
             invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TAXCOMCODE)));
             invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_PRILCODE)));
             invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_DIS_AMT)));

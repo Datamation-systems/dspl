@@ -52,7 +52,7 @@ public class OrderDiscDS {
                 cursor = dB.rawQuery(selectQuery, null);
 
                 values.put(dbHelper.REFNO, orderDisc.getRefNo());
-                values.put(dbHelper.FORDDISC_TXNDATE, orderDisc.getTxnDate());
+                values.put(dbHelper.TXNDATE, orderDisc.getTxnDate());
                 values.put(dbHelper.FORDDISC_REFNO1, orderDisc.getRefNo1());
                 values.put(dbHelper.FORDDISC_ITEMCODE, orderDisc.getItemCode());
                 values.put(dbHelper.FORDDISC_DISAMT, orderDisc.getDisAmt());
@@ -100,7 +100,7 @@ public class OrderDiscDS {
             ContentValues values = new ContentValues();
 
             values.put(DatabaseHelper.REFNO, orderDisc.getRefNo());
-            values.put(DatabaseHelper.FORDDISC_TXNDATE, orderDisc.getTxnDate());
+            values.put(DatabaseHelper.TXNDATE, orderDisc.getTxnDate());
             values.put(DatabaseHelper.FORDDISC_REFNO1, DiscRef);
             values.put(DatabaseHelper.FORDDISC_ITEMCODE, orderDisc.getItemCode());
             values.put(DatabaseHelper.FORDDISC_DISAMT, orderDisc.getDisAmt());
@@ -275,7 +275,7 @@ public class OrderDiscDS {
                 orderDisc.setItemCode(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDISC_ITEMCODE)));
                 orderDisc.setRefNo(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 orderDisc.setRefNo1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDISC_REFNO1)));
-                orderDisc.setTxnDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDISC_TXNDATE)));
+                orderDisc.setTxnDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 list.add(orderDisc);
             }
 

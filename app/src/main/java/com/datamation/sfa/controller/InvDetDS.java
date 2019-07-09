@@ -72,7 +72,7 @@ public class InvDetDS {
                 values.put(DatabaseHelper.FINVDET_TAX_AMT, invDet.getFINVDET_TAX_AMT());
                 values.put(DatabaseHelper.FINVDET_TAX_COM_CODE, invDet.getFINVDET_TAX_COM_CODE());
                 values.put(DatabaseHelper.FINVDET_T_SELL_PRICE, invDet.getFINVDET_T_SELL_PRICE());
-                values.put(DatabaseHelper.FINVDET_TXN_DATE, invDet.getFINVDET_TXN_DATE());
+                values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
                 values.put(DatabaseHelper.FINVDET_TXN_TYPE, invDet.getFINVDET_TXN_TYPE());
                 values.put(DatabaseHelper.FINVDET_IS_ACTIVE, invDet.getFINVDET_IS_ACTIVE());
 
@@ -239,7 +239,7 @@ public class InvDetDS {
                 invDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TAX_AMT)));
                 invDet.setFINVDET_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TAX_COM_CODE)));
                 invDet.setFINVDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_T_SELL_PRICE)));
-                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TXN_DATE)));
+                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 invDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TXN_TYPE)));
                 invDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_IS_ACTIVE)));
 
@@ -348,7 +348,7 @@ public class InvDetDS {
                 invDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TAX_AMT)));
                 invDet.setFINVDET_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TAX_COM_CODE)));
                 invDet.setFINVDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_T_SELL_PRICE)));
-                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TXN_DATE)));
+                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 invDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TXN_TYPE)));
                 invDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_IS_ACTIVE)));
 
@@ -617,7 +617,7 @@ public class InvDetDS {
                 ordDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TAX_AMT)));
                 ordDet.setFINVDET_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TAX_COM_CODE)));
                 ordDet.setFINVDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_T_SELL_PRICE)));
-                ordDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TXN_DATE)));
+                ordDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 ordDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_IS_ACTIVE)));
                 ordDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_TXN_TYPE)));
                 ordDet.setFINVDET_PRIL_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_PRIL_CODE)));

@@ -50,7 +50,7 @@ public class DayExpHedController {
                 ContentValues values = new ContentValues();
 
                 values.put(DatabaseHelper.REFNO, exphed.getEXPHED_REFNO());
-                values.put(DatabaseHelper.FDAYEXPHED_TXNDATE, exphed.getEXPHED_TXNDATE());
+                values.put(DatabaseHelper.TXNDATE, exphed.getEXPHED_TXNDATE());
                 values.put(DatabaseHelper.FDAYEXPHED_REPCODE, exphed.getEXPHED_REPCODE());
                 values.put(DatabaseHelper.FDAYEXPHED_REMARKS, exphed.getEXPHED_REMARK());
                 values.put(DatabaseHelper.FDAYEXPHED_ADDDATE, exphed.getEXPHED_ADDDATE());
@@ -94,7 +94,7 @@ public class DayExpHedController {
         while (cursor.moveToNext()) {
             DayExpHed fdayexpset = new DayExpHed();
             fdayexpset.setEXPHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-            fdayexpset.setEXPHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_TXNDATE)));
+            fdayexpset.setEXPHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
             fdayexpset.setEXPHED_TOTAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_TOTAMT)));
             list.add(fdayexpset);
         }

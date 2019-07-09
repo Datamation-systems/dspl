@@ -50,7 +50,7 @@ public class FreeHedDS {
                 ContentValues values = new ContentValues();
 
                 values.put(dbHelper.REFNO, freehed.getFFREEHED_REFNO());
-                values.put(dbHelper.FFREEHED_TXNDATE, freehed.getFFREEHED_TXNDATE());
+                values.put(dbHelper.TXNDATE, freehed.getFFREEHED_TXNDATE());
                 values.put(dbHelper.FFREEHED_DISC_DESC, freehed.getFFREEHED_DISC_DESC());
                 values.put(dbHelper.FFREEHED_PRIORITY, freehed.getFFREEHED_PRIORITY());
                 values.put(dbHelper.FFREEHED_VDATEF, freehed.getFFREEHED_VDATEF());
@@ -146,7 +146,7 @@ public class FreeHedDS {
             FreeHed freeHed = new FreeHed();
 
             freeHed.setFFREEHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-            freeHed.setFFREEHED_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEHED_TXNDATE)));
+            freeHed.setFFREEHED_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
             freeHed.setFFREEHED_DISC_DESC(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEHED_DISC_DESC)));
             freeHed.setFFREEHED_PRIORITY(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEHED_PRIORITY)));
             freeHed.setFFREEHED_VDATEF(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEHED_VDATEF)));
@@ -186,7 +186,7 @@ public class FreeHedDS {
 
 
             freeHed.setFFREEHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-            freeHed.setFFREEHED_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEHED_TXNDATE)));
+            freeHed.setFFREEHED_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
             freeHed.setFFREEHED_DISC_DESC(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEHED_DISC_DESC)));
             freeHed.setFFREEHED_PRIORITY(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEHED_PRIORITY)));
             freeHed.setFFREEHED_VDATEF(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEHED_VDATEF)));
