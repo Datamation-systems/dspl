@@ -7,6 +7,15 @@ public class StockInfo {
     private String Stock_Itemname;
     private String Stock_Qoh;
     private String Stock_Sizes;
+    private String Stock_Pril_Code;
+
+    public String getStock_Pril_Code() {
+        return Stock_Pril_Code;
+    }
+
+    public void setStock_Pril_Code(String stock_Pril_Code) {
+        Stock_Pril_Code = stock_Pril_Code;
+    }
 
     public String getStock_Id() {
         return Stock_Id;

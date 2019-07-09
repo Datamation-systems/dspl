@@ -13,6 +13,10 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
+import com.datamation.sfa.model.Customer;
+import com.datamation.sfa.model.FInvRHed;
+import com.datamation.sfa.model.InvHed;
+import com.datamation.sfa.model.PRESALE;
 import com.datamation.sfa.presale.OrderDetailFragment;
 import com.datamation.sfa.presale.OrderHeaderFragment;
 import com.datamation.sfa.presale.OrderReturnFragment;
@@ -25,6 +29,10 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
     private OrderSummaryFragment orderSummaryFragment;
     private OrderReturnFragment orderReturnFragment;
     private ViewPager viewPager;
+    public Customer selectedDebtor = null;
+    public Customer selectedRetDebtor = null;
+    public PRESALE selectedPreHed = null;
+    public FInvRHed selectedReturnHed = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

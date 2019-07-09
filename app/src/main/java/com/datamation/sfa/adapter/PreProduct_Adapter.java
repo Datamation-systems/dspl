@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.datamation.sfa.R;
 import com.datamation.sfa.controller.ProductDS;
 import com.datamation.sfa.dialog.CustomKeypadDialogPrice;
@@ -20,14 +19,13 @@ import com.datamation.sfa.model.Product;
 
 import java.util.ArrayList;
 
-
-public class NewProduct_Adapter extends BaseAdapter {
+public class PreProduct_Adapter extends BaseAdapter {
     private LayoutInflater inflater;
     Context context;
     ArrayList<Product> list;
     String preText = null;
 
-    public NewProduct_Adapter(Context context, final ArrayList<Product> list) {
+    public PreProduct_Adapter(Context context, final ArrayList<Product> list) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -52,8 +50,8 @@ public class NewProduct_Adapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView,ViewGroup parent) {
-     final ViewHolder viewHolder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder viewHolder;
 
         if(convertView ==null){
             viewHolder =new ViewHolder();
@@ -71,7 +69,7 @@ public class NewProduct_Adapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-           final  Product product=getItem(position);
+        final  Product product=getItem(position);
 
         viewHolder.itemCode.setText(product.getFPRODUCT_ITEMCODE());
         viewHolder.ItemName.setText(product.getFPRODUCT_ITEMNAME());
@@ -274,27 +272,27 @@ public class NewProduct_Adapter extends BaseAdapter {
 
 
 //                if(minPrice<=price || price<=maxPrice) {
-                    CustomKeypadDialogPrice keypadPrice = new CustomKeypadDialogPrice(context, true, new CustomKeypadDialogPrice.IOnOkClickListener() {
-                        @Override
-                        public void okClicked(double value) {
-                            //price cannot be changed less than gross profit
-                            if(minPrice <=value && value <= maxPrice) {
-                                //  save changed price
-                                new ProductDS(context).updateProductPrice(product.getFPRODUCT_ITEMCODE(), String.valueOf(value));
-                                //  value should be set for another variable in preProduct
-                                //  preProduct.setPREPRODUCT_PRICE(String.valueOf(value));
-                                product.setFPRODUCT_CHANGED_PRICE(String.valueOf(value));
-                                viewHolder.Price.setText(product.getFPRODUCT_CHANGED_PRICE());
-                            }else{
-                                Toast.makeText(context,"Price cannot be change..",Toast.LENGTH_LONG).show();
-                            }
+                CustomKeypadDialogPrice keypadPrice = new CustomKeypadDialogPrice(context, true, new CustomKeypadDialogPrice.IOnOkClickListener() {
+                    @Override
+                    public void okClicked(double value) {
+                        //price cannot be changed less than gross profit
+                        if(minPrice <=value && value <= maxPrice) {
+                            //  save changed price
+                            new ProductDS(context).updateProductPrice(product.getFPRODUCT_ITEMCODE(), String.valueOf(value));
+                            //  value should be set for another variable in preProduct
+                            //  preProduct.setPREPRODUCT_PRICE(String.valueOf(value));
+                            product.setFPRODUCT_CHANGED_PRICE(String.valueOf(value));
+                            viewHolder.Price.setText(product.getFPRODUCT_CHANGED_PRICE());
+                        }else{
+                            Toast.makeText(context,"Price cannot be change..",Toast.LENGTH_LONG).show();
                         }
-                    });
-                    keypadPrice.show();
+                    }
+                });
+                keypadPrice.show();
 
-                    keypadPrice.setHeader("CHANGE PRICE");
+                keypadPrice.setHeader("CHANGE PRICE");
 //                if(preProduct.getPREPRODUCT_CHANGED_PRICE().equals("0")){
-                    keypadPrice.loadValue(Double.parseDouble(product.getFPRODUCT_PRICE()));
+                keypadPrice.loadValue(Double.parseDouble(product.getFPRODUCT_PRICE()));
 //                }else {
 //                    keypadPrice.loadValue(Double.parseDouble(preProduct.getPREPRODUCT_CHANGED_PRICE()));
 //                }
@@ -313,7 +311,7 @@ public class NewProduct_Adapter extends BaseAdapter {
             }
         });
 */
-       return convertView;
+        return convertView;
     }
 
     private  static  class  ViewHolder{

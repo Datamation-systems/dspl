@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.ItemPriceController;
 import com.datamation.sfa.model.StockInfo;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 public class StockInquiryAdaptor extends ArrayAdapter<StockInfo> {
     Context context;
     ArrayList<StockInfo> list;
+    String itemPrice = "";
 
     public StockInquiryAdaptor(Context context, ArrayList<StockInfo> list) {
 
@@ -35,10 +38,13 @@ public class StockInquiryAdaptor extends ArrayAdapter<StockInfo> {
         TextView itemcode = (TextView) row.findViewById(R.id.row_itemcode);
         TextView itemname = (TextView) row.findViewById(R.id.row_itemname);
         TextView qty = (TextView) row.findViewById(R.id.row_qty);
+        TextView price = (TextView) row.findViewById(R.id.row_price);
 
         itemcode.setText(list.get(position).getStock_Itemcode());
         itemname.setText(list.get(position).getStock_Itemname());
         qty.setText(list.get(position).getStock_Qoh());
+        itemPrice = new ItemPriceController(context).getProductPriceByCode(list.get(position).getStock_Itemcode(), list.get(position).getStock_Pril_Code());
+        price.setText(itemPrice);
         return row;
     }
 }

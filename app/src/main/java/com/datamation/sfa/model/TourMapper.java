@@ -1,7 +1,8 @@
 package com.datamation.sfa.model;
 
 
-public class TourMapper {
+public class TourMapper
+{
     private String ConsoleDB;
 
     private String FTOUR_ID;
