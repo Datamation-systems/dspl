@@ -55,7 +55,7 @@ public class SalesReturnController
                 ContentValues values = new ContentValues();
 
                 values.put(dbHelper.REFNO, invrHed.getFINVRHED_REFNO());
-                values.put(dbHelper.FINVRHED_TXNDATE, invrHed.getFINVRHED_TXN_DATE());
+                values.put(dbHelper.TXNDATE, invrHed.getFINVRHED_TXN_DATE());
                 values.put(dbHelper.FINVRHED_REMARKS, invrHed.getFINVRHED_REMARKS());
                 values.put(dbHelper.FINVRHED_DEBCODE, invrHed.getFINVRHED_DEBCODE());
                 values.put(dbHelper.FINVRHED_TOTAL_AMT, invrHed.getFINVRHED_TOTAL_AMT());
@@ -164,7 +164,7 @@ public class SalesReturnController
 
             // invHed.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRHED_ID)));
             invrHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-            invrHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TXNDATE)));
+            invrHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
             invrHed.setFINVRHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ROUTE_CODE)));
             invrHed.setFINVRHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TXNTYPE)));
             invrHed.setFINVRHED_ADD_MACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ADD_MACH)));
@@ -300,7 +300,7 @@ public class SalesReturnController
 
             while (cursor.moveToNext()) {
 
-                REHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TXNDATE)));
+                REHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 REHed.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_AMT)));
                 REHed.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_DEBCODE)));
                 REHed.setFINVRHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_REMARKS)));

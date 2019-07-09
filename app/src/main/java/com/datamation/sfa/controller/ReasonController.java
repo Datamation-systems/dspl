@@ -159,7 +159,7 @@ public class ReasonController {
 
 		ArrayList<Reason> list = new ArrayList<Reason>();
 
-		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON;
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON;
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 		while (cursor.moveToNext()) {

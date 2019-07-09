@@ -54,7 +54,7 @@ public class OutstandingController {
                 values.put(DatabaseHelper.FDDBNOTE_SALE_REF_NO, fdDbNote.getFDDBNOTE_SALE_REF_NO());
                 values.put(DatabaseHelper.FDDBNOTE_MANU_REF, fdDbNote.getFDDBNOTE_MANU_REF());
                 values.put(DatabaseHelper.FDDBNOTE_TXN_TYPE, fdDbNote.getFDDBNOTE_TXN_TYPE());
-                values.put(DatabaseHelper.FDDBNOTE_TXN_DATE, fdDbNote.getFDDBNOTE_TXN_DATE());
+                values.put(DatabaseHelper.TXNDATE, fdDbNote.getFDDBNOTE_TXN_DATE());
                 values.put(DatabaseHelper.FDDBNOTE_CUR_CODE, fdDbNote.getFDDBNOTE_CUR_CODE());
                 values.put(DatabaseHelper.FDDBNOTE_CUR_RATE, fdDbNote.getFDDBNOTE_CUR_RATE());
                 values.put(DatabaseHelper.FDDBNOTE_DEB_CODE, fdDbNote.getFDDBNOTE_DEB_CODE());
@@ -76,7 +76,7 @@ public class OutstandingController {
                 values.put(DatabaseHelper.FDDBNOTE_ADD_DATE, fdDbNote.getFDDBNOTE_ADD_DATE());
                 values.put(DatabaseHelper.FDDBNOTE_ADD_MACH, fdDbNote.getFDDBNOTE_ADD_MACH());
                 values.put(DatabaseHelper.FDDBNOTE_REFNO1, fdDbNote.getFDDBNOTE_REFNO1());
-              //  values.put(DatabaseHelper.FDDBNOTE_ENTER_AMT, fdDbNote.getFDDBNOTE_ENTER_AMT());
+                //  values.put(DatabaseHelper.FDDBNOTE_ENTER_AMT, fdDbNote.getFDDBNOTE_ENTER_AMT());
 
                 if (cursor.getCount() > 0) {
                     dB.update(DatabaseHelper.TABLE_FDDBNOTE, values, DatabaseHelper.REFNO + "=?", new String[]{fdDbNote.getFDDBNOTE_REFNO().toString()});
@@ -97,7 +97,7 @@ public class OutstandingController {
         return count;
     }
 
-	/*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public int deleteAll() {
         int count = 0;
@@ -130,7 +130,7 @@ public class OutstandingController {
 
     }
 
-	/*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public double getDebtorBalance(String DebCode) {
 
@@ -166,7 +166,7 @@ public class OutstandingController {
 
     }
 
-	/*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public ArrayList<FddbNote> getDebtInfo(String DebCode) {
 
@@ -190,7 +190,7 @@ public class OutstandingController {
             while (cursor.moveToNext()) {
                 FddbNote dbNote = new FddbNote();
                 dbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                dbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_DATE)));
+                dbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 dbNote.setFDDBNOTE_TOT_BAL(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TOT_BAL)));
                 dbNote.setFDDBNOTE_TOT_BAL1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TOT_BAL1)));
                 list.add(dbNote);
@@ -209,7 +209,7 @@ public class OutstandingController {
 
     }
 
-	/*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getHighestPaymentDue(String DebCode) {
 
@@ -224,7 +224,7 @@ public class OutstandingController {
             String selectQuery = "SELECT txndate FROM " + DatabaseHelper.TABLE_FDDBNOTE + " WHERE DebCode ='" + DebCode + "' ORDER BY txndate ASC";
             cursor = dB.rawQuery(selectQuery, null);
             cursor.moveToFirst();
-            return cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_DATE));
+            return cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE));
 
         } catch (Exception e) {
             Log.v(TAG, e.toString());
@@ -327,12 +327,12 @@ public class OutstandingController {
 
                 FddbNote fdDbNote = new FddbNote();
 
-                fdDbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_DATE)));
+                fdDbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 fdDbNote.setFDDBNOTE_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_AMT)));
                 fdDbNote.setFDDBNOTE_TOT_BAL(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TOT_BAL)));
                 fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                fdDbNote.setFDDBNOTE_ADD_DATE(Daybetween(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_DATE))) + "");
+                fdDbNote.setFDDBNOTE_ADD_DATE(Daybetween(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE))) + "");
                 fdDbNote.setFDDBNOTE_B_AMT(String.format("%,.2f", Double.parseDouble(fdDbNote.getFDDBNOTE_AMT()) - Double.parseDouble(fdDbNote.getFDDBNOTE_TOT_BAL())));
                 list.add(fdDbNote);
             }
@@ -364,9 +364,9 @@ public class OutstandingController {
             String selectQuery;
 
             if (isSummery)
-                selectQuery = "select * from " + DatabaseHelper.TABLE_FDDBNOTE + " WHERE " + " debcode='" + debcode + "' AND EnterAmt<>'' AND CAST(TotBal AS INT) > 0.0 Order By " + DatabaseHelper.FDDBNOTE_TXN_DATE;
+                selectQuery = "select * from " + DatabaseHelper.TABLE_FDDBNOTE + " WHERE " + " debcode='" + debcode + "' AND EnterAmt<>'' AND CAST(TotBal AS INT) > 0.0 Order By " + DatabaseHelper.TXNDATE;
             else
-                selectQuery = "select * from " + DatabaseHelper.TABLE_FDDBNOTE + " WHERE " + " debcode='" + debcode + "' AND CAST(TotBal AS INT) > 0.0 Order By " + DatabaseHelper.FDDBNOTE_TXN_DATE;
+                selectQuery = "select * from " + DatabaseHelper.TABLE_FDDBNOTE + " WHERE " + " debcode='" + debcode + "' AND CAST(TotBal AS INT) > 0.0 Order By " + DatabaseHelper.TXNDATE;
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -384,7 +384,7 @@ public class OutstandingController {
                 fdDbNote.setFDDBNOTE_CUR_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_CUR_CODE)));
                 fdDbNote.setFDDBNOTE_CUR_RATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_CUR_RATE)));
                 fdDbNote.setFDDBNOTE_DEB_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_DEB_CODE)));
-              //  fdDbNote.setFDDBNOTE_ENTER_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_ENTER_AMT)));
+                //  fdDbNote.setFDDBNOTE_ENTER_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_ENTER_AMT)));
                 fdDbNote.setFDDBNOTE_GL_BATCH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_GL_BATCH)));
                 fdDbNote.setFDDBNOTE_GL_POST(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_GL_POST)));
                 fdDbNote.setFDDBNOTE_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_ID)));
@@ -401,11 +401,11 @@ public class OutstandingController {
                 fdDbNote.setFDDBNOTE_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TAX_COM_CODE)));
                 fdDbNote.setFDDBNOTE_TOT_BAL(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TOT_BAL)));
                 fdDbNote.setFDDBNOTE_TOT_BAL1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TOT_BAL1)));
-                fdDbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_DATE)));
+                fdDbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 fdDbNote.setFDDBNOTE_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_TXN_TYPE)));
                 fdDbNote.setFDDBNOTE_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_REMARKS)));
                 fdDbNote.setFDDBNOTE_REPNAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_REPNAME)));
-               // fdDbNote.setFDDBNOTE_ENTREMARK(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_ENT_REMARK)));
+                // fdDbNote.setFDDBNOTE_ENTREMARK(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_ENT_REMARK)));
 
                 list.add(fdDbNote);
 

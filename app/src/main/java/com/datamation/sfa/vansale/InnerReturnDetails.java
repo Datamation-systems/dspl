@@ -42,6 +42,7 @@ import com.datamation.sfa.adapter.ProductAdapter;
 import com.datamation.sfa.adapter.ReturnReasonAdapter;
 import com.datamation.sfa.adapter.SalesReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriDS;
 import com.datamation.sfa.controller.ItemsDS;
 import com.datamation.sfa.controller.ProductDS;
@@ -102,6 +103,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.sales_management_return_details, container, false);
+        activity = (VanSalesActivity) getActivity();
         mSharedPref = new SharedPref(getActivity());
         seqno = 0;
         totPieces = 0;
@@ -128,6 +130,12 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         reasonSearch.setOnClickListener(this);
         bAdd.setOnClickListener(this);
         bFreeIssue.setOnClickListener(this);
+
+        if(activity.selectedInvHed != null){
+            Toast.makeText(getActivity(),"InvHed not null"+activity.selectedInvHed.toString(),Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getActivity(),"InvHed null",Toast.LENGTH_LONG).show();
+        }
 
             ArrayList<FInvRHed> getReturnHed = new SalesReturnController(getActivity()).getAllActiveInvrhed();
 
@@ -467,6 +475,8 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         productList.clearTextFilter();
 
         //list = new ItemsDS(getActivity()).getAllItem("", "txntype ='21'", RefNo, new SalRepDS(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getFDEBTOR_PRILLCODE());
+        list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
+
         productList.setAdapter(new ProductAdapter(getActivity(), list));
 
         productList.setOnItemClickListener(new OnItemClickListener() {
@@ -651,9 +661,11 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         protected ArrayList<Item> doInBackground(Object... objects) {
 
             itemList = null;
-            itemList = new ItemsDS(getActivity()).getAllItem("", "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getCusPrilCode());
+           // itemList = new ItemsDS(getActivity()).getAllItem("", "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
+            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
+
             return itemList;
-        }
+        } 
 
 
         @Override

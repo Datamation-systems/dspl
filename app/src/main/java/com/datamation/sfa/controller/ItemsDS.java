@@ -269,12 +269,12 @@ public class ItemsDS {
         {
             selectQuery = "SELECT itm.*, loc.QOH,\n" +
                           "IFNULL(pri.Price,0.0) AS Price , \n" +
-                          "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +
-                          "IFNULL(pri.MaxPrice,0.0) AS MaxPrice \n" +
+//                          "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +
+//                          "IFNULL(pri.MaxPrice,0.0) AS MaxPrice \n" +
                           "FROM fitem itm INNER JOIN fitemLoc loc ON itm.ItemCode = loc.ItemCode \n" +
                           "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
                           "WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.LocCode='" + LocCode + "' AND pri.Price > 0 AND  itm.ItemCode not in \n" +
-                          "(SELECT ItemCode FROM FInvRDet WHERE " + type + " And RefNo ='" + refno + "' GROUP BY ItemCode)\n" +
+                          "(SELECT ItemCode FROM InvRDet WHERE " + type + " And RefNo ='" + refno + "' GROUP BY ItemCode)\n" +
                           "GROUP BY itm.ItemCode\n" +
                           "ORDER BY CAST(loc.QOH AS FLOAT) DESC";
         }
@@ -282,12 +282,12 @@ public class ItemsDS {
         {
             selectQuery = "SELECT itm.*, loc.QOH,\n" +
                           "IFNULL(pri.Price,0.0) AS Price , \n" +
-                          "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +
-                          "IFNULL(pri.MaxPrice,0.0) AS MaxPrice \n" +
+//                          "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +
+//                          "IFNULL(pri.MaxPrice,0.0) AS MaxPrice \n" +
                           "FROM fitem itm INNER JOIN fitemLoc loc ON itm.ItemCode = loc.ItemCode \n" +
                           "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
                           "WHERE itm.ItemCode || itm.ItemName LIKE '%"+ newText +"%' AND loc.LocCode='"+ LocCode +"' AND pri.Price > 0 AND pri.PrilCode = '"+prillcode+"' AND  itm.ItemCode not in \n" +
-                          "(SELECT ItemCode FROM FInvRDet WHERE  "+ type +"  AND RefNo ='"+ refno +"' GROUP BY ItemCode)\n" +
+                          "(SELECT ItemCode FROM InvRDet WHERE  "+ type +"  AND RefNo ='"+ refno +"' GROUP BY ItemCode)\n" +
                           "GROUP BY itm.ItemCode\n" +
                           "ORDER BY CAST(loc.QOH AS FLOAT) DESC";
         }

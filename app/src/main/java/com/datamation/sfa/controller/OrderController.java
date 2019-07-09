@@ -69,7 +69,7 @@ public class OrderController {
                 values.put(dbHelper.ORDER_REMARKS, ordHed.getORDER_REMARKS());
                 values.put(dbHelper.ORDER_REPCODE, ordHed.getORDER_REP_CODE());
                 values.put(dbHelper.ORDER_TOTAL_AMT, ordHed.getORDER_TOT_AMT());
-                values.put(dbHelper.ORDER_TXN_DATE, ordHed.getORDER_TXN_DATE());
+                values.put(dbHelper.TXNDATE, ordHed.getORDER_TXN_DATE());
                 values.put(dbHelper.ORDER_ROUTE_CODE, ordHed.getORDER_ROUTE_CODE());
                 values.put(dbHelper.ORDER_IS_SYNCED, "0");
                 values.put(dbHelper.ORDER_IS_ACTIVE, ordHed.getORDER_IS_ACTIVE());
@@ -254,7 +254,7 @@ public class OrderController {
 //            ordHed.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
 //            ordHed.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
 //            ordHed.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-//            ordHed.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
+//            ordHed.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
 //            ordHed.setORDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_SYNCED)));
 //            ordHed.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
 //            ordHed.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
@@ -307,7 +307,7 @@ public class OrderController {
 //            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
 //
 //            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
+//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
 //
 //            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
 //            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
@@ -363,7 +363,7 @@ public class OrderController {
 //            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
 //
 //            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
+//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
 //
 //            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
 //            order.setORDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_SYNCED)));
@@ -422,7 +422,7 @@ public class OrderController {
 //            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
 //
 //            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TXN_DATE)));
+//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
 //
 //            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
 //            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
@@ -477,12 +477,12 @@ public class OrderController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " +dbHelper.ORDER_TXN_DATE + " BETWEEN '"+ DateFrom + "' AND '" + DateTo + "' AND " + dbHelper.ORDER_IS_ACTIVE + "= '0' AND " + dbHelper.ORDER_IS_SYNCED + " ='1' " ;
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " +dbHelper.TXNDATE + " BETWEEN '"+ DateFrom + "' AND '" + DateTo + "' AND " + dbHelper.ORDER_IS_ACTIVE + "= '0' AND " + dbHelper.ORDER_IS_SYNCED + " ='1' " ;
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                int success = dB.delete(dbHelper.TABLE_ORDER, dbHelper.ORDER_TXN_DATE + " BETWEEN '"+ DateFrom + "' AND '" + DateTo + "' AND " + dbHelper.ORDER_IS_ACTIVE + "= '0' AND " + dbHelper.ORDER_IS_SYNCED + " ='1' ", null);
+                int success = dB.delete(dbHelper.TABLE_ORDER, dbHelper.TXNDATE + " BETWEEN '"+ DateFrom + "' AND '" + DateTo + "' AND " + dbHelper.ORDER_IS_ACTIVE + "= '0' AND " + dbHelper.ORDER_IS_SYNCED + " ='1' ", null);
                 count = success;
                 Log.v("Success", success + "");
             }
