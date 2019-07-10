@@ -815,8 +815,8 @@ public class VanSalesSummary extends Fragment {
             Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
            // UtilityContainer.ClearVanSharedPref(getActivity());
 
-            activity.selectedDebtor = null;
-            activity.selectedRetDebtor = null;
+          //  activity.selectedDebtor = null;
+          //  activity.selectedRetDebtor = null;
             //activity.selectedRecHed = null;
             activity.selectedInvHed = null;
             Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);

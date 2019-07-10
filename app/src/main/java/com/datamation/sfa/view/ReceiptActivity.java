@@ -1,9 +1,12 @@
 package com.datamation.sfa.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,15 +32,15 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
     public Customer selectedDebtor = null;
     public ReceiptHed selectedRecHed = null;
     public Double ReceivedAmt = 0.0;
-
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_sales);
-
+        context = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.presale_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("INVOICE");
+        title.setText("RECEIPT");
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.presale_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.presale_viewpager);
@@ -52,11 +55,33 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
         viewPager.setPageMargin(pageMargin);
         slidingTabStrip.setViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if (position == 2)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_SUMMARY"));
+                else if (position == 0)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_HEADER"));
+                else if (position == 1)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_DETAILS"));
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     private class PreSalesPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] titles = {"HEADER", "INVOICE DETAILS", "INVOICE SUMMARY"};
+        private final String[] titles = {"HEADER", "RECEIPT DETAILS", "RECEIPT SUMMARY"};
 
         public PreSalesPagerAdapter(FragmentManager fm) {
             super(fm);
