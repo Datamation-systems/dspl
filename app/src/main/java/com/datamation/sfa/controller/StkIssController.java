@@ -17,13 +17,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class StkIssDS {
+public class StkIssController {
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbeHelper;
     private String TAG = "SizeIssDS";
 
-    public StkIssDS(Context context) {
+    public StkIssController(Context context) {
         this.context = context;
         dbeHelper = new DatabaseHelper(context);
     }
@@ -47,7 +47,7 @@ public class StkIssDS {
             ContentValues values = new ContentValues();
 
             values.put(DatabaseHelper.FSTKISS_ITEMCODE, size.getITEMCODE());
-            values.put(DatabaseHelper.FSTKISS_REFNO, RefNo);
+            values.put(DatabaseHelper.REFNO, RefNo);
             values.put(DatabaseHelper.FSTKISS_QTY, Qty);
             values.put(DatabaseHelper.FSTKISS_STKRECNO, size.getSTKRECNO());
             values.put(DatabaseHelper.FSTKISS_STKRECDATE, size.getSTKRecDate());
@@ -60,7 +60,7 @@ public class StkIssDS {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
 
-            values.put(DatabaseHelper.FSTKISS_TXNDATE, dateFormat.format(date));
+            values.put(DatabaseHelper.TXNDATE, dateFormat.format(date));
 
             count = (int) dB.insert(DatabaseHelper.TABLE_FSTKISS, null, values);
             Log.v(TAG, "Inserted " + count);
@@ -105,7 +105,7 @@ public class StkIssDS {
                 ContentValues values = new ContentValues();
                 values.put(DatabaseHelper.FSTKIN_BALQTY, String.valueOf((int) (Qty + balQty)));
                 /* reset balqty values */
-                dB.update(DatabaseHelper.TABLE_FSTKIN, values, DatabaseHelper.FSTKIN_REFNO + " =? AND " + DatabaseHelper.FSTKIN_STKRECNO + "=? AND " + DatabaseHelper.FSTKIN_ITEMCODE + "=? AND " + DatabaseHelper.FSTKIN_LOCCODE + "=?", new String[]{StkTxnNo, StkRecNo, itemCode, locCode});
+                dB.update(DatabaseHelper.TABLE_FSTKIN, values, DatabaseHelper.REFNO + " =? AND " + DatabaseHelper.FSTKIN_STKRECNO + "=? AND " + DatabaseHelper.FSTKIN_ITEMCODE + "=? AND " + DatabaseHelper.FSTKIN_LOCCODE + "=?", new String[]{StkTxnNo, StkRecNo, itemCode, locCode});
 
                 curStkIn.close();
             }
@@ -131,7 +131,7 @@ public class StkIssDS {
 
         ArrayList<StkIss> list = new ArrayList<StkIss>();
 
-        String selectQuery = "select * from " + DatabaseHelper.TABLE_FSTKISS + " WHERE " + DatabaseHelper.FSTKISS_REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_FSTKISS + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -144,13 +144,13 @@ public class StkIssDS {
                 sizeIss.setITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_ITEMCODE)));
                 sizeIss.setLOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_LOCCODE)));
                 sizeIss.setQTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_QTY)));
-                sizeIss.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_REFNO)));
+                sizeIss.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 sizeIss.setSTKRECDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_STKRECDATE)));
                 sizeIss.setSTKRECNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_STKRECNO)));
                 sizeIss.setSTKTXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_STKTXNDATE)));
                 sizeIss.setSTKTXNNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_STKTXNNO)));
                 sizeIss.setSTKTXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_STKTXNTYPE)));
-                sizeIss.setTXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKISS_TXNDATE)));
+                sizeIss.setTXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
 
                 list.add(sizeIss);
 
@@ -181,7 +181,7 @@ public class StkIssDS {
         }
         try {
 
-            dB.delete(DatabaseHelper.TABLE_FSTKISS, DatabaseHelper.FSTKISS_REFNO + "='" + RefNo + "'", null);
+            dB.delete(DatabaseHelper.TABLE_FSTKISS, DatabaseHelper.REFNO + "='" + RefNo + "'", null);
         } catch (Exception e) {
 
             Log.v(TAG + " Exception", e.toString());

@@ -14,14 +14,14 @@ import com.datamation.sfa.model.TaxDet;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class TaxDetDS {
+public class TaxDetController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbeHelper;
     private String TAG = "TaxDetDS";
 
-    public TaxDetDS(Context context) {
+    public TaxDetController(Context context) {
         this.context = context;
         dbeHelper = new DatabaseHelper(context);
     }
@@ -125,8 +125,8 @@ public class TaxDetDS {
 
     public String calculateSellPrice(String itemCode, String price) {
 
-        String comCode = new ItemsDS(context).getTaxComCodeByItemCode(itemCode);
-        ArrayList<TaxDet> list = new TaxDetDS(context).getTaxInfoByComCode(comCode);
+        String comCode = new ItemsController(context).getTaxComCodeByItemCode(itemCode);
+        ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
         BigDecimal tax = new BigDecimal("0");
         BigDecimal amt = new BigDecimal(price);
 
@@ -143,8 +143,8 @@ public class TaxDetDS {
 
     public String calculateTax(String itemCode, BigDecimal amt) {
 
-        String comCode = new ItemsDS(context).getTaxComCodeByItemCode(itemCode);
-        ArrayList<TaxDet> list = new TaxDetDS(context).getTaxInfoByComCode(comCode);
+        String comCode = new ItemsController(context).getTaxComCodeByItemCode(itemCode);
+        ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
         BigDecimal tax = new BigDecimal("0");
 
         if (list.size() > 0) {
@@ -161,8 +161,8 @@ public class TaxDetDS {
 
     public String[] calculateTaxForward(String itemCode, double amt) {
 
-        String comCode = new ItemsDS(context).getTaxComCodeByItemCode(itemCode);
-        ArrayList<TaxDet> list = new TaxDetDS(context).getTaxInfoByComCode(comCode);
+        String comCode = new ItemsController(context).getTaxComCodeByItemCode(itemCode);
+        ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
         double tax = 0;
         String sArray[] = new String[2];
 
@@ -182,8 +182,8 @@ public class TaxDetDS {
 
     public String[] calculatePriceTaxForward(String itemCode, double price) {
 
-        String comCode = new ItemsDS(context).getTaxComCodeByItemCode(itemCode);
-        ArrayList<TaxDet> list = new TaxDetDS(context).getTaxInfoByComCode(comCode);
+        String comCode = new ItemsController(context).getTaxComCodeByItemCode(itemCode);
+        ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
         double tax = 0;
         String sArray[] = new String[2];
 

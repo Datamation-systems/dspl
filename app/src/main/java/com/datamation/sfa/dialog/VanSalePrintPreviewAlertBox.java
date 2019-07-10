@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +21,11 @@ import android.widget.TextView;
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.PrintVanSaleItemAdapter;
 import com.datamation.sfa.adapter.PrintVanSaleReturnAdapter;
-import com.datamation.sfa.controller.ControlDS;
+import com.datamation.sfa.controller.CompanyDetailsController;
 import com.datamation.sfa.controller.CustomerController;
-import com.datamation.sfa.controller.InvDetDS;
+import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.InvHedController;
-import com.datamation.sfa.controller.ItemsDS;
+import com.datamation.sfa.controller.ItemsController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
@@ -161,7 +160,7 @@ public class VanSalePrintPreviewAlertBox {
         alertDialogBuilder.setView(promptView);
 
         ArrayList<Control> controlList;
-        controlList = new ControlDS(context).getAllControl();
+        controlList = new CompanyDetailsController(context).getAllControl();
 
         PRefno = refno;
 
@@ -178,7 +177,7 @@ public class VanSalePrintPreviewAlertBox {
 
         InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
 
-        ArrayList<InvDet> list = new InvDetDS(context).getAllItemsforPrint(refno);
+        ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrint(refno);
         ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(refno.trim());
 
         Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
@@ -274,7 +273,7 @@ public class VanSalePrintPreviewAlertBox {
         String printGapAdjustCom = "                      ";
 
         ArrayList<Control> controlList;
-        controlList = new ControlDS(context).getAllControl();
+        controlList = new CompanyDetailsController(context).getAllControl();
 
         SalRep salrep = new SalRepController(context).getSaleRep(new SalRepController(context).getCurrentRepCode());
 
@@ -435,7 +434,7 @@ public class VanSalePrintPreviewAlertBox {
         String title_Print_R = "\r\n";// + TempsubTermCode + "\r\n" +
         // subTitleheadR;
 
-        ArrayList<InvDet> itemList = new InvDetDS(context).getAllItemsforPrint(PRefno);
+        ArrayList<InvDet> itemList = new InvDetController(context).getAllItemsforPrint(PRefno);
         ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(PRefno);
 
         BigDecimal compDisc = BigDecimal.ZERO;// new
@@ -477,7 +476,7 @@ public class VanSalePrintPreviewAlertBox {
         for (InvDet det : itemList) {
 
             String sItemcode = det.getFINVDET_ITEM_CODE();
-            String sItemname = new ItemsDS(context).getItemNameByCode(sItemcode);
+            String sItemname = new ItemsController(context).getItemNameByCode(sItemcode);
             String sQty = det.getFINVDET_QTY();
             // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
             // - 3);
@@ -606,7 +605,7 @@ public class VanSalePrintPreviewAlertBox {
             for (FInvRDet retrnDet : Rlist) {
 
                 String sRetItemcode = retrnDet.getFINVRDET_ITEMCODE();
-                String sRetItemname = new ItemsDS(context).getItemNameByCode(sRetItemcode);
+                String sRetItemname = new ItemsController(context).getItemNameByCode(sRetItemcode);
                 String sRetQty = retrnDet.getFINVRDET_QTY();
                 // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
                 // - 3);

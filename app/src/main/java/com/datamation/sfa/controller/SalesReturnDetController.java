@@ -142,6 +142,84 @@ public class SalesReturnDetController
 
         return list;
     }
+    public ArrayList<FInvRDet> getAllItemsAddedInCurrentReturn(String refNo)
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
+
+        String selectQuery = "select ItemCode,Qty,ReasonName from " + DatabaseHelper.TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refNo + "' "         ;
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try
+        {
+            while (cursor.moveToNext())
+            {
+                FInvRDet fInvRDet = new FInvRDet();
+                fInvRDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_ITEMCODE)));
+                fInvRDet.setFINVRDET_RETURN_REASON(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_REASON_NAME)));
+                fInvRDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_QTY)));
+                list.add(fInvRDet);
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            Log.v(TAG + " Exception", ex.toString());
+        }
+        finally
+        {
+            if (cursor != null)
+            {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
+    public void UpdateReturnTot(ArrayList<FInvRDet> list) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        double totTax = 0, totalAmt = 0;
+
+        try {
+
+            for (FInvRDet retDet : list) {
+
+                /* Calculate only for SA */
+                if (retDet.getFINVRDET_TXN_TYPE().equals("SR")) {
+
+                    //no need to mega heaters.get only total of tax detail amounts - commented 2018-10-23
+                    // String sArray[] = new TaxDetDS(context).calculateTaxForward(ordDet.getFINVDET_ITEM_CODE(), Double.parseDouble(ordDet.getFINVDET_AMT()));
+
+                    // totTax += Double.parseDouble(retDet.getFINVDET_TAX_AMT());
+                    totalAmt += Double.parseDouble(retDet.getFINVRDET_AMT());
+
+                    //  String updateQuery = "UPDATE finvdet SET taxamt='" + sArray[1] + "', amt='" + sArray[0] + "' WHERE Itemcode='" + ordDet.getFINVDET_ITEM_CODE() + "' AND refno='" + ordDet.getFINVDET_REFNO() + "' AND types='SA'";
+                    //  dB.execSQL(updateQuery);
+                }
+            }
+            /* Update Sales order Header TotalTax */
+            dB.execSQL("UPDATE FInvRHed SET  TotalAmt = '" + totalAmt + "' WHERE RefNo='" + list.get(0).getFINVRDET_REFNO()+ "'");
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+    }
     public int mDeleteRetDet(String Itemcode, String RefNo)
     {
 

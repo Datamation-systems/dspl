@@ -14,14 +14,14 @@ import com.datamation.sfa.model.ItemPri;
 
 import java.util.ArrayList;
 
-public class ItemPriDS {
+public class ItemPriController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "ItemPriDS";
 
-    public ItemPriDS(Context context) {
+    public ItemPriController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

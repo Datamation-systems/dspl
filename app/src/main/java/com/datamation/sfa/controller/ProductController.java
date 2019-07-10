@@ -19,12 +19,12 @@ import java.util.ArrayList;
  * Created by Himas on 7/25/2017.
  */
 
-public class ProductDS {
+public class ProductController {
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
 
-    public ProductDS(Context context) {
+    public ProductController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

@@ -13,7 +13,7 @@ import com.datamation.sfa.model.DebItemPri;
 
 import java.util.ArrayList;
 
-public class DebItemPriDS {
+public class DebItemPriController {
 
 
     Context context;
@@ -21,7 +21,7 @@ public class DebItemPriDS {
     private DatabaseHelper dbHelper;
     private String TAG = "DebItemPriDS";
 
-    public DebItemPriDS(Context context) {
+    public DebItemPriController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

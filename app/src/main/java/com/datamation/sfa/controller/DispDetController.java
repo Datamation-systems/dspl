@@ -14,14 +14,14 @@ import com.datamation.sfa.model.InvDet;
 
 import java.util.ArrayList;
 
-public class DispDetDS {
+public class DispDetController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "DispHedDS ";
 
-    public DispDetDS(Context context) {
+    public DispDetController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }
@@ -60,10 +60,10 @@ public class DispDetDS {
                     values.put(DatabaseHelper.FDISPDET_FIQTY, invDet.getFINVDET_QTY());
 
                 values.put(DatabaseHelper.FDISPDET_ITEMCODE, invDet.getFINVDET_ITEM_CODE());
-                values.put(DatabaseHelper.FDISPDET_REFNO, dispRefno);
+                values.put(DatabaseHelper.REFNO, dispRefno);
                 values.put(DatabaseHelper.FDISPDET_REFNO1, invDet.getFINVDET_REFNO());
                 values.put(DatabaseHelper.FDISPDET_SEQNO, invDet.getFINVDET_SEQNO());
-                values.put(DatabaseHelper.FDISPDET_TXNDATE, invDet.getFINVDET_TXN_DATE());
+                values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
                 values.put(DatabaseHelper.FDISPDET_TXNTYPE, "23");
 
                 count = (int) dB.insert(DatabaseHelper.TABLE_FDISPDET, null, values);
@@ -130,10 +130,10 @@ public class DispDetDS {
             dispDet.setFDISPDET_FIQTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPDET_FIQTY)));
             dispDet.setFDISPDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPDET_ITEMCODE)));
             dispDet.setFDISPDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPDET_QTY)));
-            dispDet.setFDISPDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPDET_REFNO)));
+            dispDet.setFDISPDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
             dispDet.setFDISPDET_SAQTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPDET_SAQTY)));
             dispDet.setFDISPDET_SEQNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPDET_SEQNO)));
-            dispDet.setFDISPDET_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPDET_TXNDATE)));
+            dispDet.setFDISPDET_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
             dispDet.setFDISPDET_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPDET_TXNTYPE)));
             list.add(dispDet);
         }

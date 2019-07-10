@@ -14,14 +14,14 @@ import com.datamation.sfa.model.InvHed;
 
 import java.util.ArrayList;
 
-public class DispHedDS {
+public class DispHedController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "DispHedDS";
 
-    public DispHedDS(Context context) {
+    public DispHedController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }
@@ -56,12 +56,12 @@ public class DispHedDS {
             values.put(DatabaseHelper.FDISPHED_INVOICE, "1");
             values.put(DatabaseHelper.FDISPHED_LOCCODE, invHed.getFINVHED_LOCCODE());
             values.put(DatabaseHelper.FDISPHED_MANUREF, invHed.getFINVHED_MANUREF());
-            values.put(DatabaseHelper.FDISPHED_REFNO, Refno);
+            values.put(DatabaseHelper.REFNO, Refno);
             values.put(DatabaseHelper.FDISPHED_REFNO1, invHed.getFINVHED_REFNO());
             values.put(DatabaseHelper.FDISPHED_REMARKS, invHed.getFINVHED_REMARKS());
             values.put(DatabaseHelper.FDISPHED_REPCODE, invHed.getFINVHED_REPCODE());
             values.put(DatabaseHelper.FDISPHED_TOTALAMT, invHed.getFINVHED_TOTALAMT());
-            values.put(DatabaseHelper.FDISPHED_TXNDATE, invHed.getFINVHED_TXNDATE());
+            values.put(DatabaseHelper.TXNDATE, invHed.getFINVHED_TXNDATE());
             values.put(DatabaseHelper.FDISPHED_TXNTYPE, "23");
 
             count = (int) dB.insert(DatabaseHelper.TABLE_FDISPHED, null, values);
@@ -129,12 +129,12 @@ public class DispHedDS {
             dispHed.setFDISPHED_INVOICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_INVOICE)));
             dispHed.setFDISPHED_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_LOCCODE)));
             dispHed.setFDISPHED_MANUREF(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_MANUREF)));
-            dispHed.setFDISPHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_REFNO)));
+            dispHed.setFDISPHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
             dispHed.setFDISPHED_REFNO1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_REFNO1)));
             dispHed.setFDISPHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_REMARKS)));
             dispHed.setFDISPHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_REPCODE)));
             dispHed.setFDISPHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_TOTALAMT)));
-            dispHed.setFDISPHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_TXNDATE)));
+            dispHed.setFDISPHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
             dispHed.setFDISPHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPHED_TXNTYPE)));
             list.add(dispHed);
         }

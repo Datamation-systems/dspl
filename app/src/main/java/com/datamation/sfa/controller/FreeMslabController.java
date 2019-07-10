@@ -13,7 +13,7 @@ import com.datamation.sfa.model.FreeMslab;
 
 import java.util.ArrayList;
 
-public class FreeMslabDS {
+public class FreeMslabController {
 
     Context context;
     private SQLiteDatabase dB;
@@ -21,7 +21,7 @@ public class FreeMslabDS {
     private String TAG = "swadeshi";
 
 
-    public FreeMslabDS(Context context) {
+    public FreeMslabController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

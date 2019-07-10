@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.ProductDS;
+import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.dialog.CustomKeypadDialogPrice;
 import com.datamation.sfa.model.Product;
 
@@ -94,7 +94,7 @@ public class PreProduct_Adapter extends BaseAdapter {
                 if (--qty >= 0) {
                     viewHolder.lblQty.setText((Integer.parseInt(viewHolder.lblQty.getText().toString()) - 1) + "");
                     list.get(position).setFPRODUCT_QTY(viewHolder.lblQty.getText().toString());
-                    new ProductDS(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), viewHolder.lblQty.getText().toString());
+                    new ProductController(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), viewHolder.lblQty.getText().toString());
                 }
 
                 /*Change colors*/
@@ -117,7 +117,7 @@ public class PreProduct_Adapter extends BaseAdapter {
                 if (qty < (Double.parseDouble(viewHolder.HoQ.getText().toString()))) {
                     viewHolder.lblQty.setText((Integer.parseInt(viewHolder.lblQty.getText().toString()) + 1) + "");
                     product.setFPRODUCT_QTY(viewHolder.lblQty.getText().toString());
-                    new ProductDS(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), viewHolder.lblQty.getText().toString());
+                    new ProductController(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), viewHolder.lblQty.getText().toString());
                 }else{
                     Toast.makeText(context, "Exceeds available  stock", Toast.LENGTH_SHORT).show();
                 }
@@ -220,7 +220,7 @@ public class PreProduct_Adapter extends BaseAdapter {
                             viewHolder.lblQty.setText("0");
                             Toast.makeText(context, "Exceeds available  stock", Toast.LENGTH_SHORT).show();
                         } else {
-                            new ProductDS(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
+                            new ProductController(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
 
                             product.setFPRODUCT_QTY(String.valueOf(enteredQty));
                             viewHolder.lblQty.setText(product.getFPRODUCT_QTY());
@@ -278,7 +278,7 @@ public class PreProduct_Adapter extends BaseAdapter {
                         //price cannot be changed less than gross profit
                         if(minPrice <=value && value <= maxPrice) {
                             //  save changed price
-                            new ProductDS(context).updateProductPrice(product.getFPRODUCT_ITEMCODE(), String.valueOf(value));
+                            new ProductController(context).updateProductPrice(product.getFPRODUCT_ITEMCODE(), String.valueOf(value));
                             //  value should be set for another variable in preProduct
                             //  preProduct.setPREPRODUCT_PRICE(String.valueOf(value));
                             product.setFPRODUCT_CHANGED_PRICE(String.valueOf(value));

@@ -13,10 +13,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,21 +25,23 @@ import android.widget.Toast;
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.InvDetAdapter;
 import com.datamation.sfa.adapter.ReturnDetailsAdapter;
-import com.datamation.sfa.controller.ControlDS;
-import com.datamation.sfa.controller.DebItemPriDS;
-import com.datamation.sfa.controller.DispDetDS;
-import com.datamation.sfa.controller.DispHedDS;
-import com.datamation.sfa.controller.DispIssDS;
-import com.datamation.sfa.controller.InvDetDS;
+import com.datamation.sfa.controller.DebItemPriController;
+import com.datamation.sfa.controller.DispDetController;
+import com.datamation.sfa.controller.DispHedController;
+import com.datamation.sfa.controller.DispIssController;
+import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.InvHedController;
-import com.datamation.sfa.controller.ItemsDS;
-import com.datamation.sfa.controller.ProductDS;
-import com.datamation.sfa.controller.STKInDS;
+import com.datamation.sfa.controller.InvTaxDTController;
+import com.datamation.sfa.controller.InvTaxRGController;
+import com.datamation.sfa.controller.ItemLocController;
+import com.datamation.sfa.controller.ItemsController;
+import com.datamation.sfa.controller.ProductController;
+import com.datamation.sfa.controller.STKInController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
-import com.datamation.sfa.controller.StkIssDS;
-import com.datamation.sfa.controller.TaxDetDS;
+import com.datamation.sfa.controller.StkIssController;
+import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.FInvRDet;
@@ -167,8 +166,8 @@ public class VanSalesSummary extends Fragment {
                 int resultReturn = new SalesReturnController(getActivity()).restData(ReturnRefNo);
 
                 if (!result.equals("")) {
-                    new InvDetDS(getActivity()).restData(RefNo);
-                    new ProductDS(getActivity()).mClearTables();
+                    new InvDetController(getActivity()).restData(RefNo);
+                    new ProductController(getActivity()).mClearTables();
                 }
                 if(resultReturn != 0){
                     new SalesReturnDetController(getActivity()).restData(ReturnRefNo);
@@ -207,7 +206,7 @@ public class VanSalesSummary extends Fragment {
 
         locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
 
-        list = new InvDetDS(getActivity()).getAllInvDet(RefNo);
+        list = new InvDetController(getActivity()).getAllInvDet(RefNo);
         returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(ReturnRefNo);
 
         for (InvDet ordDet : list) {
@@ -245,7 +244,7 @@ public class VanSalesSummary extends Fragment {
 //
     public void saveSummaryDialog() {
 
-        if (new InvDetDS(getActivity()).getItemCount(RefNo) > 0)
+        if (new InvDetController(getActivity()).getItemCount(RefNo) > 0)
         {
 
             if (new SalesReturnDetController(getActivity()).getItemCount(ReturnRefNo) > 0) {
@@ -263,7 +262,7 @@ public class VanSalesSummary extends Fragment {
                 ArrayList<InvDet> invoiceItemList = null;
                 ArrayList<FInvRDet> returnItemList = null;
 
-                invoiceItemList = new InvDetDS(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
+                invoiceItemList = new InvDetController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
                 returnItemList = new SalesReturnDetController(getActivity()).getAllItemsAddedInCurrentReturn(ReturnRefNo);
                 lvProducts_Invoice.setAdapter(new InvDetAdapter(getActivity(), invoiceItemList));
                 lvProducts_Return.setAdapter(new ReturnDetailsAdapter(getActivity(), returnItemList));
@@ -326,16 +325,14 @@ public class VanSalesSummary extends Fragment {
                         invHedList.add(sHed);
 
                         if (new InvHedController(getActivity()).createOrUpdateInvHed(invHedList) > 0) {
-                            new ProductDS(getActivity()).mClearTables();
+                            new ProductController(getActivity()).mClearTables();
                             new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
-                            new InvDetDS(getActivity()).InactiveStatusUpdate(RefNo);
+                            new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
 
                             final VanSalesActivity activity = (VanSalesActivity) getActivity();
-                            if (activity.selectedDebtor.getFDEBTOR_TAX_REG().equals("Y")) {
-                                new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.VanNumValTax));
-                            } else {
-                                new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.VanNumValNonTax));
-                            }
+
+                                new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.VanNumVal));
+
                             FInvRHed mainHead = new FInvRHed();
                             ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
                             ArrayList<FInvRHed> HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
@@ -436,7 +433,7 @@ public class VanSalesSummary extends Fragment {
 
                 final ListView lvProducts_Invoice = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Inv);
                 ArrayList<InvDet> invoiceItemList = null;
-                invoiceItemList = new InvDetDS(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
+                invoiceItemList = new InvDetController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
                 lvProducts_Invoice.setAdapter(new InvDetAdapter(getActivity(), invoiceItemList));
 
             alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -488,7 +485,7 @@ public class VanSalesSummary extends Fragment {
                     sHed.setFINVHED_TOTALDIS("0.0");
                     sHed.setFINVHED_TOTALAMT(lblNetVal.getText().toString());
                     sHed.setFINVHED_TXNDATE(invHed.getFINVHED_TXNDATE());
-                    sHed.setFINVHED_REPCODE(new SalRepDS(getActivity()).getCurrentRepCode());
+                    sHed.setFINVHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
                     sHed.setFINVHED_REFNO1("");
                     sHed.setFINVHED_TOTQTY(lblQty.getText().toString());
                     sHed.setFINVHED_TOTFREEQTY(iTotFreeQty + "");
@@ -496,38 +493,34 @@ public class VanSalesSummary extends Fragment {
 
                     invHedList.add(sHed);
 
-                    if (new InvHedDS(getActivity()).createOrUpdateInvHed(invHedList) > 0) {
-                        new ProductDS(getActivity()).mClearTables();
-                        new InvHedDS(getActivity()).InactiveStatusUpdate(RefNo);
-                        new InvDetDS(getActivity()).InactiveStatusUpdate(RefNo);
+                    if (new InvHedController(getActivity()).createOrUpdateInvHed(invHedList) > 0) {
+                        new ProductController(getActivity()).mClearTables();
+                        new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
+                        new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
 
-                        final MainActivity activity = (MainActivity) getActivity();
-                        if (activity.selectedDebtor.getFDEBTOR_TAX_REG().equals("Y")) {
-                            new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.VanNumValTax));
-                        } else {
-                            new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.VanNumValNonTax));
-                        }
-
-
+                        final VanSalesActivity activity = (VanSalesActivity) getActivity();
+                        new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.VanNumVal));
 
                         /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
 
                         UpdateTaxDetails(RefNo);
                         UpdateQOH_FIFO();
-                        new ItemLocDS(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
+                        new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
                         updateDispTables(sHed);
                         int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
 
                         //if(a == 1)
                         //{
                             Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
-                            UtilityContainer.ClearVanSharedPref(getActivity());
-                            activity.cusPosition = 0;
+                          //  UtilityContainer.ClearVanSharedPref(getActivity());
+                         //   activity.cusPosition = 0;
                             activity.selectedDebtor = null;
                             activity.selectedRetDebtor = null;
-                            activity.selectedRecHed = null;
+                           // activity.selectedRecHed = null;
                             activity.selectedInvHed = null;
-                            loadFragment(new VanSaleInvoice());
+                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
                         //}
 
                     } else {
@@ -555,10 +548,10 @@ public class VanSalesSummary extends Fragment {
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void UpdateTaxDetails(String refNo) {
-        ArrayList<InvDet> list = new InvDetDS(activity).getAllInvDet(refNo);
-        new InvDetDS(activity).UpdateItemTaxInfo(list);
-        new InvTaxRGDS(activity).UpdateInvTaxRG(list);
-        new InvTaxDTDS(activity).UpdateInvTaxDT(list);
+        ArrayList<InvDet> list = new InvDetController(activity).getAllInvDet(refNo);
+        new InvDetController(activity).UpdateItemTaxInfo(list);
+        new InvTaxRGController(activity).UpdateInvTaxRG(list);
+        new InvTaxDTController(activity).UpdateInvTaxDT(list);
     }
     public void UpdateReturnTotal(String refNo) {
         ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getAllInvRDet(refNo);
@@ -586,14 +579,14 @@ public class VanSalesSummary extends Fragment {
 
     private void UpdateQOH_FIFO() {
 
-        ArrayList<InvDet> list = new InvDetDS(getActivity()).getAllInvDet(RefNo);
+        ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(RefNo);
 
 		/*-*-*-*-*-*-*-*-*-*-*-*-each itemcode has multiple sizecodes*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*/
         for (InvDet item : list) {
 
             int Qty = (int) Double.parseDouble(item.getFINVDET_QTY());
 
-            ArrayList<StkIn> GRNList = new STKInDS(activity).getAscendingGRNList(item.getFINVDET_ITEM_CODE(), locCode);
+            ArrayList<StkIn> GRNList = new STKInController(activity).getAscendingGRNList(item.getFINVDET_ITEM_CODE(), locCode);
 
 			/*-*-*-*-*-*-*-*-*-*-multiple GRN for each sizecode-*-*-*-*-*-*-*-*-*-*-*/
             for (StkIn size : GRNList) {
@@ -603,16 +596,16 @@ public class VanSalesSummary extends Fragment {
                     if (Qty > balQty) {
                         Qty = Qty - balQty;
                         size.setBALQTY("0");
-                        new StkIssDS(activity).InsertSTKIssData(size, RefNo, String.valueOf(balQty), locCode);
+                        new StkIssController(activity).InsertSTKIssData(size, RefNo, String.valueOf(balQty), locCode);
 
                     } else {
                         size.setBALQTY(String.valueOf(balQty - Qty));
-                        new StkIssDS(activity).InsertSTKIssData(size, RefNo, String.valueOf(Qty), locCode);
+                        new StkIssController(activity).InsertSTKIssData(size, RefNo, String.valueOf(Qty), locCode);
                         break;
                     }
                 }
             }
-            new STKInDS(activity).UpdateBalQtyByFIFO(GRNList);
+            new STKInController(activity).UpdateBalQtyByFIFO(GRNList);
         }
     }
 //
@@ -622,12 +615,12 @@ public class VanSalesSummary extends Fragment {
 
         String dispREfno = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.DispVal));
 
-        int res = new DispHedDS(getActivity()).updateHeader(invHed, dispREfno);
+        int res = new DispHedController(getActivity()).updateHeader(invHed, dispREfno);
 
         if (res > 0) {
-            ArrayList<InvDet> list = new InvDetDS(getActivity()).getAllInvDet(invHed.getFINVHED_REFNO());
-            new DispDetDS(getActivity()).updateDispDet(list, dispREfno);
-            new DispIssDS(getActivity()).updateDispIss(new StkIssDS(getActivity()).getUploadData(invHed.getFINVHED_REFNO()), dispREfno);
+            ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(invHed.getFINVHED_REFNO());
+            new DispDetController(getActivity()).updateDispDet(list, dispREfno);
+            new DispIssController(getActivity()).updateDispIss(new StkIssController(getActivity()).getUploadData(invHed.getFINVHED_REFNO()), dispREfno);
             new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.DispVal));
         }
     }
@@ -636,7 +629,7 @@ public class VanSalesSummary extends Fragment {
 //
     public void mPauseinvoice() {
 
-        if (new InvDetDS(getActivity()).getItemCount(RefNo) > 0) {
+        if (new InvDetController(getActivity()).getItemCount(RefNo) > 0) {
             Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
             startActivity(intnt);
             getActivity().finish();
@@ -676,7 +669,7 @@ public class VanSalesSummary extends Fragment {
 
     public void updateInvoice() {
 
-        ArrayList<Product> list = new ProductDS(getActivity()).getSelectedItems();
+        ArrayList<Product> list = new ProductController(getActivity()).getSelectedItems();
 
         int i = 0;
 
@@ -684,9 +677,9 @@ public class VanSalesSummary extends Fragment {
 
             VanSalesActivity activity = (VanSalesActivity) getActivity();
             double totAmt = Double.parseDouble(product.getFPRODUCT_PRICE()) * Double.parseDouble(product.getFPRODUCT_QTY());
-            String TaxedAmt = new TaxDetDS(getActivity()).calculateTax(product.getFPRODUCT_ITEMCODE(), new BigDecimal(totAmt));
+            String TaxedAmt = new TaxDetController(getActivity()).calculateTax(product.getFPRODUCT_ITEMCODE(), new BigDecimal(totAmt));
 
-            double brandDiscPer = new DebItemPriDS(getActivity()).getBrandDiscount(new ItemsDS(getActivity()).getBrandCode(product.getFPRODUCT_ITEMCODE()), activity.selectedDebtor.getFDEBTOR_CODE());
+            double brandDiscPer = new DebItemPriController(getActivity()).getBrandDiscount(new ItemsController(getActivity()).getBrandCode(product.getFPRODUCT_ITEMCODE()), SharedPref.getInstance(getActivity()).getSelectedDebCode());
          //   double compDiscPer = new ControlDS(getActivity()).getCompanyDisc();
 
 //            double Disc = (totAmt / 100) * compDiscPer;
@@ -732,13 +725,13 @@ public class VanSalesSummary extends Fragment {
     {
         try
         {
-            ArrayList<InvDet> list = new InvDetDS(getActivity()).getAllInvDet(RefNo);
+            ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(RefNo);
 
 		/*-*-*-*-*-*-*-*-*-*-*-*-each itemcode has multiple sizecodes*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*/
             for (InvDet item : list)
             {
                 int Qty = (int) Double.parseDouble(item.getFINVDET_QTY());
-                ArrayList<StkIn> GRNList = new STKInDS(activity).getAscendingGRNList(item.getFINVDET_ITEM_CODE(), locCode);
+                ArrayList<StkIn> GRNList = new STKInController(activity).getAscendingGRNList(item.getFINVDET_ITEM_CODE(), locCode);
 
             }
         }

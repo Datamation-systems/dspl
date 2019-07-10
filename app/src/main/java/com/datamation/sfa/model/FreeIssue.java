@@ -8,15 +8,15 @@ import java.util.List;
 import android.content.Context;
 import android.util.Log;
 
-import com.datamation.sfa.controller.DiscdetDS;
-import com.datamation.sfa.controller.DischedDS;
-import com.datamation.sfa.controller.DiscslabDS;
-import com.datamation.sfa.controller.FreeDebDS;
-import com.datamation.sfa.controller.FreeDetDS;
-import com.datamation.sfa.controller.FreeHedDS;
-import com.datamation.sfa.controller.FreeMslabDS;
-import com.datamation.sfa.controller.FreeSlabDS;
-import com.datamation.sfa.controller.InvDetDS;
+import com.datamation.sfa.controller.DiscdetController;
+import com.datamation.sfa.controller.DischedController;
+import com.datamation.sfa.controller.DiscslabController;
+import com.datamation.sfa.controller.FreeDebController;
+import com.datamation.sfa.controller.FreeDetController;
+import com.datamation.sfa.controller.FreeHedController;
+import com.datamation.sfa.controller.FreeMslabController;
+import com.datamation.sfa.controller.FreeSlabController;
+import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.InvHedController;
 import com.datamation.sfa.controller.OrderController;
 
@@ -756,7 +756,7 @@ public class FreeIssue {
         // final return array list
         ArrayList<FreeItemDetails> freeList = new ArrayList<FreeItemDetails>();
 
-        FreeHedDS freeHedDS = new FreeHedDS(context);
+        FreeHedController freeHedDS = new FreeHedController(context);
         for (InvDet invDet : invDets) {// ---------------------- order list
             // --------------------
 
@@ -813,7 +813,7 @@ public class FreeIssue {
 
     public ArrayList<ArrayList<InvDet>> SortInvoiceDiscount(ArrayList<InvDet> newOrderList) {
 
-        DischedDS discHeadDS = new DischedDS(context);
+        DischedController discHeadDS = new DischedController(context);
         // sort assort item list
         ArrayList<ArrayList<InvDet>> MetaTranSODetList = sortInvoiceAssortDiscount(newOrderList);
         ArrayList<ArrayList<InvDet>> newMetaList = new ArrayList<ArrayList<InvDet>>();
@@ -857,7 +857,7 @@ public class FreeIssue {
                                             totalQTY = totalQTY + Integer.parseInt(invDet.getFINVDET_QTY());
                                         }
 
-                                        Discslab discSlab = new DiscslabDS(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
+                                        Discslab discSlab = new DiscslabController(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
                                         /* if any discount slabs exist */
                                         if (discSlab.getFDISCSLAB_DIS_AMUT() != null) {
                                             /*
@@ -878,7 +878,7 @@ public class FreeIssue {
                                     } else {
                                         totalQTY = Integer.parseInt(mInvDet.getFINVDET_QTY());
                                         TotalValue = Double.parseDouble(mInvDet.getFINVDET_AMT()) + Double.parseDouble(mInvDet.getFINVDET_DISVALAMT());
-                                        Discslab discSlab = new DiscslabDS(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
+                                        Discslab discSlab = new DiscslabController(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
 
                                         if (discSlab.getFDISCSLAB_DIS_AMUT() != null) {
                                             double discValue = Double.parseDouble(discSlab.getFDISCSLAB_DIS_AMUT());
@@ -889,7 +889,7 @@ public class FreeIssue {
                                             mInvDet.setFINVDET_DISC_REF(discSlab.getFDISCSLAB_REF_NO());
                                             mInvDet.setFINVDET_DIS_AMT(String.valueOf(discValue));
                                             mInvDet.setFINVDET_SCHDISPER("0.00");
-                                            new InvDetDS(context).updateDiscount(mInvDet, discValue, "V");
+                                            new InvDetController(context).updateDiscount(mInvDet, discValue, "V");
                                             Log.v("DISCOUNT", mInvDet.getFINVDET_ITEM_CODE() + " * " + (TotalValue - discValue));
                                         }
 
@@ -909,7 +909,7 @@ public class FreeIssue {
 
                                         }
 
-                                        Discslab discSlab = new DiscslabDS(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
+                                        Discslab discSlab = new DiscslabController(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
                                         /* if any discount slabs exist */
                                         if (discSlab.getFDISCSLAB_DIS_PER() != null) {
                                             /*
@@ -936,7 +936,7 @@ public class FreeIssue {
                                         totalQTY = Integer.parseInt(mInvDet.getFINVDET_QTY());
                                         TotalValue = Double.parseDouble(mInvDet.getFINVDET_AMT()) + Double.parseDouble(mInvDet.getFINVDET_DISVALAMT());
 
-                                        Discslab discSlab = new DiscslabDS(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
+                                        Discslab discSlab = new DiscslabController(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
 
                                         if (discSlab.getFDISCSLAB_DIS_PER() != null) {
                                             double discValue = Math.round((TotalValue / 100) * (Double.parseDouble(discSlab.getFDISCSLAB_DIS_PER())));
@@ -947,7 +947,7 @@ public class FreeIssue {
                                             mInvDet.setFINVDET_DISC_REF(discSlab.getFDISCSLAB_REF_NO());
                                             mInvDet.setFINVDET_SCHDISPER(discSlab.getFDISCSLAB_DIS_PER());
                                             mInvDet.setFINVDET_DIS_AMT(String.valueOf(Math.round((TotalValue / 100) * Double.parseDouble(discSlab.getFDISCSLAB_DIS_PER()))));
-                                            new InvDetDS(context).updateDiscount(mInvDet, discValue, "P");
+                                            new InvDetController(context).updateDiscount(mInvDet, discValue, "P");
                                             Log.v("DISCOUNT", mInvDet.getFINVDET_ITEM_CODE() + " * " + (TotalValue - discValue));
                                         }
 
@@ -976,7 +976,7 @@ public class FreeIssue {
                                     totalQTY = totalQTY + Integer.parseInt(iTranSODet.getFINVDET_QTY());
                                 }
 
-                                Discslab discSlab = new DiscslabDS(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
+                                Discslab discSlab = new DiscslabController(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
                                 /* if any discount slabs exist */
                                 if (discSlab.getFDISCSLAB_DIS_AMUT() != null) {
                                     /*
@@ -997,7 +997,7 @@ public class FreeIssue {
                             } else {
                                 totalQTY = Integer.parseInt(mInvDet.getFINVDET_QTY());
                                 TotalValue = Double.parseDouble(mInvDet.getFINVDET_AMT()) + Double.parseDouble(mInvDet.getFINVDET_DISVALAMT());
-                                Discslab discSlab = new DiscslabDS(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
+                                Discslab discSlab = new DiscslabController(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
 
                                 if (discSlab.getFDISCSLAB_DIS_AMUT() != null) {
                                     double discValue = Double.parseDouble(discSlab.getFDISCSLAB_DIS_AMUT());
@@ -1008,7 +1008,7 @@ public class FreeIssue {
                                     mInvDet.setFINVDET_DISC_REF(discSlab.getFDISCSLAB_REF_NO());
                                     mInvDet.setFINVDET_DIS_AMT(String.valueOf(discValue));
                                     mInvDet.setFINVDET_SCHDISPER("0.00");
-                                    new InvDetDS(context).updateDiscount(mInvDet, discValue, "V");
+                                    new InvDetController(context).updateDiscount(mInvDet, discValue, "V");
                                     Log.v("DISCOUNT", mInvDet.getFINVDET_ITEM_CODE() + " * " + (TotalValue - discValue));
                                 }
 
@@ -1028,7 +1028,7 @@ public class FreeIssue {
 
                                 }
 
-                                Discslab discSlab = new DiscslabDS(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
+                                Discslab discSlab = new DiscslabController(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
                                 /* if any discount slabs exist */
                                 if (discSlab.getFDISCSLAB_DIS_PER() != null) {
                                     /*
@@ -1053,7 +1053,7 @@ public class FreeIssue {
                                 totalQTY = Integer.parseInt(mInvDet.getFINVDET_QTY());
 
                                 TotalValue = Double.parseDouble(mInvDet.getFINVDET_AMT()) + Double.parseDouble(mInvDet.getFINVDET_DISVALAMT());
-                                Discslab discSlab = new DiscslabDS(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
+                                Discslab discSlab = new DiscslabController(context).getDiscountSlabInfo(discHed.getFDISCHED_REF_NO(), totalQTY);
 
                                 if (discSlab.getFDISCSLAB_DIS_PER() != null) {
                                     double discValue = Math.round((TotalValue / 100) * (Double.parseDouble(discSlab.getFDISCSLAB_DIS_PER())));
@@ -1064,7 +1064,7 @@ public class FreeIssue {
                                     mInvDet.setFINVDET_DISC_REF(discSlab.getFDISCSLAB_REF_NO());
                                     mInvDet.setFINVDET_SCHDISPER(discSlab.getFDISCSLAB_DIS_PER());
                                     mInvDet.setFINVDET_DIS_AMT(String.valueOf(Math.round((TotalValue / 100) * Double.parseDouble(discSlab.getFDISCSLAB_DIS_PER()))));
-                                    new InvDetDS(context).updateDiscount(mInvDet, discValue, "P");
+                                    new InvDetController(context).updateDiscount(mInvDet, discValue, "P");
                                     Log.v("DISCOUNT", mInvDet.getFINVDET_ITEM_CODE() + " * " + (TotalValue - discValue));
                                 }
 
@@ -1087,7 +1087,7 @@ public class FreeIssue {
 
     public ArrayList<ArrayList<InvDet>> sortInvoiceAssortDiscount(ArrayList<InvDet> OrderList) {
 
-        DiscdetDS discDetDS = new DiscdetDS(context);
+        DiscdetController discDetDS = new DiscdetController(context);
         ArrayList<ArrayList<InvDet>> nodeList = new ArrayList<ArrayList<InvDet>>();
         List<String> AssortList = new ArrayList<String>();
 
@@ -1131,7 +1131,7 @@ public class FreeIssue {
 
         ArrayList<FreeItemDetails> freeList = new ArrayList<FreeItemDetails>();
         int slabassorted = 0, flatAssort = 0, mixAssort = 0;
-        FreeHedDS freeHedDS = new FreeHedDS(context);
+        FreeHedController freeHedDS = new FreeHedController(context);
 
         ArrayList<InvDet> dets = sortInvoiceAssortItems(newOrderList);
 
@@ -1159,11 +1159,11 @@ public class FreeIssue {
                             // Debtor code from order header ref no ORASA/00006
                             String debCode = new OrderController(context).getRefnoByDebcode(det.getFINVDET_REFNO());
                             // get debtor count from FIS/098 no
-                            int debCount = new FreeDebDS(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
+                            int debCount = new FreeDebController(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
                             // select debtor from FIS no & R0001929
-                            int IsValidDeb = new FreeDebDS(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
+                            int IsValidDeb = new FreeDebController(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
                             // get assort count from FIS no
-                            int assortCount = new FreeDetDS(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
+                            int assortCount = new FreeDetController(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
 
                             // if its assorted
                             if (assortCount > 1) {
@@ -1278,9 +1278,9 @@ public class FreeIssue {
                         } else if (freeHed.getFFREEHED_FTYPE().equals("Slab")) {// -------Slab
                             // only-----
 
-                            FreeSlabDS freeSlabDS = new FreeSlabDS(context);
+                            FreeSlabController freeSlabDS = new FreeSlabController(context);
                             final ArrayList<FreeSlab> slabList;
-                            int assortCount = new FreeDetDS(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
+                            int assortCount = new FreeDetController(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
                             if (assortCount > 1) {
 
                                 slabassorted = slabassorted + entedTotQty;
@@ -1295,8 +1295,8 @@ public class FreeIssue {
                             for (FreeSlab freeSlab : slabList) {
 
                                 String debCode = new InvHedController(context).getRefnoByDebcode(det.getFINVDET_REFNO());
-                                int debCount = new FreeDebDS(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
-                                int IsValidDeb = new FreeDebDS(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
+                                int debCount = new FreeDebController(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
+                                int IsValidDeb = new FreeDebController(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
 
                                 if (debCount > 0) {// selected debtors
 
@@ -1380,9 +1380,9 @@ public class FreeIssue {
                         } else if (freeHed.getFFREEHED_FTYPE().equals("Mix")) {
                             // slabAssort
 
-                            FreeMslabDS freeMslabDS = new FreeMslabDS(context);
+                            FreeMslabController freeMslabDS = new FreeMslabController(context);
                             final ArrayList<FreeMslab> mixList;
-                            int assortCount = new FreeDetDS(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
+                            int assortCount = new FreeDetController(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
                             if (assortCount > 1) {// if assorted
                                 mixAssort = mixAssort + entedTotQty;
                                 mixList = freeMslabDS.getMixDetails(freeHed.getFFREEHED_REFNO(), mixAssort);
@@ -1393,8 +1393,8 @@ public class FreeIssue {
                             for (FreeMslab freeMslab : mixList) {
 
                                 String debCode = new OrderController(context).getRefnoByDebcode(det.getFINVDET_REFNO());
-                                int debCount = new FreeDebDS(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
-                                int IsValidDeb = new FreeDebDS(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
+                                int debCount = new FreeDebController(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
+                                int IsValidDeb = new FreeDebController(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
 
                                 if (debCount > 0) {// selected debtors
 
@@ -1494,7 +1494,7 @@ public class FreeIssue {
 
         ArrayList<FreeItemDetails> freeList = new ArrayList<FreeItemDetails>();
         int slabassorted = 0, flatAssort = 0, mixAssort = 0;
-        FreeHedDS freeHedDS = new FreeHedDS(context);
+        FreeHedController freeHedDS = new FreeHedController(context);
 
         //   ArrayList<InvDet> dets = sortInvoiceAssortItems(newOrderList);
 
@@ -1522,11 +1522,11 @@ public class FreeIssue {
                         // Debtor code from order header ref no ORASA/00006
                         String debCode = new OrderController(context).getRefnoByDebcode(det.getFINVDET_REFNO());
                         // get debtor count from FIS/098 no
-                        int debCount = new FreeDebDS(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
+                        int debCount = new FreeDebController(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
                         // select debtor from FIS no & R0001929
-                        int IsValidDeb = new FreeDebDS(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
+                        int IsValidDeb = new FreeDebController(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
                         // get assort count from FIS no
-                        int assortCount = new FreeDetDS(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
+                        int assortCount = new FreeDetController(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
 
                         // if its assorted
                         if (assortCount > 1) {
@@ -1641,9 +1641,9 @@ public class FreeIssue {
                     } else if (freeHed.getFFREEHED_FTYPE().equals("Slab")) {// -------Slab
                         // only-----
 
-                        FreeSlabDS freeSlabDS = new FreeSlabDS(context);
+                        FreeSlabController freeSlabDS = new FreeSlabController(context);
                         final ArrayList<FreeSlab> slabList;
-                        int assortCount = new FreeDetDS(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
+                        int assortCount = new FreeDetController(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
                         if (assortCount > 1) {
 
                             slabassorted = slabassorted + entedTotQty;
@@ -1658,8 +1658,8 @@ public class FreeIssue {
                         for (FreeSlab freeSlab : slabList) {
 
                             String debCode = new InvHedController(context).getRefnoByDebcode(det.getFINVDET_REFNO());
-                            int debCount = new FreeDebDS(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
-                            int IsValidDeb = new FreeDebDS(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
+                            int debCount = new FreeDebController(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
+                            int IsValidDeb = new FreeDebController(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
 
                             if (debCount > 0) {// selected debtors
 
@@ -1743,9 +1743,9 @@ public class FreeIssue {
                     } else if (freeHed.getFFREEHED_FTYPE().equals("Mix")) {
                         // slabAssort
 
-                        FreeMslabDS freeMslabDS = new FreeMslabDS(context);
+                        FreeMslabController freeMslabDS = new FreeMslabController(context);
                         final ArrayList<FreeMslab> mixList;
-                        int assortCount = new FreeDetDS(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
+                        int assortCount = new FreeDetController(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
                         if (assortCount > 1) {// if assorted
                             mixAssort = mixAssort + entedTotQty;
                             mixList = freeMslabDS.getMixDetails(freeHed.getFFREEHED_REFNO(), mixAssort);
@@ -1756,8 +1756,8 @@ public class FreeIssue {
                         for (FreeMslab freeMslab : mixList) {
 
                             String debCode = new OrderController(context).getRefnoByDebcode(det.getFINVDET_REFNO());
-                            int debCount = new FreeDebDS(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
-                            int IsValidDeb = new FreeDebDS(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
+                            int debCount = new FreeDebController(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
+                            int IsValidDeb = new FreeDebController(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
 
                             if (debCount > 0) {// selected debtors
 
@@ -1856,8 +1856,8 @@ public class FreeIssue {
 
     public ArrayList<InvDet> sortInvoiceAssortItems(ArrayList<InvDet> OrderList) {
 
-        FreeHedDS freeHedDS = new FreeHedDS(context);
-        FreeDetDS freeDetDS = new FreeDetDS(context);
+        FreeHedController freeHedDS = new FreeHedController(context);
+        FreeDetController freeDetDS = new FreeDetController(context);
         ArrayList<InvDet> newOrderList = new ArrayList<InvDet>();
         List<String> AssortList = new ArrayList<String>();
 

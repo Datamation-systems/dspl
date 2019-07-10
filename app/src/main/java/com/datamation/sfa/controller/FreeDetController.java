@@ -9,22 +9,21 @@ import android.util.Log;
 
 
 import com.datamation.sfa.helpers.DatabaseHelper;
-import com.datamation.sfa.model.Discdet;
+import com.datamation.sfa.model.FreeDet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscdetDS {
+public class FreeDetController {
+
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
-    private String TAG = "swadeshi";
+    private String TAG = "deletx";
 
-    public DiscdetDS(Context context) {
-
+    public FreeDetController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
-
     }
 
     public void open() throws SQLException {
@@ -32,8 +31,10 @@ public class DiscdetDS {
     }
 
     @SuppressWarnings("static-access")
-    public int createOrUpdateDiscdet(ArrayList<Discdet> list) {
+    public int createOrUpdateFreeDet(ArrayList<FreeDet> list) {
+
         int count = 0;
+
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -41,35 +42,37 @@ public class DiscdetDS {
         }
         Cursor cursor = null;
         Cursor cursor_ini = null;
-
         try {
+            cursor_ini = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FFREEDET, null);
 
-            cursor_ini = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FDISCDET, null);
-
-            for (Discdet discdet : list) {
+            for (FreeDet freedet : list) {
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.REFNO, discdet.getFDISCDET_REF_NO());
-                values.put(dbHelper.FDISCDET_ITEM_CODE, discdet.getFDISCDET_ITEM_CODE());
-                values.put(dbHelper.FDISCDET_RECORD_ID, discdet.getFDISCDET_RECORD_ID());
-                values.put(dbHelper.FDISCHED_TIEMSTAMP_COLUMN, discdet.getFDISCHED_TIEMSTAMP_COLUMN());
+                values.put(dbHelper.REFNO, freedet.getFFREEDET_REFNO());
+                values.put(dbHelper.FFREEDET_ITEM_CODE, freedet.getFFREEDET_ITEM_CODE());
+                values.put(dbHelper.FFREEDET_RECORD_ID, freedet.getFFREEDET_RECORD_ID());
 
                 if (cursor_ini.getCount() > 0) {
-                    String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FDISCDET + " WHERE " + dbHelper.REFNO + "='" + discdet.getFDISCDET_REF_NO() + "' AND " + dbHelper.FDISCDET_ITEM_CODE + " = '" + discdet.getFDISCDET_ITEM_CODE() + "'";
+                    String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FFREEDET + " WHERE " + dbHelper.REFNO + "='" + freedet.getFFREEDET_REFNO() + "' AND " + dbHelper.FFREEDET_ITEM_CODE + " = '" + freedet.getFFREEDET_ITEM_CODE() + "'";
                     cursor = dB.rawQuery(selectQuery, null);
 
                     if (cursor.getCount() > 0) {
-                        count = (int) dB.update(dbHelper.TABLE_FDISCDET, values, dbHelper.REFNO + "='" + discdet.getFDISCDET_REF_NO() + "' AND " + dbHelper.FDISCDET_ITEM_CODE + " = '" + discdet.getFDISCDET_ITEM_CODE() + "'", null);
+                        count = (int) dB.update(dbHelper.TABLE_FFREEDET, values, dbHelper.REFNO + "='" + freedet.getFFREEDET_REFNO() + "' AND " + dbHelper.FFREEDET_ITEM_CODE + " = '" + freedet.getFFREEDET_ITEM_CODE() + "'", null);
                     } else {
-                        count = (int) dB.insert(dbHelper.TABLE_FDISCDET, null, values);
+                        count = (int) dB.insert(dbHelper.TABLE_FFREEDET, null, values);
                     }
 
                 } else {
-                    count = (int) dB.insert(dbHelper.TABLE_FDISCDET, null, values);
+                    count = (int) dB.insert(dbHelper.TABLE_FFREEDET, null, values);
                 }
 
+
             }
+        } catch (Exception e) {
+
+            Log.v("Exception", e.toString());
+
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -80,9 +83,31 @@ public class DiscdetDS {
             dB.close();
         }
         return count;
+
     }
 
-    @SuppressWarnings("static-access")
+    public int getAssoCountByRefno(String refno) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT count(*) FROM " + dbHelper.TABLE_FFREEDET + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
+
+        Cursor cursor = null;
+        cursor = dB.rawQuery(selectQuery, null);
+
+        while (cursor.moveToNext()) {
+
+            return cursor.getInt(0);
+
+        }
+        return 0;
+
+    }
+
     public int deleteAll() {
 
         int count = 0;
@@ -95,10 +120,10 @@ public class DiscdetDS {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FDISCDET, null);
+            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FFREEDET, null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(dbHelper.TABLE_FDISCDET, null, null);
+                int success = dB.delete(dbHelper.TABLE_FFREEDET, null, null);
                 Log.v("Success", success + "");
             }
         } catch (Exception e) {
@@ -116,7 +141,7 @@ public class DiscdetDS {
 
     }
 
-    public List<String> getAssortByItemCode(String itemCode) {
+    public List<String> getAssortByRefno(String refno) {
 
         if (dB == null) {
             open();
@@ -124,18 +149,16 @@ public class DiscdetDS {
             open();
         }
 
-        ArrayList<String> list = new ArrayList<String>();
+        List<String> AssortList = new ArrayList<String>();
 
-        String selectQuery = "select * from fdiscdet where refno in (select RefNo from fdiscdet where itemcode='" + itemCode + "')";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FFREEDET + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
 
-        String s = null;
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
         try {
             while (cursor.moveToNext()) {
 
-                list.add(cursor.getString(cursor.getColumnIndex(dbHelper.FDISCDET_ITEM_CODE)));
-
+                AssortList.add(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEDET_ITEM_CODE)));
             }
         } catch (Exception e) {
 
@@ -148,7 +171,7 @@ public class DiscdetDS {
             dB.close();
         }
 
-        return list;
+        return AssortList;
 
     }
 

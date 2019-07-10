@@ -13,14 +13,14 @@ import com.datamation.sfa.model.FreeHed;
 
 import java.util.ArrayList;
 
-public class FreeHedDS {
+public class FreeHedController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "swadeshi";
 
-    public FreeHedDS(Context context) {
+    public FreeHedController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

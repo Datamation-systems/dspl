@@ -14,14 +14,14 @@ import com.datamation.sfa.model.StkIss;
 
 import java.util.ArrayList;
 
-public class DispIssDS {
+public class DispIssController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "DispHedDS";
 
-    public DispIssDS(Context context) {
+    public DispIssController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }
@@ -52,14 +52,14 @@ public class DispIssDS {
                 values.put(DatabaseHelper.FDISPISS_QTY, iss.getQTY());
                 values.put(DatabaseHelper.FDISPISS_ITEMCODE, iss.getITEMCODE());
                 values.put(DatabaseHelper.FDISPISS_OTHCOST, "0");
-                values.put(DatabaseHelper.FDISPISS_REFNO, disRefno);
+                values.put(DatabaseHelper.REFNO, disRefno);
                 values.put(DatabaseHelper.FDISPISS_STKRECNO, iss.getSTKRECNO());
                 values.put(DatabaseHelper.FDISPISS_STKRECDATE, iss.getSTKRECDATE());
                 values.put(DatabaseHelper.FDISPISS_LOCCODE, iss.getLOCCODE());
                 values.put(DatabaseHelper.FDISPISS_STKTXNDATE, iss.getSTKTXNDATE());
                 values.put(DatabaseHelper.FDISPISS_STKTXNTYPE, iss.getSTKTXNTYPE());
                 values.put(DatabaseHelper.FDISPISS_STKTXNNO, iss.getSTKTXNNO());
-                values.put(DatabaseHelper.FDISPISS_TXNDATE, iss.getTXN_DATE());
+                values.put(DatabaseHelper.TXNDATE, iss.getTXN_DATE());
                 values.put(DatabaseHelper.FDISPISS_REFNO1, iss.getREFNO());
 
                 count = (int) dB.insert(DatabaseHelper.TABLE_FDISPISS, null, values);
@@ -111,7 +111,7 @@ public class DispIssDS {
 
         ArrayList<DispIss> list = new ArrayList<DispIss>();
 
-        Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FDISPISS + " WHERE refno1='" + Refno + "'", null);
+        Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FDISPISS + " WHERE FDISPISS_REFNO1='" + Refno + "'", null);
 
         while (cursor.moveToNext()) {
 
@@ -124,13 +124,13 @@ public class DispIssDS {
             dispIss.setFDISPISS_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_LOCCODE)));
             dispIss.setFDISPISS_OTHCOST(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_OTHCOST)));
             dispIss.setFDISPISS_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_QTY)));
-            dispIss.setFDISPISS_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_REFNO)));
+            dispIss.setFDISPISS_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
             dispIss.setFDISPISS_STKRECDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_STKRECDATE)));
             dispIss.setFDISPISS_STKRECNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_STKRECNO)));
             dispIss.setFDISPISS_STKTXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_STKTXNDATE)));
             dispIss.setFDISPISS_STKTXNNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_STKTXNNO)));
             dispIss.setFDISPISS_STKTXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_STKTXNTYPE)));
-            dispIss.setFDISPISS_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDISPISS_TXNDATE)));
+            dispIss.setFDISPISS_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
 
             list.add(dispIss);
         }

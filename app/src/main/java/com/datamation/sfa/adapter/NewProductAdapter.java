@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.ProductDS;
+import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.model.Product;
 
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class NewProductAdapter extends ArrayAdapter<Product> {
                 if (--qty >= 0) {
                     lblQty.setText((Integer.parseInt(lblQty.getText().toString()) - 1) + "");
                     list.get(position).setFPRODUCT_QTY(lblQty.getText().toString());
-                    new ProductDS(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), lblQty.getText().toString());
+                    new ProductController(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), lblQty.getText().toString());
                 }
 
                 /*Change colors*/
@@ -93,7 +93,7 @@ public class NewProductAdapter extends ArrayAdapter<Product> {
                 if (qty <= (Double.parseDouble(HoQ.getText().toString()))) {
                     lblQty.setText((Integer.parseInt(lblQty.getText().toString()) + 1) + "");
                     list.get(position).setFPRODUCT_QTY(lblQty.getText().toString());
-                    new ProductDS(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), lblQty.getText().toString());
+                    new ProductController(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), lblQty.getText().toString());
                 }
             }
         });
@@ -163,7 +163,7 @@ public class NewProductAdapter extends ArrayAdapter<Product> {
                         lblQty.setText(preText);
                         lblQty.selectAll();
                     } else
-                        new ProductDS(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
+                        new ProductController(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
 
                 } else {
                     lblQty.setText("0");

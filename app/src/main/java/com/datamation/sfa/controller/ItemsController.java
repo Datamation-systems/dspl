@@ -20,14 +20,14 @@ import com.datamation.sfa.model.StockInfo;
 
 import java.util.ArrayList;
 
-public class ItemsDS {
+public class ItemsController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "ItemsDS ";
 
-    public ItemsDS(Context context) {
+    public ItemsController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }
@@ -733,7 +733,7 @@ public class ItemsDS {
                 if (qoh > 0) {
                     product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_NAME)));
                     product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_CODE)));
-                    product.setFPRODUCT_PRICE(new ItemPriDS(context).getProductPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode));
+                    product.setFPRODUCT_PRICE(new ItemPriController(context).getProductPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode));
                     product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMLOC_QOH)));
                     product.setFPRODUCT_QTY("0");
 
@@ -788,7 +788,7 @@ public class ItemsDS {
                 //rashmi - 2018-08-13 for indra.because debtor has no prillcode, it get from fitems
                 if(prillcode.equals(""))
                     prillcode = prillCodeFromItems;
-                String price=new ItemPriDS(context).getProductPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode);
+                String price=new ItemPriController(context).getProductPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode);
                // String minprice=new ItemPriDS(context).getProductMinPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode);
                // String maxprice=new ItemPriDS(context).getProductMaxPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode);
                 if(price.isEmpty()|| price.equalsIgnoreCase("")){
@@ -895,7 +895,7 @@ public class ItemsDS {
                    //rashmi - 2018-08-13 for indra.because debtor has no prillcode, it get from fitems
                     if(prillcode.equals(""))
                         prillcode = prillCodeFromItems;
-                    String price=new ItemPriDS(context).getProductPriceByCode(preProduct.getPREPRODUCT_ITEMCODE(), prillcode);
+                    String price=new ItemPriController(context).getProductPriceByCode(preProduct.getPREPRODUCT_ITEMCODE(), prillcode);
                     if(price.isEmpty()|| price.equalsIgnoreCase("")){
                         preProduct.setPREPRODUCT_PRICE("0.00");
                     }else{
@@ -946,7 +946,7 @@ public class ItemsDS {
                 PreProduct preProduct=new PreProduct();
                 preProduct.setPREPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_CODE)));
                 preProduct.setPREPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_NAME)));
-                String price=new ItemPriDS(context).getProductPriceByCode(preProduct.getPREPRODUCT_ITEMCODE(), prillcode);
+                String price=new ItemPriController(context).getProductPriceByCode(preProduct.getPREPRODUCT_ITEMCODE(), prillcode);
                 if(price.isEmpty()|| price.equalsIgnoreCase("")){
                     preProduct.setPREPRODUCT_PRICE("0.00");
                 }else{
@@ -1051,7 +1051,7 @@ public class ItemsDS {
                     PreProduct preProduct=new PreProduct();
                     preProduct.setPREPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_CODE)));
                     preProduct.setPREPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEM_ITEM_NAME)));
-                    preProduct.setPREPRODUCT_PRICE(new ItemPriDS(context).getProductPriceByCode(preProduct.getPREPRODUCT_ITEMCODE(), prillcode));
+                    preProduct.setPREPRODUCT_PRICE(new ItemPriController(context).getProductPriceByCode(preProduct.getPREPRODUCT_ITEMCODE(), prillcode));
                     preProduct.setPREPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMLOC_QOH)));
                     preProduct.setPREPRODUCT_QTY("0");
                     list.add(preProduct);

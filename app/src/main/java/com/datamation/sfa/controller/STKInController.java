@@ -13,13 +13,13 @@ import com.datamation.sfa.model.StkIn;
 
 import java.util.ArrayList;
 
-public class STKInDS {
+public class STKInController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbeHelper;
 
-    public STKInDS(Context context) {
+    public STKInController(Context context) {
         this.context = context;
         dbeHelper = new DatabaseHelper(context);
     }
@@ -48,10 +48,10 @@ public class STKInDS {
                 values.put(DatabaseHelper.FSTKIN_LOCCODE, stkIn.getLOCCODE());
                 values.put(DatabaseHelper.FSTKIN_BALQTY, stkIn.getBALQTY());
                 values.put(DatabaseHelper.FSTKIN_OTHCOST, stkIn.getOTHCOST());
-                values.put(DatabaseHelper.FSTKIN_REFNO, stkIn.getREFNO());
+                values.put(DatabaseHelper.REFNO, stkIn.getREFNO());
                 values.put(DatabaseHelper.FSTKIN_STKREC_DATE, stkIn.getSTKRecDate());
                 values.put(DatabaseHelper.FSTKIN_STKRECNO, stkIn.getSTKRECNO());
-                values.put(DatabaseHelper.FSTKIN_TXNDATE, stkIn.getTXNDATE());
+                values.put(DatabaseHelper.TXNDATE, stkIn.getTXNDATE());
                 values.put(DatabaseHelper.FSTKIN_TXNTYPE, stkIn.getTXNTYPE());
 
                 dB.insert(DatabaseHelper.TABLE_FSTKIN, null, values);
@@ -81,12 +81,12 @@ public class STKInDS {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FSTKIN + " WHERE " + DatabaseHelper.FSTKIN_REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FSTKIN + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(DatabaseHelper.TABLE_FSTKIN, DatabaseHelper.FSTKIN_REFNO + " ='" + refno + "'", null);
+                count = dB.delete(DatabaseHelper.TABLE_FSTKIN, DatabaseHelper.REFNO + " ='" + refno + "'", null);
                 Log.v("Success Stauts", count + "");
             }
             cursor.close();
@@ -111,7 +111,7 @@ public class STKInDS {
 
         ArrayList<StkIn> list = new ArrayList<StkIn>();
         try {
-            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FSTKIN + " WHERE " + DatabaseHelper.FSTKIN_REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FSTKIN + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -123,10 +123,10 @@ public class STKInDS {
                 stkin.setINQTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_INQTY)));
                 stkin.setITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_ITEMCODE)));
                 stkin.setLOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_LOCCODE)));
-                stkin.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_REFNO)));
+                stkin.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 stkin.setSTKRecDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_STKREC_DATE)));
                 stkin.setSTKRECNO(cursor.getString(cursor.getColumnIndex("StkRecNo")));
-                stkin.setTXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_TXNDATE)));
+                stkin.setTXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 stkin.setTXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_TXNTYPE)));
                 stkin.setOTHCOST(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_OTHCOST)));
                 list.add(stkin);
@@ -180,10 +180,10 @@ public class STKInDS {
                 stkin.setINQTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_INQTY)));
                 stkin.setITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_ITEMCODE)));
                 stkin.setLOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_LOCCODE)));
-                stkin.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_REFNO)));
+                stkin.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 stkin.setSTKRecDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_STKREC_DATE)));
                 stkin.setSTKRECNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_STKRECNO)));
-                stkin.setTXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_TXNDATE)));
+                stkin.setTXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
                 stkin.setTXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_TXNTYPE)));
                 stkin.setOTHCOST(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_OTHCOST)));
                 stkin.setID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSTKIN_ID)));
@@ -225,10 +225,10 @@ public class STKInDS {
                 values.put(DatabaseHelper.FSTKIN_LOCCODE, stkIn.getLOCCODE());
                 values.put(DatabaseHelper.FSTKIN_BALQTY, stkIn.getBALQTY());
                 values.put(DatabaseHelper.FSTKIN_OTHCOST, "");
-                values.put(DatabaseHelper.FSTKIN_REFNO, stkIn.getREFNO());
+                values.put(DatabaseHelper.REFNO, stkIn.getREFNO());
                 values.put(DatabaseHelper.FSTKIN_STKREC_DATE, stkIn.getSTKRecDate());
                 values.put(DatabaseHelper.FSTKIN_STKRECNO, stkIn.getSTKRECNO());
-                values.put(DatabaseHelper.FSTKIN_TXNDATE, stkIn.getTXNDATE());
+                values.put(DatabaseHelper.TXNDATE, stkIn.getTXNDATE());
                 values.put(DatabaseHelper.FSTKIN_TXNTYPE, stkIn.getTXNTYPE());
 
                 dB.update(DatabaseHelper.TABLE_FSTKIN, values, DatabaseHelper.FSTKIN_ID + "=?", new String[]{stkIn.getID().toString()});

@@ -13,14 +13,14 @@ import com.datamation.sfa.model.Control;
 
 import java.util.ArrayList;
 
-public class ControlDS {
+public class CompanyDetailsController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "ControlDS";
 
-    public ControlDS(Context context) {
+    public CompanyDetailsController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

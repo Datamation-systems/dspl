@@ -13,14 +13,14 @@ import com.datamation.sfa.model.TaxHed;
 
 import java.util.ArrayList;
 
-public class TaxHedDS {
+public class TaxHedController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbeHelper;
     private String TAG = "TaxHedDS";
 
-    public TaxHedDS(Context context) {
+    public TaxHedController(Context context) {
         this.context = context;
         dbeHelper = new DatabaseHelper(context);
     }

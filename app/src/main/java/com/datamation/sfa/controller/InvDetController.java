@@ -14,14 +14,14 @@ import com.datamation.sfa.model.OrderDisc;
 
 import java.util.ArrayList;
 
-public class InvDetDS {
+public class InvDetController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbeHelper;
     private String TAG = "InvDet DS";
 
-    public InvDetDS(Context context) {
+    public InvDetController(Context context) {
         this.context = context;
         dbeHelper = new DatabaseHelper(context);
     }
@@ -658,7 +658,7 @@ public class InvDetDS {
             orderDisc.setItemCode(invDet.getFINVDET_ITEM_CODE());
             orderDisc.setDisAmt(String.format("%.2f", discount));
 
-            new OrderDiscDS(context).UpdateOrderDiscount(orderDisc, invDet.getFINVDET_DISC_REF(), invDet.getFINVDET_DISVALAMT());
+            new OrderDiscController(context).UpdateOrderDiscount(orderDisc, invDet.getFINVDET_DISC_REF(), invDet.getFINVDET_DISVALAMT());
             String amt = String.format(String.format("%.2f", (Double.parseDouble(invDet.getFINVDET_AMT()) + Double.parseDouble(invDet.getFINVDET_DISVALAMT())) - discount));
             String updateQuery = "UPDATE finvdet SET SchDisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisValAmt='" + String.format("%.2f", discount) + "', amt='" + amt + "' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' AND types='SA'";
             dB.execSQL(updateQuery);
@@ -697,7 +697,7 @@ public class InvDetDS {
                 orderDisc.setDisAmt(ordDet.getFINVDET_DIS_AMT());
                 orderDisc.setDisPer(ordDet.getFINVDET_SCHDISPER());
 
-                new OrderDiscDS(context).UpdateOrderDiscount(orderDisc, DiscRef, DiscPer);
+                new OrderDiscController(context).UpdateOrderDiscount(orderDisc, DiscRef, DiscPer);
                 String updateQuery = "UPDATE ftransodet SET SchDisPer='" + ordDet.getFINVDET_SCHDISPER() + "', DisValAmt='" + ordDet.getFINVDET_DIS_AMT() + "' where Itemcode ='" + ordDet.getFINVDET_ITEM_CODE() + "'";
                 dB.execSQL(updateQuery);
 
