@@ -168,18 +168,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * ############################ Reason table Details
      * ################################
      */
-
-    public static final String TABLE_REASON = "Reason";
-    // table attributes
-    public static final String REASON_ID = "reason_id";
-    public static final String REASON_CODE = "ReaCode";
-    public static final String REASON_NAME = "ReaName";
-    public static final String REASON_TYPE = "Type";
-
-    // create String
-    private static final String CREATE_REASON_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_REASON + " (" + REASON_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REASON_CODE + " TEXT, " + REASON_NAME + " TEXT, "  + REASON_TYPE + " TEXT); ";
-
-
     //table items
     public static final String TABLE_ITEMS = "Items";
     public static final String ITEM_ID = "ItemId";
@@ -2354,57 +2342,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + FPRODUCT_PRICE_PRE + " TEXT, "
             + FPRODUCT_QOH_PRE + " TEXT, "
             + FPRODUCT_QTY_PRE + " TEXT); ";
-
-    public static final String TABLE_INVRDET = "InvRDet";
-    public static final String INVRDET_ID = "id";
-    public static final String INVRDET_ITEMCODE = "ItemCode";
-    public static final String INVRDET_TAXCOMCODE = "TaxComCode";
-    public static final String INVRDET_PRILCODE = "PrilCode";
-
-    public static final String INVRDET_TXN_TYPE = "TxnType";
-    public static final String INVRDET_COST_PRICE = "CostPrice";
-    public static final String INVRDET_SELL_PRICE = "SellPrice";
-    public static final String INVRDET_T_SELL_PRICE = "TSellPrice";
-    public static final String INVRDET_AMT = "Amt";
-    public static final String INVRDET_DIS_AMT = "DisAmt";
-    public static final String INVRDET_DIS_RATE = "DisRate";
-    public static final String INVRDET_TAX_AMT = "TaxAmt";
-    public static final String INVRDET_QTY = "Qty";
-    public static final String INVRDET_BAL_QTY = "BalQty";
-    public static final String INVRDET_IS_ACTIVE = "IsActive";
-    public static final String INVRDET_SEQNO = "SeqNo";
-    public static final String INVRDET_REASON_CODE = "ReasonCode";
-    public static final String INVRDET_REASON_NAME = "ReasonName";
-    public static final String INVRDET_RETURN_TYPE = "ReturnType";
-    public static final String INVRDET_FREE_QTY = "ReturnFreeQty";
-    public static final String INVRDET_PRICE = "price";
-    public static final String INVRDET_CHANGED_PRICE = "ChangedPrice";
-
-    private static final String CREATE_INVRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_INVRDET + " ("
-            + INVRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + REFNO + " TEXT, "
-            + INVRDET_ITEMCODE + " TEXT, "
-            + INVRDET_TAXCOMCODE + " TEXT, "
-            + INVRDET_PRILCODE + " TEXT, "
-            + TXNDATE + " TEXT, "
-            + INVRDET_TXN_TYPE + " TEXT, "
-            + INVRDET_COST_PRICE + " TEXT, "
-            + INVRDET_SELL_PRICE + " TEXT, "
-            + INVRDET_T_SELL_PRICE + " TEXT, "
-            + INVRDET_AMT + " TEXT, "
-            + INVRDET_DIS_AMT + " TEXT, "
-            + INVRDET_DIS_RATE + " TEXT, "
-            + INVRDET_TAX_AMT + " TEXT, "
-            + INVRDET_QTY + " TEXT, "
-            + INVRDET_BAL_QTY + " TEXT, "
-            + INVRDET_IS_ACTIVE + " TEXT, "
-            + INVRDET_REASON_CODE + " TEXT, "
-            + INVRDET_REASON_NAME + " TEXT, "
-            + INVRDET_RETURN_TYPE + " TEXT, "
-            + INVRDET_FREE_QTY + " TEXT, "
-            + INVRDET_PRICE + " TEXT, "
-            + INVRDET_CHANGED_PRICE + " TEXT, "
-            + INVRDET_SEQNO + " TEXT); ";
+;
 
     public static final String TABLE_FTOURHED = "fTourHed";
     public static final String TOURHED_ID = "Id";
@@ -2522,8 +2460,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // --------------------- Nuwan ------------------------
         arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
-        arg0.execSQL(CREATE_REASON_TABLE);
-        arg0.execSQL(CREATE_INVRDET_TABLE);
+
         arg0.execSQL(CREATE_FTOURHED_TABLE);
         // ---------------------------------------------------
 

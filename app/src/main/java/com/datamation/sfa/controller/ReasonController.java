@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.helpers.DatabaseHelper;
+import com.datamation.sfa.model.Reason;
 
 import java.util.ArrayList;
 
@@ -45,27 +46,27 @@ public class ReasonController {
 		Cursor cursor_ini = null;
 		try {
 
-			cursor_ini = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_REASON, null);
+			cursor_ini = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FREASON, null);
 
 			for (Reason reason : list) {
 				ContentValues values = new ContentValues();
 
-				values.put(dbHelper.REASON_NAME, reason.getReasonName());
-				values.put(dbHelper.REASON_CODE, reason.getReasonCode());
-				values.put(dbHelper.REASON_TYPE, reason.getReasonType());
+				values.put(dbHelper.FREASON_NAME, reason.getReasonName());
+				values.put(dbHelper.FREASON_CODE, reason.getReasonCode());
+				values.put(dbHelper.FREASON_TYPE, reason.getReasonType());
 
 				if (cursor_ini.moveToFirst()) {
-					String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_CODE + "='" + reason.getReasonCode() + "'";
+					String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + reason.getReasonCode() + "'";
 					cursor = dB.rawQuery(selectQuery, null);
 
 					if (cursor.moveToFirst()) {
-						count = (int) dB.update(dbHelper.TABLE_REASON, values, dbHelper.REASON_CODE + "='" + reason.getReasonCode() + "'", null);
+						count = (int) dB.update(dbHelper.TABLE_FREASON, values, dbHelper.FREASON_CODE + "='" + reason.getReasonCode() + "'", null);
 					} else {
-						count = (int) dB.insert(dbHelper.TABLE_REASON, null, values);
+						count = (int) dB.insert(dbHelper.TABLE_FREASON, null, values);
 					}
 
 				} else {
-					count = (int) dB.insert(dbHelper.TABLE_REASON, null, values);
+					count = (int) dB.insert(dbHelper.TABLE_FREASON, null, values);
 				}
 
 			}
@@ -103,10 +104,10 @@ public class ReasonController {
 		Cursor cursor = null;
 		try {
 
-			cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_REASON, null);
+			cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FREASON, null);
 			count = cursor.getCount();
 			if (count > 0) {
-				int success = dB.delete(dbHelper.TABLE_REASON, null, null);
+				int success = dB.delete(dbHelper.TABLE_FREASON, null, null);
 				Log.v("Success", success + "");
 			}
 		} catch (Exception e) {
@@ -139,12 +140,12 @@ public class ReasonController {
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 		while (cursor.moveToNext()) {
 
-			Reason reason = new Reason();
+			Reason res = new Reason();
 
-			reason.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
-			reason.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+			res.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			res.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
 
-			list.add(reason);
+			list.add(res);
 
 		}
 
@@ -159,7 +160,7 @@ public class ReasonController {
 
 		ArrayList<Reason> list = new ArrayList<Reason>();
 
-		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON;
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON;
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 		while (cursor.moveToNext()) {
@@ -182,22 +183,22 @@ public class ReasonController {
 			open();
 		}
 
-		ArrayList<String> reason = new ArrayList<String>();
+		ArrayList<String> FREASON = new ArrayList<String>();
 
-		//String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_CODE + "='RT01' OR dbHelper.REASON_CODE='RT02'";
-		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON;
+		//String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='RT01' OR dbHelper.FREASON_CODE='RT02'";
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON;
 
 		Cursor cursor = null;
 		cursor = dB.rawQuery(selectQuery, null);
-		reason.add("Tap to select a Reason");
+		FREASON.add("Tap to select a FREASON");
 
 		while (cursor.moveToNext()) {
 
-			reason.add(cursor.getString(cursor.getColumnIndex(dbHelper.REASON_NAME)));
+			FREASON.add(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
 
 		}
 
-		return reason;
+		return FREASON;
 	}
 
 	public String getReaCodeByName(String name) {
@@ -207,13 +208,13 @@ public class ReasonController {
 			open();
 		}
 
-		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_NAME + "='" + name + "'";
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_NAME + "='" + name + "'";
 
 		Cursor cursor = null;
 		cursor = dB.rawQuery(selectQuery, null);
 
 		while (cursor.moveToNext()) {
-			return cursor.getString(cursor.getColumnIndex(dbHelper.REASON_CODE));
+			return cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE));
 		}
 
 		return "";
@@ -229,17 +230,17 @@ public class ReasonController {
 		ArrayList<Reason> list = new ArrayList<Reason>();
 		String selectQuery = null;
 		if(excode.equals(""))
-			selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_TYPE + " = 'ex'";
+			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_TYPE + " = 'ex'";
 		else
-			selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_CODE + "='" + excode + "' and "+ dbHelper.REASON_TYPE + " = 'ex'";;
+			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + excode + "' and "+ dbHelper.FREASON_TYPE + " = 'ex'";;
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 		while (cursor.moveToNext()) {
 
 			Reason expense = new Reason();
 
-			expense.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.REASON_CODE)));
-			expense.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.REASON_NAME)));
+			expense.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			expense.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
 
 			list.add(expense);
 
@@ -256,13 +257,13 @@ public class ReasonController {
 			open();
 		}
 
-		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_CODE + "='" + reaCode + "'";
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + reaCode + "'";
 
 		Cursor cursor = null;
 		cursor = dB.rawQuery(selectQuery, null);
 
 		while (cursor.moveToNext()) {
-			return cursor.getString(cursor.getColumnIndex(dbHelper.REASON_NAME));
+			return cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME));
 		}
 
 		return "";
@@ -277,18 +278,18 @@ public class ReasonController {
 
 		ArrayList<Reason> list = new ArrayList<Reason>();
 
-//		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_TYPE + "='np'";
-		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON;
+//		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_TYPE + "='np'";
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON;
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 		while (cursor.moveToNext()) {
 
-			Reason reason = new Reason();
+			Reason FREASON = new Reason();
 
-			reason.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.REASON_CODE)));
-			reason.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.REASON_NAME)));
+			FREASON.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			FREASON.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
 
-			list.add(reason);
+			list.add(FREASON);
 
 		}
 
@@ -304,7 +305,7 @@ public class ReasonController {
 
 		ArrayList<Reason> Itemname = new ArrayList<Reason>();
 
-		String selectQuery = "select * from fReason where ReaTcode='RT02' AND ReaCode LIKE '%" + searchword + "%' OR ReaName LIKE '%" + searchword + "%' ";
+		String selectQuery = "select * from FREASON where ReaTcode='RT02' AND ReaCode LIKE '%" + searchword + "%' OR ReaName LIKE '%" + searchword + "%' ";
 
 		Cursor cursor = null;
 		cursor = dB.rawQuery(selectQuery, null);
@@ -312,8 +313,8 @@ public class ReasonController {
 		while (cursor.moveToNext()) {
 			Reason items = new Reason();
 
-			items.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.REASON_NAME)));
-			items.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.REASON_CODE)));
+			items.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+			items.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
 			Itemname.add(items);
 		}
 
@@ -329,13 +330,13 @@ public class ReasonController {
 			open();
 		}
 
-		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REASON + " WHERE " + dbHelper.REASON_CODE + "='" + code + "'";
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + code + "'";
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 
 		while (cursor.moveToNext()) {
 
-			return cursor.getString(cursor.getColumnIndex(dbHelper.REASON_NAME));
+			return cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME));
 
 		}
 

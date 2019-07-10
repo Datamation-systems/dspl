@@ -46,41 +46,41 @@ public class SalesReturnDetController
 
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_INVRDET + " WHERE " + dbHelper.INVRDET_ID + " = '" + invrDet.getFINVRDET_ID() + "'";
+                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FINVRDET + " WHERE " + dbHelper.FINVRDET_ID + " = '" + invrDet.getFINVRDET_ID() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
                 values.put(dbHelper.REFNO, invrDet.getFINVRDET_REFNO());
                 values.put(dbHelper.TXNDATE, invrDet.getFINVRDET_TXN_DATE());
-                values.put(dbHelper.INVRDET_QTY, invrDet.getFINVRDET_QTY());
-                values.put(dbHelper.INVRDET_BAL_QTY, invrDet.getFINVRDET_BAL_QTY());
-                values.put(dbHelper.INVRDET_ITEMCODE, invrDet.getFINVRDET_ITEMCODE());
-                values.put(dbHelper.INVRDET_TAXCOMCODE, invrDet.getFINVRDET_TAXCOMCODE());
-                values.put(dbHelper.INVRDET_PRILCODE, invrDet.getFINVRDET_PRILCODE());
-                values.put(dbHelper.INVRDET_IS_ACTIVE, invrDet.getFINVRDET_IS_ACTIVE());
-                values.put(dbHelper.INVRDET_COST_PRICE, invrDet.getFINVRDET_COST_PRICE());
-                values.put(dbHelper.INVRDET_SELL_PRICE, invrDet.getFINVRDET_SELL_PRICE());
-                values.put(dbHelper.INVRDET_T_SELL_PRICE, invrDet.getFINVRDET_T_SELL_PRICE());
-                values.put(dbHelper.INVRDET_AMT, invrDet.getFINVRDET_AMT());
-                values.put(dbHelper.INVRDET_DIS_AMT, invrDet.getFINVRDET_DIS_AMT());
-                values.put(dbHelper.INVRDET_TAX_AMT, invrDet.getFINVRDET_TAX_AMT());
-                values.put(dbHelper.INVRDET_TXN_TYPE, invrDet.getFINVRDET_TXN_TYPE());
-                values.put(dbHelper.INVRDET_SEQNO, invrDet.getFINVRDET_SEQNO());
-                values.put(dbHelper.INVRDET_REASON_NAME, invrDet.getFINVRDET_RETURN_REASON());
-                values.put(dbHelper.INVRDET_REASON_CODE, invrDet.getFINVRDET_RETURN_REASON_CODE());
-                values.put(dbHelper.INVRDET_RETURN_TYPE, invrDet.getFINVRDET_RETURN_TYPE());
+                values.put(dbHelper.FINVRDET_QTY, invrDet.getFINVRDET_QTY());
+                values.put(dbHelper.FINVRDET_BAL_QTY, invrDet.getFINVRDET_BAL_QTY());
+                values.put(dbHelper.FINVRDET_ITEMCODE, invrDet.getFINVRDET_ITEMCODE());
+                values.put(dbHelper.FINVRDET_TAXCOMCODE, invrDet.getFINVRDET_TAXCOMCODE());
+                values.put(dbHelper.FINVRDET_PRILCODE, invrDet.getFINVRDET_PRILCODE());
+                values.put(dbHelper.FINVRDET_IS_ACTIVE, invrDet.getFINVRDET_IS_ACTIVE());
+                values.put(dbHelper.FINVRDET_COST_PRICE, invrDet.getFINVRDET_COST_PRICE());
+                values.put(dbHelper.FINVRDET_SELL_PRICE, invrDet.getFINVRDET_SELL_PRICE());
+                values.put(dbHelper.FINVRDET_T_SELL_PRICE, invrDet.getFINVRDET_T_SELL_PRICE());
+                values.put(dbHelper.FINVRDET_AMT, invrDet.getFINVRDET_AMT());
+                values.put(dbHelper.FINVRDET_DIS_AMT, invrDet.getFINVRDET_DIS_AMT());
+                values.put(dbHelper.FINVRDET_TAX_AMT, invrDet.getFINVRDET_TAX_AMT());
+                values.put(dbHelper.FINVRDET_TXN_TYPE, invrDet.getFINVRDET_TXN_TYPE());
+                values.put(dbHelper.FINVRDET_SEQNO, invrDet.getFINVRDET_SEQNO());
+                values.put(dbHelper.FINVRDET_REASON_NAME, invrDet.getFINVRDET_RETURN_REASON());
+                values.put(dbHelper.FINVRDET_REASON_CODE, invrDet.getFINVRDET_RETURN_REASON_CODE());
+                values.put(dbHelper.FINVRDET_RETURN_TYPE, invrDet.getFINVRDET_RETURN_TYPE());
                 //values.put(dbHelper.FINVRDET_FREE_QTY, invrDet.getFr());
-                values.put(dbHelper.INVRDET_PRICE, invrDet.getFINVRDET_SELL_PRICE());
-                values.put(dbHelper.INVRDET_CHANGED_PRICE, invrDet.getFINVRDET_CHANGED_PRICE());
+               // values.put(dbHelper.FINVRDET_PRICE, invrDet.getFINVRDET_SELL_PRICE());
+                values.put(dbHelper.FINVRDET_CHANGED_PRICE, invrDet.getFINVRDET_CHANGED_PRICE());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
 
-                    count = dB.update(dbHelper.TABLE_INVRDET, values, dbHelper.INVRDET_ID + " =?", new String[]{String
+                    count = dB.update(dbHelper.TABLE_FINVRDET, values, dbHelper.FINVRDET_ID + " =?", new String[]{String
                             .valueOf(invrDet.getFINVRDET_ID())});
 
                 } else {
-                    count = (int) dB.insert(dbHelper.TABLE_INVRDET, null, values);
+                    count = (int) dB.insert(dbHelper.TABLE_FINVRDET, null, values);
                 }
 
             }
@@ -115,27 +115,27 @@ public class SalesReturnDetController
 
             FInvRDet invrDet = new FInvRDet();
 
-            invrDet.setFINVRDET_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_ID)));
-            invrDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_AMT)));
-            invrDet.setFINVRDET_COST_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_COST_PRICE)));
-            invrDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_SELL_PRICE)));
-            invrDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_T_SELL_PRICE)));
-            invrDet.setFINVRDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_IS_ACTIVE)));
-            invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_ITEMCODE)));
-            invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_QTY)));
-            invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_BAL_QTY)));
+            invrDet.setFINVRDET_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_ID)));
+            invrDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_AMT)));
+            invrDet.setFINVRDET_COST_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_COST_PRICE)));
+            invrDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_SELL_PRICE)));
+            invrDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_T_SELL_PRICE)));
+            invrDet.setFINVRDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_IS_ACTIVE)));
+            invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_ITEMCODE)));
+            invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_QTY)));
+            invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_BAL_QTY)));
             invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
             invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
-            invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TAXCOMCODE)));
-            invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_PRILCODE)));
-            invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_DIS_AMT)));
-            invrDet.setFINVRDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TAX_AMT)));
-            invrDet.setFINVRDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TXN_TYPE)));
-            invrDet.setFINVRDET_SEQNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_SEQNO)));
-            invrDet.setFINVRDET_RETURN_REASON(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_REASON_NAME)));
-            invrDet.setFINVRDET_RETURN_REASON_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_REASON_CODE)));
-            invrDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_RETURN_TYPE)));
-            invrDet.setFINVRDET_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_CHANGED_PRICE)));
+            invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TAXCOMCODE)));
+            invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_PRILCODE)));
+            invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_DIS_AMT)));
+            invrDet.setFINVRDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TAX_AMT)));
+            invrDet.setFINVRDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TXN_TYPE)));
+            invrDet.setFINVRDET_SEQNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_SEQNO)));
+            invrDet.setFINVRDET_RETURN_REASON(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_REASON_NAME)));
+            invrDet.setFINVRDET_RETURN_REASON_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_REASON_CODE)));
+            invrDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_RETURN_TYPE)));
+            invrDet.setFINVRDET_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_CHANGED_PRICE)));
             list.add(invrDet);
 
         }
@@ -251,36 +251,36 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select * from " + DatabaseHelper.TABLE_INVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
 
             FInvRDet invrDet = new FInvRDet();
 
-            invrDet.setFINVRDET_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_ID)));
-            invrDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_AMT)));
-            invrDet.setFINVRDET_COST_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_COST_PRICE)));
-            invrDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_SELL_PRICE)));
-            invrDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_T_SELL_PRICE)));
-            invrDet.setFINVRDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_IS_ACTIVE)));
-            invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_ITEMCODE)));
-            invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_QTY)));
-            invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_BAL_QTY)));
+            invrDet.setFINVRDET_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_ID)));
+            invrDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_AMT)));
+            invrDet.setFINVRDET_COST_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_COST_PRICE)));
+            invrDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_SELL_PRICE)));
+            invrDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_T_SELL_PRICE)));
+            invrDet.setFINVRDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_IS_ACTIVE)));
+            invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_ITEMCODE)));
+            invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_QTY)));
+            invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_BAL_QTY)));
             invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
             invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
-            invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TAXCOMCODE)));
-            invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_PRILCODE)));
-            invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_DIS_AMT)));
-            invrDet.setFINVRDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TAX_AMT)));
-            invrDet.setFINVRDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TXN_TYPE)));
-            invrDet.setFINVRDET_SEQNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_SEQNO)));
-            invrDet.setFINVRDET_RETURN_REASON(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_REASON_NAME)));
-            invrDet.setFINVRDET_RETURN_REASON_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_REASON_CODE)));
-            invrDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_RETURN_TYPE)));
-            //invrDet.setFINVRDET_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_PRICE)));
-            invrDet.setFINVRDET_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_CHANGED_PRICE)));
-            //invrDet.setFINVRDET_DIS_RATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_DIS_RATE)));
+            invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TAXCOMCODE)));
+            invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_PRILCODE)));
+            invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_DIS_AMT)));
+            invrDet.setFINVRDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TAX_AMT)));
+            invrDet.setFINVRDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TXN_TYPE)));
+            invrDet.setFINVRDET_SEQNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_SEQNO)));
+            invrDet.setFINVRDET_RETURN_REASON(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_REASON_NAME)));
+            invrDet.setFINVRDET_RETURN_REASON_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_REASON_CODE)));
+            invrDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_RETURN_TYPE)));
+            //invrDet.setFINVRDET_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_PRICE)));
+            invrDet.setFINVRDET_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_CHANGED_PRICE)));
+            //invrDet.setFINVRDET_DIS_RATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_DIS_RATE)));
             list.add(invrDet);
         }
 
@@ -297,8 +297,8 @@ public class SalesReturnDetController
         try {
 
             ContentValues values = new ContentValues();
-            values.put(DatabaseHelper.INVRDET_SELL_PRICE, price);
-            values.put(DatabaseHelper.INVRDET_T_SELL_PRICE, price);
+            values.put(DatabaseHelper.FINVRDET_SELL_PRICE, price);
+            values.put(DatabaseHelper.FINVRDET_T_SELL_PRICE, price);
             count=(int)dB.update(DatabaseHelper.TABLE_FINVRDET, values, DatabaseHelper.FINVRDET_ITEMCODE + " =?", new String[]{String.valueOf(itemCode)});
 
         } catch (Exception e) {
@@ -321,7 +321,7 @@ public class SalesReturnDetController
 
         try {
 
-            count = dB.delete(DatabaseHelper.TABLE_INVRDET, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+            count = dB.delete(DatabaseHelper.TABLE_FINVRDET, DatabaseHelper.REFNO + " ='" + refno + "'", null);
 
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -344,7 +344,7 @@ public class SalesReturnDetController
         }
 
         try {
-            String selectQuery = "SELECT count(RefNo) as RefNoCount FROM " + DatabaseHelper.TABLE_INVRDET + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+            String selectQuery = "SELECT count(RefNo) as RefNoCount FROM " + DatabaseHelper.TABLE_FINVRDET + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -414,7 +414,7 @@ public class SalesReturnDetController
         Cursor cursor = null;
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select * from " + DatabaseHelper.TABLE_INVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
 
         try {
 
@@ -424,17 +424,17 @@ public class SalesReturnDetController
 
                 FInvRDet reDet = new FInvRDet();
 
-                reDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_AMT)));
-                reDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_ITEMCODE)));
-                reDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_QTY)));
-                reDet.setFINVRDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TXN_TYPE)));
+                reDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_AMT)));
+                reDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_ITEMCODE)));
+                reDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_QTY)));
+                reDet.setFINVRDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TXN_TYPE)));
                 reDet.setFINVRDET_REFNO(refno);
-                reDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_DIS_AMT)));
+                reDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_DIS_AMT)));
                 //reDet.setFTRANSODET_SCHDISC(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_DISVALAMT)));
-                reDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_SELL_PRICE)));
-                reDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_T_SELL_PRICE)));
-                reDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_RETURN_TYPE)));
-                reDet.setFINVRDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRDET_TAX_AMT)));
+                reDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_SELL_PRICE)));
+                reDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_T_SELL_PRICE)));
+                reDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_RETURN_TYPE)));
+                reDet.setFINVRDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TAX_AMT)));
 
                 list.add(reDet);
             }

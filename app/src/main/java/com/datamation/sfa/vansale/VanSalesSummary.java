@@ -391,8 +391,8 @@ public class VanSalesSummary extends Fragment {
 
                             UpdateTaxDetails(RefNo);
                             UpdateQOH_FIFO();
-                         //   new ItemLocDS(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
-                          //  new ItemLocDS(getActivity()).UpdateInvoiceQOHInReturn(RefNo, "+", locCode);
+                            new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
+                            new ItemLocController(getActivity()).UpdateInvoiceQOHInReturn(RefNo, "+", locCode);
                             updateDispTables(sHed);
                             int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
 
