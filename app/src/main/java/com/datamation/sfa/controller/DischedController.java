@@ -14,14 +14,14 @@ import com.datamation.sfa.model.Disched;
 
 import java.util.ArrayList;
 
-public class DischedDS {
+public class DischedController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "swadeshi";
 
-    public DischedDS(Context context) {
+    public DischedController(Context context) {
 
         this.context = context;
         dbHelper = new DatabaseHelper(context);

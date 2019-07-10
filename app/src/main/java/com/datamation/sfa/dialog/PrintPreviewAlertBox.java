@@ -18,8 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.adapter.PrintReturnItemAdapter;
+import com.datamation.sfa.adapter.PrintVanSaleItemAdapter;
+import com.datamation.sfa.adapter.PrintVanSaleReturnAdapter;
 import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
@@ -28,6 +30,7 @@ import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
+import com.datamation.sfa.model.InvDet;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.SalRep;
 import com.datamation.sfa.model.User;
@@ -161,7 +164,7 @@ public class PrintPreviewAlertBox {
 
         FInvRHed retHed = new SalesReturnController(context).getReturnDetailsForPrint(refno);
         ArrayList<FInvRDet> retDetList = new SalesReturnDetController(context).getReturnItemsforPrint(refno);
-
+        ArrayList<InvDet> itemList = new InvDetController(context).getAllItemsforPrint(PRefno);
         Customer debtor = new CustomerController(context).getSelectedCustomerByCode(retHed.getFINVRHED_DEBCODE());
         Debname.setText(debtor.getCusName());
 
@@ -187,8 +190,11 @@ public class PrintPreviewAlertBox {
             dTotAmt += Double.parseDouble(det.getFINVRDET_AMT());
         }
 
-        lvItemDetails = (ListView) promptView.findViewById(R.id.salesreturnList);
-        lvItemDetails.setAdapter(new PrintReturnItemAdapter(context, retDetList,refno, debtor.getCusCode()));
+
+            lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
+            lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
+            lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, itemList));
+            lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, retDetList));
 
 		/*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -401,8 +407,8 @@ public class PrintPreviewAlertBox {
         String title_Print_R = "\r\n";// + TempsubTermCode + "\r\n" +
         // subTitleheadR;
 
-       // ArrayList<InvDet> itemList = new InvDetDS(context).getAllItemsforPrint(PRefno);
-       // ArrayList<FInvRDet> Rlist = new FInvRDetDS(context).getAllInvRDetForPrint(PRefno);
+        ArrayList<InvDet> itemList = new InvDetController(context).getAllItemsforPrint(PRefno);
+        ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(PRefno);
 
         BigDecimal compDisc = BigDecimal.ZERO;// new
         // BigDecimal(itemList.get(0).getFINVDET_COMDISPER().toString());

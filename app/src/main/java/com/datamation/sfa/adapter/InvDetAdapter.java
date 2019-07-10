@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.FreeHedDS;
-import com.datamation.sfa.controller.ItemsDS;
+import com.datamation.sfa.controller.FreeHedController;
+import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.model.FreeHed;
 import com.datamation.sfa.model.InvDet;
 
@@ -45,13 +45,13 @@ public class InvDetAdapter extends ArrayAdapter<InvDet> {
         TextView Amt = (TextView) row.findViewById(R.id.row_piece);
         TextView showStatus=(TextView)row.findViewById(R.id.row_free_status);
 
-        ItemsDS ds = new ItemsDS(getContext());
+        ItemController ds = new ItemController(getContext());
         item.setText(ds.getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE()));
         Qty.setText(list.get(position).getFINVDET_QTY());
         Amt.setText(list.get(position).getFINVDET_AMT());
 
 
-        FreeHedDS freeHedDS = new FreeHedDS(context);
+        FreeHedController freeHedDS = new FreeHedController(context);
         arrayList = freeHedDS.getFreeIssueItemDetailByRefno(list.get(position).getFINVDET_ITEM_CODE(),"" );
 
         //if(arrayList.size()>0){

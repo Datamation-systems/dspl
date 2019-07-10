@@ -13,14 +13,14 @@ import com.datamation.sfa.model.OrderDisc;
 
 import java.util.ArrayList;
 
-public class OrderDiscDS {
+public class OrderDiscController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "swadeshi orderDisc";
 
-    public OrderDiscDS(Context context) {
+    public OrderDiscController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

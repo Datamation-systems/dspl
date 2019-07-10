@@ -23,8 +23,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import com.datamation.sfa.adapter.NewProduct_Adapter;
 import com.datamation.sfa.adapter.PreProduct_Adapter;
-import com.datamation.sfa.controller.InvDetDS;
-import com.datamation.sfa.controller.ProductDS;
+import com.datamation.sfa.controller.InvDetController;
+import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
@@ -102,7 +102,7 @@ public class OrderDetailFragment extends Fragment{
         lv_order_det.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                new InvDetDS(getActivity()).restFreeIssueData(RefNo);
+                new InvDetController(getActivity()).restFreeIssueData(RefNo);
                 newDeleteOrderDialog(position);
                 return true;
             }
@@ -133,11 +133,11 @@ public class OrderDetailFragment extends Fragment{
         @Override
         protected ArrayList<Product> doInBackground(Object... objects) {
 
-            if (new ProductDS(getActivity()).tableHasRecords()) {
+            if (new ProductController(getActivity()).tableHasRecords()) {
                 //productList = new ProductDS(getActivity()).getAllItems("");
-                productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
+                productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
             } else {
-                new ProductDS(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), new SalRepController(getActivity()).getCurrentPriLCode().trim());
+                new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), new SalRepController(getActivity()).getCurrentPriLCode().trim());
 
                 if(tmpsoHed!=null) {
 
@@ -147,7 +147,7 @@ public class OrderDetailFragment extends Fragment{
                             String tmpItemName = orderDetailArrayList.get(i).getORDDET_ITEMCODE();
                             String tmpQty = orderDetailArrayList.get(i).getORDDET_QTY();
                             //Update Qty in  fProducts_pre table
-                            int count = new ProductDS(getActivity()).updateProductQtyfor(tmpItemName, tmpQty);
+                            int count = new ProductController(getActivity()).updateProductQtyfor(tmpItemName, tmpQty);
                             if (count > 0) {
 
                                 Log.d("InsertOrUpdate", "success");
@@ -160,7 +160,7 @@ public class OrderDetailFragment extends Fragment{
                 }
                 //----------------------------------------------------------------------------
             }
-            productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
+            productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
             return productList;
         }
 
@@ -223,13 +223,13 @@ public class OrderDetailFragment extends Fragment{
         final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
 
         lvProducts.clearTextFilter();
-        productList = new ProductDS(getActivity()).getAllItems("","SA");
+        productList = new ProductController(getActivity()).getAllItems("","SA");
         lvProducts.setAdapter(new PreProduct_Adapter(getActivity(), productList));
 
         alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                selectedItemList = new ProductDS(getActivity()).getSelectedItems("SA");
+                selectedItemList = new ProductController(getActivity()).getSelectedItems("SA");
                 //updateInvoiceDet(selectedItemList);
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 dialog.cancel();
@@ -244,7 +244,7 @@ public class OrderDetailFragment extends Fragment{
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                productList = new ProductDS(getActivity()).getAllItems(query,"SA");//Rashmi 2018-10-26
+                productList = new ProductController(getActivity()).getAllItems(query,"SA");//Rashmi 2018-10-26
                 lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
                 return true;
             }
@@ -253,7 +253,7 @@ public class OrderDetailFragment extends Fragment{
             public boolean onQueryTextChange(String newText) {
 
                 productList.clear();
-                productList = new ProductDS(getActivity()).getAllItems(newText,"SA");//rashmi-2018-10-26
+                productList = new ProductController(getActivity()).getAllItems(newText,"SA");//rashmi-2018-10-26
                 lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
                 return true;
             }

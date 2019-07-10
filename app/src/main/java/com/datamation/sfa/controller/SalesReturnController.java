@@ -76,12 +76,12 @@ public class SalesReturnController
                 values.put(dbHelper.FINVRHED_START_TIME, invrHed.getFINVRHED_START_TIME());
                 values.put(dbHelper.FINVRHED_END_TIME, invrHed.getFINVRHED_END_TIME());
                 values.put(dbHelper.FINVRHED_REPCODE, invrHed.getFINVRHED_REP_CODE());
-                values.put(dbHelper.FINVRHED_RETURN_TYPE, invrHed.getFINVRHED_RETURN_TYPE());
-                values.put(dbHelper.FINVRHED_TOURCODE, invrHed.getFINVRHED_TOURCODE());
-                values.put(dbHelper.FINVRHED_AREACODE, invrHed.getFINVRHED_AREACODE());
-                values.put(dbHelper.FINVRHED_DRIVERCODE, invrHed.getFINVRHED_DRIVERCODE());
-                values.put(dbHelper.FINVRHED_HELPERCODE, invrHed.getFINVRHED_HELPERCODE());
-                values.put(dbHelper.FINVRHED_LORRYCODE, invrHed.getFINVRHED_LORRYCODE());
+//                values.put(dbHelper.FINVRHED_RETURN_TYPE, invrHed.getFINVRHED_RETURN_TYPE());
+//                values.put(dbHelper.FINVRHED_TOURCODE, invrHed.getFINVRHED_TOURCODE());
+//                values.put(dbHelper.FINVRHED_AREACODE, invrHed.getFINVRHED_AREACODE());
+//                values.put(dbHelper.FINVRHED_DRIVERCODE, invrHed.getFINVRHED_DRIVERCODE());
+//                values.put(dbHelper.FINVRHED_HELPERCODE, invrHed.getFINVRHED_HELPERCODE());
+//                values.put(dbHelper.FINVRHED_LORRYCODE, invrHed.getFINVRHED_LORRYCODE());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
@@ -188,12 +188,12 @@ public class SalesReturnController
             invrHed.setFINVRHED_START_TIME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_START_TIME)));
             invrHed.setFINVRHED_END_TIME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_END_TIME)));
             invrHed.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_REPCODE)));
-            invrHed.setFINVRHED_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_RETURN_TYPE)));
-            invrHed.setFINVRHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOURCODE)));
-            invrHed.setFINVRHED_AREACODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_AREACODE)));
-            invrHed.setFINVRHED_DRIVERCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_DRIVERCODE)));
-            invrHed.setFINVRHED_HELPERCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_HELPERCODE)));
-            invrHed.setFINVRHED_LORRYCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_LORRYCODE)));
+//            invrHed.setFINVRHED_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_RETURN_TYPE)));
+//            invrHed.setFINVRHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOURCODE)));
+//            invrHed.setFINVRHED_AREACODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_AREACODE)));
+//            invrHed.setFINVRHED_DRIVERCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_DRIVERCODE)));
+//            invrHed.setFINVRHED_HELPERCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_HELPERCODE)));
+//            invrHed.setFINVRHED_LORRYCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_LORRYCODE)));
 
             list.add(invrHed);
 
@@ -237,7 +237,40 @@ public class SalesReturnController
         return count;
 
     }
+    public FInvRHed getDetailsforPrint(String Refno) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        FInvRHed SRHed = new FInvRHed();
+
+        try {
+            String selectQuery = "SELECT RefNo,TotalAmt FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                SRHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                SRHed.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_AMT)));
+
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return SRHed;
+
+    }
     public int InactiveStatusUpdate(String refno) {
 
         int count = 0;

@@ -13,14 +13,14 @@ import com.datamation.sfa.model.FreeDeb;
 
 import java.util.ArrayList;
 
-public class FreeDebDS {
+public class FreeDebController {
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "swadeshi";
 
 
-    public FreeDebDS(Context context) {
+    public FreeDebController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

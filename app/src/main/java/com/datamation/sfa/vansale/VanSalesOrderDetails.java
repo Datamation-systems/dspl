@@ -12,11 +12,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,21 +21,17 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.FreeItemsAdapter;
 import com.datamation.sfa.adapter.InvDetAdapter;
-import com.datamation.sfa.adapter.NewProductAdapter;
 import com.datamation.sfa.adapter.NewProduct_Adapter;
-import com.datamation.sfa.controller.InvDetDS;
-import com.datamation.sfa.controller.OrdFreeIssueDS;
-import com.datamation.sfa.controller.ProductDS;
+import com.datamation.sfa.controller.InvDetController;
+import com.datamation.sfa.controller.OrdFreeIssueController;
+import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.FreeIssue;
@@ -49,7 +42,6 @@ import com.datamation.sfa.model.Product;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.view.VanSalesActivity;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -126,7 +118,7 @@ public class VanSalesOrderDetails extends Fragment {
         lv_order_det.setOnItemLongClickListener(new OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                new InvDetDS(getActivity()).restFreeIssueData(RefNo);
+                new InvDetController(getActivity()).restFreeIssueData(RefNo);
                 //new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
                 newDeleteOrderDialog(position);
                 return true;
@@ -169,9 +161,9 @@ public class VanSalesOrderDetails extends Fragment {
         @Override
         protected ArrayList<Product> doInBackground(Object... objects) {
 
-            if (new ProductDS(getActivity()).tableHasRecords()) {
+            if (new ProductController(getActivity()).tableHasRecords()) {
                 //productList = new ProductDS(getActivity()).getAllItems("");
-                productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
+                productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
             } else {
                 //rashmi 2018-10-22 - (getAllItemForVanSales) for mega.because debtor has no prillcode, it get from fitems
                 //productList = new ItemsDS(getActivity()).getAllItemForVanSales(new SalRepDS(getActivity()).getCurrentLocCode().trim(), mainActivity.selectedDebtor.getFDEBTOR_PRILLCODE());
@@ -182,7 +174,7 @@ public class VanSalesOrderDetails extends Fragment {
                 //rashmi 2019-03-12 prilcode get from fsalrep
                 String loc = new SalRepController(getActivity()).getCurrentLocCode().trim();
                 String pril = new SalRepController(getActivity()).getCurrentPriLCode().trim();
-                new ProductDS(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), new SalRepController(getActivity()).getCurrentPriLCode().trim());
+                new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), new SalRepController(getActivity()).getCurrentPriLCode().trim());
 
                 if(tmpinvHed!=null) {
 
@@ -192,7 +184,7 @@ public class VanSalesOrderDetails extends Fragment {
                             String tmpItemName = invDetArrayList.get(i).getFINVDET_ITEM_CODE();
                             String tmpQty = invDetArrayList.get(i).getFINVDET_QTY();
                             //Update Qty in  fProducts_pre table
-                            int count = new ProductDS(getActivity()).updateProductQtyfor(tmpItemName, tmpQty);
+                            int count = new ProductController(getActivity()).updateProductQtyfor(tmpItemName, tmpQty);
                             if (count > 0) {
 
                                 Log.d("InsertOrUpdate", "success");
@@ -205,7 +197,7 @@ public class VanSalesOrderDetails extends Fragment {
                 }
                 //----------------------------------------------------------------------------
             }
-            productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
+            productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
             return productList;
         }
 
@@ -228,13 +220,13 @@ public class VanSalesOrderDetails extends Fragment {
         //ibtDiscount.setClickable(false);
 
         /* GET CURRENT ORDER DETAILS FROM TABLE */
-        ArrayList<InvDet> dets = new InvDetDS(getActivity()).getSAForFreeIssueCalc(RefNo);
+        ArrayList<InvDet> dets = new InvDetController(getActivity()).getSAForFreeIssueCalc(RefNo);
         //ArrayList<InvDet> dets = new ProductDS(getActivity()).getSelectedItemsForInvoice(RefNo);
 
         /* CLEAR ORDERDET TABLE RECORD IF FREE ITEMS ARE ALREADY ADDED. */
-        new InvDetDS(getActivity()).restFreeIssueData(RefNo);
+        new InvDetController(getActivity()).restFreeIssueData(RefNo);
         /* Clear free issues in OrdFreeIss */
-        new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
+        new OrdFreeIssueController(getActivity()).ClearFreeIssues(RefNo);
         /*
          * JUST LOAD ORDER ITEMS TO LISTVIEW & CLEAR FREE ITEM FROM LISTVIEW
          * USER ALREADY RETREIVED FREE ISSUES
@@ -277,7 +269,7 @@ public class VanSalesOrderDetails extends Fragment {
                 if (discType.equals("P"))
                     disc = (Double.parseDouble(det.getFINVDET_AMT()) / 100) * disc;
 
-                new InvDetDS(getActivity()).updateDiscount(det, disc, det.getFINVDET_DISCTYPE());
+                new InvDetController(getActivity()).updateDiscount(det, disc, det.getFINVDET_DISCTYPE());
             }
         }
 
@@ -385,8 +377,8 @@ public class VanSalesOrderDetails extends Fragment {
 
     public void showData() {
         try {
-            orderList = new InvDetDS(getActivity()).getAllInvDet(mainActivity.selectedInvHed.getFINVHED_REFNO());
-            ArrayList<InvDet> freeList = new InvDetDS(getActivity()).getAllFreeIssue(mainActivity.selectedInvHed.getFINVHED_REFNO());
+            orderList = new InvDetController(getActivity()).getAllInvDet(mainActivity.selectedInvHed.getFINVHED_REFNO());
+            ArrayList<InvDet> freeList = new InvDetController(getActivity()).getAllFreeIssue(mainActivity.selectedInvHed.getFINVHED_REFNO());
             lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));//2019-07-07 till error free
             lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
         } catch (NullPointerException e) {
@@ -740,13 +732,13 @@ public class VanSalesOrderDetails extends Fragment {
 
 
         //productList = new ProductDS(getActivity()).getAllItems("");
-        productList = new ProductDS(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
+        productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
         lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
 
         alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                selectedItemList = new ProductDS(getActivity()).getSelectedItems("SA");
+                selectedItemList = new ProductController(getActivity()).getSelectedItems("SA");
                 updateInvoiceDet(selectedItemList);
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 dialog.cancel();
@@ -762,7 +754,7 @@ public class VanSalesOrderDetails extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //productList = new ProductDS(getActivity()).getAllItems(query);
-                productList = new ProductDS(getActivity()).getAllItems(query,"SA");//Rashmi 2018-10-26
+                productList = new ProductController(getActivity()).getAllItems(query,"SA");//Rashmi 2018-10-26
                 // lvProducts.setAdapter(new NewProductAdapter(getActivity(), productList));
                 lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
                 return true;
@@ -773,7 +765,7 @@ public class VanSalesOrderDetails extends Fragment {
 
                 productList.clear();
                 //productList = new ProductDS(getActivity()).getAllItems(newText);
-                productList = new ProductDS(getActivity()).getAllItems(newText,"SA");//rashmi-2018-10-26
+                productList = new ProductController(getActivity()).getAllItems(newText,"SA");//rashmi-2018-10-26
                 //  lvProducts.setAdapter(new NewProductAdapter(getActivity(), productList));
                 //added dhanushika
                 lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
@@ -792,8 +784,8 @@ public class VanSalesOrderDetails extends Fragment {
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                new ProductDS(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
-                new InvDetDS(getActivity()).mDeleteProduct(mainActivity.selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
+                new ProductController(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
+                new InvDetController(getActivity()).mDeleteProduct(mainActivity.selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 
@@ -922,7 +914,7 @@ public class VanSalesOrderDetails extends Fragment {
             protected Void doInBackground(Void... params) {
 
                 int i = 0;
-                new InvDetDS(getActivity()).mDeleteRecords(mainActivity.selectedInvHed.getFINVHED_REFNO());
+                new InvDetController(getActivity()).mDeleteRecords(mainActivity.selectedInvHed.getFINVHED_REFNO());
 
                 for (Product product : list) {
                     i++;
@@ -1000,7 +992,7 @@ public class VanSalesOrderDetails extends Fragment {
         invDet.setFINVDET_CHANGED_PRICE(changedPrice);
 
         arrList.add(invDet);
-        new InvDetDS(getActivity()).createOrUpdateInvDet(arrList);
+        new InvDetController(getActivity()).createOrUpdateInvDet(arrList);
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

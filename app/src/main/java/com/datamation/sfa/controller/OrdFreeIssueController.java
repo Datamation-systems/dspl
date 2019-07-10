@@ -13,14 +13,14 @@ import com.datamation.sfa.model.OrdFreeIssue;
 
 import java.util.ArrayList;
 
-public class OrdFreeIssueDS {
+public class OrdFreeIssueController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "OrdFreeIssueDS";
 
-    public OrdFreeIssueDS(Context context) {
+    public OrdFreeIssueController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

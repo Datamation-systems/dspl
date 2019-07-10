@@ -13,14 +13,14 @@ import com.datamation.sfa.model.FreeSlab;
 
 import java.util.ArrayList;
 
-public class FreeSlabDS {
+public class FreeSlabController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "swadeshi";
 
-    public FreeSlabDS(Context context) {
+    public FreeSlabController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

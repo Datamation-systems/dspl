@@ -13,14 +13,14 @@ import com.datamation.sfa.model.Discslab;
 
 import java.util.ArrayList;
 
-public class DiscslabDS {
+public class DiscslabController {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     private String TAG = "swadeshi";
 
-    public DiscslabDS(Context context) {
+    public DiscslabController(Context context) {
 
         this.context = context;
         dbHelper = new DatabaseHelper(context);
