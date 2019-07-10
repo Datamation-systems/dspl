@@ -102,7 +102,7 @@ public class VanSalesSummary extends Fragment {
         view = inflater.inflate(R.layout.sales_management_van_sales_summary, container, false);
 
         mSharedPref = new SharedPref(getActivity());
-
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
         ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanReturnNumVal));
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
@@ -217,8 +217,8 @@ public class VanSalesSummary extends Fragment {
             else
                 fTotFree += Integer.parseInt(ordDet.getFINVDET_QTY());
 
-            fTotLineDisc += Double.parseDouble(ordDet.getFINVDET_DIS_AMT());
-            fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DISVALAMT());
+        //    fTotLineDisc += Double.parseDouble(ordDet.getFINVDET_DIS_AMT());
+        //    fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DISVALAMT());
         }
         for (FInvRDet returnDet : returnList){
             if(!returnDet.getFINVRDET_RETURN_TYPE().equals("RP")) {

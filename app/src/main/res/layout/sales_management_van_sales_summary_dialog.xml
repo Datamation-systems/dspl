@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.datamation.megaheaters.control.FinacFont
+            <com.datamation.sfa.utils.CustomFont
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -40,7 +40,7 @@
             android:layout_marginTop="2dp"
             android:orientation="horizontal">
 
-            <com.datamation.megaheaters.control.FinacFont
+            <com.datamation.sfa.utils.CustomFont
                 android:id="@+id/add"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <com.datamation.megaheaters.control.FinacFont
+            <com.datamation.sfa.utils.CustomFont
                 android:id="@+id/indexhistory3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:textSize="14sp"
                 />
 
-            <com.datamation.megaheaters.control.FinacFont
+            <com.datamation.sfa.utils.CustomFont
                 android:id="@+id/indexmanual3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.datamation.megaheaters.control.FinacFont
+            <com.datamation.sfa.utils.CustomFont
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -124,7 +124,7 @@
             android:layout_marginTop="2dp"
             android:orientation="horizontal">
 
-            <com.datamation.megaheaters.control.FinacFont
+            <com.datamation.sfa.utils.CustomFont
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -138,7 +138,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <com.datamation.megaheaters.control.FinacFont
+            <com.datamation.sfa.utils.CustomFont
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dip"
@@ -152,7 +152,7 @@
                 android:textSize="14sp"
                 />
 
-            <com.datamation.megaheaters.control.FinacFont
+            <com.datamation.sfa.utils.CustomFont
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dip"
