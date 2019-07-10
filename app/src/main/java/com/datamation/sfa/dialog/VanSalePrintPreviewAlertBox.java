@@ -25,7 +25,7 @@ import com.datamation.sfa.controller.CompanyDetailsController;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.InvHedController;
-import com.datamation.sfa.controller.ItemsController;
+import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
@@ -476,7 +476,7 @@ public class VanSalePrintPreviewAlertBox {
         for (InvDet det : itemList) {
 
             String sItemcode = det.getFINVDET_ITEM_CODE();
-            String sItemname = new ItemsController(context).getItemNameByCode(sItemcode);
+            String sItemname = new ItemController(context).getItemNameByCode(sItemcode);
             String sQty = det.getFINVDET_QTY();
             // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
             // - 3);
@@ -605,7 +605,7 @@ public class VanSalePrintPreviewAlertBox {
             for (FInvRDet retrnDet : Rlist) {
 
                 String sRetItemcode = retrnDet.getFINVRDET_ITEMCODE();
-                String sRetItemname = new ItemsController(context).getItemNameByCode(sRetItemcode);
+                String sRetItemname = new ItemController(context).getItemNameByCode(sRetItemcode);
                 String sRetQty = retrnDet.getFINVRDET_QTY();
                 // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
                 // - 3);

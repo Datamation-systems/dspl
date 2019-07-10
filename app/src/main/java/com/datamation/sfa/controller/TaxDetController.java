@@ -125,7 +125,7 @@ public class TaxDetController {
 
     public String calculateSellPrice(String itemCode, String price) {
 
-        String comCode = new ItemsController(context).getTaxComCodeByItemCode(itemCode);
+        String comCode = new ItemController(context).getTaxComCodeByItemCode(itemCode);
         ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
         BigDecimal tax = new BigDecimal("0");
         BigDecimal amt = new BigDecimal(price);
@@ -143,7 +143,7 @@ public class TaxDetController {
 
     public String calculateTax(String itemCode, BigDecimal amt) {
 
-        String comCode = new ItemsController(context).getTaxComCodeByItemCode(itemCode);
+        String comCode = new ItemController(context).getTaxComCodeByItemCode(itemCode);
         ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
         BigDecimal tax = new BigDecimal("0");
 
@@ -161,7 +161,7 @@ public class TaxDetController {
 
     public String[] calculateTaxForward(String itemCode, double amt) {
 
-        String comCode = new ItemsController(context).getTaxComCodeByItemCode(itemCode);
+        String comCode = new ItemController(context).getTaxComCodeByItemCode(itemCode);
         ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
         double tax = 0;
         String sArray[] = new String[2];
@@ -182,7 +182,7 @@ public class TaxDetController {
 
     public String[] calculatePriceTaxForward(String itemCode, double price) {
 
-        String comCode = new ItemsController(context).getTaxComCodeByItemCode(itemCode);
+        String comCode = new ItemController(context).getTaxComCodeByItemCode(itemCode);
         ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
         double tax = 0;
         String sArray[] = new String[2];

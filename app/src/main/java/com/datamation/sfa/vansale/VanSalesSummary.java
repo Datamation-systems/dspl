@@ -33,8 +33,8 @@ import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.InvHedController;
 import com.datamation.sfa.controller.InvTaxDTController;
 import com.datamation.sfa.controller.InvTaxRGController;
+import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
-import com.datamation.sfa.controller.ItemsController;
 import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.STKInController;
 import com.datamation.sfa.controller.SalRepController;
@@ -679,7 +679,7 @@ public class VanSalesSummary extends Fragment {
             double totAmt = Double.parseDouble(product.getFPRODUCT_PRICE()) * Double.parseDouble(product.getFPRODUCT_QTY());
             String TaxedAmt = new TaxDetController(getActivity()).calculateTax(product.getFPRODUCT_ITEMCODE(), new BigDecimal(totAmt));
 
-            double brandDiscPer = new DebItemPriController(getActivity()).getBrandDiscount(new ItemsController(getActivity()).getBrandCode(product.getFPRODUCT_ITEMCODE()), SharedPref.getInstance(getActivity()).getSelectedDebCode());
+            double brandDiscPer = new DebItemPriController(getActivity()).getBrandDiscount(new ItemController(getActivity()).getBrandCode(product.getFPRODUCT_ITEMCODE()), SharedPref.getInstance(getActivity()).getSelectedDebCode());
          //   double compDiscPer = new ControlDS(getActivity()).getCompanyDisc();
 
 //            double Disc = (totAmt / 100) * compDiscPer;

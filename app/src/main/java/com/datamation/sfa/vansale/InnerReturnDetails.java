@@ -44,7 +44,6 @@ import com.datamation.sfa.adapter.SalesReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriController;
-import com.datamation.sfa.controller.ItemsController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
@@ -271,7 +270,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
                 selectedItem = new Item();
                 selectedItem.setFITEM_ITEM_CODE(returnDet.getFINVRDET_ITEMCODE());
                 index_id = Integer.parseInt(returnDet.getFINVRDET_ID());
-                lblItemName.setText(new ItemsController(getActivity()).getItemNameByCode(returnDet.getFINVRDET_ITEMCODE()));
+                lblItemName.setText(new ItemController(getActivity()).getItemNameByCode(returnDet.getFINVRDET_ITEMCODE()));
                 txtQty.setText(returnDet.getFINVRDET_QTY());
                 lblPrice.setText(new ItemPriController(getActivity()).getProductPriceByCode(selectedItem.getFITEM_ITEM_CODE(), activity.selectedRetDebtor.getCusPrilCode()));
                 hasChanged = false;
@@ -366,7 +365,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
                             ReturnDet.setFINVRDET_PRILCODE("");
                             ReturnDet.setFINVRDET_IS_ACTIVE("1");
                             ReturnDet.setFINVRDET_TAXCOMCODE(
-                                    new ItemsController(getActivity()).getTaxComCodeByItemCode(selectedItem.getFITEM_ITEM_CODE()));
+                                    new ItemController(getActivity()).getTaxComCodeByItemCode(selectedItem.getFITEM_ITEM_CODE()));
                             ReturnDet.setFINVRDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                             ReturnDet.setFINVRDET_TXN_TYPE("SR");
                             ReturnDet.setFINVRDET_RETURN_TYPE(returnType.getSelectedItem().toString().split("-")[0]);
@@ -515,7 +514,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
             @Override
             public boolean onQueryTextChange(String newText) {
                 list.clear();
-                list = new ItemsController(getActivity()).getAllItem(newText, "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getCusPrilCode());
+                list = new ItemController(getActivity()).getAllItem(newText, "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getCusPrilCode());
                 productList.clearTextFilter();
                 productList.setAdapter(new ProductAdapter(getActivity(), list));
                 return false;

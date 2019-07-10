@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.ItemsController;
+import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.model.FInvRDet;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class ReturnDetailsAdapter extends ArrayAdapter<FInvRDet> {
 //			lblAMt.setTypeface(null,Typeface.NORMAL);
 //		}
 
-        lblItem.setText(new ItemsController(getContext()).getItemNameByCode(list.get(position).getFINVRDET_ITEMCODE()) + " - " + list.get(position).getFINVRDET_ITEMCODE());
+        lblItem.setText(new ItemController(getContext()).getItemNameByCode(list.get(position).getFINVRDET_ITEMCODE()) + " - " + list.get(position).getFINVRDET_ITEMCODE());
         lblQty.setText(list.get(position).getFINVRDET_QTY());
         lblAMt.setText(list.get(position).getFINVRDET_RETURN_REASON());
 

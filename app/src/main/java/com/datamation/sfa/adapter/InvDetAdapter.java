@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.controller.FreeHedController;
-import com.datamation.sfa.controller.ItemsController;
+import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.model.FreeHed;
 import com.datamation.sfa.model.InvDet;
 
@@ -45,7 +45,7 @@ public class InvDetAdapter extends ArrayAdapter<InvDet> {
         TextView Amt = (TextView) row.findViewById(R.id.row_piece);
         TextView showStatus=(TextView)row.findViewById(R.id.row_free_status);
 
-        ItemsController ds = new ItemsController(getContext());
+        ItemController ds = new ItemController(getContext());
         item.setText(ds.getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE()));
         Qty.setText(list.get(position).getFINVDET_QTY());
         Amt.setText(list.get(position).getFINVDET_AMT());

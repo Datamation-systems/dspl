@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.ItemsController;
+import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.model.InvDet;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class FreeItemsAdapter extends ArrayAdapter<InvDet> {
         TextView itemCode = (TextView) row.findViewById(R.id.row_piece);
         TextView Qty = (TextView) row.findViewById(R.id.row_cases);
 
-        itemCode.setText(new ItemsController(context).getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE()));
+        itemCode.setText(new ItemController(context).getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE()));
         itemName.setText(list.get(position).getFINVDET_ITEM_CODE());
         Qty.setText(list.get(position).getFINVDET_QTY());
 
