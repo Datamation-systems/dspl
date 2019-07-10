@@ -440,13 +440,54 @@ public class VanSalesSummary extends Fragment {
 
                 public void onClick(final DialogInterface dialog, int id) {
 
-                    InvHed sHed = new InvHed();
+
                     ArrayList<InvHed> invHedList = new ArrayList<InvHed>();
 
                     InvHed invHed = new InvHedController(getActivity()).getActiveInvhed();
+                    InvHed sHed = new InvHed();
+/**
+ hed.setFINVHED_ADDDATE(currnentDate.getText().toString());
+ hed.setFINVHED_MANUREF(txtManual.getText().toString());
+ hed.setFINVHED_REMARKS(txtRemakrs.getText().toString());
+ hed.setFINVHED_ADDMACH(localSP.getString("MAC_Address", "No MAC Address").toString());
+ hed.setFINVHED_ADDUSER(new SalRepController(getActivity()).getCurrentRepCode());
+ hed.setFINVHED_CURCODE("LKR");
+ hed.setFINVHED_CURRATE("1.00");
+ hed.setFINVHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
 
+ if (activity.selectedDebtor != null) {
+ hed.setFINVHED_DEBCODE(activity.selectedDebtor.getCusCode());
+ hed.setFINVHED_CONTACT(activity.selectedDebtor.getCusMob());
+ hed.setFINVHED_CUSADD1(activity.selectedDebtor.getCusAdd1());
+ hed.setFINVHED_CUSADD2(activity.selectedDebtor.getCusAdd2());
+ hed.setFINVHED_CUSADD3(activity.selectedDebtor.getCusAdd1());
+ //  hed.setFINVHED_CUSTELE(activity.selectedDebtor.getCus);
+ //    hed.setFINVHED_TAXREG(activity.selectedDebtor.getFDEBTOR_TAX_REG());
+ }else{
+ activity.selectedDebtor  = new CustomerController(getActivity()).getSelectedCustomerByCode(new SharedPref(getActivity()).getSelectedDebCode());
+ hed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
+ hed.setFINVHED_CONTACT(activity.selectedDebtor.getCusMob());
+ hed.setFINVHED_CUSADD1(activity.selectedDebtor.getCusAdd1());
+ hed.setFINVHED_CUSADD2(activity.selectedDebtor.getCusAdd2());
+ hed.setFINVHED_CUSADD3(activity.selectedDebtor.getCusAdd1());
+ }
+
+ hed.setFINVHED_TXNTYPE("22");
+ hed.setFINVHED_TXNDATE(currnentDate.getText().toString());
+ hed.setFINVHED_IS_ACTIVE("1");
+ hed.setFINVHED_IS_SYNCED("0");
+ hed.setFINVHED_TOURCODE(new SharedPref(getActivity()).getGlobalVal("KeyTouRef"));
+ // hed.setFINVHED_AREACODE(new SharedPref(getActivity()).getGlobalVal("KeyAreaCode"));
+ hed.setFINVHED_AREACODE(SharedPref.getInstance(getActivity()).getSelectedDebName());
+ // hed.setFINVHED_LOCCODE(new SharedPref(getActivity()).getGlobalVal("KeyLocCode"));
+ hed.setFINVHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
+ hed.setFINVHED_ROUTECODE(new SharedPref(getActivity()).getSelectedDebRouteCode());
+ hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
+ hed.setFINVHED_COSTCODE("");
+ hed.setFINVHED_START_TIME_SO(currentTime());
+ hed.setFINVHED_SETTING_CODE(getResources().getString(R.string.VanNumVal));**/
                     sHed.setFINVHED_REFNO(RefNo);
-                    sHed.setFINVHED_DEBCODE(invHed.getFINVHED_DEBCODE());
+                    //sHed.setFINVHED_DEBCODE(invHed.getFINVHED_DEBCODE());
                     sHed.setFINVHED_ADDDATE(invHed.getFINVHED_ADDDATE());
                     sHed.setFINVHED_MANUREF(invHed.getFINVHED_MANUREF());
                     sHed.setFINVHED_REMARKS(invHed.getFINVHED_REMARKS());
@@ -480,7 +521,7 @@ public class VanSalesSummary extends Fragment {
                   //  sHed.setFINVHED_START_TIME_SO(localSP.getString("Van_Start_Time", "").toString());
                     sHed.setFINVHED_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
                     sHed.setFINVHED_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
-                    sHed.setFINVHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
+                   // sHed.setFINVHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
                     sHed.setFINVHED_TOTALTAX("0");
                     sHed.setFINVHED_TOTALDIS("0.0");
                     sHed.setFINVHED_TOTALAMT(lblNetVal.getText().toString());
