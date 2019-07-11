@@ -1074,4 +1074,39 @@ public class ItemController {
         }
         return list;
     }
+
+    public String getTaxComCodeByItemCodeBeforeDebTax(String itemCode, String debtorCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT TaxComCode FROM " + dbHelper.TABLE_FITEM + " WHERE " + dbHelper.FITEM_ITEM_CODE + "='" + itemCode + "'";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        if (cursor.getCount()>0) {
+
+            while (cursor.moveToNext())
+            {
+                return cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_TAX_COM_CODE));
+            }
+            cursor.close();
+        }
+        else
+        {
+            String query = "SELECT taxCode FROM " + DatabaseHelper.TABLE_FDEBTAX + " WHERE " + DatabaseHelper.FDEBTAX_DEBCODE + "='" + debtorCode + "'";
+            Cursor cursor1 = dB.rawQuery(query, null);
+
+            while (cursor1.moveToNext())
+            {
+                return cursor1.getString(cursor1.getColumnIndex(DatabaseHelper.FDEBTAX_TAXCODE));
+            }
+            cursor1.close();
+        }
+        dB.close();
+
+        return "";
+    }
 }

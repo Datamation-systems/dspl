@@ -96,16 +96,16 @@ public class MainDashboardFragment extends Fragment {
         chart.setDescription("");
         double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
         double monthlyAchieve = new DashboardController(getActivity()).getMonthAchievement();
-        double monthlyTarget = new DashboardController(getActivity()).getRepTarget();
-        double monthlyBalance = monthlyTarget - monthlyAchieve;
-        if(monthlyBalance<0){
-            monthlyBalance = 0;
-        }
-        double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
+        //double monthlyTarget = new DashboardController(getActivity()).getRepTarget();
+//        double monthlyBalance = monthlyTarget - monthlyAchieve;
+//        if(monthlyBalance<0){
+//            monthlyBalance = 0;
+//        }
+        //double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
         //chart.set
-        monthTvA.add(new BarEntry((float)monthlyTarget, 0));
+        //monthTvA.add(new BarEntry((float)monthlyTarget, 0));
         monthTvA.add(new BarEntry((float)monthlyAchieve, 1));
-        monthTvA.add(new BarEntry((float)monthlyBalance, 2));
+        //monthTvA.add(new BarEntry((float)monthlyBalance, 2));
 
 
         ArrayList titl = new ArrayList();
@@ -150,7 +150,7 @@ public class MainDashboardFragment extends Fragment {
 
         pieChart.setDescription("");
 
-        pieChartValues.add(new Entry((float)dailyTarget, 0));
+        //pieChartValues.add(new Entry((float)dailyTarget, 0));
         pieChartValues.add(new Entry((float)dailyAchieve, 1));
 
 
@@ -173,21 +173,21 @@ public class MainDashboardFragment extends Fragment {
     }
 
     private BarDataSet getDataSet() {
-        int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
+        //int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
-        String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
-        int outlets = new DashboardController(getActivity()).getOutletCount(route);
-        int notVisit = outlets - (ordcount+nonprd);
-        if(notVisit > 0){
-            notVisit = outlets - (ordcount+nonprd);
-        }else{
-            notVisit = 0;
-        }
+        //String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
+        //int outlets = new DashboardController(getActivity()).getOutletCount(route);
+//        int notVisit = outlets - (ordcount+nonprd);
+//        if(notVisit > 0){
+//            notVisit = outlets - (ordcount+nonprd);
+//        }else{
+//            notVisit = 0;
+//        }
 
         ArrayList<BarEntry> entries = new ArrayList();
         entries.add(new BarEntry((float)ordcount, 0));
-        entries.add(new BarEntry((float)notVisit, 1));
-        entries.add(new BarEntry((float)nonprd, 2));
+//        entries.add(new BarEntry((float)notVisit, 1));
+//        entries.add(new BarEntry((float)nonprd, 2));
 
 
         BarDataSet dataset = new BarDataSet(entries,"count");
@@ -199,20 +199,20 @@ public class MainDashboardFragment extends Fragment {
     }
 
     private ArrayList<String> getXAxisValues() {
-        int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
+       // int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
-        String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
-        int outlets = new DashboardController(getActivity()).getOutletCount(route);
-        int notVisit = outlets - (ordcount+nonprd);
-        if(notVisit > 0){
-            notVisit = outlets - (ordcount+nonprd);
-        }else{
-            notVisit = 0;
-        }
+        //String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
+        //int outlets = new DashboardController(getActivity()).getOutletCount(route);
+//        int notVisit = outlets - (ordcount+nonprd);
+//        if(notVisit > 0){
+//            notVisit = outlets - (ordcount+nonprd);
+//        }else{
+//            notVisit = 0;
+//        }
         ArrayList<String> labels = new ArrayList();
         labels.add("visit("+ordcount+")");
-        labels.add("not visit("+notVisit+")");
-        labels.add("nonproductive("+nonprd+")");
+//        labels.add("not visit("+notVisit+")");
+//        labels.add("nonproductive("+nonprd+")");
         return labels;
     }
 

@@ -56,9 +56,8 @@ public class OrderDetailsAdapter extends BaseAdapter {
         }
 
         //viewHolder.lblItem.setText(list.get(position).getORDDET_ITEMCODE()+ " - " +new ItemController(convertView.getContext()).getItemNameByCode(list.get(position).getORDDET_ITEMCODE()));
-        viewHolder.lblQty.setText(list.get(position).getORDDET_QTY());
+        viewHolder.lblQty.setText(list.get(position).getFORDERDET_QTY());
         viewHolder.lblAMt.setText("0.0");
-
 
         return convertView;
     }

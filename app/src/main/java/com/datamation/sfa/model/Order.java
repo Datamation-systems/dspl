@@ -367,12 +367,12 @@ public class Order {
         JSONArray itemsArray = new JSONArray();
 
         if (orderDetails != null) {
-            for (int i = 0; i < orderDetails.size(); i++) {
-                JSONObject tmpItemJSON = orderDetails.get(i).getOrderDetailAsJSON(this);
-                if (tmpItemJSON != null) {
-                    itemsArray.put(tmpItemJSON);
-                }
-            }
+//            for (int i = 0; i < orderDetails.size(); i++) {
+//                JSONObject tmpItemJSON = orderDetails.get(i).getOrderDetailAsJSON(this);
+//                if (tmpItemJSON != null) {
+//                    itemsArray.put(tmpItemJSON);
+//                }
+//            }
         }
         finalJSONParams.put("invitems", itemsArray);
         JSONArray returnArray = new JSONArray();

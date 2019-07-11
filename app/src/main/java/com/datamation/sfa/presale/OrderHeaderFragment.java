@@ -55,7 +55,6 @@ public class OrderHeaderFragment extends Fragment{
     private FloatingActionButton next;
     //public static EditText ordno, date, mNo, deldate, remarks;
     public String LOG_TAG = "OrderHeaderFragment";
-    SharedPref mSharedPref;
     TextView lblCustomerName, outStandingAmt, lastBillAmt,lblPreRefno;
     EditText  currnentDate,txtManual,txtRemakrs, txtRoute;
     MyReceiver r;
@@ -112,7 +111,7 @@ public class OrderHeaderFragment extends Fragment{
             //mSaveInvoiceHeader();
         } else { /*No header*/
 
-            lblPreRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
+            lblPreRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
         }
 
         outStandingAmt.setOnClickListener(new View.OnClickListener() {
@@ -267,6 +266,8 @@ public class OrderHeaderFragment extends Fragment{
             hed.setORDER_REP_CODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
             hed.setORDER_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
             hed.setORDER_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
+
+            activity.selectedPreHed = hed;
 
             ArrayList<PRESALE> ordHedList=new ArrayList<PRESALE>();
             OrderController ordHedDS =new OrderController(getActivity());

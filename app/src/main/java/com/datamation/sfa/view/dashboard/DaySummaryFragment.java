@@ -96,29 +96,29 @@ public class DaySummaryFragment extends Fragment {
         tvCashTotal = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_total_cash);
         tvChequeTotal = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_total_cheque);
         double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
-        double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
+        //double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
         double dailyDiscount = new DashboardController(getActivity()).getTodayDiscount();
         double dailyReturn = new DashboardController(getActivity()).getTodayReturn();
         double dayCash = new DashboardController(getActivity()).getTodayCashCollection();
         double dayCheque = new DashboardController(getActivity()).getTodayCashCollection();
         double previousCash = new DashboardController(getActivity()).getTodayReturn();
         double previousCheque = new DashboardController(getActivity()).getTodayReturn();
-        int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
+        //int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
-        String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
-        int outlets = new DashboardController(getActivity()).getOutletCount(route);
-        int notVisit = outlets - (ordcount+nonprd);
-        if(notVisit > 0){
-            notVisit = outlets - (ordcount+nonprd);
-        }else{
-            notVisit = 0;
-        }
+        //String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
+        //int outlets = new DashboardController(getActivity()).getOutletCount(route);
+//        int notVisit = outlets - (ordcount+nonprd);
+//        if(notVisit > 0){
+//            notVisit = outlets - (ordcount+nonprd);
+//        }else{
+//            notVisit = 0;
+//        }
 
         tvSalesGross.setText(""+format.format(dailyAchieve));
         tvNetValue.setText(""+format.format(dailyAchieve));
-        tvTarget.setText(""+format.format(dailyTarget));
+        //tvTarget.setText(""+format.format(dailyTarget));
         tvProductive.setText(""+ordcount);
-        tvNonprdctive.setText(""+nonprd);
+        //tvNonprdctive.setText(""+nonprd);
         tvDayCash.setText(""+format.format(dayCash));
         tvDayCheque.setText(""+format.format(dayCheque));
         tvPreviousCash.setText("");

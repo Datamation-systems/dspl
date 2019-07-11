@@ -21,11 +21,17 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.datamation.sfa.adapter.NewProduct_Adapter;
+import com.datamation.sfa.adapter.OrderDetailsAdapter;
 import com.datamation.sfa.adapter.PreProduct_Adapter;
 import com.datamation.sfa.controller.InvDetController;
+import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.SalRepController;
+import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
@@ -37,7 +43,10 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.view.PreSalesActivity;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -48,11 +57,10 @@ public class OrderDetailFragment extends Fragment{
     ListView lv_order_det, lvFree;
     ArrayList<Product> productList = null, selectedItemList = null;
     ImageButton ibtProduct, ibtDiscount;
-    private  SweetAlertDialog pDialog;
+    SweetAlertDialog pDialog;
     private static final String TAG = "OrderDetailFragment";
     public View view;
     public SharedPref mSharedPref;
-    private ListView lv_pre_order_detlv, lv_pre_Free;
     private  String RefNo, locCoe;
     private  MyReceiver r;
     private PRESALE tmpsoHed=null;  //from re oder creation
@@ -61,7 +69,7 @@ public class OrderDetailFragment extends Fragment{
     private double totAmt = 0.0;
     private Customer debtor;
     PreSalesActivity mainActivity;
-
+    ArrayList<OrderDetail> orderList;
 
     public OrderDetailFragment() {
         // Required empty public constructor
@@ -73,15 +81,17 @@ public class OrderDetailFragment extends Fragment{
         view = inflater.inflate(R.layout.sales_management_pre_sales_details_new, container, false);
         seqno = 0;
         totPieces = 0;
-        lv_order_det = (ListView) view.findViewById(R.id.lvProducts_Inv);
+        mSharedPref =SharedPref.getInstance(getActivity());
+        lv_order_det = (ListView) view.findViewById(R.id.lvProducts_pre);
         lvFree = (ListView) view.findViewById(R.id.lvFreeIssue_Inv);
         ibtDiscount = (ImageButton) view.findViewById(R.id.ibtDisc);
         ibtProduct = (ImageButton) view.findViewById(R.id.ibtProduct);
-        mainActivity = (PreSalesActivity) getActivity();
-        if(mainActivity.selectedDebtor != null)
-            RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
+        mainActivity = (PreSalesActivity)getActivity();
+//        if(mainActivity.selectedDebtor != null)
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
 
-        tmpsoHed=new PRESALE();
+//        RefNo = mainActivity.selectedPreHed.getORDER_REFNO();
+        tmpsoHed = new PRESALE();
         showData();
 
         ibtProduct.setOnClickListener(new View.OnClickListener() {
@@ -127,25 +137,24 @@ public class OrderDetailFragment extends Fragment{
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
             pDialog.setTitleText("Fetch Data Please Wait.");
             pDialog.setCancelable(false);
-            pDialog.show();
+            //pDialog.show();
         }
 
         @Override
         protected ArrayList<Product> doInBackground(Object... objects) {
 
             if (new ProductController(getActivity()).tableHasRecords()) {
-                //productList = new ProductDS(getActivity()).getAllItems("");
-                productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
+                productList = new ProductController(getActivity()).getAllItems("","SA");
             } else {
-                new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), new SalRepController(getActivity()).getCurrentPriLCode().trim());
+                new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), mSharedPref.getSelectedDebtorPrilCode());
 
                 if(tmpsoHed!=null) {
 
                     ArrayList<OrderDetail> orderDetailArrayList = tmpsoHed.getSoDetArrayList();
                     if (orderDetailArrayList != null) {
                         for (int i = 0; i < orderDetailArrayList.size(); i++) {
-                            String tmpItemName = orderDetailArrayList.get(i).getORDDET_ITEMCODE();
-                            String tmpQty = orderDetailArrayList.get(i).getORDDET_QTY();
+                            String tmpItemName = orderDetailArrayList.get(i).getFORDERDET_ITEMCODE();
+                            String tmpQty = orderDetailArrayList.get(i).getFORDERDET_QTY();
                             //Update Qty in  fProducts_pre table
                             int count = new ProductController(getActivity()).updateProductQtyfor(tmpItemName, tmpQty);
                             if (count > 0) {
@@ -202,14 +211,15 @@ public class OrderDetailFragment extends Fragment{
     }
 
     public void showData() {
-//        try {
-//            orderList = new InvDetDS(getActivity()).getAllInvDet(mainActivity.selectedInvHed.getFINVHED_REFNO());
-//            ArrayList<InvDet> freeList = new InvDetDS(getActivity()).getAllFreeIssue(mainActivity.selectedInvHed.getFINVHED_REFNO());
-//            lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));//2019-07-07 till error free
-//            lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
-//        } catch (NullPointerException e) {
-//            Log.v("SA Error", e.toString());
-//        }
+        try {
+            lv_order_det.setAdapter(null);
+            orderList = new OrderDetailController(getActivity()).getAllOrderDetails(mainActivity.selectedPreHed.getORDER_REFNO());
+            ArrayList<OrderDetail> freeList = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(mainActivity.selectedPreHed.getORDER_REFNO());
+            lv_order_det.setAdapter(new OrderDetailsAdapter(getActivity(), orderList));//2019-07-07 till error free
+            //lvFree.setAdapter(new PreSalesFreeItemAdapter(getActivity(), freeList));
+        } catch (NullPointerException e) {
+            Log.v("SA Error", e.toString());
+        }
     }
 
     public void ProductDialogBox() {
@@ -230,7 +240,7 @@ public class OrderDetailFragment extends Fragment{
             public void onClick(DialogInterface dialog, int id) {
 
                 selectedItemList = new ProductController(getActivity()).getSelectedItems("SA");
-                //updateInvoiceDet(selectedItemList);
+                updateOrderDet(selectedItemList);
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 dialog.cancel();
             }
@@ -260,7 +270,45 @@ public class OrderDetailFragment extends Fragment{
         });
     }
 
-    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public void updateOrderDet(final ArrayList<Product> list) {
+
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected void onPreExecute() {
+//                pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+//                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+//                pDialog.setTitleText("Updating products...");
+//                pDialog.setCancelable(false);
+//                pDialog.show();
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                int i = 0;
+                new OrderDetailController(getActivity()).mDeleteRecords(mainActivity.selectedPreHed.getORDER_REFNO());
+
+                for (Product product : list) {
+                    i++;
+                    mUpdatePrsSales("0",product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_PRICE(), i + "", product.getFPRODUCT_QOH());
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+//                if(pDialog.isShowing()){
+//                    pDialog.dismiss();
+//                }
+
+                showData();
+            }
+
+        }.execute();
+    }
 
     public void newDeleteOrderDialog(final int position) {
 
@@ -286,7 +334,66 @@ public class OrderDetailFragment extends Fragment{
         alertD.show();
     }
 
+    public void mUpdatePrsSales(String id, String itemCode, String Qty, String price, String seqno, String qoh)
+    {
+        OrderDetail SODet = new OrderDetail();
+        ArrayList<OrderDetail> SOList = new ArrayList<OrderDetail>();
 
+        String reverseUnitPrice = "";
+        double amt = 0.0;
+        reverseUnitPrice = new TaxDetController(getActivity()).calculateReverseTaxFromDebTax(mSharedPref.getSelectedDebCode(),itemCode, new BigDecimal(price));
+        amt = Double.parseDouble(reverseUnitPrice) * Double.parseDouble(Qty);
+        String TaxedAmt = "0.00";
 
+        SODet.setFORDERDET_AMT(String.valueOf(amt));
+        SODet.setFORDERDET_ITEMCODE(itemCode);
+        SODet.setFORDERDET_PRILCODE(mSharedPref.getSelectedDebtorPrilCode());
+        SODet.setFORDERDET_QTY(Qty);
+        SODet.setFORDERDET_REFNO(RefNo);
+        SODet.setFORDERDET_PRICE("0.00");
+        SODet.setFORDERDET_IS_ACTIVE("1");
+        SODet.setFORDERDET_BALQTY(Qty);
+        SODet.setFORDERDET_BAMT(String.valueOf(amt));
+        SODet.setFORDERDET_BDISAMT("0");
+        SODet.setFORDERDET_BPDISAMT("0");
+        SODet.setFORDERDET_BTAXAMT(TaxedAmt);
+        SODet.setFORDERDET_TAXAMT(TaxedAmt);
+        SODet.setFORDERDET_DISAMT("0");
+        SODet.setFORDERDET_SCHDISPER("0");
+        //SODet.setFORDERDET_COMP_DISPER(new ControlDS(getActivity()).getCompanyDisc() + "");
+        SODet.setFORDERDET_BRAND_DISPER("0");
+        SODet.setFORDERDET_BRAND_DISC("0");
+        SODet.setFORDERDET_COMP_DISC("0");
+        SODet.setFORDERDET_COSTPRICE(new ItemController(getActivity()).getCostPriceItemCode(itemCode));
+        SODet.setFORDERDET_PICE_QTY(Qty);
+        SODet.setFORDERDET_SELLPRICE(String.valueOf((amt ) / Double.parseDouble(SODet.getFORDERDET_QTY())));
+        SODet.setFORDERDET_BSELLPRICE(String.valueOf((amt ) / Double.parseDouble(SODet.getFORDERDET_QTY())));
+        SODet.setFORDERDET_SEQNO(new OrderDetailController(getActivity()).getLastSequnenceNo(RefNo));
+        SODet.setFORDERDET_TAXCOMCODE(new ItemController(getActivity()).getTaxComCodeByItemCodeBeforeDebTax(itemCode, mSharedPref.getSelectedDebCode()));
+        SODet.setFORDERDET_BTSELLPRICE(String.valueOf((amt + Double.parseDouble(TaxedAmt)) / Double.parseDouble(SODet.getFORDERDET_QTY())));
+        SODet.setFORDERDET_TSELLPRICE(String.valueOf((amt + Double.parseDouble(TaxedAmt)) / Double.parseDouble(SODet.getFORDERDET_QTY())));
+        SODet.setFORDERDET_TXNTYPE("21");
+        SODet.setFORDERDET_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
+        SODet.setFORDERDET_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        SODet.setFORDERDET_RECORDID("");
+        SODet.setFORDERDET_PDISAMT("0");
+        SODet.setFORDERDET_IS_SYNCED("0");
+        SODet.setFORDERDET_QOH(qoh);
+        SODet.setFORDERDET_TYPE("SA");
+        SODet.setFORDERDET_SCHDISC("0");
+        SODet.setFORDERDET_DISCTYPE("");
+        SODet.setFORDERDET_QTY_SLAB_DISC("0");
+        SODet.setFORDERDET_ORG_PRICE(price);
+        SODet.setFORDERDET_DISFLAG("0");
+        SOList.add(SODet);
 
+        if (new OrderDetailController(getActivity()).createOrUpdateOrdDet(SOList)>0)
+        {
+            Log.d("ORDER_DETAILS", "Order det saved successfully...");
+        }
+        else
+        {
+            Log.d("ORDER_DETAILS", "Order det saved unsuccess...");
+        }
+    }
 }

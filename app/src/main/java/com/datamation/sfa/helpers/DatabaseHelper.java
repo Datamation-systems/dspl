@@ -6,11 +6,13 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.Date;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // database information
     public static final String DATABASE_NAME = "sfa_database.db";
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -278,10 +280,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String ORDDET_ITEM_CODE = "Itemcode";
     public static final String ORDDET_PRIL_CODE = "PriLCode";
     public static final String ORDDET_QTY = "Qty";
-
     public static final String ORDDET_PRICE = "Price";
     public static final String ORDDET_IS_ACTIVE = "isActive";
-    public static final String ORDDET_ITEMNAME = "ItemName";
+    public static final String ORDDET_ITEM_NAME = "ItemName";
+    public static final String ORDDET_BAL_QTY = "BalQty";
+    public static final String ORDDET_BAMT = "BAmt";
+    public static final String ORDDET_BDIS_AMT = "BDisAmt";
+    public static final String ORDDET_BPDIS_AMT = "BPDisAmt";
+    public static final String ORDDET_BTAX_AMT = "BTaxAmt";
+    public static final String ORDDET_TAX_AMT = "TaxAmt";
+    public static final String ORDDET_DIS_AMT = "DisAmt";
+    public static final String ORDDET_SCHDISPER = "SchDisPer";
+    public static final String ORDDET_BRAND_DISPER = "BrandDisPer";
+    public static final String ORDDET_BRAND_DISC = "BrandDisc";
+    public static final String ORDDET_COMP_DISC = "CompDis";
+    public static final String ORDDET_COST_PRICE = "CostPrice";
+    public static final String ORDDET_PIECE_QTY = "PieceQty";
+    public static final String ORDDET_SELL_PRICE = "SellPrice";
+    public static final String ORDDET_BSELL_PRICE = "BSellPrice";
+    public static final String ORDDET_SEQ_NO = "SeqNo";
+    public static final String ORDDET_TAX_COM_CODE = "TaxComCode";
+    public static final String ORDDET_BTSELL_PRICE = "BTSellPrice";
+    public static final String ORDDET_TSELL_PRICE = "TSellPrice";
+    public static final String ORDDET_TXN_TYPE = "TxnType";
+    public static final String ORDDET_LOC_CODE = "LocCode";
+    public static final String ORDDET_TXN_DATE = "TxnDate";
+    public static final String ORDDET_RECORD_ID = "RecordId";
+    public static final String ORDDET_PDIS_AMT = "PDisAmt";
+    public static final String ORDDET_IS_SYNCED = "IsSynced";
+    public static final String ORDDET_QOH = "Qoh";
+    public static final String ORDDET_TYPE = "Type";
+    public static final String ORDDET_SCHDISC = "SchDisc";
+    public static final String ORDDET_DIS_TYPE = "DisType";
+    public static final String ORDDET_QTY_SLAB_DISC = "QtySlabDisc";
+    public static final String ORDDET_ORG_PRICE = "OrgPrice";
+    public static final String ORDDET_DIS_FLAG = "DisFlag";
+
     //----------------------------------------------------------------------------------------------------------------------------
 
     // create String
@@ -293,7 +327,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ORDDET_QTY + " TEXT, " +
             REFNO + " TEXT, " +
             ORDDET_PRICE + " TEXT, " +
-            ORDDET_ITEMNAME + " TEXT, " +
+            ORDDET_ITEM_NAME + " TEXT, " +
+            ORDDET_BAL_QTY + " TEXT, " +
+            ORDDET_BAMT + " TEXT, " +
+            ORDDET_BDIS_AMT + " TEXT, " +
+            ORDDET_BPDIS_AMT + " TEXT, " +
+            ORDDET_BTAX_AMT + " TEXT, " +
+            ORDDET_TAX_AMT + " TEXT, " +
+            ORDDET_DIS_AMT + " TEXT, " +
+            ORDDET_SCHDISPER + " TEXT, " +
+            ORDDET_BRAND_DISPER + " TEXT, " +
+            ORDDET_BRAND_DISC + " TEXT, " +
+            ORDDET_COMP_DISC + " TEXT, " +
+            ORDDET_COST_PRICE + " TEXT, " +
+            ORDDET_PIECE_QTY + " TEXT, " +
+            ORDDET_SELL_PRICE + " TEXT, " +
+            ORDDET_BSELL_PRICE + " TEXT, " +
+            ORDDET_SEQ_NO + " TEXT, " +
+            ORDDET_TAX_COM_CODE + " TEXT, " +
+            ORDDET_TSELL_PRICE + " TEXT, " +
+            ORDDET_BTSELL_PRICE + " TEXT, " +
+            ORDDET_TXN_TYPE + " TEXT, " +
+            ORDDET_LOC_CODE + " TEXT, " +
+            ORDDET_TXN_DATE + " TEXT, " +
+            ORDDET_RECORD_ID + " TEXT, " +
+            ORDDET_PDIS_AMT + " TEXT, " +
+            ORDDET_IS_SYNCED + " TEXT, " +
+            ORDDET_QOH + " TEXT, " +
+            ORDDET_TYPE + " TEXT, " +
+            ORDDET_SCHDISC + " TEXT, " +
+            ORDDET_DIS_TYPE + " TEXT, " +
+            ORDDET_QTY_SLAB_DISC + " TEXT, " +
+            ORDDET_ORG_PRICE + " TEXT, " +
+            ORDDET_DIS_FLAG + " TEXT, " +
             ORDDET_IS_ACTIVE  + " TEXT); ";
 
     private static final String ORDDET_IDX = "CREATE UNIQUE INDEX IF NOT EXISTS idxordet_duplicate ON " +
@@ -2366,6 +2432,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_FTOURHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTOURHED + " (" + TOURHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + TOURHED_MANUREF + " TEXT, " + TXNDATE + " TEXT, " + TOURHED_LORRYCODE + " TEXT, " + TOURHED_ROUTECODE + " TEXT, " + TOURHED_AREACODE + " TEXT, " + TOURHED_COSTCODE + " TEXT, " + TOURHED_REMARKS + " TEXT, " + TOURHED_LOCCODEF + " TEXT, " + TOURHED_LOCCODE + " TEXT, " + TOURHED_REPCODE + " TEXT, " + TOURHED_HELPERCODE + " TEXT, " + TOURHED_ADDUSER + " TEXT, " + TOURHED_ADDMACH + " TEXT, " + TOURHED_DRIVERCODE + " TEXT, " + TOURHED_VANLOADFLG + " TEXT, " + TOURHED_CLSFLG + " TEXT, " + TOURHED_TOURTYPE + " TEXT); ";
 
+    public static final String TABLE_FDEBTAX = "fDebTax";
+    public static final String FDEBTAX_ID = "_id";
+    public static final String FDEBTAX_DEBCODE = "debCode";
+    public static final String FDEBTAX_TAXCODE = "taxCode";
+    public static final String FDEBTAX_TAXREGNO = "taxRegNo";
+    public static final String FDEBTAX_RECORDID = "recordId";
+
+    private static final String CREATE_FDEBTAX_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDEBTAX + " (" + FDEBTAX_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDEBTAX_DEBCODE + " TEXT, " + FDEBTAX_TAXCODE + " TEXT, " + FDEBTAX_TAXREGNO + " TEXT, " + FDEBTAX_RECORDID + " TEXT); ";
+
+
     @Override
     public void onCreate(SQLiteDatabase arg0) {
 
@@ -2460,8 +2536,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // --------------------- Nuwan ------------------------
         arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
-
         arg0.execSQL(CREATE_FTOURHED_TABLE);
+        arg0.execSQL(CREATE_FDEBTAX_TABLE);
+        arg0.execSQL(CREATE_FTAXDET_TABLE);
+        arg0.execSQL(CREATE_ORDDET_TABLE);
+        arg0.execSQL(CREATE_ATTENDANCE_TABLE);
         // ---------------------------------------------------
 
     }
@@ -2476,6 +2555,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_FINVDET_TABLE);
             arg0.execSQL(CREATE_FINVRHED_TABLE);
             arg0.execSQL(CREATE_FINVRDET_TABLE);
+            arg0.execSQL(CREATE_ORDDET_TABLE);
+            arg0.execSQL(CREATE_ATTENDANCE_TABLE);
 
         } catch (SQLiteException e) {
         }

@@ -199,4 +199,25 @@ public class TaxDetController {
         sArray[1] = String.format("%.2f", tax); // return tax price
         return sArray;
     }
+
+    public String calculateReverseTaxFromDebTax(String debtorCode, String itemCode, BigDecimal amt) {
+
+        String comCode = new ItemController(context).getTaxComCodeByItemCodeBeforeDebTax(itemCode, debtorCode);
+        ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
+        BigDecimal tax = new BigDecimal("0");
+
+        if (list.size() > 0) {
+
+            for (TaxDet det : list) {
+                tax = tax.add(new BigDecimal(det.getTAXVAL()).multiply(amt.divide(new BigDecimal(det.getTAXVAL()).add(new BigDecimal("100")), 4, BigDecimal.ROUND_HALF_EVEN)));
+                //amt = new BigDecimal("100").multiply(amt.divide(new BigDecimal(det.getTAXVAL()).add(new BigDecimal("100")), 4, BigDecimal.ROUND_HALF_EVEN));
+                //amt = new BigDecimal("100").multiply(amt.divide(new BigDecimal(det.getTAXVAL()).add(new BigDecimal("100"))));
+                amt = new BigDecimal("100").multiply(amt.divide(new BigDecimal(det.getTAXVAL()).add(new BigDecimal("100")), 8, BigDecimal.ROUND_HALF_EVEN));
+
+            }
+        }
+        //return String.format("%.2f", tax);
+        return String.valueOf(amt);
+        //return String.format("%.2f", amt);
+    }
 }
