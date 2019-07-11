@@ -280,7 +280,7 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
         }
         else
         {
-            navigateToHeader(1);
+            navigateToHeader(0);
         }
     }
 

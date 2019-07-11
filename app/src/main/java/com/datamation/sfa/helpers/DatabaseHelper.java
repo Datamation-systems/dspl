@@ -67,6 +67,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String REFSETTING_CHAR_VAL = "CharVal";// ok
     public static final String REFSETTING_REMARKS = "Remarks";// ok
 
+    public static final String TABLE_TARGET = "fTarget";
+    public static final String TARGET_YEAR = "Year";// ok
+    public static final String TARGET_MONTH = "Month";// ok
+    public static final String TARGET_VALUE = "Target";// ok
+    private static final String CREATE_TARGET_TABLE = "CREATE  TABLE IF NOT EXISTS " +
+            TABLE_TARGET + " ( id  INTEGER PRIMARY KEY AUTOINCREMENT, " +
+    TARGET_YEAR + " TEXT, " +
+    TARGET_MONTH +  " TEXT, " +
+    TARGET_VALUE + " TEXT); ";
     // create String
     private static final String CREATE_REFSETTING_TABLE = "CREATE  TABLE IF NOT EXISTS " +
             TABLE_REFERENCE_SETTING + " (" + REFSETTING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -98,44 +107,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // create String
     private static final String CREATE_ROUTE_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_ROUTE + " (" + ROUTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ROUTE_CODE + " TEXT, " + ROUTE_NAME + " TEXT) ";
 
-    public static final String TABLE_NONPRDHED = "DaynPrdHed";
-    // table attributes
-    public static final String NONPRDHED_ID = "NonprdHed_id";
-
-    public static final String NONPRDHED_REPCODE = "RepCode";
-
-    public static final String NONPRDHED_REMARK = "Remarks";
-    public static final String NONPRDHED_ADDDATE = "AddDate";
-    public static final String NONPRDHED_IS_SYNCED = "ISsync";
-    public static final String NONPRDHED_DEBCODE = "DebCode";
-    public static final String NONPRDHED_LONGITUDE = "Longitude";
-    public static final String NONPRDHED_LATITUDE = "Latitude";
-    public static final String NONPRDHED_IS_ACTIVE = "ISActive";
-    // create String
-    private static final String CREATE_TABLE_NONPRDHED = "CREATE  TABLE IF NOT EXISTS " + TABLE_NONPRDHED +
-            " (" + NONPRDHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO
-            + " TEXT, " + TXNDATE + " TEXT, "  + NONPRDHED_REPCODE + " TEXT, " + NONPRDHED_REMARK +
-            " TEXT, "  + NONPRDHED_ADDDATE + " TEXT,"  + NONPRDHED_IS_SYNCED + " TEXT," + NONPRDHED_DEBCODE +
-            " TEXT," + NONPRDHED_LATITUDE + " TEXT," + NONPRDHED_LONGITUDE + " TEXT,"  + NONPRDHED_IS_ACTIVE + " TEXT); ";
-    /**
-     * ############################ FDaynonprdDet
-     * ################################
-     */
-    public static final String TABLE_NONPRDDET = "DaynPrdDet";
-    // table attributes
-
-    public static final String NONPRDDET_ID = "NonprdDet_id";
-
-    public static final String NONPRDDET_REASON = "Reason";
-    public static final String NONPRDDET_REASON_CODE = "ReasonCode";
-
-
-
-    private static final String CREATE_TABLE_NONPRDDET = "CREATE  TABLE IF NOT EXISTS "
-            + TABLE_NONPRDDET + " (" + NONPRDDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + REFNO + " TEXT, "
-            + NONPRDDET_REASON_CODE + " TEXT, "
-            + NONPRDDET_REASON + " TEXT); ";
 
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-ATTENDANCE-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -1957,8 +1928,63 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * ############################ FDaynonprdHed
      * ################################
      */
+    public static final String TABLE_NONPRDHED = "FDaynPrdHed";
+    // table attributes
+    public static final String NONPRDHED_ID = "FNonprdHed_id";
+    public static final String NONPRDHED_REFNO = "RefNo";
+    public static final String NONPRDHED_TXNDAET = "TxnDate";
+    public static final String NONPRDHED_DEALCODE = "DealCode";
+    public static final String NONPRDHED_REPCODE = "RepCode";
+    public static final String NONPRDHED_REMARK = "Remarks";
+    public static final String NONPRDHED_COSTCODE = "CostCode";
+    public static final String NONPRDHED_ADDUSER = "AddUser";
+    public static final String NONPRDHED_ADDDATE = "AddDate";
+    public static final String NONPRDHED_ADDMACH = "AddMach";
+    public static final String NONPRDHED_TRANSBATCH = "TranBatch";
+    public static final String NONPRDHED_IS_SYNCED = "ISsync";
+    public static final String NONPRDHED_ADDRESS = "Address";
 
+    public static final String NONPRDHED_DEBCODE = "DebCode";
+    public static final String NONPRDHED_LONGITUDE = "Longitude";
+    public static final String NONPRDHED_LATITUDE = "Latitude";
+    public static final String NONPRDHED_IS_ACTIVE = "ISActive";
+    /**
+     * ############################ FDaynonprdDet
+     * ################################
+     */
+    public static final String TABLE_NONPRDDET = "FDaynPrdDet";
+    // table attributes
+    public static final String NONPRDDET_ID = "FNonprdDet_id";
+    public static final String NONPRDDET_REFNO = "RefNo";
+    public static final String NONPRDDET_TXNDATE = "TxnDate";
+    public static final String NONPRDDET_REPCODE = "RepCode";
+    public static final String NONPRDDET_REASON = "Reason";
+    //    public static final String NONPRDDET_LONGITUDE = "Longitude";
+//    public static final String NONPRDDET_LATITUDE = "Latitude";
+    public static final String NONPRDDET_REASON_CODE = "ReasonCode";
+    public static final String NONPRDDET_IS_SYNCED = "ISsync";
+    private static final String CREATE_TABLE_NONPRDHED = "CREATE  TABLE IF NOT EXISTS " + TABLE_NONPRDHED + " (" + NONPRDHED_ID +
+            " INTEGER PRIMARY KEY AUTOINCREMENT, " + NONPRDHED_REFNO +
+            " TEXT, " + NONPRDHED_TXNDAET + " TEXT, " +
+            NONPRDHED_DEALCODE + " TEXT, " +
+            NONPRDHED_REPCODE + " TEXT, " +
+            NONPRDHED_REMARK + " TEXT, " +
+            NONPRDHED_COSTCODE + " TEXT, " +
+            NONPRDHED_LONGITUDE + " TEXT, " +
+            NONPRDHED_LATITUDE + " TEXT, " +
+            NONPRDHED_IS_ACTIVE + " TEXT, " +
+            NONPRDHED_DEBCODE + " TEXT, " +
+            NONPRDHED_ADDUSER + " TEXT, " + NONPRDHED_ADDDATE + " TEXT," + NONPRDHED_ADDMACH + " TEXT," + NONPRDHED_TRANSBATCH + " TEXT, " + NONPRDHED_IS_SYNCED + " TEXT," + NONPRDHED_ADDRESS + " TEXT); ";
+    // create StringNONPRDHED_DEBCODE =
 
+    private static final String CREATE_TABLE_NONPRDDET = "CREATE  TABLE IF NOT EXISTS "
+            + TABLE_NONPRDDET + " (" + NONPRDDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + NONPRDDET_REFNO + " TEXT, "
+            + NONPRDDET_TXNDATE + " TEXT, "
+            + NONPRDDET_REPCODE + " TEXT, "
+            + NONPRDDET_REASON_CODE + " TEXT, "
+            + NONPRDDET_REASON + " TEXT, "
+            + NONPRDDET_IS_SYNCED + " TEXT); ";
 
     public static final String TABLE_FDAMHED = "FDamHed";
     // table attributes
@@ -2533,14 +2559,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FORDSTAT_TABLE);
         arg0.execSQL(CREATE_FGPSLOC_TABLE);
         arg0.execSQL(CREATE_FPRODUCT_TABLE);
+        arg0.execSQL(CREATE_ATTENDANCE_TABLE);
 
         // --------------------- Nuwan ------------------------
         arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
         arg0.execSQL(CREATE_FTOURHED_TABLE);
-        arg0.execSQL(CREATE_FDEBTAX_TABLE);
-        arg0.execSQL(CREATE_FTAXDET_TABLE);
-        arg0.execSQL(CREATE_ORDDET_TABLE);
-        arg0.execSQL(CREATE_ATTENDANCE_TABLE);
+
         // ---------------------------------------------------
 
     }
@@ -2555,8 +2579,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_FINVDET_TABLE);
             arg0.execSQL(CREATE_FINVRHED_TABLE);
             arg0.execSQL(CREATE_FINVRDET_TABLE);
-            arg0.execSQL(CREATE_ORDDET_TABLE);
-            arg0.execSQL(CREATE_ATTENDANCE_TABLE);
 
         } catch (SQLiteException e) {
         }

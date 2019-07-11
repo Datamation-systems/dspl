@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.datamation.sfa.controller.BankController;
 import com.datamation.sfa.controller.OutstandingController;
 import com.datamation.sfa.controller.ReceiptController;
 import com.datamation.sfa.controller.SalRepController;
+import com.datamation.sfa.dialog.CustomKeypadDialogReceipt;
 import com.datamation.sfa.helpers.IResponseListener;
 import com.datamation.sfa.helpers.ReceiptResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
@@ -65,7 +67,7 @@ public class ReceiptHeader extends Fragment {
     SharedPref mSharedPref;
     MyReceiver r;
     FloatingActionButton fb;
-
+    ReceiptActivity mainActivity;
     ReceiptResponseListener listener;
 
     @Override
@@ -74,7 +76,7 @@ public class ReceiptHeader extends Fragment {
         view = inflater.inflate(R.layout.sales_management_receipt_header, container, false);
         localSP = getActivity().getSharedPreferences(SETTINGS, 0);
         mSharedPref = new SharedPref(getActivity());
-
+        mainActivity = (ReceiptActivity)  getActivity();
         spnPayMode = (Spinner) view.findViewById(R.id.spnRecPayMode);
         //spnBank = (Spinner) view.findViewById(R.id.spnRecBank);
         spnBank1 = (SearchableSpinner) view.findViewById(R.id.spnRecBank);
@@ -351,54 +353,54 @@ public class ReceiptHeader extends Fragment {
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-        txtReceAmt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                ReceiptActivity activity = new ReceiptActivity();
-                if (hasFocus) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.showSoftInput(txtReceAmt, InputMethodManager.SHOW_IMPLICIT);
-                    }
-
-                    txtReceAmt.selectAll();
-                    txtReceAmt.setText(txtReceAmt.getText().toString().replaceAll(",", ""));
-                    if(txtReceAmt.getText().toString().contains(","))
-                    {
-                        activity.ReceivedAmt = Double.parseDouble(txtReceAmt.getText().toString().replace(",", ""));
-                    }
-
-                    if(txtReceAmt.getText().toString() == null || txtReceAmt.getText().toString().isEmpty() || txtReceAmt.getText().toString().equals("") || txtReceAmt.getText().toString() == "" )
-                    {
-                        Toast.makeText(getActivity(), "Please fill in Received amount", Toast.LENGTH_LONG).show();
-                        txtReceAmt.requestFocus();
-                    }
-                    else
-                    {
-                        SaveReceiptHeader();
-                    }
-
-                } else {
-                    if (txtReceAmt.getText().length() > 0) {
-                        txtReceAmt.setText(String.format("%,.2f", Double.parseDouble(txtReceAmt.getText().toString().replaceAll(",", ""))));
-                        if(txtReceAmt.getText().toString().contains(","))
-                        {
-                            activity.ReceivedAmt = Double.parseDouble(txtReceAmt.getText().toString().replace(",", ""));
-                        }
-                        if(txtReceAmt.getText().toString() == null || txtReceAmt.getText().toString().isEmpty() || txtReceAmt.getText().toString().equals("") || txtReceAmt.getText().toString() == "" )
-                        {
-                            Toast.makeText(getActivity(), "Please fill in Received amount", Toast.LENGTH_LONG).show();
-                            txtReceAmt.requestFocus();
-                        }
-                        else
-                        {
-                            SaveReceiptHeader();
-                        }
-                    }
-                }
-            }
-        });
+//        txtReceAmt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                ReceiptActivity activity = new ReceiptActivity();
+//                if (hasFocus) {
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    if (imm != null) {
+//                        imm.showSoftInput(txtReceAmt, InputMethodManager.SHOW_IMPLICIT);
+//                    }
+//
+//                    txtReceAmt.selectAll();
+//                    txtReceAmt.setText(txtReceAmt.getText().toString().replaceAll(",", ""));
+//                    if(txtReceAmt.getText().toString().contains(","))
+//                    {
+//                        activity.ReceivedAmt = Double.parseDouble(txtReceAmt.getText().toString().replace(",", ""));
+//                    }
+//
+//                    if(txtReceAmt.getText().toString() == null || txtReceAmt.getText().toString().isEmpty() || txtReceAmt.getText().toString().equals("") || txtReceAmt.getText().toString() == "" )
+//                    {
+//                        Toast.makeText(getActivity(), "Please fill in Received amount", Toast.LENGTH_LONG).show();
+//                        txtReceAmt.requestFocus();
+//                    }
+//                    else
+//                    {
+//                        SaveReceiptHeader();
+//                    }
+//
+//                } else {
+//                    if (txtReceAmt.getText().length() > 0) {
+//                        txtReceAmt.setText(String.format("%,.2f", Double.parseDouble(txtReceAmt.getText().toString().replaceAll(",", ""))));
+//                        if(txtReceAmt.getText().toString().contains(","))
+//                        {
+//                            activity.ReceivedAmt = Double.parseDouble(txtReceAmt.getText().toString().replace(",", ""));
+//                        }
+//                        if(txtReceAmt.getText().toString() == null || txtReceAmt.getText().toString().isEmpty() || txtReceAmt.getText().toString().equals("") || txtReceAmt.getText().toString() == "" )
+//                        {
+//                            Toast.makeText(getActivity(), "Please fill in Received amount", Toast.LENGTH_LONG).show();
+//                            txtReceAmt.requestFocus();
+//                        }
+//                        else
+//                        {
+//                            SaveReceiptHeader();
+//                        }
+//                    }
+//                }
+//            }
+//        });
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -406,14 +408,26 @@ public class ReceiptHeader extends Fragment {
 
             @Override
             public void onClick(View v) {
-                txtReceAmt.clearFocus();
-                txtReceAmt.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm != null) {
-                    imm.showSoftInput(txtReceAmt, InputMethodManager.SHOW_IMPLICIT);
-                }
+                final ReceiptActivity activity = new ReceiptActivity();
+                //---------------------------------------------------------------------------------------------------------
+                CustomKeypadDialogReceipt keypadPrice = new CustomKeypadDialogReceipt(getActivity(), true, new CustomKeypadDialogReceipt.IOnOkClickListener() {
+                    @Override
+                    public void okClicked(double value) {
 
-                txtReceAmt.selectAll();
+                        activity.ReceivedAmt = value;
+                        txtReceAmt.setText(""+activity.ReceivedAmt);
+                        SaveReceiptHeader();
+
+                    }
+                });
+                keypadPrice.show();
+
+                keypadPrice.setHeader("Enter Received Amount");
+//                if(preProduct.getPREPRODUCT_CHANGED_PRICE().equals("0")){
+                keypadPrice.loadValue(activity.ReceivedAmt);
+              //  txtReceAmt.selectAll();
+
+
             }
         });
 
@@ -443,7 +457,31 @@ public class ReceiptHeader extends Fragment {
                 }
             }
         });
+        customerName.setText(mSharedPref.getSelectedDebName());
+        outStandingAmt.setText(String.format("%,.2f", new OutstandingController(getActivity()).getDebtorBalance(SharedPref.getInstance(getActivity()).getSelectedDebCode())));
+        manual.setEnabled(true);
+        remarks.setEnabled(true);
+        spnPayMode.setEnabled(true);
+        txtCHQNO.setEnabled(true);
+        txtCHQDate.setEnabled(true);
+        txtReceAmt.setEnabled(true);
 
+
+        if (mainActivity.selectedRecHed != null) {
+
+            manual.setText(mainActivity.selectedRecHed.getFPRECHED_MANUREF());
+            remarks.setText(mainActivity.selectedRecHed.getFPRECHED_REMARKS());
+
+            if (mainActivity.selectedRecHed.getFPRECHED_PAYTYPE().equals("CA")) {
+                spnPayMode.setSelection(1);
+            } else {
+                spnPayMode.setSelection(2);
+
+                txtCHQNO.setText(mainActivity.selectedRecHed.getFPRECHED_CHQNO());
+                txtCHQDate.setText(mainActivity.selectedRecHed.getFPRECHED_CHQDATE());
+                txtReceAmt.setText(mainActivity.selectedRecHed.getFPRECHED_TOTALAMT());
+            }
+        }
 
         return view;
     }
@@ -487,14 +525,14 @@ public class ReceiptHeader extends Fragment {
         recHed.setFPRECHED_MANUREF(manual.getText().toString());
         recHed.setFPRECHED_REMARKS(remarks.getText().toString());
         recHed.setFPRECHED_ADDMACH(localSP.getString("MAC_Address", "No MAC Address").toString());
-        recHed.setFPRECHED_ADDUSER(new SalRepController(activity).getCurrentRepCode());
+        recHed.setFPRECHED_ADDUSER(new SalRepController(getActivity()).getCurrentRepCode());
         recHed.setFPRECHED_CURCODE("LKR");
         recHed.setFPRECHED_CURRATE("1.00");
         recHed.setFPRECHED_COSTCODE("1.00");
         recHed.setFPRECHED_ISACTIVE("1");
         recHed.setFPRECHED_ISDELETE("0");
         recHed.setFPRECHED_ISSYNCED("0");
-        recHed.setFPRECHED_REPCODE(new SalRepController(activity).getCurrentRepCode());
+        recHed.setFPRECHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
         recHed.setFPRECHED_TXNDATE(currnentDate.getText().toString());
         recHed.setFPRECHED_TXNTYPE("42");
         recHed.setFPRECHED_TOTALAMT(String.valueOf(Double.parseDouble(txtReceAmt.getText().toString().replaceAll(",", ""))));
@@ -672,7 +710,7 @@ public class ReceiptHeader extends Fragment {
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ReceiptHeader.this.mRefreshHeader();
+            mRefreshHeader();
         }
     }
 
@@ -694,50 +732,15 @@ public class ReceiptHeader extends Fragment {
 	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void mRefreshHeader() {
+
+        Log.d("123456", "454544545");
         ReceiptActivity mainActivity = new ReceiptActivity();
-        if (mSharedPref.getGlobalVal("ReckeyCustomer").equals("1")) {
+       // if (mSharedPref.getGlobalVal("ReckeyCustomer").equals("1")) {
+        Log.d("Customer",mSharedPref.getSelectedDebName());
+
+           // }
 
 
-            if(mainActivity.selectedDebtor != null)
-            {
-
-                customerName.setText(mSharedPref.getSelectedDebName());
-                outStandingAmt.setText(String.format("%,.2f", new OutstandingController(getActivity()).getDebtorBalance(SharedPref.getInstance(getActivity()).getSelectedDebCode())));
-                manual.setEnabled(true);
-                remarks.setEnabled(true);
-                spnPayMode.setEnabled(true);
-                txtCHQNO.setEnabled(true);
-                txtCHQDate.setEnabled(true);
-                txtReceAmt.setEnabled(true);
-
-
-                if (mainActivity.selectedRecHed != null) {
-
-                    manual.setText(mainActivity.selectedRecHed.getFPRECHED_MANUREF());
-                    remarks.setText(mainActivity.selectedRecHed.getFPRECHED_REMARKS());
-
-                    if (mainActivity.selectedRecHed.getFPRECHED_PAYTYPE().equals("CA")) {
-                        spnPayMode.setSelection(1);
-                    } else {
-                        spnPayMode.setSelection(2);
-
-                        txtCHQNO.setText(mainActivity.selectedRecHed.getFPRECHED_CHQNO());
-                        txtCHQDate.setText(mainActivity.selectedRecHed.getFPRECHED_CHQDATE());
-                        txtReceAmt.setText(mainActivity.selectedRecHed.getFPRECHED_TOTALAMT());
-                    }
-                }
-            }
-
-
-        } else {
-            Toast.makeText(getActivity(), "Select a customer to continue...", Toast.LENGTH_SHORT).show();
-            manual.setEnabled(false);
-            remarks.setEnabled(false);
-            spnPayMode.setEnabled(false);
-            txtCHQNO.setEnabled(false);
-            txtCHQDate.setEnabled(false);
-            txtReceAmt.setEnabled(false);
-        }
     }
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

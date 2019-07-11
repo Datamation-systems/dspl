@@ -27,7 +27,9 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.view.dashboard.DaySummaryFragment;
 import com.datamation.sfa.view.dashboard.InvoiceDetailsFragment;
 import com.datamation.sfa.view.dashboard.MainDashboardFragment;
+import com.datamation.sfa.view.dashboard.OrderDetailsFragment;
 import com.datamation.sfa.view.dashboard.PaymentDetailsFragment;
+import com.datamation.sfa.view.dashboard.PromotionDetailsFragment;
 import com.github.mikephil.charting.charts.PieChart;
 
 import java.util.ArrayList;
@@ -41,6 +43,8 @@ public class FragmentHome extends Fragment {
     private DaySummaryFragment daySummaryFragment;
     private InvoiceDetailsFragment invoiceDetailsFragment;
     private PaymentDetailsFragment paymentDetailsFragment;
+    private OrderDetailsFragment orderDetailsFragment;
+    private PromotionDetailsFragment promoDetailsFragment;
 
 
     private ViewPager viewPager;
@@ -118,7 +122,7 @@ public class FragmentHome extends Fragment {
 
         tabStrip.setBackgroundColor(resources.getColor(R.color.theme_color));
         tabStrip.setTextColor(resources.getColor(android.R.color.black));
-        tabStrip.setIndicatorColor(resources.getColor(R.color.red_error));
+        tabStrip.setIndicatorColor(resources.getColor(R.color.blue_c));
         tabStrip.setDividerColor(resources.getColor(R.color.half_black));
         tabStrip.setViewPager(viewPager);
         tabStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -173,7 +177,7 @@ public class FragmentHome extends Fragment {
     }
     private class DashboardPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] titles = {"Main", "Summary", "Invoice", "Payment"};
+        private String[] titles = {"Main", "Summary","Promotion","Order", "Invoice", "Payment"};
 
         public DashboardPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -191,9 +195,15 @@ public class FragmentHome extends Fragment {
                     if (daySummaryFragment == null) daySummaryFragment = new DaySummaryFragment();
                     return daySummaryFragment;
                 case 2:
+                    if(promoDetailsFragment == null) promoDetailsFragment = new PromotionDetailsFragment();
+                    return promoDetailsFragment;
+                case 3:
+                    if(orderDetailsFragment == null) orderDetailsFragment = new OrderDetailsFragment();
+                    return invoiceDetailsFragment;
+                case 4:
                     if(invoiceDetailsFragment == null) invoiceDetailsFragment = new InvoiceDetailsFragment();
                     return invoiceDetailsFragment;
-                case 3:
+                case 5:
                     if(paymentDetailsFragment == null) paymentDetailsFragment = new PaymentDetailsFragment();
                     return paymentDetailsFragment;
                 default:
