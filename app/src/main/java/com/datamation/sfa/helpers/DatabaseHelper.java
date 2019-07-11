@@ -65,6 +65,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String REFSETTING_CHAR_VAL = "CharVal";// ok
     public static final String REFSETTING_REMARKS = "Remarks";// ok
 
+    public static final String TABLE_TARGET = "fTarget";
+    public static final String TARGET_YEAR = "Year";// ok
+    public static final String TARGET_MONTH = "Month";// ok
+    public static final String TARGET_VALUE = "Target";// ok
+    private static final String CREATE_TARGET_TABLE = "CREATE  TABLE IF NOT EXISTS " +
+            TABLE_TARGET + " ( id  INTEGER PRIMARY KEY AUTOINCREMENT, " +
+    TARGET_YEAR + " TEXT, " +
+    TARGET_MONTH +  " TEXT, " +
+    TARGET_VALUE + " TEXT); ";
     // create String
     private static final String CREATE_REFSETTING_TABLE = "CREATE  TABLE IF NOT EXISTS " +
             TABLE_REFERENCE_SETTING + " (" + REFSETTING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -2480,6 +2489,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
 
         arg0.execSQL(CREATE_FTOURHED_TABLE);
+        arg0.execSQL(CREATE_TARGET_TABLE);
 
         // ---------------------------------------------------
 
@@ -2496,6 +2506,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_FINVRHED_TABLE);
             arg0.execSQL(CREATE_FINVRDET_TABLE);
             arg0.execSQL(CREATE_ATTENDANCE_TABLE);
+            arg0.execSQL(CREATE_TARGET_TABLE);
 
         } catch (SQLiteException e) {
         }
