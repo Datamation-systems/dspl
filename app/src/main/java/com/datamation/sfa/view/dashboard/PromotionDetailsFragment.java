@@ -303,9 +303,9 @@ public class PromotionDetailsFragment extends Fragment  {
 
 //            tvGrossAmountTotal.setText(numberFormat.format(grossAmount));
 //            tvNetAmountTotal.setText(numberFormat.format(netAmount));
-            tvOutstandingAmountTotal.setText(numberFormat.format(outstandingAmount));
-            tvCashPaymentTotal.setText(numberFormat.format(cashAmount));
-            tvChequeAmountTotal.setText(numberFormat.format(chequeAmount));
+//            tvOutstandingAmountTotal.setText(numberFormat.format(outstandingAmount));
+//            tvCashPaymentTotal.setText(numberFormat.format(cashAmount));
+//            tvChequeAmountTotal.setText(numberFormat.format(chequeAmount));
 
         }
     }

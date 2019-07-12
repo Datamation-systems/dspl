@@ -177,7 +177,8 @@ public class FragmentHome extends Fragment {
     }
     private class DashboardPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] titles = {"Main", "Summary","Promotion","Order", "Invoice", "Payment"};
+      //  private String[] titles = {"Main", "Summary","Promotion","Order", "Invoice", "Payment"};
+        private String[] titles = {"Main", "Summary","Invoice","Payment"};
 
         public DashboardPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -195,17 +196,20 @@ public class FragmentHome extends Fragment {
                     if (daySummaryFragment == null) daySummaryFragment = new DaySummaryFragment();
                     return daySummaryFragment;
                 case 2:
-                    if(promoDetailsFragment == null) promoDetailsFragment = new PromotionDetailsFragment();
-                    return promoDetailsFragment;
-                case 3:
-                    if(orderDetailsFragment == null) orderDetailsFragment = new OrderDetailsFragment();
-                    return invoiceDetailsFragment;
-                case 4:
                     if(invoiceDetailsFragment == null) invoiceDetailsFragment = new InvoiceDetailsFragment();
                     return invoiceDetailsFragment;
-                case 5:
+                case 3:
                     if(paymentDetailsFragment == null) paymentDetailsFragment = new PaymentDetailsFragment();
                     return paymentDetailsFragment;
+//
+//                case 4:
+//
+//if(promoDetailsFragment == null) promoDetailsFragment = new PromotionDetailsFragment();
+////                    return promoDetailsFragment;
+//                case 5:
+//
+//                    if(orderDetailsFragment == null) orderDetailsFragment = new OrderDetailsFragment();
+//                    return invoiceDetailsFragment;
                 default:
                     return null;
             }

@@ -45,9 +45,9 @@ public class ReceiptDetController {
 		ArrayList<ReceiptDet> list = new ArrayList<ReceiptDet>();
 
 		try {
-			String selectQuery = "select hed.refno, det.FPRECDET_REFNO1, hed.paytype,det.aloamt, fddb.totbal, det.dtxndate from fprecheds hed, fprecdets det," +
+			String selectQuery = "select hed.refno, det.RefNo1, hed.paytype,det.aloamt, fddb.totbal, det.dtxndate from fprecheds hed, fprecdets det," +
 					//			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
-					" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+					" fddbnote fddb where hed.refno = det.refno and det.RefNo1 = fddb.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
 			cursor = dB.rawQuery(selectQuery, null);
 

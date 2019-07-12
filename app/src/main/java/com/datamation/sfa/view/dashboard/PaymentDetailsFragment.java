@@ -87,36 +87,6 @@ public class PaymentDetailsFragment extends Fragment  {
 
         tvDate.setText(dateFormat.format(new Date(timeInMillis)));
 
-//        calendarDatePickerDialog = new CalendarDatePickerDialog();
-//        calendarDatePickerDialog.setOnDateSetListener(new CalendarDatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int year, int month, int day) {
-//
-//                if (year != mYear || month != mMonth || day != mDay) {
-//                    Log.d(LOG_TAG, "Different date selected");
-//                    mYear = year;
-//                    mMonth = month;
-//                    mDay = day;
-//
-////                    nowCalendar.set(mYear, mMonth, mDay);
-//
-//                    timeInMillis = TimeUtils.parseIntoTimeInMillis(mYear, mMonth, mDay);
-//
-//                    tvDate.setText(dateFormat.format(new Date(timeInMillis)));
-//
-//                    pinHolders = dbHandler.getTimeFramedPayments(TimeUtils.getDayBeginningTime(timeInMillis), TimeUtils.getDayEndTime(timeInMillis));
-//                    adapter.setPaymentPinHolders(pinHolders);
-//                }
-//
-//            }
-//        });
-//
-//        tvDate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                calendarDatePickerDialog.show(getFragmentManager(), "TAG");
-//            }
-//        });
 
         return rootView;
     }
@@ -125,15 +95,6 @@ public class PaymentDetailsFragment extends Fragment  {
         //   if (adapter != null) adapter.notifyDataSetChanged();
     }
 
-//    public void showCalendar() {
-//        if (calendarDatePickerDialog != null)
-//            calendarDatePickerDialog.show(getFragmentManager(), "TAG");
-//    }
-
-//    @Override
-//    public void onFragmentVisible(DashboardContainerFragment dashboardContainerFragment) {
-//        dashboardContainerFragment.currentFragment = this;
-//    }
 
     private static class HeaderViewHolder {
         TextView pinLabel;

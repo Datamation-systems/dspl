@@ -12,7 +12,9 @@ import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.helpers.DatabaseHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Rashmi
@@ -121,6 +123,53 @@ public class OrderDetailController {
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public ArrayList<OrderDetail> getTodayOrders() {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
+
+        try {
+            String selectQuery = "select hed.DebCode, det.RefNo, hed.TotalAmt,det.Qty from finvHed hed, finvDet det" +
+                    //			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
+                    "  where hed.refno = det.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                OrderDetail recDet = new OrderDetail();
+
+//
+                recDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                recDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_AMT)));
+                recDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_QTY)));
+                recDet.setFORDERDET_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_DEBCODE)));
+                //TODO :set  discount, free
+
+                list.add(recDet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+
+    }
     public int getItemCountForUpload(String refNo) {
 
         if (dB == null) {
