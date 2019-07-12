@@ -42,19 +42,19 @@ public class ReferenceController {
 			//String RepCode = new SalRepDS(context).getCurrentRepCode();
 
 			Calendar c = Calendar.getInstance();
-			Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_REFERENCE + " WHERE cSettingsCode='" + cCode + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'", null);
+			Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FCOMPANYBRANCH + " WHERE cSettingsCode='" + cCode + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'", null);
 
 			if (cursor.getCount() == 0) {
 
 				ContentValues values = new ContentValues();
 			//	values.put(DatabaseHelper.REFERENCE_REPCODE, RepCode);
-				values.put(DatabaseHelper.REFERENCE_RECORD_ID, "");
-				values.put(DatabaseHelper.REFERENCE_SETTINGS_CODE, cCode);
-				values.put(DatabaseHelper.REFERENCE_NNUM_VAL, "1");
-				values.put(DatabaseHelper.REFERENCE_NYEAR_VAL, String.valueOf(c.get(Calendar.YEAR)));
-				values.put(DatabaseHelper.REFERENCE_NMONTH_VAL, String.valueOf(c.get(Calendar.MONTH) + 1));
+			//	values.put(DatabaseHelper.FCOMPANYBRANCH_ID, "");
+				values.put(DatabaseHelper.FCOMPANYBRANCH_CSETTINGS_CODE, cCode);
+				values.put(DatabaseHelper.FCOMPANYBRANCH_NNUM_VAL, "1");
+				values.put(DatabaseHelper.FCOMPANYBRANCH_YEAR, String.valueOf(c.get(Calendar.YEAR)));
+				values.put(DatabaseHelper.FCOMPANYBRANCH_MONTH, String.valueOf(c.get(Calendar.MONTH) + 1));
 
-				dB.insert(DatabaseHelper.TABLE_REFERENCE, null, values);
+				dB.insert(DatabaseHelper.TABLE_FCOMPANYBRANCH, null, values);
 
 			}
 		} catch (Exception e) {
@@ -80,12 +80,12 @@ public class ReferenceController {
 		Calendar c = Calendar.getInstance();
 
 		try {
-			String query = "SELECT " + DatabaseHelper.REFERENCE_NNUM_VAL +" from "+ DatabaseHelper.TABLE_REFERENCE + " WHERE " + DatabaseHelper.REFERENCE_REPCODE + " = '" + repcode + "'  AND SettingsCode = '" + cSettingsCode + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
+			String query = "SELECT " + DatabaseHelper.FCOMPANYBRANCH_NNUM_VAL +" from "+ DatabaseHelper.TABLE_FCOMPANYBRANCH + " WHERE " + DatabaseHelper.FCOMPANYBRANCH_BRANCH_CODE + " = '" + repcode + "'  AND SettingsCode = '" + cSettingsCode + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
 			Cursor cursor = dB.rawQuery(query, null);
 			int count = cursor.getCount();
 			if (count > 0) {
 				while (cursor.moveToNext()) {
-					nextNumVal = cursor.getString(cursor.getColumnIndex(dbHelper.REFERENCE_NNUM_VAL));
+					nextNumVal = cursor.getString(cursor.getColumnIndex(dbHelper.FCOMPANYBRANCH_NNUM_VAL));
 				}
 			} else {
 				nextNumVal = "1";
@@ -112,7 +112,7 @@ public class ReferenceController {
 		ArrayList<Reference> list = new ArrayList<Reference>();
 
 		try {
-			String selectRep = "select CharVal from ReferenceSetting where SettingsCode='" + cSettingsCode + "'";
+			String selectRep = "select CharVal from fCompanySetting where cSettingsCode ='" + cSettingsCode + "'";
 
 			Cursor cursor = null;
 			cursor = dB.rawQuery(selectRep, null);
@@ -121,7 +121,7 @@ public class ReferenceController {
 
 				Reference reference = new Reference();
 
-				reference.setCharVal(cursor.getString(cursor.getColumnIndex(dbHelper.REFSETTING_CHAR_VAL)));
+				reference.setCharVal(cursor.getString(cursor.getColumnIndex(dbHelper.FCOMPANYSETTING_CHAR_VAL)));
 				reference.setRepPrefix(repPrefix);
 				list.add(reference);
 
@@ -149,7 +149,7 @@ public class ReferenceController {
 		try {
 			count = 0;
 
-			String query = "SELECT " + dbHelper.REFERENCE_NNUM_VAL + " FROM " + dbHelper.TABLE_REFERENCE + " WHERE " + dbHelper.REFERENCE_REPCODE + " ='" + repcode + "' AND " + dbHelper.REFERENCE_SETTINGS_CODE + "='" + cSettingsCode + "'";
+			String query = "SELECT " + dbHelper.FCOMPANYBRANCH_NNUM_VAL + " FROM " + dbHelper.TABLE_FCOMPANYBRANCH + " WHERE " + dbHelper.FCOMPANYBRANCH_BRANCH_CODE + " ='" + repcode + "' AND " + dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + cSettingsCode + "'";
 			Cursor cursor = dB.rawQuery(query, null);
 			count = cursor.getCount();
 
@@ -181,21 +181,21 @@ public class ReferenceController {
 
 			ContentValues values = new ContentValues();
 
-			values.put(dbHelper.REFERENCE_NNUM_VAL, String.valueOf(nextNumVal));
+			values.put(dbHelper.FCOMPANYBRANCH_NNUM_VAL, String.valueOf(nextNumVal));
 
 			//String query = "SELECT " + dbHelper.REFERENCE_NNUM_VAL + " FROM " + dbHelper.TABLE_REFERENCE + " WHERE " + dbHelper.REFERENCE_REPCODE + "='" + repDS.getCurrentRepCode() + "' AND " + dbHelper.REFERENCE_SETTINGS_CODE + "='" + code + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
-			String query = "SELECT " + dbHelper.REFERENCE_NNUM_VAL + " FROM " + dbHelper.TABLE_REFERENCE + " WHERE "  + dbHelper.REFERENCE_SETTINGS_CODE + "='" + code + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
+			String query = "SELECT " + dbHelper.FCOMPANYBRANCH_NNUM_VAL + " FROM " + dbHelper.TABLE_FCOMPANYBRANCH + " WHERE "  + dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + code + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
 			Cursor cursor = dB.rawQuery(query, null);
 
 			if (cursor.getCount() > 0) {
-				count = (int) dB.update(dbHelper.TABLE_REFERENCE, values,  dbHelper.REFERENCE_SETTINGS_CODE + "='" + code + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'", null);
+				count = (int) dB.update(dbHelper.TABLE_FCOMPANYBRANCH, values,  dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + code + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'", null);
 			} else {
-				values.put(dbHelper.REFERENCE_REPCODE, SharedPref.getInstance(context).getLoginUser().getCode());
-				values.put(dbHelper.REFERENCE_SETTINGS_CODE, code);
-				values.put(dbHelper.REFERENCE_NYEAR_VAL, String.valueOf(c.get(Calendar.YEAR)));
-				values.put(dbHelper.REFERENCE_NMONTH_VAL, String.valueOf(c.get(Calendar.MONTH) + 1));
+				values.put(dbHelper.FCOMPANYBRANCH_BRANCH_CODE, SharedPref.getInstance(context).getLoginUser().getCode());
+				values.put(dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE, code);
+				values.put(dbHelper.FCOMPANYBRANCH_YEAR, String.valueOf(c.get(Calendar.YEAR)));
+				values.put(dbHelper.FCOMPANYBRANCH_MONTH, String.valueOf(c.get(Calendar.MONTH) + 1));
 
-				count = (int) dB.insert(dbHelper.TABLE_REFERENCE, null, values);
+				count = (int) dB.insert(dbHelper.TABLE_FCOMPANYBRANCH, null, values);
 			}
 
 		} catch (Exception e) {

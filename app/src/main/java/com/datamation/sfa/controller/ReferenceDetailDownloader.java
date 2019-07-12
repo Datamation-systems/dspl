@@ -45,29 +45,29 @@ public class ReferenceDetailDownloader {
         Cursor cursor_ini = null;
         try{
 
-            cursor_ini = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_REFERENCE, null);
+            cursor_ini = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FCOMPANYBRANCH, null);
 
             for (ReferenceDetail branch : list) {
 
                 ContentValues values = new ContentValues();
-                values.put(dbHelper.REFERENCE_REPCODE,  branch.getREFERENCE_REP_CODE());
-                values.put(dbHelper.REFERENCE_SETTINGS_CODE,  branch.getREFERENCE_SETTING_CODE());
-                values.put(dbHelper.REFERENCE_NNUM_VAL,  branch.getREFERENCE_NNUM_VAL());
-                values.put(dbHelper.REFERENCE_NYEAR_VAL,  branch.getREFERENCE_NYEAR_VAL());
-                values.put(dbHelper.REFERENCE_NMONTH_VAL,  branch.getREFERENCE_NMONTH_VAL());
+                values.put(dbHelper.FCOMPANYBRANCH_BRANCH_CODE,  branch.getREFERENCE_REP_CODE());
+                values.put(dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE,  branch.getREFERENCE_SETTING_CODE());
+                values.put(dbHelper.FCOMPANYBRANCH_NNUM_VAL,  branch.getREFERENCE_NNUM_VAL());
+                values.put(dbHelper.FCOMPANYBRANCH_YEAR,  branch.getREFERENCE_NYEAR_VAL());
+                values.put(dbHelper.FCOMPANYBRANCH_MONTH,  branch.getREFERENCE_NMONTH_VAL());
 
                 if (cursor_ini.moveToFirst()) {
-                    String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REFERENCE + " WHERE " + dbHelper.REFERENCE_SETTINGS_CODE + "='" + branch.getREFERENCE_SETTING_CODE() + "' AND " + dbHelper.REFERENCE_REPCODE + "='" + branch.getREFERENCE_REP_CODE() + "' AND " + dbHelper.REFERENCE_NYEAR_VAL + "='" + branch.getREFERENCE_NYEAR_VAL() + "' AND " + dbHelper.REFERENCE_NMONTH_VAL + "='" + branch.getREFERENCE_NMONTH_VAL() + "'";
+                    String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FCOMPANYBRANCH + " WHERE " + dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + branch.getREFERENCE_SETTING_CODE() + "' AND " + dbHelper.FCOMPANYBRANCH_BRANCH_CODE + "='" + branch.getREFERENCE_REP_CODE() + "' AND " + dbHelper.FCOMPANYBRANCH_YEAR + "='" + branch.getREFERENCE_NYEAR_VAL() + "' AND " + dbHelper.FCOMPANYBRANCH_MONTH + "='" + branch.getREFERENCE_NMONTH_VAL() + "'";
                     cursor = dB.rawQuery(selectQuery, null);
 
                     if (cursor.moveToFirst()) {
-                        count = (int) dB.update(dbHelper.TABLE_REFERENCE, values, dbHelper.REFERENCE_SETTINGS_CODE + "='" + branch.getREFERENCE_SETTING_CODE() + "' AND " + dbHelper.REFERENCE_REPCODE + "='" + branch.getREFERENCE_REP_CODE() + "' AND " + dbHelper.REFERENCE_NYEAR_VAL + "='" + branch.getREFERENCE_NYEAR_VAL() + "' AND " + dbHelper.REFERENCE_NMONTH_VAL + "='" + branch.getREFERENCE_NMONTH_VAL() + "'", null);
+                        count = (int) dB.update(dbHelper.TABLE_FCOMPANYBRANCH, values, dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + branch.getREFERENCE_SETTING_CODE() + "' AND " + dbHelper.FCOMPANYBRANCH_BRANCH_CODE + "='" + branch.getREFERENCE_REP_CODE() + "' AND " + dbHelper.FCOMPANYBRANCH_YEAR + "='" + branch.getREFERENCE_NYEAR_VAL() + "' AND " + dbHelper.FCOMPANYBRANCH_MONTH + "='" + branch.getREFERENCE_NMONTH_VAL() + "'", null);
                     } else {
-                        count = (int) dB.insert(dbHelper.TABLE_REFERENCE, null, values);
+                        count = (int) dB.insert(dbHelper.TABLE_FCOMPANYBRANCH, null, values);
                     }
 
                 } else {
-                    count = (int) dB.insert(dbHelper.TABLE_REFERENCE, null, values);
+                    count = (int) dB.insert(dbHelper.TABLE_FCOMPANYBRANCH, null, values);
                 }
 
             }
@@ -96,13 +96,13 @@ public class ReferenceDetailDownloader {
 
         Calendar c = Calendar.getInstance();
 
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_REFERENCE +" WHERE "+dbHelper.REFERENCE_SETTINGS_CODE +" ='"+cSettingsCode + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FCOMPANYBRANCH +" WHERE "+dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE +" ='"+cSettingsCode + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
         while(cursor.moveToNext()){
 
-            return cursor.getString(cursor.getColumnIndex(dbHelper.REFERENCE_NNUM_VAL));
+            return cursor.getString(cursor.getColumnIndex(dbHelper.FCOMPANYBRANCH_NNUM_VAL));
 
         }
 
@@ -122,10 +122,10 @@ public class ReferenceDetailDownloader {
         Cursor cursor = null;
         try{
 
-            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_REFERENCE, null);
+            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FCOMPANYBRANCH, null);
             count =cursor.getCount();
             if(count>0){
-                int success = dB.delete(dbHelper.TABLE_REFERENCE, null, null);
+                int success = dB.delete(dbHelper.TABLE_FCOMPANYBRANCH, null, null);
                 Log.v("Success", success+"");
             }
         }catch (Exception e){

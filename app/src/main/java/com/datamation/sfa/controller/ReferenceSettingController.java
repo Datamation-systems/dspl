@@ -41,9 +41,9 @@ public class ReferenceSettingController {
 
 			dB.beginTransaction();
 			
-			String sql = "Insert or Replace into " + dbHelper.TABLE_REFERENCE_SETTING + " (" + dbHelper.REFSETTING_SETTINGS_CODE + ", "
-		 + dbHelper.REFSETTING_CHAR_VAL + ", "
-					+ dbHelper.REFSETTING_REMARKS
+			String sql = "Insert or Replace into " + dbHelper.TABLE_FCOMPANYSETTING + " (" + dbHelper.FCOMPANYSETTING_SETTINGS_CODE + ", "
+		 + dbHelper.FCOMPANYSETTING_CHAR_VAL + ", "
+					+ dbHelper.FCOMPANYSETTING_REMARKS
 					+ ") values(?,?,?)";
 			
 			SQLiteStatement insert = dB.compileStatement(sql);
@@ -88,10 +88,10 @@ public class ReferenceSettingController {
 		Cursor cursor = null;
 		try {
 
-			cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_REFERENCE_SETTING, null);
+			cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FCOMPANYSETTING, null);
 			count = cursor.getCount();
 			if (count > 0) {
-				int success = dB.delete(dbHelper.TABLE_REFERENCE_SETTING, null, null);
+				int success = dB.delete(dbHelper.TABLE_FCOMPANYSETTING, null, null);
 				Log.v("Success", success + "");
 			}
 		} catch (Exception e) {

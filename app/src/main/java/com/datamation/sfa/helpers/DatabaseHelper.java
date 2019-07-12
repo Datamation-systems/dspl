@@ -60,12 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
 
     // table
-    public static final String TABLE_REFERENCE_SETTING = "ReferenceSetting";
-    // table attributes
-    public static final String REFSETTING_ID = "Setting_id";// ok
-    public static final String REFSETTING_SETTINGS_CODE = "SettingsCode";// ok
-    public static final String REFSETTING_CHAR_VAL = "CharVal";// ok
-    public static final String REFSETTING_REMARKS = "Remarks";// ok
 
     public static final String TABLE_TARGET = "fTarget";
     public static final String TARGET_YEAR = "Year";// ok
@@ -77,24 +71,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     TARGET_MONTH +  " TEXT, " +
     TARGET_VALUE + " TEXT); ";
     // create String
-    private static final String CREATE_REFSETTING_TABLE = "CREATE  TABLE IF NOT EXISTS " +
-            TABLE_REFERENCE_SETTING + " (" + REFSETTING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            REFSETTING_SETTINGS_CODE + " TEXT, " +
-            REFSETTING_CHAR_VAL +  " TEXT, " +
-            REFSETTING_REMARKS + " TEXT); ";
-
-    // table
-    public static final String TABLE_REFERENCE = "Reference";
+// table
+    public static final String TABLE_FCOMPANYBRANCH = "FCompanyBranch";
     // table attributes
-    public static final String REFERENCE_REPCODE = "RepCode";
-    public static final String REFERENCE_RECORD_ID = "RecordId";
-    public static final String REFERENCE_SETTINGS_CODE = "SettingsCode";
-    public static final String REFERENCE_NNUM_VAL = "nNumVal";
-    public static final String REFERENCE_NYEAR_VAL = "nYear";
-    public static final String REFERENCE_NMONTH_VAL = "nMonth";
+    public static final String FCOMPANYBRANCH_ID = "fcombra_id";
+    public static final String FCOMPANYBRANCH_BRANCH_CODE = "BranchCode";
+    public static final String FCOMPANYBRANCH_RECORD_ID = "RecordId";
+    public static final String FCOMPANYBRANCH_CSETTINGS_CODE = "cSettingsCode";
+    public static final String FCOMPANYBRANCH_NNUM_VAL = "nNumVal";
+    public static final String FCOMPANYBRANCH_YEAR = "nYear";
+    public static final String FCOMPANYBRANCH_MONTH = "nMonth";
 
+    public static final String TABLE_FCOMPANYSETTING = "fCompanySetting";
+    // table attributes
+    public static final String FCOMPANYSETTING_ID = "fcomset_id";// ok
+    public static final String FCOMPANYSETTING_SETTINGS_CODE = "cSettingsCode";// ok
+    public static final String FCOMPANYSETTING_GRP = "cSettingGrp";// ok
+    public static final String FCOMPANYSETTING_LOCATION_CHAR = "cLocationChar";// ok
+    public static final String FCOMPANYSETTING_CHAR_VAL = "cCharVal";// ok
+    public static final String FCOMPANYSETTING_NUM_VAL = "nNumVal";// ok
+    public static final String FCOMPANYSETTING_REMARKS = "cRemarks";// ok
+    public static final String FCOMPANYSETTING_TYPE = "nType";// ok
+    public static final String FCOMPANYSETTING_COMPANY_CODE = "cCompanyCode";// ok
     // create String
-    private static final String CREATE_REFERENCE_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_REFERENCE + " (" + REFERENCE_RECORD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFERENCE_REPCODE +  " TEXT, " + REFERENCE_SETTINGS_CODE + " TEXT, " + REFERENCE_NNUM_VAL + " TEXT, " + REFERENCE_NYEAR_VAL + " TEXT, " + REFERENCE_NMONTH_VAL + " TEXT); ";
+    private static final String CREATE_FCOMPANYSETTING_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FCOMPANYSETTING + " (" + FCOMPANYSETTING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FCOMPANYSETTING_SETTINGS_CODE + " TEXT, " + FCOMPANYSETTING_GRP + " TEXT, " + FCOMPANYSETTING_LOCATION_CHAR + " TEXT, " + FCOMPANYSETTING_CHAR_VAL + " TEXT, " + FCOMPANYSETTING_NUM_VAL + " TEXT, " + FCOMPANYSETTING_REMARKS + " TEXT, " + FCOMPANYSETTING_TYPE + " TEXT, " + FCOMPANYSETTING_COMPANY_CODE + " TEXT); ";
+    private static final String CREATE_FCOMPANYBRANCH_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FCOMPANYBRANCH + " (" + FCOMPANYBRANCH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FCOMPANYBRANCH_BRANCH_CODE + " TEXT, " + FCOMPANYBRANCH_RECORD_ID + " TEXT, " + FCOMPANYBRANCH_CSETTINGS_CODE + " TEXT, " + FCOMPANYBRANCH_NNUM_VAL + " TEXT," + FCOMPANYBRANCH_YEAR + " TEXT," + FCOMPANYBRANCH_MONTH + " TEXT);";
 
     // table
     public static final String TABLE_ROUTE = "Route";
@@ -574,29 +575,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * ################################
      */
 
-    // table
-    public static final String TABLE_FCOMPANYSETTING = "fCompanySetting";
-    // table attributes
-    public static final String FCOMPANYSETTING_ID = "fcomset_id";// ok
-    public static final String FCOMPANYSETTING_SETTINGS_CODE = "cSettingsCode";// ok
-    public static final String FCOMPANYSETTING_GRP = "cSettingGrp";// ok
-    public static final String FCOMPANYSETTING_LOCATION_CHAR = "cLocationChar";// ok
-    public static final String FCOMPANYSETTING_CHAR_VAL = "cCharVal";// ok
-    public static final String FCOMPANYSETTING_NUM_VAL = "nNumVal";// ok
-    public static final String FCOMPANYSETTING_REMARKS = "cRemarks";// ok
-    public static final String FCOMPANYSETTING_TYPE = "nType";// ok
-    // public static final String FCOMPANYSETTING_UPDATEFLAG = "bUpdateFlag";
-    public static final String FCOMPANYSETTING_COMPANY_CODE = "cCompanyCode";// ok
-    // public static final String FCOMPANYSETTING_RECORD_ID = "recordid";
-    // public static final String FCOMPANYSETTING_TIMESTAMP_COLUMN =
-    // "timestamp_column";
 
-    // create String
-    private static final String CREATE_FCOMPANYSETTING_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FCOMPANYSETTING + " (" + FCOMPANYSETTING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FCOMPANYSETTING_SETTINGS_CODE + " TEXT, " + FCOMPANYSETTING_GRP + " TEXT, " + FCOMPANYSETTING_LOCATION_CHAR + " TEXT, " + FCOMPANYSETTING_CHAR_VAL + " TEXT, " + FCOMPANYSETTING_NUM_VAL + " TEXT, " + FCOMPANYSETTING_REMARKS + " TEXT, " + FCOMPANYSETTING_TYPE + " TEXT, "
-            // + FCOMPANYSETTING_UPDATEFLAG+ " TEXT, "
-            + FCOMPANYSETTING_COMPANY_CODE + " TEXT); ";
-    // + FCOMPANYSETTING_RECORD_ID+ " TEXT, "
-    // + FCOMPANYSETTING_TIMESTAMP_COLUMN+ " TEXT); ";
+
 
     private static final String IDXCOMSETT = "CREATE UNIQUE INDEX IF NOT EXISTS idxcomsett_something ON " + TABLE_FCOMPANYSETTING + " (" + FCOMPANYSETTING_SETTINGS_CODE + ")";
 
@@ -1194,20 +1174,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_FDISPHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPHED + " (" + FDISPHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT," + TXNDATE + " TEXT," + FDISPHED_REFNO1 + " TEXT," + FDISPHED_MANUREF + " TEXT," + FDISPHED_TOTALAMT + " TEXT," + FDISPHED_LOCCODE + " TEXT," + FDISPHED_COSTCODE + " TEXT," + FDISPHED_DEBCODE + " TEXT," + FDISPHED_REPCODE + " TEXT," + FDISPHED_REMARKS + " TEXT," + FDISPHED_TXNTYPE + " TEXT," + FDISPHED_INVOICE + " TEXT," + FDISPHED_CONTACT + " TEXT," + FDISPHED_CUSADD1 + " TEXT," + FDISPHED_CUSADD2 + " TEXT," + FDISPHED_CUSADD3 + " TEXT," + FDISPHED_CUSTELE + " TEXT," + FDISPHED_ADDUSER + " TEXT," + FDISPHED_ADDDATE + " TEXT," + FDISPHED_ADDMACH + " TEXT);";
     private static final String CREATE_FDISPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPDET + " (" + FDISPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT ," + TXNDATE + " TEXT," + FDISPDET_TXNTYPE + " TEXT," + FDISPDET_ITEMCODE + " TEXT," + FDISPDET_QTY + " TEXT DEFAULT '0'," + FDISPDET_BALQTY + " TEXT DEFAULT '0'," + FDISPDET_SAQTY + " TEXT DEFAULT '0'," + FDISPDET_BALSAQTY + " TEXT DEFAULT '0'," + FDISPDET_FIQTY + " TEXT DEFAULT '0'," + FDISPDET_BALFIQTY + " TEXT DEFAULT '0'," + FDISPDET_COSTPRICE + " TEXT," + FDISPDET_AMT + " TEXT," + FDISPDET_REFNO1 + " TEXT," + FDISPDET_SEQNO + " TEXT);";
     private static final String CREATE_FDISPISS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPISS + " (" + FDISPISS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT," + TXNDATE + " TEXT," + FDISPISS_LOCCODE + " TEXT," + FDISPISS_STKRECNO + " TEXT," + FDISPISS_STKRECDATE + " TEXT," + FDISPISS_STKTXNNO + " TEXT," + FDISPISS_STKTXNDATE + " TEXT," + FDISPISS_STKTXNTYPE + " TEXT," + FDISPISS_ITEMCODE + " TEXT," + FDISPISS_QTY + " TEXT," + FDISPISS_BALQTY + " TEXT," + FDISPISS_COSTPRICE + " TEXT," + FDISPISS_AMT + " TEXT," + FDISPISS_REFNO1 + " TEXT," + FDISPISS_OTHCOST + " TEXT);";
-
-    // table
-    public static final String TABLE_FCOMPANYBRANCH = "FCompanyBranch";
-    // table attributes
-    public static final String FCOMPANYBRANCH_ID = "fcombra_id";
-    public static final String FCOMPANYBRANCH_BRANCH_CODE = "BranchCode";
-    public static final String FCOMPANYBRANCH_RECORD_ID = "RecordId";
-    public static final String FCOMPANYBRANCH_CSETTINGS_CODE = "cSettingsCode";
-    public static final String FCOMPANYBRANCH_NNUM_VAL = "nNumVal";
-    public static final String FCOMPANYBRANCH_NYEAR_VAL = "nYear";
-    public static final String FCOMPANYBRANCH_NMONTH_VAL = "nMonth";
-
-    // create String
-    private static final String CREATE_FCOMPANYBRANCH_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FCOMPANYBRANCH + " (" + FCOMPANYBRANCH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FCOMPANYBRANCH_BRANCH_CODE + " TEXT, " + FCOMPANYBRANCH_RECORD_ID + " TEXT, " + FCOMPANYBRANCH_CSETTINGS_CODE + " TEXT, " + FCOMPANYBRANCH_NNUM_VAL + " TEXT, " + FCOMPANYBRANCH_NYEAR_VAL + " TEXT, " + FCOMPANYBRANCH_NMONTH_VAL + " TEXT); ";
 
     /**
      * ############################ fSalRep table Details
