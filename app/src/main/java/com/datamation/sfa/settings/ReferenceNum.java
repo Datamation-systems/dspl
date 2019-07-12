@@ -66,8 +66,13 @@ public class ReferenceNum {
         ReferenceController referenceDS = new ReferenceController(context);
         int nextNumVal = 0;
 
+//        if(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())!= null){
+//            nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())) + 1;
+//
+//        }else{
+//            nextNumVal = 0;
+//        }
         //nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode())) + 1;
-        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())) + 1;
 
         int count = referenceDS.InsetOrUpdate(cSettingsCode, nextNumVal);
 

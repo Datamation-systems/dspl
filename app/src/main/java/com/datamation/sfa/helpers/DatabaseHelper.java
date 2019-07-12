@@ -2568,11 +2568,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        } catch (SQLiteException e) {
 //            Log.v("SQLiteException", e.toString());
 //        }
-        try {
-            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN SettingCode TEXT ");
-        } catch (SQLiteException e) {
-            Log.v("SQLiteException", e.toString());
-        }
+//        try {
+//            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN SettingCode TEXT ");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
 //        try {
 //            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN areacode TEXT ");
 //        } catch (SQLiteException e) {
@@ -2593,10 +2593,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        } catch (SQLiteException e) {
 //            Log.v("SQLiteException", e.toString());
 //        }
-        try {
-            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN tourcode TEXT ");
-        } catch (SQLiteException e) {
-            Log.v("SQLiteException", e.toString());
-        }
+//        try {
+//            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN tourcode TEXT ");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
     }
 }
