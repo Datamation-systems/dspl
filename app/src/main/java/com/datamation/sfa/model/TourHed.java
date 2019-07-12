@@ -22,6 +22,24 @@ public class TourHed {
     private String TOURHED_VANLOADFLG;
     private String TOURHED_CLSFLG;
     private String TOURHED_TOURTYPE;
+    private String TOURHED_DATEFROM;
+    private String TOURHED_DATETO;
+
+    public String getTOURHED_DATEFROM() {
+        return TOURHED_DATEFROM;
+    }
+
+    public void setTOURHED_DATEFROM(String TOURHED_DATEFROM) {
+        this.TOURHED_DATEFROM = TOURHED_DATEFROM;
+    }
+
+    public String getTOURHED_DATETO() {
+        return TOURHED_DATETO;
+    }
+
+    public void setTOURHED_DATETO(String TOURHED_DATETO) {
+        this.TOURHED_DATETO = TOURHED_DATETO;
+    }
 
     public String getTOURHED_ID() {
         return TOURHED_ID;

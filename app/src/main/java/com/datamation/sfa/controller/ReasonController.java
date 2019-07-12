@@ -230,9 +230,9 @@ public class ReasonController {
 		ArrayList<Reason> list = new ArrayList<Reason>();
 		String selectQuery = null;
 		if(excode.equals(""))
-			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_TYPE + " = 'ex'";
+			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON ;
 		else
-			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + excode + "' and "+ dbHelper.FREASON_TYPE + " = 'ex'";;
+			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + excode + "'";
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 		while (cursor.moveToNext()) {
@@ -305,7 +305,7 @@ public class ReasonController {
 
 		ArrayList<Reason> Itemname = new ArrayList<Reason>();
 
-		String selectQuery = "select * from FREASON where ReaTcode='RT02' AND ReaCode LIKE '%" + searchword + "%' OR ReaName LIKE '%" + searchword + "%' ";
+		String selectQuery = "select * from fReason where ReaTcode='RT02' AND ReaCode LIKE '%" + searchword + "%' OR ReaName LIKE '%" + searchword + "%' ";
 
 		Cursor cursor = null;
 		cursor = dB.rawQuery(selectQuery, null);
