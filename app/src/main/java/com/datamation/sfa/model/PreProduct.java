@@ -8,6 +8,42 @@ public class PreProduct {
     private String PREPRODUCT_PRICE;
     private String PREPRODUCT_QOH;
     private String PREPRODUCT_QTY;
+    private String PREPRODUCT_MAX_PRICE;
+    private String PREPRODUCT_MIN_PRICE;
+    private String PREPRODUCT_CHANGED_PRICE;
+    private String PREPRODUCT_TXN_TYPE;
+
+    public String getPREPRODUCT_MAX_PRICE() {
+        return PREPRODUCT_MAX_PRICE;
+    }
+
+    public void setPREPRODUCT_MAX_PRICE(String PREPRODUCT_MAX_PRICE) {
+        this.PREPRODUCT_MAX_PRICE = PREPRODUCT_MAX_PRICE;
+    }
+
+    public String getPREPRODUCT_MIN_PRICE() {
+        return PREPRODUCT_MIN_PRICE;
+    }
+
+    public void setPREPRODUCT_MIN_PRICE(String PREPRODUCT_MIN_PRICE) {
+        this.PREPRODUCT_MIN_PRICE = PREPRODUCT_MIN_PRICE;
+    }
+
+    public String getPREPRODUCT_CHANGED_PRICE() {
+        return PREPRODUCT_CHANGED_PRICE;
+    }
+
+    public void setPREPRODUCT_CHANGED_PRICE(String PREPRODUCT_CHANGED_PRICE) {
+        this.PREPRODUCT_CHANGED_PRICE = PREPRODUCT_CHANGED_PRICE;
+    }
+
+    public String getPREPRODUCT_TXN_TYPE() {
+        return PREPRODUCT_TXN_TYPE;
+    }
+
+    public void setPREPRODUCT_TXN_TYPE(String PREPRODUCT_TXN_TYPE) {
+        this.PREPRODUCT_TXN_TYPE = PREPRODUCT_TXN_TYPE;
+    }
 
     public String getPREPRODUCT_ID() {
         return PREPRODUCT_ID;

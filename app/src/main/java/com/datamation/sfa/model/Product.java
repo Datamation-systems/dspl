@@ -1,9 +1,5 @@
 package com.datamation.sfa.model;
 
-/**
- * Created by Himas on 7/25/2017.
- */
-
 public class Product {
 
     private String FPRODUCT_ID;
