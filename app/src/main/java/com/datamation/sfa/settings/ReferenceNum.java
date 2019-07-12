@@ -55,7 +55,8 @@ public class ReferenceNum {
             Log.v("next num val", "NEXT :" + preFix);
         }
 
-        return preFix + "/" + dFormat.format(Integer.valueOf(nextNumVal));
+        //return preFix + "/" + dFormat.format(Integer.valueOf(nextNumVal));
+        return preFix + "/" + dFormat.format(Integer.valueOf("00001"));
     }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

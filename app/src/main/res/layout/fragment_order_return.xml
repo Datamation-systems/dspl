@@ -303,40 +303,6 @@
                         android:text="0"></EditText>
                 </TableRow>
 
-
-                <!--
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp" >
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:paddingRight="10dp"
-                        android:text="DISCOUNT"
-                        android:textColor="@color/greenColor"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/lblTotalDisc"
-                        android:layout_width="500dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_label"
-                        android:ems="10"
-                        android:enabled="false"
-                        android:gravity="right"
-                        android:text="0.00"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" >
-                    </TextView>
-                </TableRow>
-                -->
-
-
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -364,8 +330,11 @@
                         android:text="FREE / DISC"
                         android:visibility="gone" />
                 </TableRow>
+
             </LinearLayout>
+
         </ScrollView>
+
     </LinearLayout>
 
     <LinearLayout
@@ -423,7 +392,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/lv_return_det"
+        android:id="@+id/lv_pre_return_det"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@color/list_view_diveder"

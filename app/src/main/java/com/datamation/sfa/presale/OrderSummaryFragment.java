@@ -2,13 +2,16 @@ package com.datamation.sfa.presale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -16,13 +19,54 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.adapter.InvDetAdapter;
+import com.datamation.sfa.adapter.OrderDetailsAdapter;
+import com.datamation.sfa.adapter.ReturnDetailsAdapter;
+import com.datamation.sfa.controller.DebItemPriController;
+import com.datamation.sfa.controller.DispDetController;
+import com.datamation.sfa.controller.DispHedController;
+import com.datamation.sfa.controller.DispIssController;
+import com.datamation.sfa.controller.InvDetController;
+import com.datamation.sfa.controller.InvHedController;
+import com.datamation.sfa.controller.InvTaxDTController;
+import com.datamation.sfa.controller.InvTaxRGController;
+import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.ItemLocController;
+import com.datamation.sfa.controller.OrderController;
+import com.datamation.sfa.controller.OrderDetailController;
+import com.datamation.sfa.controller.ProductController;
+import com.datamation.sfa.controller.STKInController;
+import com.datamation.sfa.controller.SalRepController;
+import com.datamation.sfa.controller.SalesReturnController;
+import com.datamation.sfa.controller.SalesReturnDetController;
+import com.datamation.sfa.controller.StkIssController;
+import com.datamation.sfa.controller.TaxDetController;
+import com.datamation.sfa.dialog.VanSalePrintPreviewAlertBox;
+import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.FInvRDet;
+import com.datamation.sfa.model.FInvRHed;
+import com.datamation.sfa.model.InvDet;
+import com.datamation.sfa.model.InvHed;
+import com.datamation.sfa.model.Order;
+import com.datamation.sfa.model.OrderDetail;
+import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.Product;
+import com.datamation.sfa.model.StkIn;
+import com.datamation.sfa.settings.ReferenceNum;
+import com.datamation.sfa.utils.UtilityContainer;
+import com.datamation.sfa.vansale.VanSalesSummary;
+import com.datamation.sfa.view.DebtorDetailsActivity;
+import com.datamation.sfa.view.PreSalesActivity;
+import com.datamation.sfa.view.VanSalesActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,59 +76,53 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class OrderSummaryFragment extends Fragment {
 
-    public static final String SETTINGS = "SETTINGS";
+    public static final String SETTINGS = "PreSalesSummary";
     public static SharedPreferences localSP;
     View view;
-    TextView lblNetVal, lblDisc, lblSchDisc, lblLineDisc, lblGross, lblQty;
-    //SharedPref mSharedPref;
-    String RefNo = null;
-    //TranSOHed Header;
-    //ArrayList<TranSODet> OrdDetList;
-    Activity activity;
-    int freeQty;
+    TextView lblGross, lblReturnQty, lblReturn, lblNetVal, lblReplacements, lblQty;
+    SharedPref mSharedPref;
+    String RefNo = null, ReturnRefNo = null;
+    ArrayList<OrderDetail> list;
+    ArrayList<FInvRDet> returnList;
+    String locCode;
     FloatingActionButton fabPause, fabDiscard, fabSave;
     FloatingActionMenu fam;
-//    MyReceiver r;
-//    MainActivity mainActivity;
-    private static final String TAG = "PreSalesOrderSummary";
-//    ArrayList<PreProduct> PreproductList = null, selectedItemList = null;
-//    private TranSOHed tmpsoHed=null;
-//    SweetAlertDialog pDialog;
-    boolean isPresalePending = false;
-//    GPSTracker gpsTracker;
-//    IResponseListener listener;
+    MyReceiver r;
+    int iTotFreeQty = 0;
+    private  SweetAlertDialog pDialog;
+    PreSalesActivity mainActivity;
+
+    public static boolean setBluetooth(boolean enable) {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        boolean isEnabled = bluetoothAdapter.isEnabled();
+        if (enable && !isEnabled) {
+            return bluetoothAdapter.enable();
+        } else if (!enable && isEnabled) {
+            return bluetoothAdapter.disable();
+        }
+        return true;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_order_summary, container, false);
 
-        localSP = getActivity().getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
-//        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-//        mSharedPref = new SharedPref(getActivity());
-
-        fam = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
-
+        mSharedPref = new SharedPref(getActivity());
+        mainActivity = (PreSalesActivity)getActivity();
+        RefNo = mainActivity.selectedPreHed.getORDER_REFNO();
+        ReturnRefNo = "/00001";
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
+        fam = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
 
-        lblNetVal = (TextView) view.findViewById(R.id.lblNetVal);
-        lblDisc = (TextView) view.findViewById(R.id.lblDisc);
-        lblSchDisc = (TextView) view.findViewById(R.id.lblSchDisc);
-        lblLineDisc = (TextView) view.findViewById(R.id.lblLineDisc);
-        lblGross = (TextView) view.findViewById(R.id.lblGross);
-        lblQty = (TextView) view.findViewById(R.id.lblQty);
-//        mainActivity = (MainActivity) getActivity();
-//        tmpsoHed=new TranSOHed();
-
-//        if (mainActivity.selectedSOHed == null) {
-//            TranSOHed SOHed = new TranSOHedDS(getActivity()).getActiveSOHed();
-//            if (SOHed != null) {
-//                if (mainActivity.selectedDebtor == null)
-//                    mainActivity.selectedDebtor = new DebtorDS(getActivity()).getSelectedCustomerByCode(SOHed.getFTRANSOHED_DEBCODE());
-//            }
-//        }
+        lblNetVal = (TextView) view.findViewById(R.id.lblNetVal_Inv);
+        lblReturn = (TextView) view.findViewById(R.id.lbl_return_tot);
+        lblReturnQty = (TextView) view.findViewById(R.id.lblReturnQty);
+        lblReplacements = (TextView) view.findViewById(R.id.lblReplacement);
+        lblGross = (TextView) view.findViewById(R.id.lblGross_Inv);
+        lblQty = (TextView) view.findViewById(R.id.lblQty_Inv);
 
         fam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,21 +132,20 @@ public class OrderSummaryFragment extends Fragment {
                 }
             }
         });
-        fam.setClosedOnTouchOutside(true);
+
         fabPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPauseOrder();
+                mPauseinvoice();
             }
         });
-
-        //Log.d(TAG, "TOTAL_IS: " + lblNetVal.getText().toString().trim() + " LIMIT_IS: " + mainActivity.selectedDebtor.getFDEBTOR_CRD_LIMIT());
 
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 saveSummaryDialog();
+
             }
         });
 
@@ -119,105 +156,43 @@ public class OrderSummaryFragment extends Fragment {
             }
         });
 
-//        if (new TranSOHedDS(activity).validateActivePreSales())
-//        {
-//            isPresalePending = true;
-//        }
-//        else
-//        {
-//            isPresalePending = false;
-//        }
-
-//        if (mSharedPref.getGlobalVal("preKeyIsFreeClicked").equals("0") || mSharedPref.getGlobalVal("preKeyIsFreeClicked")== null)
-//        {
-//            //listener.moveBackToCustomer_pre(2);
-//            Toast.makeText(getActivity(), "Please tap on Free Issue Button", Toast.LENGTH_LONG).show();
-//        }
-
         return view;
     }
-
-    public void refreshData() {
-
-//        if (mSharedPref.getGlobalVal("preKeyIsFreeClicked").equals("0"))
-//        {
-//            listener.moveBackToCustomer_pre(2);
-//            Toast.makeText(getActivity(), "Please tap on Free Issue Button", Toast.LENGTH_LONG).show();
-//        }
-//
-//        double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, fTotQtySlabDisc = 0;
-//        int ftotQty = 0, fTotFree = 0;
-//        String itemCode = "";
-//
-//        OrdDetList = new TranSODetDS(getActivity()).getAllOrderDetails(RefNo);
-//        Header = new TranSOHedDS(getActivity()).getActiveSOHed();
-//
-//        for (TranSODet ordDet : OrdDetList) {
-//            ftotAmt += Double.parseDouble(ordDet.getFTRANSODET_AMT());
-//            itemCode = ordDet.getFTRANSODET_ITEMCODE();
-//
-//            if (ordDet.getFTRANSODET_TYPE().equals("SA"))
-//                ftotQty += Integer.parseInt(ordDet.getFTRANSODET_QTY());
-//            else
-//                fTotFree += Integer.parseInt(ordDet.getFTRANSODET_QTY());
-//
-//            fTotLineDisc += Double.parseDouble(ordDet.getFTRANSODET_DISAMT());
-//            fTotSchDisc += Double.parseDouble(ordDet.getFTRANSODET_SCHDISC());
-//            fTotQtySlabDisc += Double.parseDouble(ordDet.getFTRANSODET_QTY_SLAB_DISC());
-//        }
-
-//        freeQty = fTotFree;
-//        lblQty.setText(String.valueOf(ftotQty + fTotFree));
-//        double totAmt = ftotAmt + fTotSchDisc + fTotLineDisc + fTotQtySlabDisc;
-////        String grossArray[] = new TaxDetDS(getActivity()).calculateTaxForwardFromDebTax(mSharedPref.getGlobalVal("PrekeyCusCode"), itemCode, totAmt );
-////        String NetArray[] = new TaxDetDS(getActivity()).calculateTaxForwardFromDebTax(mSharedPref.getGlobalVal("PrekeyCusCode"), itemCode, ftotAmt );
-////        String disArray[] = new TaxDetDS(getActivity()).calculateTaxForwardFromDebTax(mSharedPref.getGlobalVal("PrekeyCusCode"), itemCode, fTotSchDisc + fTotQtySlabDisc );
-////        String totDisArray[] = new TaxDetDS(getActivity()).calculateTaxForwardFromDebTax(mSharedPref.getGlobalVal("PrekeyCusCode"), itemCode, fTotSchDisc + fTotLineDisc + fTotQtySlabDisc );
-//////        lblGross.setText(String.format("%.2f", ftotAmt + fTotSchDisc + fTotLineDisc + fTotQtySlabDisc));
-//////        lblDisc.setText(String.format("%.2f", fTotSchDisc + fTotLineDisc + fTotQtySlabDisc ));
-//////        lblNetVal.setText(String.format("%.2f", ftotAmt));
-//////        lblSchDisc.setText(String.format("%.2f", fTotSchDisc + fTotQtySlabDisc));
-////        lblGross.setText(String.format("%.2f", Double.parseDouble(grossArray[0])));
-////        lblDisc.setText(String.format("%.2f", Double.parseDouble(totDisArray[0]) ));
-////        lblNetVal.setText(String.format("%.2f", Double.parseDouble(NetArray[0])));
-////        lblSchDisc.setText(String.format("%.2f", Double.parseDouble(disArray[0])));
-////        lblLineDisc.setText(String.format("%.2f", fTotLineDisc));
-//        ftotAmt = 0;
-//        fTotSchDisc = 0;
-//        fTotLineDisc = 0;
-//        fTotQtySlabDisc = 0;
-    }
-
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- Save final Sales order to database-*-*-*-**-*-*-*-*-*-*-*-*-*/
 
     public void undoEditingData() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setMessage("Do you want to discard the order?");
+        alertDialogBuilder.setMessage("Do you want to discard the invoice with return ?");
         alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-//                MainActivity activity = (MainActivity) getActivity();
-//                boolean result = new TranSOHedDS(getActivity()).restData(RefNo);
-//
-//                if (result) {
-//                    new TranSODetDS(getActivity()).restData(RefNo);
-//                    new PreProductDS(getActivity()).mClearTables();
-//                    new OrderDiscDS(getActivity()).clearData(RefNo);
-//                    new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
-//                    new PreSaleTaxDTDS(getActivity()).ClearTable(RefNo);
-//                    new PreSaleTaxRGDS(getActivity()).ClearTable(RefNo);
-//                }
-//                activity.cusPosition = 0;
-//                activity.selectedDebtor = null;
-//                activity.selectedSOHed = null;
-//                Toast.makeText(getActivity(), "Order discarded successfully..!", Toast.LENGTH_LONG).show();
-//                UtilityContainer.PreClearSharedPref(getActivity());
-//                UtilityContainer.mLoadFragment(new PreSalesInvoice(), activity);
+                int result = new OrderController(getActivity()).restData(RefNo);
+                int resultReturn = new SalesReturnController(getActivity()).restData(ReturnRefNo);
+
+                if (result>0) {
+                    new InvDetController(getActivity()).restData(RefNo);
+                    new ProductController(getActivity()).mClearTables();
+                }
+                if(resultReturn != 0){
+                    new SalesReturnDetController(getActivity()).restData(ReturnRefNo);
+                }
+
+                //    activity.cusPosition = 0;
+                mainActivity.selectedDebtor = null;
+                mainActivity.selectedRetDebtor = null;
+                mainActivity.selectedPreHed = null;
+                mainActivity.selectedReturnHed = null;
+                Toast.makeText(getActivity(), "Invoice and return details discarded successfully..!", Toast.LENGTH_SHORT).show();
+                // UtilityContainer.ClearVanSharedPref(getActivity());
+                UtilityContainer.ClearReturnSharedPref(getActivity());
+
+                Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+                startActivity(intnt);
+                getActivity().finish();
 
             }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
@@ -227,127 +202,344 @@ public class OrderSummaryFragment extends Fragment {
         alertD.show();
     }
 
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Save primary & secondary invoice-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*/
 
+    public void mRefreshData() {
+
+        Log.d("ORDER_SUMMARY", "1234");
+
+        int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
+        double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
+
+        locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
+
+        list = new OrderDetailController(getActivity()).getAllOrderDetails(RefNo);
+        returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(ReturnRefNo);
+
+        for (OrderDetail ordDet : list) {
+            ftotAmt += Double.parseDouble(ordDet.getFORDERDET_AMT());
+
+            if (ordDet.getFORDERDET_TYPE().equals("SA"))
+                ftotQty += Integer.parseInt(ordDet.getFORDERDET_QTY());
+            else
+                fTotFree += Integer.parseInt(ordDet.getFORDERDET_QTY());
+
+            //    fTotLineDisc += Double.parseDouble(ordDet.getFINVDET_DIS_AMT());
+            //    fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DISVALAMT());
+        }
+        for (FInvRDet returnDet : returnList){
+            if(!returnDet.getFINVRDET_RETURN_TYPE().equals("RP")) {
+                totalReturn += Double.parseDouble(returnDet.getFINVRDET_AMT());
+                returnQty += Double.parseDouble(returnDet.getFINVRDET_QTY());
+            }else{
+                replacements += Double.parseDouble(returnDet.getFINVRDET_QTY());
+            }
+        }
+
+        iTotFreeQty = fTotFree;
+        lblQty.setText(String.valueOf(ftotQty + fTotFree));
+        lblGross.setText(String.format("%.2f", ftotAmt + fTotSchDisc + fTotLineDisc));
+        lblReturn.setText(String.format("%.2f", totalReturn));
+        lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));
+        lblReturnQty.setText(String.valueOf(returnQty));
+        lblReplacements.setText(String.valueOf(replacements));
+
+
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+//
     public void saveSummaryDialog() {
 
-        //gpsTracker = new GPSTracker(getActivity());
+        if (new OrderDetailController(getActivity()).getItemCount(RefNo) > 0)
+        {
 
-//        if (!(gpsTracker.canGetLocation()))
-//        {
-//            gpsTracker.showSettingsAlert();
-//        }
-//        else if (new TranSODetDS(getActivity()).getItemCount(RefNo) > 0) {
-//
-//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-//            alertDialogBuilder.setMessage("Do you want to save the order ?");
-//            alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-//            alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//                public void onClick(final DialogInterface dialog, int id) {
-//
-////                    TranSOHed mainHead = new TranSOHed();
-////                    ArrayList<TranSOHed> ordHedList = new ArrayList<TranSOHed>();
-////
-////                    if (Header != null) {
-////
-////                        mainHead.setFTRANSOHED_REFNO(RefNo);
-////                        mainHead.setFTRANSOHED_DEBCODE(Header.getFTRANSOHED_DEBCODE());
-////                        mainHead.setFTRANSOHED_TXNDELDATE(Header.getFTRANSOHED_TXNDELDATE());
-////                        mainHead.setFTRANSOHED_MANUREF(Header.getFTRANSOHED_MANUREF());
-////                        mainHead.setFTRANSOHED_REMARKS(Header.getFTRANSOHED_REMARKS());
-////                        mainHead.setFTRANSOHED_ADDMACH(Header.getFTRANSOHED_ADDMACH());
-////                        mainHead.setFTRANSOHED_CURCODE(Header.getFTRANSOHED_CURCODE());
-////                        mainHead.setFTRANSOHED_CURRATE(Header.getFTRANSOHED_CURRATE());
-////                        mainHead.setFTRANSOHED_REPCODE(Header.getFTRANSOHED_REPCODE());
-////                        mainHead.setFTRANSOHED_CONTACT(Header.getFTRANSOHED_CONTACT());
-////                        mainHead.setFTRANSOHED_CUSADD1(Header.getFTRANSOHED_CUSADD1());
-////                        mainHead.setFTRANSOHED_CUSADD2(Header.getFTRANSOHED_CUSADD2());
-////                        mainHead.setFTRANSOHED_CUSADD3(Header.getFTRANSOHED_CUSADD3());
-////                        mainHead.setFTRANSOHED_CUSTELE(Header.getFTRANSOHED_CUSTELE());
-////                        mainHead.setFTRANSOHED_TXNTYPE(Header.getFTRANSOHED_TXNTYPE());
-////                        mainHead.setFTRANSOHED_TXNDATE(Header.getFTRANSOHED_TXNDATE());
-////                        mainHead.setFTRANSOHED_TAXREG(Header.getFTRANSOHED_TAXREG());
-////                        //mainHead.setFTRANSOHED_TAXREG(new FDebTaxDS(getActivity()).getTaxRegNo(mainActivity.selectedDebtor.getFDEBTOR_CODE()));
-////                        mainHead.setFTRANSOHED_TOURCODE(Header.getFTRANSOHED_TOURCODE());
-////                        mainHead.setFTRANSOHED_LOCCODE(Header.getFTRANSOHED_LOCCODE());
-////                        mainHead.setFTRANSOHED_AREACODE(Header.getFTRANSOHED_AREACODE());
-////                        mainHead.setFTRANSOHED_ROUTECODE(Header.getFTRANSOHED_ROUTECODE());
-////                        mainHead.setFTRANSOHED_COSTCODE(Header.getFTRANSOHED_COSTCODE());
-////                        mainHead.setFTRANSOHED_IS_ACTIVE("0");
-////                        mainHead.setfTRANSOHED_IS_SYNCED("0");
-////                        mainHead.setFTRANSOHED_REFNO1(Header.getFTRANSOHED_REFNO1());
-////
-////                        Log.d("PRE_SALES_SUMMARY", "TOTAL_TAX_IS: " + mainHead.getFTRANSOHED_TOTALTAX());
-////                    }
-////
-////                    mainHead.setFTRANSOHED_BPTOTALDIS("0");
-////                    mainHead.setFTRANSOHED_BTOTALAMT("0");
-////                    mainHead.setFTRANSOHED_BTOTALDIS("0");
-////                    mainHead.setFTRANSOHED_BTOTALTAX("0");
-////
-////
-////                    mainHead.setFTRANSOHED_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("")?"0.0":mSharedPref.getGlobalVal("Latitude"));
-////                    mainHead.setFTRANSOHED_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("")?"0.0":mSharedPref.getGlobalVal("Longitude"));
-////                    mainHead.setFTRANSOHED_TOTALTAX(Header.getFTRANSOHED_TOTALTAX());
-////                    //mainHead.setFTRANSOHED_TOTALTAX("");
-////                    mainHead.setFTRANSOHED_TOTALDIS(lblDisc.getText().toString());
-////                    mainHead.setFTRANSOHED_TOTALAMT(lblNetVal.getText().toString());
-////                    mainHead.setFTRANSOHED_PTOTALDIS("0");
-////                    mainHead.setFTRANSOHED_START_TIMESO(localSP.getString("SO_Start_Time", "").toString());
-////                    mainHead.setFTRANSOHED_END_TIMESO(currentTime());
-////                    mainHead.setFTRANSOHED_TOTQTY(lblQty.getText() + "");
-////                    mainHead.setFTRANSOHED_TOTFREE(freeQty + "");
-////                    ordHedList.add(mainHead);
-//
-////                    Log.d("PRE_SALES_SUMMARY", "LOC_CODE_IS: " + mainHead.getFTRANSOHED_LOCCODE());
-//
-////                    if (new TranSOHedDS(getActivity()).createOrUpdateTranSOHedDS(ordHedList) > 0) {
-////
-////                        new TranSODetDS(getActivity()).InactiveStatusUpdate(RefNo);
-////                        new TranSOHedDS(getActivity()).InactiveStatusUpdate(RefNo);
-////                        new PreProductDS(getActivity()).mClearTables();
-////                        MainActivity activity = (MainActivity) getActivity();
-////                        activity.cusPosition = 0;
-////
-////                        activity.selectedSOHed = null;
-////
-////                        UpdateTaxDetails(RefNo);
-////                        new ItemLocDS(getActivity()).UpdateInvoiceQOH(RefNo, "-", mSharedPref.getGlobalVal("PrekeyLocCode").trim());
-////                        activity.selectedDebtor = null;
-////                        new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
-////                        Toast.makeText(getActivity(), "Order saved successfully !", Toast.LENGTH_LONG).show();
-////                        new SalesPrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Sales Order", RefNo, false);
-////                        UtilityContainer.PreClearSharedPref(getActivity());
-////                        UtilityContainer.mLoadFragment(new PreSalesInvoice(), activity);
-////                    } else {
-////                        Toast.makeText(getActivity(), "Order failed !", Toast.LENGTH_LONG).show();
-////                    }
-//                }
-//            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int id) {
-//                    dialog.cancel();
-//                }
-//            });
-//            AlertDialog alertD = alertDialogBuilder.create();
-//            alertD.show();
-//        }else{
-//            Toast.makeText(getActivity(), "Order det failed !", Toast.LENGTH_LONG).show();
-//            saveValidationDialogBox();
-//        }
+            if (new SalesReturnDetController(getActivity()).getItemCount(ReturnRefNo) > 0) {
+
+                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                View promptView = layoutInflater.inflate(R.layout.sales_management_van_sales_summary_dialog, null);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                alertDialogBuilder.setTitle("Do you want to save the invoice with return details ?");
+                alertDialogBuilder.setView(promptView);
+
+                final ListView lvProducts_Invoice = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Inv);
+                final ListView lvProducts_Return = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Ret);
+
+                ArrayList<OrderDetail> orderItemList = null;
+                ArrayList<FInvRDet> returnItemList = null;
+
+                orderItemList = new OrderDetailController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
+                returnItemList = new SalesReturnDetController(getActivity()).getAllItemsAddedInCurrentReturn(ReturnRefNo);
+                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList));
+                lvProducts_Return.setAdapter(new ReturnDetailsAdapter(getActivity(), returnItemList));
+
+                alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    public void onClick(final DialogInterface dialog, int id) {
+
+                        PRESALE ordHed = new PRESALE();
+                        ArrayList<PRESALE> ordHedList = new ArrayList<PRESALE>();
+
+                        PRESALE presale = new OrderController(getActivity()).getAllActiveOrdHed();
+
+                        ordHed.setORDER_REFNO(RefNo);
+                        ordHed.setORDER_DEBCODE(presale.getORDER_DEBCODE());
+                        ordHed.setORDER_ADDDATE(presale.getORDER_ADDDATE());
+                        ordHed.setORDER_MANUREF(presale.getORDER_MANUREF());
+                        ordHed.setORDER_REMARKS(presale.getORDER_REMARKS());
+                        ordHed.setORDER_ADDMACH(presale.getORDER_ADDMACH());
+                        ordHed.setORDER_ADDUSER(presale.getORDER_ADDUSER());
+                        ordHed.setORDER_CURCODE(presale.getORDER_CURCODE());
+                        ordHed.setORDER_CURRATE(presale.getORDER_CURRATE());
+                        ordHed.setORDER_LOCCODE(presale.getORDER_LOCCODE());
+                        ordHed.setORDER_CUSTELE(presale.getORDER_CUSTELE());
+                        ordHed.setORDER_CONTACT(presale.getORDER_CONTACT());
+                        ordHed.setORDER_CUSADD1(presale.getORDER_CUSADD1());
+                        ordHed.setORDER_CUSADD2(presale.getORDER_CUSADD2());
+                        ordHed.setORDER_CUSADD3(presale.getORDER_CUSADD3());
+                        ordHed.setORDER_TXNTYPE(presale.getORDER_TXNTYPE());
+                        ordHed.setORDER_IS_ACTIVE(presale.getORDER_IS_ACTIVE());
+                        ordHed.setORDER_IS_SYNCED(presale.getORDER_IS_SYNCED());
+                        ordHed.setORDER_LOCCODE(presale.getORDER_LOCCODE());
+                        ordHed.setORDER_AREACODE(presale.getORDER_AREACODE());
+                        ordHed.setORDER_ROUTECODE(presale.getORDER_ROUTECODE());
+                        ordHed.setORDER_COSTCODE(presale.getORDER_COSTCODE());
+                        ordHed.setORDER_TAXREG(presale.getORDER_TAXREG());
+                        ordHed.setORDER_TOURCODE(presale.getORDER_TOURCODE());
+                        ordHed.setORDER_BPTOTALDIS("0");
+                        ordHed.setORDER_BTOTALAMT("0");
+                        ordHed.setORDER_BTOTALDIS("0");
+                        ordHed.setORDER_BTOTALTAX("0");
+                        ordHed.setORDER_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
+                        ordHed.setORDER_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
+                        ordHed.setORDER_ADDRESS(localSP.getString("GPS_Address", "").toString());
+                        ordHed.setORDER_TOTALTAX("0");
+                        ordHed.setORDER_TOTALDIS("0.0");
+                        ordHed.setORDER_TOTALAMT(lblNetVal.getText().toString());
+                        ordHed.setORDER_TXNDATE(presale.getORDER_TXNDATE());
+                        ordHed.setORDER_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
+                        ordHed.setORDER_REFNO1("");
+                        ordHed.setORDER_TOTQTY(lblQty.getText().toString());
+                        ordHed.setORDER_TOTFREEQTY(iTotFreeQty + "");
+                        ordHed.setORDER_SETTING_CODE(presale.getORDER_SETTING_CODE());
+
+                        ordHedList.add(ordHed);
+
+                        if (new OrderController(getActivity()).createOrUpdateOrdHed(ordHedList) > 0) {
+                            new ProductController(getActivity()).mClearTables();
+                            new OrderController(getActivity()).InactiveStatusUpdate(RefNo);
+                            new OrderDetailController(getActivity()).InactiveStatusUpdate(RefNo);
+
+                            final PreSalesActivity activity = (PreSalesActivity) getActivity();
+
+                            new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.NumVal));
+
+                            FInvRHed mainHead = new FInvRHed();
+                            ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
+                            ArrayList<FInvRHed> HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
+                            if (!HedList.isEmpty()) {
+
+                                mainHead.setFINVRHED_REFNO(ReturnRefNo);
+                                mainHead.setFINVRHED_DEBCODE(ordHed.getORDER_DEBCODE());
+                                mainHead.setFINVRHED_ADD_DATE(ordHed.getORDER_ADDDATE());
+                                mainHead.setFINVRHED_MANUREF(ordHed.getORDER_MANUREF());
+                                mainHead.setFINVRHED_REMARKS(ordHed.getORDER_REMARKS());
+                                mainHead.setFINVRHED_ADD_MACH(ordHed.getORDER_ADDMACH());
+                                mainHead.setFINVRHED_ADD_USER(ordHed.getORDER_ADDUSER());
+                                mainHead.setFINVRHED_TXN_DATE(HedList.get(0).getFINVRHED_TXN_DATE());
+                                mainHead.setFINVRHED_ROUTE_CODE(ordHed.getORDER_ROUTECODE());
+                                mainHead.setFINVRHED_TOTAL_AMT(HedList.get(0).getFINVRHED_TOTAL_AMT());
+                                mainHead.setFINVRHED_TXNTYPE(HedList.get(0).getFINVRHED_TXNTYPE());
+                                mainHead.setFINVRHED_ADDRESS(HedList.get(0).getFINVRHED_ADDRESS());
+                                mainHead.setFINVRHED_REASON_CODE(HedList.get(0).getFINVRHED_REASON_CODE());
+                                mainHead.setFINVRHED_COSTCODE(HedList.get(0).getFINVRHED_COSTCODE());
+                                mainHead.setFINVRHED_LOCCODE(HedList.get(0).getFINVRHED_LOCCODE());
+                                mainHead.setFINVRHED_TAX_REG(HedList.get(0).getFINVRHED_TAX_REG());
+                                mainHead.setFINVRHED_TOTAL_TAX(HedList.get(0).getFINVRHED_TOTAL_TAX());
+                                mainHead.setFINVRHED_TOTAL_DIS(HedList.get(0).getFINVRHED_TOTAL_DIS());
+                                mainHead.setFINVRHED_LONGITUDE(HedList.get(0).getFINVRHED_LONGITUDE());
+                                mainHead.setFINVRHED_LATITUDE(HedList.get(0).getFINVRHED_LATITUDE());
+                                mainHead.setFINVRHED_START_TIME(HedList.get(0).getFINVRHED_START_TIME());
+                                mainHead.setFINVRHED_END_TIME(HedList.get(0).getFINVRHED_END_TIME());
+                                mainHead.setFINVRHED_INV_REFNO(RefNo);//HedList.get(0).getFINVRHED_INV_REFNO()
+                                mainHead.setFINVRHED_IS_ACTIVE("0");
+                                mainHead.setFINVRHED_IS_SYNCED("0");
+                            }
+
+                            returnHedList.add(mainHead);
+                            //Log.v("Ref No :",mainHead.getFINVRHED_INV_REFNO().toString());
+
+                            if (new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList) > 0) {
+                                UpdateReturnTotal(ReturnRefNo);
+                                new SalesReturnDetController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
+                                new SalesReturnController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
+
+                                activity.selectedReturnHed = null;
+                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanReturnNumVal));
+                                Toast.makeText(getActivity(), "Order saved successfully !", Toast.LENGTH_LONG).show();
+                                UtilityContainer.ClearReturnSharedPref(getActivity());
+
+                            } else {
+                                Toast.makeText(getActivity(), "Order failed !", Toast.LENGTH_LONG).show();
+                            }
+
+                            UpdateTaxDetails(RefNo);
+                            //UpdateQOH_FIFO();
+                            new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
+                            new ItemLocController(getActivity()).UpdateOrderQOHInReturn(RefNo, "+", locCode);
+//                            updateDispTables(sHed);
+                            //int a = new PreSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+
+                            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
+                            activity.selectedRetDebtor = null;
+                            activity.selectedReturnHed = null;
+                            activity.selectedPreHed = null;
+
+                        } else {
+                            Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
+            }
+            else
+            {
+                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                View promptView = layoutInflater.inflate(R.layout.sales_management_van_sales_summary_dialog, null);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                alertDialogBuilder.setTitle("Do you want to save the invoice ?");
+                alertDialogBuilder.setView(promptView);
+
+                final ListView lvProducts_Invoice = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Inv);
+                ArrayList<OrderDetail> orderItemList = null;
+                orderItemList = new OrderDetailController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
+                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList));
+
+                alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    public void onClick(final DialogInterface dialog, int id) {
+
+                        PRESALE ordHed = new PRESALE();
+                        ArrayList<PRESALE> ordHedList = new ArrayList<PRESALE>();
+                        PRESALE presale = new OrderController(getActivity()).getAllActiveOrdHed();
+
+                        ordHed.setORDER_REFNO(RefNo);
+                        ordHed.setORDER_DEBCODE(presale.getORDER_DEBCODE());
+                        ordHed.setORDER_ADDDATE(presale.getORDER_ADDDATE());
+                        ordHed.setORDER_MANUREF(presale.getORDER_MANUREF());
+                        ordHed.setORDER_REMARKS(presale.getORDER_REMARKS());
+                        ordHed.setORDER_ADDMACH(presale.getORDER_ADDMACH());
+                        ordHed.setORDER_ADDUSER(presale.getORDER_ADDUSER());
+                        ordHed.setORDER_CURCODE(presale.getORDER_CURCODE());
+                        ordHed.setORDER_CURRATE(presale.getORDER_CURRATE());
+                        ordHed.setORDER_LOCCODE(presale.getORDER_LOCCODE());
+                        ordHed.setORDER_CUSTELE(presale.getORDER_CUSTELE());
+                        ordHed.setORDER_CONTACT(presale.getORDER_CONTACT());
+                        ordHed.setORDER_CUSADD1(presale.getORDER_CUSADD1());
+                        ordHed.setORDER_CUSADD2(presale.getORDER_CUSADD2());
+                        ordHed.setORDER_CUSADD3(presale.getORDER_CUSADD3());
+                        ordHed.setORDER_TXNTYPE(presale.getORDER_TXNTYPE());
+                        ordHed.setORDER_IS_ACTIVE(presale.getORDER_IS_ACTIVE());
+                        ordHed.setORDER_IS_SYNCED(presale.getORDER_IS_SYNCED());
+                        ordHed.setORDER_LOCCODE(presale.getORDER_LOCCODE());
+                        ordHed.setORDER_AREACODE(presale.getORDER_AREACODE());
+                        ordHed.setORDER_ROUTECODE(presale.getORDER_ROUTECODE());
+                        ordHed.setORDER_COSTCODE(presale.getORDER_COSTCODE());
+                        ordHed.setORDER_TAXREG(presale.getORDER_TAXREG());
+                        ordHed.setORDER_TOURCODE(presale.getORDER_TOURCODE());
+                        ordHed.setORDER_BPTOTALDIS("0");
+                        ordHed.setORDER_BTOTALAMT("0");
+                        ordHed.setORDER_BTOTALDIS("0");
+                        ordHed.setORDER_BTOTALTAX("0");
+                        ordHed.setORDER_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
+                        ordHed.setORDER_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
+                        ordHed.setORDER_ADDRESS(localSP.getString("GPS_Address", "").toString());
+                        ordHed.setORDER_TOTALTAX("0");
+                        ordHed.setORDER_TOTALDIS("0.0");
+                        ordHed.setORDER_TOTALAMT(lblNetVal.getText().toString());
+                        ordHed.setORDER_TXNDATE(presale.getORDER_TXNDATE());
+                        ordHed.setORDER_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
+                        ordHed.setORDER_REFNO1("");
+                        ordHed.setORDER_TOTQTY(lblQty.getText().toString());
+                        ordHed.setORDER_TOTFREEQTY(iTotFreeQty + "");
+                        ordHed.setORDER_SETTING_CODE(presale.getORDER_SETTING_CODE());
+
+                        ordHedList.add(ordHed);
+
+                        if (new OrderController(getActivity()).createOrUpdateOrdHed(ordHedList) > 0) {
+                            new ProductController(getActivity()).mClearTables();
+                            new OrderController(getActivity()).InactiveStatusUpdate(RefNo);
+                            new OrderDetailController(getActivity()).InactiveStatusUpdate(RefNo);
+
+                            final PreSalesActivity activity = (PreSalesActivity) getActivity();
+                            new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.NumVal));
+
+                            /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
+
+                            UpdateTaxDetails(RefNo);
+                            //UpdateQOH_FIFO();
+                            new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
+                            //updateDispTables(sHed);
+                            int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+
+                            //if(a == 1)
+                            //{
+                            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
+                            //  UtilityContainer.ClearVanSharedPref(getActivity());
+                            //   activity.cusPosition = 0;
+                            activity.selectedDebtor = null;
+                            activity.selectedRetDebtor = null;
+                            // activity.selectedRecHed = null;
+                            activity.selectedPreHed = null;
+                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                            //}
+
+                        } else {
+                            Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
+            }
+
+        } else
+            Toast.makeText(getActivity(), "Add items before save ...!", Toast.LENGTH_SHORT).show();
+
+
     }
 
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void UpdateTaxDetails(String refNo) {
-
-//        ArrayList<TranSODet> list = new TranSODetDS(activity).getEveryItem(refNo);
-//        new TranSODetDS(activity).UpdateItemTaxInfoWithDiscount(list, mainActivity.selectedDebtor.getFDEBTOR_CODE());
-//        new PreSaleTaxRGDS(activity).UpdateSalesTaxRG(list, mainActivity.selectedDebtor.getFDEBTOR_CODE());
-//        new PreSaleTaxDTDS(activity).UpdateSalesTaxDT(list);
+        ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(refNo);
+        new InvDetController(getActivity()).UpdateItemTaxInfo(list);
+        new InvTaxRGController(getActivity()).UpdateInvTaxRG(list);
+        new InvTaxDTController(getActivity()).UpdateInvTaxDT(list);
     }
+    public void UpdateReturnTotal(String refNo) {
+        ArrayList<FInvRDet> list = new SalesReturnDetController(getActivity()).getAllInvRDet(refNo);
+        new SalesReturnDetController(getActivity()).UpdateReturnTot(list);
 
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    }
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     private String currentTime() {
         Calendar cal = Calendar.getInstance();
@@ -356,87 +548,185 @@ public class OrderSummaryFragment extends Fragment {
         return sdf.format(cal.getTime());
     }
 
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
-    @Override
-    public void onAttach(Activity activity) {
-        this.activity = activity;
-        super.onAttach(activity);
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//        this.mainActivity = activity;
+//    }
 
-        try {
-            //listener = (IResponseListener) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
-        }
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+
+//    private void UpdateQOH_FIFO() {
+//
+//        ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(RefNo);
+//
+//        /*-*-*-*-*-*-*-*-*-*-*-*-each itemcode has multiple sizecodes*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*/
+//        for (InvDet item : list) {
+//
+//            int Qty = (int) Double.parseDouble(item.getFINVDET_QTY());
+//
+//            ArrayList<StkIn> GRNList = new STKInController(getActivity()).getAscendingGRNList(item.getFINVDET_ITEM_CODE(), locCode);
+//
+//            /*-*-*-*-*-*-*-*-*-*-multiple GRN for each sizecode-*-*-*-*-*-*-*-*-*-*-*/
+//            for (StkIn size : GRNList) {
+//                int balQty = (int) Double.parseDouble(size.getBALQTY());
+//
+//                if (balQty > 0) {
+//                    if (Qty > balQty) {
+//                        Qty = Qty - balQty;
+//                        size.setBALQTY("0");
+//                        new StkIssController(getActivity()).InsertSTKIssData(size, RefNo, String.valueOf(balQty), locCode);
+//
+//                    } else {
+//                        size.setBALQTY(String.valueOf(balQty - Qty));
+//                        new StkIssController(getActivity()).InsertSTKIssData(size, RefNo, String.valueOf(Qty), locCode);
+//                        break;
+//                    }
+//                }
+//            }
+//            new STKInController(getActivity()).UpdateBalQtyByFIFO(GRNList);
+//        }
+//    }
+////
+    public void mPauseinvoice() {
+
+        if (new InvDetController(getActivity()).getItemCount(RefNo) > 0) {
+            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+            startActivity(intnt);
+            getActivity().finish();
+        } else
+            Toast.makeText(getActivity(), "Add items before pause ...!", Toast.LENGTH_SHORT).show();
     }
-
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-    public void mPauseOrder() {
-
-//        if (new TranSODetDS(getActivity()).getItemCount(RefNo) > 0)
-//            UtilityContainer.mLoadFragment(new IconPallet(), activity);
-//        else
-//            Toast.makeText(activity, "Add items before pause ...!", Toast.LENGTH_SHORT).show();
-    }
-
-    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onPause() {
         super.onPause();
-        //LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
     }
-
-    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onResume() {
         super.onResume();
-        //r = new MyReceiver();
-        //LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_SUMMARY"));
+        r = new MyReceiver();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_SUMMARY"));
     }
 
-    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public void updateInvoice() {
+
+        ArrayList<Product> list = new ProductController(getActivity()).getSelectedItems();
+
+        int i = 0;
+
+        for (Product product : list) {
+
+            VanSalesActivity activity = (VanSalesActivity) getActivity();
+            double totAmt = Double.parseDouble(product.getFPRODUCT_PRICE()) * Double.parseDouble(product.getFPRODUCT_QTY());
+            String TaxedAmt = new TaxDetController(getActivity()).calculateTax(product.getFPRODUCT_ITEMCODE(), new BigDecimal(totAmt));
+
+            double brandDiscPer = new DebItemPriController(getActivity()).getBrandDiscount(new ItemController(getActivity()).getBrandCode(product.getFPRODUCT_ITEMCODE()), SharedPref.getInstance(getActivity()).getSelectedDebCode());
+            //   double compDiscPer = new ControlDS(getActivity()).getCompanyDisc();
+
+//            double Disc = (totAmt / 100) * compDiscPer;
+//            double compDisc = Disc;
+//            totAmt -= Disc;
+
+//            Disc = (totAmt / 100) * brandDiscPer;
+//            double brandDisc = Disc;
+//            totAmt -= Disc;
+
+            InvDet invDet = new InvDet();
+
+            invDet.setFINVDET_ID(String.valueOf(i++));
+            invDet.setFINVDET_AMT(String.format("%.2f", totAmt - Double.parseDouble(TaxedAmt)));
+            invDet.setFINVDET_BAL_QTY(product.getFPRODUCT_QTY());
+            invDet.setFINVDET_B_AMT(invDet.getFINVDET_AMT());
+            invDet.setFINVDET_B_SELL_PRICE(product.getFPRODUCT_PRICE());
+            invDet.setFINVDET_BT_SELL_PRICE(product.getFPRODUCT_PRICE());
+            //    invDet.setFINVDET_DIS_AMT(String.format("%.2f", compDisc + brandDisc));
+            invDet.setFINVDET_DIS_PER("0");
+            invDet.setFINVDET_ITEM_CODE(product.getFPRODUCT_ITEMCODE());
+            invDet.setFINVDET_PRIL_CODE(SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
+            invDet.setFINVDET_QTY(product.getFPRODUCT_QTY());
+            invDet.setFINVDET_PICE_QTY(product.getFPRODUCT_QTY());
+            invDet.setFINVDET_TYPE("SA");
+            invDet.setFINVDET_BT_TAX_AMT("");
+            invDet.setFINVDET_RECORD_ID("");
+
+
+        }
+    }
 
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //PreSalesSummary.this.refreshData();
+            mRefreshData();
         }
     }
 
-    public void saveValidationDialogBox() {
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+    public void updateQtyInItemLocTblItemWise()
+    {
+        try
+        {
+            ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(RefNo);
 
-//        String message = "Please add products for New Sales Order.";
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-//        alertDialogBuilder.setTitle("Sales Order");
-//        alertDialogBuilder.setMessage(message);
-//        alertDialogBuilder.setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//
-//                dialog.cancel();
-//
-//                if (fam.isOpened()) {
-//                    fam.close(true);
-//                }
-//                if (isPresalePending) {
-//                    PreSales preSales = new PreSales();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putBoolean("Active", true);
-//                    preSales.setArguments(bundle);
-//                    UtilityContainer.mLoadFragment(preSales, activity);
-//                }
-//            }
-//        }).setNegativeButton("", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.cancel();
-//
-//            }
-//        });
-//
-//        AlertDialog alertD = alertDialogBuilder.create();
-//        alertD.show();
+            /*-*-*-*-*-*-*-*-*-*-*-*-each itemcode has multiple sizecodes*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*/
+            for (InvDet item : list)
+            {
+                int Qty = (int) Double.parseDouble(item.getFINVDET_QTY());
+                ArrayList<StkIn> GRNList = new STKInController(getActivity()).getAscendingGRNList(item.getFINVDET_ITEM_CODE(), locCode);
 
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
+
+    //------------------------------------------------------------------------------------------------------------------------------------
+    public class LoardingPrintView extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Loading...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+            return null;
+
+        }
+
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            if(pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+            final VanSalesActivity activity = (VanSalesActivity) getActivity();
+            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
+            // UtilityContainer.ClearVanSharedPref(getActivity());
+
+            //  activity.selectedDebtor = null;
+            //  activity.selectedRetDebtor = null;
+            //activity.selectedRecHed = null;
+            activity.selectedInvHed = null;
+            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+            startActivity(intnt);
+            getActivity().finish();
+            //  loadFragment(new VanSaleInvoice());
+
+        }
+    }
 
 }

@@ -98,6 +98,7 @@ public class ItemLocController
         return count;
 
     }
+
     public void UpdateInvoiceQOHInReturn(String RefNo, String Task, String locCode) {
 
         if (dB == null) {
@@ -146,6 +147,7 @@ public class ItemLocController
         }
 
     }
+
     public void UpdateInvoiceQOH(String RefNo, String Task, String locCode) {
 
         if (dB == null) {
@@ -180,6 +182,104 @@ public class ItemLocController
                     }
 
                     dB.update(DatabaseHelper.TABLE_FITEMLOC, values, DatabaseHelper.FITEMLOC_ITEM_CODE + "=? AND " + DatabaseHelper.FITEMLOC_LOC_CODE + "=?", new String[]{item.getFINVDET_ITEM_CODE(), locCode});
+
+                }
+
+                cursor.close();
+
+            }
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+    }
+
+    public void UpdateOrderQOH(String RefNo, String Task, String locCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+
+            ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrint(RefNo);
+
+            for (InvDet item : list) {
+
+                int qoh = 0;
+
+                Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FITEMLOC + " WHERE " + DatabaseHelper.FITEMLOC_ITEM_CODE + "='" + item.getFINVDET_ITEM_CODE() + "' AND " + DatabaseHelper.FITEMLOC_LOC_CODE + "='" + locCode + "'", null);
+                int Qty = Integer.parseInt(item.getFINVDET_QTY());
+
+                if (cursor.getCount() > 0) {
+
+                    while (cursor.moveToNext()) {
+                        qoh = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMLOC_QOH)));
+                    }
+
+                    ContentValues values = new ContentValues();
+
+                    if (Task.equals("+")) {
+                        values.put(DatabaseHelper.FITEMLOC_QOH, String.valueOf(qoh + Qty));
+                    } else {
+                        values.put(DatabaseHelper.FITEMLOC_QOH, String.valueOf(qoh - Qty));
+                    }
+
+                    dB.update(DatabaseHelper.TABLE_FITEMLOC, values, DatabaseHelper.FITEMLOC_ITEM_CODE + "=? AND " + DatabaseHelper.FITEMLOC_LOC_CODE + "=?", new String[]{item.getFINVDET_ITEM_CODE(), locCode});
+
+                }
+
+                cursor.close();
+
+            }
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+    }
+
+    public void UpdateOrderQOHInReturn(String RefNo, String Task, String locCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+
+            ArrayList<FInvRDet> list = new SalesReturnDetController(context).getAllInvRDetForPrint(RefNo);
+
+            for (FInvRDet item : list) {
+
+                int qoh = 0;
+
+                Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FITEMLOC + " WHERE " + DatabaseHelper.FITEMLOC_ITEM_CODE + "='" + item.getFINVRDET_ITEMCODE() + "' AND " + DatabaseHelper.FITEMLOC_LOC_CODE + "='" + locCode + "'", null);
+                int Qty = Integer.parseInt(item.getFINVRDET_QTY());
+
+                if (cursor.getCount() > 0) {
+
+                    while (cursor.moveToNext()) {
+                        qoh = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FITEMLOC_QOH)));
+                    }
+
+                    ContentValues values = new ContentValues();
+
+                    if (Task.equals("+")) {
+                        values.put(DatabaseHelper.FITEMLOC_QOH, String.valueOf(qoh + Qty));
+                    } else {
+                        values.put(DatabaseHelper.FITEMLOC_QOH, String.valueOf(qoh - Qty));
+                    }
+
+                    dB.update(DatabaseHelper.TABLE_FITEMLOC, values, DatabaseHelper.FITEMLOC_ITEM_CODE + "=? AND " + DatabaseHelper.FITEMLOC_LOC_CODE + "=?", new String[]{item.getFINVRDET_ITEMCODE(), locCode});
 
                 }
 

@@ -190,7 +190,7 @@ public class ReasonController {
 
 		Cursor cursor = null;
 		cursor = dB.rawQuery(selectQuery, null);
-		FREASON.add("Tap to select a FREASON");
+		FREASON.add("Tap to select a Reason");
 
 		while (cursor.moveToNext()) {
 

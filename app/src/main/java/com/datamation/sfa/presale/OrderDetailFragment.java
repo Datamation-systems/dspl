@@ -144,7 +144,7 @@ public class OrderDetailFragment extends Fragment{
         protected ArrayList<Product> doInBackground(Object... objects) {
 
             if (new ProductController(getActivity()).tableHasRecords()) {
-                productList = new ProductController(getActivity()).getAllItems("","SA");
+                productList = new ProductController(getActivity()).getAllItems("","");
             } else {
                 new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), mSharedPref.getSelectedDebtorPrilCode());
 
@@ -233,13 +233,13 @@ public class OrderDetailFragment extends Fragment{
         final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
 
         lvProducts.clearTextFilter();
-        productList = new ProductController(getActivity()).getAllItems("","SA");
+        productList = new ProductController(getActivity()).getAllItems("","");
         lvProducts.setAdapter(new PreProduct_Adapter(getActivity(), productList));
 
         alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                selectedItemList = new ProductController(getActivity()).getSelectedItems("SA");
+                selectedItemList = new ProductController(getActivity()).getSelectedItems("");
                 updateOrderDet(selectedItemList);
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 dialog.cancel();
@@ -254,7 +254,7 @@ public class OrderDetailFragment extends Fragment{
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                productList = new ProductController(getActivity()).getAllItems(query,"SA");//Rashmi 2018-10-26
+                productList = new ProductController(getActivity()).getAllItems(query,"");//Rashmi 2018-10-26
                 lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
                 return true;
             }
@@ -263,7 +263,7 @@ public class OrderDetailFragment extends Fragment{
             public boolean onQueryTextChange(String newText) {
 
                 productList.clear();
-                productList = new ProductController(getActivity()).getAllItems(newText,"SA");//rashmi-2018-10-26
+                productList = new ProductController(getActivity()).getAllItems(newText,"");//rashmi-2018-10-26
                 lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
                 return true;
             }

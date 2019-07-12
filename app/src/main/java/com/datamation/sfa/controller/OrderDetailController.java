@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.datamation.sfa.model.InvDet;
+import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.helpers.DatabaseHelper;
 
@@ -722,5 +724,71 @@ public class OrderDetailController {
         }
     }
 
+    public int getItemCount(String refNo) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_ORDER_DETAIL + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+                return Integer.parseInt(cursor.getString(cursor.getColumnIndex("RefNo")));
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            dB.close();
+        }
+        return 0;
+
+    }
+
+    public ArrayList<OrderDetail> getAllItemsAddedInCurrentSale(String refNo)
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
+
+        String selectQuery = "select ItemCode,Qty,Amt from " + DatabaseHelper.TABLE_ORDER_DETAIL + " WHERE " + DatabaseHelper.REFNO + "='" + refNo + "' "         ;
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try
+        {
+            while (cursor.moveToNext())
+            {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_ITEM_CODE)));
+                orderDetail.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_QTY)));
+                orderDetail.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_AMT)));
+                list.add(orderDetail);
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            Log.v(TAG + " Exception", ex.toString());
+        }
+        finally
+        {
+            if (cursor != null)
+            {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
 }

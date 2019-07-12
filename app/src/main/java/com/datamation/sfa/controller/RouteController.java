@@ -127,14 +127,14 @@ public class RouteController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ROUTE +  " WHERE "  + dbHelper.ROUTE_CODE + "='" + code + "'";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FROUTE +  " WHERE "  + dbHelper.FROUTE_ROUTECODE + "='" + code + "'";
 
         Cursor cursor = null;
         cursor = dB.rawQuery(selectQuery, null);
 
         while (cursor.moveToNext()) {
 
-            return cursor.getString(cursor.getColumnIndex(dbHelper.ROUTE_NAME));
+            return cursor.getString(cursor.getColumnIndex(dbHelper.FROUTE_ROUTE_NAME));
 
         }
 

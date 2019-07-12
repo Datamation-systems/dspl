@@ -20,6 +20,7 @@
     <string name="salRet">SFARTN</string>
     <string name="ReceiptNumVal">PDAREG</string>
     <string name="VanReturnNumVal">INNRTN</string>
+    <string name="PreReturnNumVal">PREINNRTN</string>
     <string name="DispVal">DISCOUNT</string>
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->

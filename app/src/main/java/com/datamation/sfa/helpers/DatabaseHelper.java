@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // database information
     public static final String DATABASE_NAME = "sfa_database.db";
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -335,8 +335,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String ORDDET_IDX = "CREATE UNIQUE INDEX IF NOT EXISTS idxordet_duplicate ON " +
             TABLE_ORDER_DETAIL + " (" + REFNO + "," + ORDDET_ITEM_CODE +  ")";
-
-
 
     // table
     public static final String TABLE_ITEMPRI = "ItemPri";
@@ -2564,8 +2562,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // --------------------- Nuwan ------------------------
         arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
         arg0.execSQL(CREATE_FTOURHED_TABLE);
-
-        // ---------------------------------------------------
+        arg0.execSQL(CREATE_FDEBTAX_TABLE);
+        arg0.execSQL(CREATE_FTAXDET_TABLE);
+        arg0.execSQL(CREATE_ORDDET_TABLE);
+        arg0.execSQL(CREATE_ATTENDANCE_TABLE);
+        arg0.execSQL(CREATE_TARGET_TABLE);
+        arg0.execSQL(CREATE_TABLE_ORDER);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -2579,6 +2581,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_FINVDET_TABLE);
             arg0.execSQL(CREATE_FINVRHED_TABLE);
             arg0.execSQL(CREATE_FINVRDET_TABLE);
+            arg0.execSQL(CREATE_ORDDET_TABLE);
+            arg0.execSQL(CREATE_ATTENDANCE_TABLE);
+            arg0.execSQL(CREATE_TARGET_TABLE);
+            arg0.execSQL(CREATE_TABLE_ORDER);
 
         } catch (SQLiteException e) {
         }

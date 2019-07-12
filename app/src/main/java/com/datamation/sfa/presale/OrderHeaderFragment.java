@@ -105,13 +105,14 @@ public class OrderHeaderFragment extends Fragment{
 
         /*already a header exist*/
         if (activity.selectedPreHed != null) {
-            txtManual.setText(activity.selectedPreHed.getORDER_MANUAL_NUMBER());
+            txtManual.setText(activity.selectedPreHed.getORDER_MANUREF());
             txtRemakrs.setText(activity.selectedPreHed.getORDER_REMARKS());
             lblPreRefno.setText(activity.selectedPreHed.getORDER_REFNO());
             //mSaveInvoiceHeader();
         } else { /*No header*/
 
-            lblPreRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
+            //lblPreRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
+            lblPreRefno.setText("/0001");
         }
 
         outStandingAmt.setOnClickListener(new View.OnClickListener() {
@@ -254,16 +255,16 @@ public class OrderHeaderFragment extends Fragment{
         {
             PRESALE hed =new PRESALE();
             hed.setORDER_REFNO(lblPreRefno.getText().toString());
-            hed.setORDER_DEB_CODE(pref.getSelectedDebCode());
-            hed.setORDER_TXN_DATE(currnentDate.getText().toString());
+            hed.setORDER_DEBCODE(pref.getSelectedDebCode());
+            hed.setORDER_TXNDATE(currnentDate.getText().toString());
             //hed.setORDER_DELIVERY_DATE(deldate.getText().toString());
-            hed.setORDER_ROUTE_CODE(pref.getSelectedDebRouteCode());
-            hed.setORDER_MANUAL_NUMBER(txtManual.getText().toString());
+            hed.setORDER_ROUTECODE(pref.getSelectedDebRouteCode());
+            hed.setORDER_MANUREF(txtManual.getText().toString());
             hed.setORDER_REMARKS(txtRemakrs.getText().toString());
             hed.setORDER_IS_ACTIVE("1");
-            hed.setORDER_ADD_DATE(currnentDate.getText().toString());
-            hed.setORDER_ADD_TIME(currentTime().split(" ")[1]);
-            hed.setORDER_REP_CODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
+            hed.setORDER_ADDDATE(currnentDate.getText().toString());
+            hed.setORDER_ADDTIME(currentTime().split(" ")[1]);
+            hed.setORDER_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
             hed.setORDER_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
             hed.setORDER_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
 

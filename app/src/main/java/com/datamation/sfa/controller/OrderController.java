@@ -60,17 +60,17 @@ public class OrderController {
                 ContentValues values = new ContentValues();
 
                 values.put(dbHelper.REFNO, ordHed.getORDER_REFNO());
-                values.put(dbHelper.ORDER_ADDDATE, ordHed.getORDER_ADD_DATE());
-                values.put(dbHelper.ORDER_CUSCODE, ordHed.getORDER_DEB_CODE());
-                values.put(dbHelper.ORDER_START_TIME, ordHed.getORDER_ADD_TIME());
+                values.put(dbHelper.ORDER_ADDDATE, ordHed.getORDER_ADDDATE());
+                values.put(dbHelper.ORDER_CUSCODE, ordHed.getORDER_DEBCODE());
+                values.put(dbHelper.ORDER_START_TIME, ordHed.getORDER_ADDTIME());
                 values.put(dbHelper.ORDER_LONGITUDE, ordHed.getORDER_LONGITUDE());
                 values.put(dbHelper.ORDER_LATITUDE, ordHed.getORDER_LATITUDE());
-                values.put(dbHelper.ORDER_MANU_REF, ordHed.getORDER_MANUAL_NUMBER());
+                values.put(dbHelper.ORDER_MANU_REF, ordHed.getORDER_MANUREF());
                 values.put(dbHelper.ORDER_REMARKS, ordHed.getORDER_REMARKS());
-                values.put(dbHelper.ORDER_REPCODE, ordHed.getORDER_REP_CODE());
-                values.put(dbHelper.ORDER_TOTAL_AMT, ordHed.getORDER_TOT_AMT());
-                values.put(dbHelper.TXNDATE, ordHed.getORDER_TXN_DATE());
-                values.put(dbHelper.ORDER_ROUTE_CODE, ordHed.getORDER_ROUTE_CODE());
+                values.put(dbHelper.ORDER_REPCODE, ordHed.getORDER_REPCODE());
+                values.put(dbHelper.ORDER_TOTAL_AMT, ordHed.getORDER_TOTALAMT());
+                values.put(dbHelper.TXNDATE, ordHed.getORDER_TXNDATE());
+                values.put(dbHelper.ORDER_ROUTE_CODE, ordHed.getORDER_ROUTECODE());
                 values.put(dbHelper.ORDER_IS_SYNCED, "0");
                 values.put(dbHelper.ORDER_IS_ACTIVE, ordHed.getORDER_IS_ACTIVE());
 
@@ -381,14 +381,12 @@ public class OrderController {
 
         return list;
     }
-    public ArrayList<Order> getAllActiveOrdHed() {
+    public PRESALE getAllActiveOrdHed() {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
             open();
         }
-
-        ArrayList<Order> list = new ArrayList<Order>();
 
         @SuppressWarnings("static-access")
         String selectQuery = "select * from " + dbHelper.TABLE_ORDER + " Where " + dbHelper.ORDER_IS_ACTIVE
@@ -398,46 +396,32 @@ public class OrderController {
 
         localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
 
+        PRESALE presale = new PRESALE();
+
         while (cursor.moveToNext()) {
 
-            Order order = new Order();
             OrderDetailController detDS = new OrderDetailController(context);
-            ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
-//            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
-//
-//            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-//            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
-//
-//            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
-//
-//            order
-//                    .setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
-//            order
-//                    .setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
-//            order.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
-//            order.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
-//            order.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
-//            order.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
-//            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
-//
-//            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
-//
-//            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
-//            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
-//            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
-//
-//            order
-//                    .setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
-////            preSalesMapper.setIssuList(
-////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
-            list.add(order);
+            ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
+            presale.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+            presale.setORDER_ADDDATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
+            presale.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
+            presale.setORDER_ADDTIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
+            presale.setORDER_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
+            presale.setORDER_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
+            presale.setORDER_MANUREF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
+            presale.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
+            presale.setORDER_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
+            presale.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
+            presale.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
+            presale.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
+            presale.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
+
+            presale.setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
 
         }
 
-        return list;
+        return presale;
 
     }
     public String getRefnoByDebcode(String refno) {

@@ -96,7 +96,6 @@ public class SalesReturnHeader extends Fragment {
         ordno.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
 
         ArrayList<String> reasonList = new ArrayList<String>();
-        reasonList.add("Select a Reason");
         reasonList = new ReasonController(getActivity()).getReasonName();
 
         final ArrayAdapter<String> reasonAdapter = new ArrayAdapter<String>(getActivity(),R.layout.reason_spinner_item, reasonList);
