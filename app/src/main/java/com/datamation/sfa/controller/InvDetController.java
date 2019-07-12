@@ -124,7 +124,7 @@ public class InvDetController {
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
         try {
-            String selectQuery = "select hed.DebCode, det.RefNo, hed.TotalAmt,det.Qty from finvHed hed, finvDet det" +
+            String selectQuery = "select hed.DebCode, det.RefNo, ifnull((sum(det.Amt)),0) as totAmt, ifnull((sum(det.Qty)),0) as totQty from finvHed hed, finvDet det" +
                     //			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
                     "  where hed.refno = det.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
@@ -136,8 +136,8 @@ public class InvDetController {
 
 //
                 recDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                recDet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_AMT)));
-                recDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_QTY)));
+                recDet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex("totAmt")));
+                recDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex("totQty")));
                 recDet.setFINVDET_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_DEBCODE)));
               //TODO :set  discount, free
 
