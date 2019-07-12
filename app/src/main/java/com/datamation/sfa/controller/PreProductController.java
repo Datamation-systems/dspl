@@ -27,7 +27,7 @@ public class PreProductController {
         dB = dbHelper.getWritableDatabase();
     }
 
-    public void insertOrUpdateProducts(ArrayList<PreProduct> list) {
+    public void insertOrUpdatePreProducts(ArrayList<PreProduct> list) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {

@@ -357,7 +357,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         @Override
         protected ArrayList<Item> doInBackground(Object... objects) {
 
-            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
+            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","NEG01","WSP001");
             Log.v("Return Item count", ">>>>>"+list.size());
             return list;
         }

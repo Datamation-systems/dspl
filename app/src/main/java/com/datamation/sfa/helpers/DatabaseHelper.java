@@ -2101,9 +2101,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVRHED_ADDRESS = "Address";
     public static final String FINVRHED_START_TIME = "StartTime";
     public static final String FINVRHED_END_TIME = "EndTime";
+
+
     public static final String TABLE_FINVRDET = "FInvRDet";
     public static final String FINVRDET_ID = "id";
-
     public static final String FINVRDET_ITEMCODE = "ItemCode";
     public static final String FINVRDET_TAXCOMCODE = "TaxComCode";
     public static final String FINVRDET_PRILCODE = "PrilCode";
@@ -2419,8 +2420,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TOURHED_VANLOADFLG = "VanLoadFlg";
     public static final String TOURHED_CLSFLG = "Clsflg";
     public static final String TOURHED_TOURTYPE = "TourType";
+    public static final String TOURHED_FROMDATE = "DateFrom";
+    public static final String TOURHED_TODATE = "DateTo";
 
-    private static final String CREATE_FTOURHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTOURHED + " (" + TOURHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + TOURHED_MANUREF + " TEXT, " + TXNDATE + " TEXT, " + TOURHED_LORRYCODE + " TEXT, " + TOURHED_ROUTECODE + " TEXT, " + TOURHED_AREACODE + " TEXT, " + TOURHED_COSTCODE + " TEXT, " + TOURHED_REMARKS + " TEXT, " + TOURHED_LOCCODEF + " TEXT, " + TOURHED_LOCCODE + " TEXT, " + TOURHED_REPCODE + " TEXT, " + TOURHED_HELPERCODE + " TEXT, " + TOURHED_ADDUSER + " TEXT, " + TOURHED_ADDMACH + " TEXT, " + TOURHED_DRIVERCODE + " TEXT, " + TOURHED_VANLOADFLG + " TEXT, " + TOURHED_CLSFLG + " TEXT, " + TOURHED_TOURTYPE + " TEXT); ";
+    private static final String CREATE_FTOURHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTOURHED + " (" + TOURHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + TOURHED_MANUREF + " TEXT, " + TXNDATE + " TEXT, " + TOURHED_LORRYCODE + " TEXT, " + TOURHED_ROUTECODE + " TEXT, " + TOURHED_AREACODE + " TEXT, " + TOURHED_COSTCODE + " TEXT, " + TOURHED_REMARKS + " TEXT, " + TOURHED_LOCCODEF + " TEXT, " + TOURHED_LOCCODE + " TEXT, " + TOURHED_REPCODE + " TEXT, " + TOURHED_HELPERCODE + " TEXT, " + TOURHED_ADDUSER + " TEXT, " + TOURHED_ADDMACH + " TEXT, " + TOURHED_DRIVERCODE + " TEXT, " + TOURHED_VANLOADFLG + " TEXT, " + TOURHED_CLSFLG + " TEXT, " + TOURHED_FROMDATE + " TEXT, " + TOURHED_TODATE + " TEXT, " + TOURHED_TOURTYPE + " TEXT); ";
 
     public static final String TABLE_FDEBTAX = "fDebTax";
     public static final String FDEBTAX_ID = "_id";
@@ -2551,6 +2554,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_ATTENDANCE_TABLE);
             arg0.execSQL(CREATE_TARGET_TABLE);
             arg0.execSQL(CREATE_TABLE_ORDER);
+            arg0.execSQL(CREATE_FTOURHED_TABLE);
 
         } catch (SQLiteException e) {
         }
