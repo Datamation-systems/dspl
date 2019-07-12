@@ -70,7 +70,7 @@ public class VanSalesOrderDetails extends Fragment {
         seqno = 0;
         totPieces = 0;
         view = inflater.inflate(R.layout.sales_management_van_sales_new_details, container, false);
-        mSharedPref = new SharedPref(getActivity());
+        mSharedPref = SharedPref.getInstance(getActivity());
         locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
         mainActivity = (VanSalesActivity) getActivity();
         if(mainActivity.selectedDebtor != null)
@@ -172,9 +172,10 @@ public class VanSalesOrderDetails extends Fragment {
                 //yasith 2019-01-14
                 // new ProductDS(getActivity()).insertIntoProductAsBulk(new SalRepDS(getActivity()).getCurrentLocCode().trim(), mainActivity.selectedDebtor.getFDEBTOR_PRILLCODE());
                 //rashmi 2019-03-12 prilcode get from fsalrep
-                String loc = new SalRepController(getActivity()).getCurrentLocCode().trim();
-                String pril = new SalRepController(getActivity()).getCurrentPriLCode().trim();
-                new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), new SalRepController(getActivity()).getCurrentPriLCode().trim());
+              //  String loc = new SalRepController(getActivity()).getCurrentLocCode().trim();
+             //   String pril = new SalRepController(getActivity()).getCurrentPriLCode().trim();
+                new ProductController(getActivity()).insertIntoProductAsBulk("NEG01", "WSP001");
+              //  new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), mSharedPref.getSelectedDebtorPrilCode());
 
                 if(tmpinvHed!=null) {
 
