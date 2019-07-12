@@ -263,7 +263,7 @@ public class SalesReturnSummary extends Fragment {
 
                         UpdateTaxDetails(RefNo, mSharedPref.getSelectedDebCode());
                         activity.selectedReturnHed = null;
-                        new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                        //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
                         Toast.makeText(getActivity(), "Return saved successfully !", Toast.LENGTH_LONG).show();
                         UtilityContainer.ClearReturnSharedPref(getActivity());
                         //UtilityContainer.mLoadFragment();

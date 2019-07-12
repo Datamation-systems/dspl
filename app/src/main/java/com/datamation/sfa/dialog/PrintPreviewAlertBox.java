@@ -18,8 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.adapter.PrintReturnItemAdapter;
 import com.datamation.sfa.adapter.PrintVanSaleItemAdapter;
 import com.datamation.sfa.adapter.PrintVanSaleReturnAdapter;
+import com.datamation.sfa.adapter.SalesReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.SalRepController;
@@ -191,10 +193,10 @@ public class PrintPreviewAlertBox {
         }
 
 
-            lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
+            //lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
             lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
-            lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, itemList));
-            lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, retDetList));
+            //lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, itemList));
+            lvReturnDetails.setAdapter(new PrintReturnItemAdapter(context, retDetList, refno, ""));
 
 		/*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -203,11 +205,11 @@ public class PrintPreviewAlertBox {
         TotalNetValue.setText(String.format("%,.2f", (dTotAmt)));
         txtTotVal.setText(String.format("%,.2f", dTotAmt));
 
-        PRINTER_MAC_ID =  SharedPref.getInstance(context).getGlobalVal("printer_mac_address").toString();
+        //PRINTER_MAC_ID =  SharedPref.getInstance(context).getGlobalVal("printer_mac_address").toString();
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                PrintCurrentview();
+                //PrintCurrentview();
             }
         });
 

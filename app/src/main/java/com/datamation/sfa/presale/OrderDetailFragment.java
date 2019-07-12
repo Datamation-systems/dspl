@@ -115,7 +115,7 @@ public class OrderDetailFragment extends Fragment{
         lv_order_det.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                new InvDetController(getActivity()).restFreeIssueData(RefNo);
+                //new InvDetController(getActivity()).restFreeIssueData(RefNo);
                 newDeleteOrderDialog(position);
                 return true;
             }
@@ -292,7 +292,7 @@ public class OrderDetailFragment extends Fragment{
             protected Void doInBackground(Void... params) {
 
                 int i = 0;
-                new OrderDetailController(getActivity()).mDeleteRecords(mainActivity.selectedPreHed.getORDER_REFNO());
+                new OrderDetailController(getActivity()).deleteRecords(mainActivity.selectedPreHed.getORDER_REFNO());
 
                 for (PreProduct product : list) {
                     i++;
@@ -322,8 +322,8 @@ public class OrderDetailFragment extends Fragment{
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                //new ProductDS(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
-                //new InvDetDS(getActivity()).mDeleteProduct(mainActivity.selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
+                new PreProductController(getActivity()).updateProductQty(orderList.get(position).getFORDERDET_ITEMCODE(), "0");
+                new OrderDetailController(getActivity()).mDeleteRecords(mainActivity.selectedPreHed.getORDER_REFNO(), orderList.get(position).getFORDERDET_ITEMCODE());
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 

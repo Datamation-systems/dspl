@@ -111,10 +111,8 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
         lblReason = (EditText) view.findViewById(R.id.et_reason);
 
         lv_return_det = (ListView) view.findViewById(R.id.lv_pre_return_det);
-
-
-        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
-
+//        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
+        RefNo = "/0001";
 
         editTotDisc = (EditText) view.findViewById(R.id.et_TotalDisc);
         lblNou = (EditText) view.findViewById(R.id.et_pieces);
@@ -174,7 +172,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
             public void afterTextChanged(Editable s) {
                 if ((lblPrice.length() > 0)) {
                     if(!(minPrice<= Double.parseDouble(lblPrice.getText().toString())) || !(maxPrice>= Double.parseDouble(lblPrice.getText().toString()))){
-                        lblPrice.setText(String.format("%.2f",price));
+                        //lblPrice.setText(String.format("%.2f",price));
                         Toast.makeText(getActivity(),"Cannot change price",Toast.LENGTH_LONG).show();
                     }
                 }
@@ -223,7 +221,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 FInvRDet returnDet = returnList.get(position);
-                //deleteOrderDialog(getActivity(), "Return Details ", returnDet.getFINVRDET_ITEMCODE(),RefNo);
+                deleteOrderDialog(getActivity(), "Return Details ", returnDet.getFINVRDET_ITEMCODE(),RefNo);
                 return true;
             }
         });

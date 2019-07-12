@@ -735,7 +735,24 @@ public class OrderDetailController {
         return count;
 
     }
-    public void mDeleteRecords(String RefNo) {
+    public void mDeleteRecords(String RefNo, String itemCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        try {
+            dB.delete(DatabaseHelper.TABLE_ORDER_DETAIL, DatabaseHelper.REFNO + " ='" + RefNo + "'" + " AND " + DatabaseHelper.ORDDET_ITEM_CODE + " ='" + itemCode + "'", null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+    }
+
+    public void deleteRecords(String RefNo) {
 
         if (dB == null) {
             open();

@@ -39,6 +39,7 @@ import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OrderDetailController;
+import com.datamation.sfa.controller.PreProductController;
 import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.STKInController;
 import com.datamation.sfa.controller.SalRepController;
@@ -111,7 +112,7 @@ public class OrderSummaryFragment extends Fragment {
         mSharedPref = new SharedPref(getActivity());
         mainActivity = (PreSalesActivity)getActivity();
         RefNo = mainActivity.selectedPreHed.getORDER_REFNO();
-        ReturnRefNo = "/00001";
+        ReturnRefNo = "/0001";
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
@@ -171,8 +172,8 @@ public class OrderSummaryFragment extends Fragment {
                 int resultReturn = new SalesReturnController(getActivity()).restData(ReturnRefNo);
 
                 if (result>0) {
-                    new InvDetController(getActivity()).restData(RefNo);
-                    new ProductController(getActivity()).mClearTables();
+                    new OrderDetailController(getActivity()).restData(RefNo);
+                    new PreProductController(getActivity()).mClearTables();
                 }
                 if(resultReturn != 0){
                     new SalesReturnDetController(getActivity()).restData(ReturnRefNo);
@@ -219,10 +220,10 @@ public class OrderSummaryFragment extends Fragment {
         for (OrderDetail ordDet : list) {
             ftotAmt += Double.parseDouble(ordDet.getFORDERDET_AMT());
 
-            if (ordDet.getFORDERDET_TYPE().equals("SA"))
+//            if (ordDet.getFORDERDET_TYPE().equals("SA"))
                 ftotQty += Integer.parseInt(ordDet.getFORDERDET_QTY());
-            else
-                fTotFree += Integer.parseInt(ordDet.getFORDERDET_QTY());
+            //else
+                //fTotFree += Integer.parseInt(ordDet.getFORDERDET_QTY());
 
             //    fTotLineDisc += Double.parseDouble(ordDet.getFINVDET_DIS_AMT());
             //    fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DISVALAMT());
@@ -238,9 +239,14 @@ public class OrderSummaryFragment extends Fragment {
 
         iTotFreeQty = fTotFree;
         lblQty.setText(String.valueOf(ftotQty + fTotFree));
-        lblGross.setText(String.format("%.2f", ftotAmt + fTotSchDisc + fTotLineDisc));
+//        lblGross.setText(String.format("%.2f", ftotAmt + fTotSchDisc + fTotLineDisc));
+//        lblReturn.setText(String.format("%.2f", totalReturn));
+//        lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));
+
+        lblGross.setText(String.format("%.2f", ftotAmt));
         lblReturn.setText(String.format("%.2f", totalReturn));
         lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));
+
         lblReturnQty.setText(String.valueOf(returnQty));
         lblReplacements.setText(String.valueOf(replacements));
 
@@ -312,7 +318,7 @@ public class OrderSummaryFragment extends Fragment {
                         ordHed.setORDER_BTOTALTAX("0");
                         ordHed.setORDER_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
                         ordHed.setORDER_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
-                        ordHed.setORDER_ADDRESS(localSP.getString("GPS_Address", "").toString());
+                        //ordHed.setORDER_ADDRESS(localSP.getString("GPS_Address", "").toString());
                         ordHed.setORDER_TOTALTAX("0");
                         ordHed.setORDER_TOTALDIS("0.0");
                         ordHed.setORDER_TOTALAMT(lblNetVal.getText().toString());
@@ -326,13 +332,13 @@ public class OrderSummaryFragment extends Fragment {
                         ordHedList.add(ordHed);
 
                         if (new OrderController(getActivity()).createOrUpdateOrdHed(ordHedList) > 0) {
-                            new ProductController(getActivity()).mClearTables();
+                            new PreProductController(getActivity()).mClearTables();
                             new OrderController(getActivity()).InactiveStatusUpdate(RefNo);
                             new OrderDetailController(getActivity()).InactiveStatusUpdate(RefNo);
 
                             final PreSalesActivity activity = (PreSalesActivity) getActivity();
 
-                            new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.NumVal));
+                            //new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.NumVal));
 
                             FInvRHed mainHead = new FInvRHed();
                             ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
@@ -375,12 +381,12 @@ public class OrderSummaryFragment extends Fragment {
                                 new SalesReturnController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
 
                                 activity.selectedReturnHed = null;
-                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanReturnNumVal));
-                                Toast.makeText(getActivity(), "Order saved successfully !", Toast.LENGTH_LONG).show();
+                                //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanReturnNumVal));
+                                Toast.makeText(getActivity(), "Order Return saved successfully !", Toast.LENGTH_LONG).show();
                                 UtilityContainer.ClearReturnSharedPref(getActivity());
 
                             } else {
-                                Toast.makeText(getActivity(), "Order failed !", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "Order Return failed !", Toast.LENGTH_LONG).show();
                             }
 
                             UpdateTaxDetails(RefNo);
@@ -388,12 +394,16 @@ public class OrderSummaryFragment extends Fragment {
                             new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
                             new ItemLocController(getActivity()).UpdateOrderQOHInReturn(RefNo, "+", locCode);
 //                            updateDispTables(sHed);
-                            //int a = new PreSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
 
-                            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
                             activity.selectedRetDebtor = null;
                             activity.selectedReturnHed = null;
                             activity.selectedPreHed = null;
+
+                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
 
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
@@ -461,7 +471,7 @@ public class OrderSummaryFragment extends Fragment {
                         ordHed.setORDER_BTOTALTAX("0");
                         ordHed.setORDER_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
                         ordHed.setORDER_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
-                        ordHed.setORDER_ADDRESS(localSP.getString("GPS_Address", "").toString());
+                        //ordHed.setORDER_ADDRESS(localSP.getString("GPS_Address", "").toString());
                         ordHed.setORDER_TOTALTAX("0");
                         ordHed.setORDER_TOTALDIS("0.0");
                         ordHed.setORDER_TOTALAMT(lblNetVal.getText().toString());
@@ -480,7 +490,7 @@ public class OrderSummaryFragment extends Fragment {
                             new OrderDetailController(getActivity()).InactiveStatusUpdate(RefNo);
 
                             final PreSalesActivity activity = (PreSalesActivity) getActivity();
-                            new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.NumVal));
+                            //new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.NumVal));
 
                             /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
 
@@ -488,11 +498,11 @@ public class OrderSummaryFragment extends Fragment {
                             //UpdateQOH_FIFO();
                             new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
                             //updateDispTables(sHed);
-                            int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
 
                             //if(a == 1)
                             //{
-                            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
                             //  UtilityContainer.ClearVanSharedPref(getActivity());
                             //   activity.cusPosition = 0;
                             activity.selectedDebtor = null;
@@ -529,14 +539,14 @@ public class OrderSummaryFragment extends Fragment {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void UpdateTaxDetails(String refNo) {
-        ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(refNo);
-        new InvDetController(getActivity()).UpdateItemTaxInfo(list);
-        new InvTaxRGController(getActivity()).UpdateInvTaxRG(list);
-        new InvTaxDTController(getActivity()).UpdateInvTaxDT(list);
+//        ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(refNo);
+//        new InvDetController(getActivity()).UpdateItemTaxInfo(list);
+//        new InvTaxRGController(getActivity()).UpdateInvTaxRG(list);
+//        new InvTaxDTController(getActivity()).UpdateInvTaxDT(list);
     }
     public void UpdateReturnTotal(String refNo) {
-        ArrayList<FInvRDet> list = new SalesReturnDetController(getActivity()).getAllInvRDet(refNo);
-        new SalesReturnDetController(getActivity()).UpdateReturnTot(list);
+//        ArrayList<FInvRDet> list = new SalesReturnDetController(getActivity()).getAllInvRDet(refNo);
+//        new SalesReturnDetController(getActivity()).UpdateReturnTot(list);
 
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
@@ -608,7 +618,7 @@ public class OrderSummaryFragment extends Fragment {
     public void onResume() {
         super.onResume();
         r = new MyReceiver();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_SUMMARY"));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_PRE_SUMMARY"));
     }
 
     public void updateInvoice() {
@@ -700,7 +710,7 @@ public class OrderSummaryFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
             return null;
 
         }

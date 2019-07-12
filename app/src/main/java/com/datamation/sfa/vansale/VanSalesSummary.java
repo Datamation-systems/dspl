@@ -394,7 +394,7 @@ public class VanSalesSummary extends Fragment {
                             new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
                             new ItemLocController(getActivity()).UpdateInvoiceQOHInReturn(RefNo, "+", locCode);
                             updateDispTables(sHed);
-                            int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                            int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
 
                             Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
                         //    UtilityContainer.ClearVanSharedPref(getActivity());
@@ -548,7 +548,7 @@ public class VanSalesSummary extends Fragment {
                         UpdateQOH_FIFO();
                         new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
                         updateDispTables(sHed);
-                        int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                        int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo, false);
 
                         //if(a == 1)
                         //{
@@ -798,7 +798,7 @@ public class VanSalesSummary extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo, false);
             return null;
 
         }

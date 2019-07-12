@@ -119,8 +119,8 @@ public class OrderController {
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                int success = dB.delete(dbHelper.TABLE_ORDER, dbHelper.REFNO + " ='" + refno + "'", null);
-                Log.v("Success", success + "");
+                count = dB.delete(dbHelper.TABLE_ORDER, dbHelper.REFNO + " ='" + refno + "'", null);
+                Log.v("Success", count + "");
             }
 
         } catch (Exception e) {

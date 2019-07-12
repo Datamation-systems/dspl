@@ -1,8 +1,11 @@
 package com.datamation.sfa.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
     public Customer selectedRetDebtor = null;
     public PRESALE selectedPreHed = null;
     public FInvRHed selectedReturnHed = null;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
         Toolbar toolbar = (Toolbar) findViewById(R.id.presale_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setText("SALES ORDER");
+        context = this;
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.presale_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.presale_viewpager);
@@ -56,6 +61,29 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
         viewPager.setPageMargin(pageMargin);
         slidingTabStrip.setViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if (position == 2)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_RETURN"));
+                else if (position == 0)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_HEADER"));
+                else if (position == 1)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_DETAILS"));
+                else if (position == 3)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_SUMMARY"));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     private class PreSalesPagerAdapter extends FragmentPagerAdapter {

@@ -116,7 +116,7 @@ public class VanSalePrintPreviewAlertBox {
 
 	/*-*-*-*-*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-**-*-**-*-*-*--*/
 
-    public int PrintDetailsDialogbox(final Context context, String title, String refno) {
+    public int PrintDetailsDialogbox(final Context context, String title, String refno, boolean isPreSale) {
 
         try
         {
@@ -857,7 +857,7 @@ public class VanSalePrintPreviewAlertBox {
         } catch (Exception e) {
             android.widget.Toast.makeText(context, "Printer Device Disable Or Invalid MAC.Please Enable the Printer or MAC Address.", android.widget.Toast.LENGTH_LONG).show();
             e.printStackTrace();
-            this.PrintDetailsDialogbox(context, "", PRefno);
+            this.PrintDetailsDialogbox(context, "", PRefno,false);
         }
     }
 
