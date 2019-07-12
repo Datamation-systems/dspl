@@ -75,7 +75,9 @@
     <color name="flavour_banana">#FFFBFF00</color>
     <color name="flavour_faluda">#FFFF4444</color>
     <color name="flavour_cho_mol">#ffa22f05</color>-->
-
+    <color name="Hint">#898888</color>
+    <color name="AlertGreen">#00695C</color>
+    <color name="AlertLightGreen">#00897B</color>
     <color name="color_disabled">#3c000000</color>
 
     <color name="tab_strip_bg">#e5e5e5</color>

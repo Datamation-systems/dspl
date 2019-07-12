@@ -1,25 +1,44 @@
 package com.datamation.sfa.view.dashboard;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.controller.ReceiptDetController;
 import com.datamation.sfa.model.ReceiptDet;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -32,13 +51,9 @@ public class PromotionDetailsFragment extends Fragment  {
 
     private static final String LOG_TAG = PromotionDetailsFragment.class.getSimpleName();
     private List<ReceiptDet> pinHolders;
-    private PaymentListAdapter adapter;
     private TextView tvDate;
 
     //    private DatabaseHandler dbHandler;
-//
-
-    //
 //    private CalendarDatePickerDialog calendarDatePickerDialog;
     private int mYear, mMonth, mDay;
 
@@ -46,78 +61,178 @@ public class PromotionDetailsFragment extends Fragment  {
     private NumberFormat numberFormat = NumberFormat.getInstance();
 
     //    private Calendar /*calendarBegin, calendarEnd, */nowCalendar;
-    private long timeInMillis;
-
-    private TextView tvGrossAmountTotal;
-    private TextView tvNetAmountTotal;
-    private TextView tvOutstandingAmountTotal;
-    private TextView tvCashPaymentTotal;
-    private TextView tvChequeAmountTotal;
+    public List<String> category_name = new ArrayList<>();
+    public List<String> name_of_dish = new ArrayList<>();
+    public List<String> item_code = new ArrayList<>();
+    public List<String> rate_of_half = new ArrayList<>();
+    public List<String> rate_of_full = new ArrayList<>();
+    public List<String> item_status = new ArrayList<>();
+    public List<String> category_id = new ArrayList<>();
+    public List<String> full = new ArrayList<>();
+    public List<String> half = new ArrayList<>();
+    String url = "http://203.143.21.121:8080/LankaHDWebServices/LankaHDWebServicesRest.svc/ffreehed/mobile123/lhd"; // Replace with your own url
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    List<String> listitems;
+    HashMap<String, List<String>> listDataChild;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_payment_details, container, false);
+        View rootView = inflater.inflate(R.layout.promotion, container, false);
 
-        timeInMillis = System.currentTimeMillis();
 
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMinimumFractionDigits(2);
         numberFormat.setGroupingUsed(true);
 
-        tvDate = (TextView) rootView.findViewById(R.id.fragment_payment_details_select_date);
+        progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-        tvGrossAmountTotal = (TextView) rootView.findViewById(R.id.item_payment_details_tv_gross_amount_total);
-        tvNetAmountTotal = (TextView) rootView.findViewById(R.id.item_payment_details_tv_net_amount_total);
-        tvOutstandingAmountTotal = (TextView) rootView.findViewById(R.id.item_payment_details_tv_outstanding_amount_total);
-        tvCashPaymentTotal = (TextView) rootView.findViewById(R.id.item_payment_details_tv_cash_amount_total);
-        tvChequeAmountTotal = (TextView) rootView.findViewById(R.id.item_payment_details_tv_cheque_amount_total);
+        // Creating database to store menu items
+        // database = openOrCreateDatabase("Menu.db", MODE_PRIVATE, null);
+        // final String q = "Create Table if not exists List (dishName varchar(50), categoryName varchar(50), categoryID varchar(20), itemCode varchar(20), rateOfHalf varchar(10), rateOfFull varchar(10), itemStatus varchar(20), half varchar(20), full varchar(20))";
+        // database.execSQL(q);
+        // Get data from JSON
+        // getMenu();
 
-        StickyListHeadersListView pinnedSectionListView = (StickyListHeadersListView) rootView.findViewById(R.id.fragment_payment_details_pslv);
+        // Swipe down to refresh list
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeToRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+              //  getMenu();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        expListView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
 
 
+        final int[] prevExpandPosition = {-1};
+        //Lisview on group expand listner... to close other expanded headers...
+        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int i) {
+                if (prevExpandPosition[0] >= 0) {
+                    expListView.collapseGroup(prevExpandPosition[0]);
+                }
+                prevExpandPosition[0] = i;
+            }
+        });
 
-        pinHolders = new ReceiptDetController(getActivity()).getTodayPayments();
 
-        adapter = new PaymentListAdapter(getActivity(), pinHolders);
-        pinnedSectionListView.setAdapter(adapter);
+        // Listview on child click listener
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
 
-        tvDate.setText(dateFormat.format(new Date(timeInMillis)));
-
-//        calendarDatePickerDialog = new CalendarDatePickerDialog();
-//        calendarDatePickerDialog.setOnDateSetListener(new CalendarDatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int year, int month, int day) {
-//
-//                if (year != mYear || month != mMonth || day != mDay) {
-//                    Log.d(LOG_TAG, "Different date selected");
-//                    mYear = year;
-//                    mMonth = month;
-//                    mDay = day;
-//
-////                    nowCalendar.set(mYear, mMonth, mDay);
-//
-//                    timeInMillis = TimeUtils.parseIntoTimeInMillis(mYear, mMonth, mDay);
-//
-//                    tvDate.setText(dateFormat.format(new Date(timeInMillis)));
-//
-//                    pinHolders = dbHandler.getTimeFramedPayments(TimeUtils.getDayBeginningTime(timeInMillis), TimeUtils.getDayEndTime(timeInMillis));
-//                    adapter.setPaymentPinHolders(pinHolders);
-//                }
-//
-//            }
-//        });
-//
-//        tvDate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                calendarDatePickerDialog.show(getFragmentManager(), "TAG");
-//            }
-//        });
+                String itemName = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                Toast.makeText(getActivity(), "You selected : " + itemName, Toast.LENGTH_SHORT).show();
+                Log.e("Child", listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition));
+                return false;
+            }
+        });
 
         return rootView;
     }
-
+    //https://github.com/Rishijay/Dynamic-Expandable-ListView
+//    private void getMenu() {
+//        StringRequest request = new StringRequest(DownloadManager.Request.Method.POST, url, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String s) {
+//                progressDialog.dismiss();
+//                try {
+//                    JSONObject obj = new JSONObject(s);
+//                    Log.e("Json response", " " + obj.toString());
+//                    int error = obj.getInt("error_code");
+//                    Log.e("error code", " " + error);
+//                    if (error == 100) {
+//                        JSONArray arr = obj.getJSONArray("category_name");
+//                        for (int i = 0; i < arr.length(); i++) {
+//                            //retrieving each divisional value
+//                            String categoryName = arr.getJSONObject(i).getString("category_name");
+//                            String name = arr.getJSONObject(i).getString("name_of_dish");
+//                            String itemCode = arr.getJSONObject(i).getString("item_code");
+//                            String rateOfHalf = arr.getJSONObject(i).getString("rate_of_half");
+//                            String rateOfFull = arr.getJSONObject(i).getString("rate_of_full");
+//                            String status = arr.getJSONObject(i).getString("item_status");
+//                            String categoryID = arr.getJSONObject(i).getString("category_id");
+//                            String fullStatus = arr.getJSONObject(i).getString("full");
+//                            String halfStatus = arr.getJSONObject(i).getString("half");
+//
+//                            //adding values division-wise
+//                            category_name.add(categoryName);
+//                            name_of_dish.add(name);
+//                            item_code.add(itemCode);
+//                            rate_of_half.add(rateOfHalf);
+//                            rate_of_full.add(rateOfFull);
+//                            item_status.add(status);
+//                            category_id.add(categoryID);
+//                            full.add(fullStatus);
+//                            half.add(halfStatus);
+//
+//                            Log.e("List Showing ", name + " " + status);
+//                        }
+//                        addrows();
+//                        // preparing list data
+//                        try {
+//                            makeHeaderChildData();
+//                        } catch (Exception e) {
+//                            Log.e("makeHeaderChildData", "Exception " + e.toString());
+//                        }
+//
+//                        listAdapter = new ExpandableListAdapter(MainActivity.this, listDataHeader, listDataChild);
+//                        // setting list adapter
+//                        expListView.setAdapter(listAdapter);
+//                    } else {
+//                        Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                } catch (JSONException e) {
+//                    Log.e("Check", "JSONEXCEPTION " + e.toString());
+//                    e.printStackTrace();
+//                }
+//                Log.e("response", s);
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                Log.e("error response", "Some error occurred!!" + volleyError);
+//                progressDialog.dismiss();
+//                final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+//                alert.setTitle("Error");
+//                alert.setMessage("Connection error.! Unable to connect to server.");
+//                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                        return;
+//                    }
+//                });
+//                alert.show();
+//            }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> parameters = new HashMap<String, String>();
+//                parameters.put("rest_id", "001");
+//                parameters.put("category_name", "");
+//                Log.d("Params", parameters.toString());
+//                return parameters;
+//            }
+//        };
+//
+//        RequestQueue rQueue = Volley.newRequestQueue(MainActivity.this);
+//        rQueue.add(request);
+//    }
     public void refresh() {
         //   if (adapter != null) adapter.notifyDataSetChanged();
     }
@@ -145,168 +260,103 @@ public class PromotionDetailsFragment extends Fragment  {
         TextView tvChequeAmount;
     }
 
-    private class PaymentListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+    public class ExpandableListAdapter extends BaseExpandableListAdapter implements Filterable {
 
-        private LayoutInflater inflater;
-         private List<ReceiptDet> paymentPinHolders;
+        private Context _context;
+        private List<String> _listDataHeader; // header titles
+        // child data in format of header title, child title
+        private HashMap<String, List<String>> _listDataChild;
 
-        private PaymentListAdapter(Context context, List<ReceiptDet> paymentPinHolders) {
-            this.paymentPinHolders = paymentPinHolders;
-            this.inflater = LayoutInflater.from(context);
-        }
-
-        @SuppressLint("InflateParams")
-        @Override
-        public View getHeaderView(int position, View view, ViewGroup viewGroup) {
-
-            HeaderViewHolder headerViewHolder;
-            if (view == null) {
-                view = inflater.inflate(R.layout.item_payment_details_header, null, false);
-
-                headerViewHolder = new HeaderViewHolder();
-                // headerViewHolder.pinLabel = (TextView) view.findViewById(R.id.item_payment_details_tv_pin_txt);
-
-                view.setTag(headerViewHolder);
-            } else {
-                headerViewHolder = (HeaderViewHolder) view.getTag();
-            }
-
-
-
-            return view;
+        public ExpandableListAdapter(Context context, List<String> listDataHeader,
+                                     HashMap<String, List<String>> listChildData) {
+            this._context = context;
+            this._listDataHeader = listDataHeader;
+            this._listDataChild = listChildData;
         }
 
         @Override
-        public long getHeaderId(int position) {
-            return 0;
-        }
-
-//        @Override
-//        public long getHeaderId(int position) {
-//            if (paymentPinHolders != null) return paymentPinHolders.get(position).getType();
-//            return 0;
-//        }
-
-        @Override
-        public int getCount() {
-            if (paymentPinHolders != null) return paymentPinHolders.size();
-            return 0;
+        public Object getChild(int groupPosition, int childPosititon) {
+            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                    .get(childPosititon);
         }
 
         @Override
-        public Object getItem(int position) {
-            return null;
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
         }
 
         @Override
-        public long getItemId(int position) {
-            return position;
-        }
+        public View getChildView(int groupPosition, final int childPosition,
+                                 boolean isLastChild, View convertView, ViewGroup parent) {
 
-        @SuppressLint("InflateParams")
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+            final String childText = (String) getChild(groupPosition, childPosition);
 
-            ViewHolder viewHolder;
             if (convertView == null) {
-                convertView = inflater.inflate(R.layout.item_payment_details, null, false);
-
-                viewHolder = new ViewHolder();
-                viewHolder.tvInvoiceDetails = (TextView) convertView.findViewById(R.id.item_payment_details_tv_invoice);
-                viewHolder.tvGrossAmount = (TextView) convertView.findViewById(R.id.item_payment_details_tv_gross_amount);
-                viewHolder.tvNetAmount = (TextView) convertView.findViewById(R.id.item_payment_details_tv_net_amount);
-                viewHolder.tvOutstandingAmount = (TextView) convertView.findViewById(R.id.item_payment_details_tv_outstanding_amount);
-                viewHolder.tvCashPayment = (TextView) convertView.findViewById(R.id.item_payment_details_tv_cash_amount);
-                viewHolder.tvChequeAmount = (TextView) convertView.findViewById(R.id.item_payment_details_tv_cheque_amount);
-
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
+                LayoutInflater infalInflater = (LayoutInflater) this._context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = infalInflater.inflate(R.layout.list_items, null);
             }
 
+            TextView txtListChild = (TextView) convertView
+                    .findViewById(R.id.lblListItem);
 
+            txtListChild.setText(childText);
+            return convertView;
+        }
 
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                    .size();
+        }
 
-           // paymentPinHolders.get(position)
+        @Override
+        public Object getGroup(int groupPosition) {
+            return this._listDataHeader.get(groupPosition);
+        }
 
-            if (paymentPinHolders != null) {
+        @Override
+        public int getGroupCount() {
+            return this._listDataHeader.size();
+        }
 
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
 
-                viewHolder.tvInvoiceDetails.setText(paymentPinHolders.get(position).getFPRECDET_REFNO());
-                viewHolder.tvGrossAmount.setText(paymentPinHolders.get(position).getFPRECDET_REFNO1());
-//                viewHolder.tvNetAmount.setText(numberFormat.format(invoice.getTotalAmount()
-//                        - invoice.getTotalDiscount()
-//                        - invoice.getReturnAmount()));
-            if(paymentPinHolders.get(position).getFPRECDET_AMT()!= null)
-            viewHolder.tvOutstandingAmount.setText(numberFormat.format(Double.parseDouble(paymentPinHolders.get(position).getFPRECDET_AMT())));
-            else
-            viewHolder.tvOutstandingAmount.setText("0.0");
-
-            viewHolder.tvNetAmount.setText(paymentPinHolders.get(position).getFPRECDET_TXNDATE());
-
-                if(paymentPinHolders.get(position).getFPRECDET_AMT()!= null)
-                    viewHolder.tvOutstandingAmount.setText(numberFormat.format(Double.parseDouble(paymentPinHolders.get(position).getFPRECDET_AMT())));
-                else
-                    viewHolder.tvOutstandingAmount.setText("0.0");
-                if (paymentPinHolders.get(position).getFPRECDET_REPCODE().equals("CA")) {
-                    if(paymentPinHolders.get(position).getFPRECDET_ALOAMT()!=null)
-                        viewHolder.tvCashPayment.setText(numberFormat.format(Double.parseDouble(paymentPinHolders.get(position).getFPRECDET_ALOAMT())));
-                    else
-                        viewHolder.tvCashPayment.setText("0.0");
-                } else {
-                    viewHolder.tvCashPayment.setText("0.0");
-                }
-
-                if (paymentPinHolders.get(position).getFPRECDET_REPCODE().equals("CH")) {
-
-                    if(paymentPinHolders.get(position).getFPRECDET_ALOAMT()!=null)
-                        viewHolder.tvChequeAmount.setText(numberFormat.format(Double.parseDouble(paymentPinHolders.get(position).getFPRECDET_ALOAMT())));
-                    else
-                        viewHolder.tvChequeAmount.setText("0.0");
-
-
-
-                } else {
-                    viewHolder.tvChequeAmount.setText("0.0");
-                }
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded,
+                                 View convertView, ViewGroup parent) {
+            String headerTitle = (String) getGroup(groupPosition);
+            if (convertView == null) {
+                LayoutInflater infalInflater = (LayoutInflater) this._context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = infalInflater.inflate(R.layout.list_group, null);
             }
+
+            TextView lblListHeader = (TextView) convertView
+                    .findViewById(R.id.lblListHeader);
+            lblListHeader.setTypeface(null, Typeface.BOLD);
+            lblListHeader.setText(headerTitle);
 
             return convertView;
         }
 
-        public void setPaymentPinHolders(List<ReceiptDet> pinHolderList) {
-            this.paymentPinHolders = pinHolderList;
-            notifyDataSetChanged();
+        @Override
+        public boolean hasStableIds() {
+            return false;
         }
 
         @Override
-        public void notifyDataSetChanged() {
-            super.notifyDataSetChanged();
-
-            double grossAmount = 0;
-            double netAmount = 0;
-            double outstandingAmount = 0;
-            double cashAmount = 0;
-            double chequeAmount = 0;
-
-            for(ReceiptDet pinHolder : paymentPinHolders) {
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
 
 
-                    outstandingAmount += Double.parseDouble(pinHolder.getFPRECDET_AMT());
-                    if(pinHolder.getFPRECDET_REPCODE().equals("CA")){
-                        cashAmount += Double.parseDouble(pinHolder.getFPRECDET_ALOAMT());
-                    }else {
-                        chequeAmount += Double.parseDouble(pinHolder.getFPRECDET_ALOAMT());
-                    }
-
-            }
-
-//            tvGrossAmountTotal.setText(numberFormat.format(grossAmount));
-//            tvNetAmountTotal.setText(numberFormat.format(netAmount));
-//            tvOutstandingAmountTotal.setText(numberFormat.format(outstandingAmount));
-//            tvCashPaymentTotal.setText(numberFormat.format(cashAmount));
-//            tvChequeAmountTotal.setText(numberFormat.format(chequeAmount));
-
+        @Override
+        public Filter getFilter() {
+            return null;
         }
     }
 

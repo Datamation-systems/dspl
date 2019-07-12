@@ -270,7 +270,7 @@ public class ReceiptHeader extends Fragment {
 
                                     SaveReceiptHeader();
                                     mSharedPref.setGlobalVal("ReckeyHeader", "1");
-                                    listener.moveToDetailsRece(2);
+                                    listener.moveToDetailsRece(1);
                                 } else {
                                     Toast.makeText(getActivity(), "Please fill in Received amount", Toast.LENGTH_LONG).show();
                                     txtReceAmt.requestFocus();
