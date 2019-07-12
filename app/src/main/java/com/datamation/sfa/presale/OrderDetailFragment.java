@@ -25,10 +25,12 @@ import android.widget.Toast;
 
 import com.datamation.sfa.adapter.NewProduct_Adapter;
 import com.datamation.sfa.adapter.OrderDetailsAdapter;
+import com.datamation.sfa.adapter.PreOrderAdapter;
 import com.datamation.sfa.adapter.PreProduct_Adapter;
 import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.OrderDetailController;
+import com.datamation.sfa.controller.PreProductController;
 import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.TaxDetController;
@@ -37,6 +39,7 @@ import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.PreProduct;
 import com.datamation.sfa.model.Product;
 
 import com.datamation.sfa.R;
@@ -55,7 +58,7 @@ public class OrderDetailFragment extends Fragment{
     int totPieces = 0;
     int seqno = 0;
     ListView lv_order_det, lvFree;
-    ArrayList<Product> productList = null, selectedItemList = null;
+    ArrayList<PreProduct> productList = null, selectedItemList = null;
     ImageButton ibtProduct, ibtDiscount;
     SweetAlertDialog pDialog;
     private static final String TAG = "OrderDetailFragment";
@@ -129,7 +132,7 @@ public class OrderDetailFragment extends Fragment{
         return view;
     }
 
-    public class LoardingProductFromDB extends AsyncTask<Object, Object, ArrayList<Product>> {
+    public class LoardingProductFromDB extends AsyncTask<Object, Object, ArrayList<PreProduct>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -141,12 +144,13 @@ public class OrderDetailFragment extends Fragment{
         }
 
         @Override
-        protected ArrayList<Product> doInBackground(Object... objects) {
+        protected ArrayList<PreProduct> doInBackground(Object... objects) {
 
-            if (new ProductController(getActivity()).tableHasRecords()) {
-                productList = new ProductController(getActivity()).getAllItems("","");
+            if (new PreProductController(getActivity()).tableHasRecords()) {
+                productList = new PreProductController(getActivity()).getAllItems("");
             } else {
-                new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), mSharedPref.getSelectedDebtorPrilCode());
+                productList =new ItemController(getActivity()).getAllItemForPreSales("","",RefNo, "WSP001");
+                new PreProductController(getActivity()).insertOrUpdatePreProducts(productList);
 
                 if(tmpsoHed!=null) {
 
@@ -156,7 +160,7 @@ public class OrderDetailFragment extends Fragment{
                             String tmpItemName = orderDetailArrayList.get(i).getFORDERDET_ITEMCODE();
                             String tmpQty = orderDetailArrayList.get(i).getFORDERDET_QTY();
                             //Update Qty in  fProducts_pre table
-                            int count = new ProductController(getActivity()).updateProductQtyfor(tmpItemName, tmpQty);
+                            int count = new PreProductController(getActivity()).updateProductQtyFor(tmpItemName, tmpQty);
                             if (count > 0) {
 
                                 Log.d("InsertOrUpdate", "success");
@@ -169,13 +173,13 @@ public class OrderDetailFragment extends Fragment{
                 }
                 //----------------------------------------------------------------------------
             }
-            productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
+            productList = new PreProductController(getActivity()).getAllItems("");//rashmi -2018-10-26
             return productList;
         }
 
 
         @Override
-        protected void onPostExecute(ArrayList<Product> products) {
+        protected void onPostExecute(ArrayList<PreProduct> products) {
             super.onPostExecute(products);
 
             if(pDialog.isShowing()){
@@ -233,13 +237,13 @@ public class OrderDetailFragment extends Fragment{
         final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
 
         lvProducts.clearTextFilter();
-        productList = new ProductController(getActivity()).getAllItems("","");
-        lvProducts.setAdapter(new PreProduct_Adapter(getActivity(), productList));
+        productList = new PreProductController(getActivity()).getAllItems("");
+        lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
 
         alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                selectedItemList = new ProductController(getActivity()).getSelectedItems("");
+                selectedItemList = new PreProductController(getActivity()).getSelectedItems();
                 updateOrderDet(selectedItemList);
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 dialog.cancel();
@@ -254,8 +258,8 @@ public class OrderDetailFragment extends Fragment{
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                productList = new ProductController(getActivity()).getAllItems(query,"");//Rashmi 2018-10-26
-                lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
+                productList = new PreProductController(getActivity()).getAllItems(query);//Rashmi 2018-10-26
+                lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
                 return true;
             }
 
@@ -263,14 +267,14 @@ public class OrderDetailFragment extends Fragment{
             public boolean onQueryTextChange(String newText) {
 
                 productList.clear();
-                productList = new ProductController(getActivity()).getAllItems(newText,"");//rashmi-2018-10-26
-                lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
+                productList = new PreProductController(getActivity()).getAllItems(newText);//rashmi-2018-10-26
+                lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
                 return true;
             }
         });
     }
 
-    public void updateOrderDet(final ArrayList<Product> list) {
+    public void updateOrderDet(final ArrayList<PreProduct> list) {
 
 
         new AsyncTask<Void, Void, Void>() {
@@ -290,9 +294,9 @@ public class OrderDetailFragment extends Fragment{
                 int i = 0;
                 new OrderDetailController(getActivity()).mDeleteRecords(mainActivity.selectedPreHed.getORDER_REFNO());
 
-                for (Product product : list) {
+                for (PreProduct product : list) {
                     i++;
-                    mUpdatePrsSales("0",product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_PRICE(), i + "", product.getFPRODUCT_QOH());
+                    mUpdatePrsSales("0",product.getPREPRODUCT_ITEMCODE(), product.getPREPRODUCT_QTY(), product.getPREPRODUCT_PRICE(), i + "", product.getPREPRODUCT_QOH());
                 }
                 return null;
             }
