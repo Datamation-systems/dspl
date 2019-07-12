@@ -965,7 +965,7 @@ public class VanSalesOrderDetails extends Fragment {
         invDet.setFINVDET_DIS_AMT("0");
         invDet.setFINVDET_DIS_PER("0");
         invDet.setFINVDET_ITEM_CODE(itemCode);
-        invDet.setFINVDET_PRIL_CODE(new SalRepController(getActivity()).getCurrentPriLCode().trim());
+        invDet.setFINVDET_PRIL_CODE(SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
         invDet.setFINVDET_QTY(Qty);
         invDet.setFINVDET_PICE_QTY(Qty);
         invDet.setFINVDET_TYPE("SA");
