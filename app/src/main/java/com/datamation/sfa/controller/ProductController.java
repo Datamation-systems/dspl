@@ -161,9 +161,9 @@ public class ProductController {
                 product.setFPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_PRICE)));
                 product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_QOH)));
                 product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_QTY)));
-                product.setFPRODUCT_MAX_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_MAX_PRICE)));
-                product.setFPRODUCT_MIN_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_MIN_PRICE)));
-                product.setFPRODUCT_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_CHANGED_PRICE)));
+//                product.setFPRODUCT_MAX_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_MAX_PRICE)));
+//                product.setFPRODUCT_MIN_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_MIN_PRICE)));
+//                product.setFPRODUCT_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_CHANGED_PRICE)));
                 product.setFPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_TXNTYPE)));
 
 
