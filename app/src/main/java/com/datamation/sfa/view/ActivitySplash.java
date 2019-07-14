@@ -33,6 +33,7 @@ import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.User;
 import com.datamation.sfa.utils.GetMacAddress;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -194,11 +195,13 @@ public class ActivitySplash extends AppCompatActivity{
                     validateJSON = new JSONObject(validateResponse);
 
 
-                if (validateJSON != null && validateJSON.getBoolean("result")) {
+                if (validateJSON != null) {
                     pref = SharedPref.getInstance(ActivitySplash.this);
                     //dbHandler.clearTables();
                     // Login successful. Proceed to download other items
-                    User user = User.parseUser(validateJSON);
+
+                    JSONArray repArray = validateJSON.getJSONArray("fSalRepResult");
+                    User user = User.parseUser(repArray.getJSONObject(0));
                     //networkFunctions.setUser(user);
                     pref.storeLoginUser(user);
 
@@ -211,7 +214,7 @@ public class ActivitySplash extends AppCompatActivity{
 
                     return true;
                 }else{
-                    Toast.makeText(ActivitySplash.this,"Invalid response",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivitySplash.this,"Invalid response from server when getting sales rep data",Toast.LENGTH_SHORT).show();
                     return false;
                 }
 

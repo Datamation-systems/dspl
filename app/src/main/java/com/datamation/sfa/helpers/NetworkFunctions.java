@@ -70,10 +70,10 @@ public class NetworkFunctions {
 public String validate(String macId) throws IOException {
 
     List<CustomNameValuePair> params = new ArrayList<>();
-    params.add(new CustomNameValuePair("mac_id", macId));
-    Log.d(LOG_TAG, "Validating : " + baseURL + "login" + params);
+   // params.add(new CustomNameValuePair("mac_id", macId));
+    Log.d(LOG_TAG, "Validating : " + baseURL + "login" +restOfURL+"/"+ params);
 
-    return postToServer(baseURL + "login.php", params);
+    return getFromServer(baseURL + "fSalRep"+restOfURL+"/"+macId, params);
 }
     /**
      * This function will POST repCode will return a the response JSON
@@ -545,7 +545,7 @@ public String validate(String macId) throws IOException {
         URL postURL = new URL(url + generateGETParams(params));
 //        Log.d(LOG_TAG, postURL.toString());
         HttpURLConnection con = (HttpURLConnection) postURL.openConnection();
-        con.setConnectTimeout(20 * 1000);
+        con.setConnectTimeout(60 * 1000);
         con.setReadTimeout(30 * 1000);
         con.setRequestMethod("GET");
         con.setDoInput(true);
