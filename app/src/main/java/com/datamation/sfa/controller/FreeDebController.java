@@ -71,7 +71,38 @@ public class FreeDebController {
         return serverdbID;
 
     }
+    public ArrayList<FreeDeb> getFreeIssueDebtors(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        ArrayList<FreeDeb> list = new ArrayList<FreeDeb>();
+
+        // String selectQuery = "select * from ffreehed where refno in (select refno from ffreedet where itemcode='" + itemCode + "') AND costcode='" + costCode + "' AND date('now') between vdatef and vdatet";
+        // inoshi--Mine**CostCode change//
+        String selectQuery = "select * from " + dbHelper.TABLE_FFREEDEB + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                FreeDeb freeHed = new FreeDeb();
+
+                freeHed.setFFREEDEB_DEB_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEDEB_DEB_CODE)));
+
+                list.add(freeHed);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return list;
+    }
     public int getRefnoByDebCount(String refno) {
 
         if (dB == null) {

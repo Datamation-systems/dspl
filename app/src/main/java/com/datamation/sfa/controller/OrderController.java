@@ -16,6 +16,7 @@ import com.datamation.sfa.model.PRESALE;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class OrderController {
     private SQLiteDatabase dB;
@@ -97,7 +98,51 @@ public class OrderController {
 
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public ArrayList<PRESALE> getTodayOrders() {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<PRESALE> list = new ArrayList<PRESALE>();
 
+        try {
+            String selectQuery = "select DebCode, RefNo from fordHed " +
+                    //			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
+                    "  where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                PRESALE recDet = new PRESALE();
+
+//
+                recDet.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                recDet.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_DEB_CODE)));
+                //TODO :set  discount, free
+
+                list.add(recDet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+
+    }
 
     @SuppressWarnings("static-access")
     public int restData(String refno) {

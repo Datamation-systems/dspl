@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radio_half"
             android:layout_margin="10dp"
-            android:textColor="@color/Black"
+            android:textColor="@color/half_black"
             android:textSize="16dp"
             android:text="Half :"/>
 
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radio_full"
             android:layout_margin="10dp"
-            android:textColor="@color/Black"
+            android:textColor="@color/half_black"
 
             android:textSize="16dp"
             android:text="Full :"/>

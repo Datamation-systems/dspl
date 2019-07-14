@@ -1,11 +1,15 @@
 package com.datamation.sfa.view.dashboard;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +17,32 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.FreeDebController;
+import com.datamation.sfa.controller.FreeHedController;
+import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OrderDetailController;
+import com.datamation.sfa.model.FreeDeb;
+import com.datamation.sfa.model.FreeHed;
+import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.OrderDetail;
+import com.datamation.sfa.model.PRESALE;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,606 +57,214 @@ public class OrderDetailsFragment extends Fragment {
 
     private static final String LOG_TAG = OrderDetailsFragment.class.getSimpleName();
 
-
-    private OrderAdapter adapter;
-    private List<OrderDetail> pinHolders;
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<PRESALE> listDataHeader;
+    HashMap<PRESALE, List<OrderDetail>> listDataChild;
+    //    private DatabaseHandler dbHandler;
+//    private CalendarDatePickerDialog calendarDatePickerDialog;
+    private int mYear, mMonth, mDay;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private NumberFormat numberFormat;
+    private NumberFormat numberFormat = NumberFormat.getInstance();
 
     //    private Calendar /*calendarBegin, calendarEnd, */nowCalendar;
-//    private long timeInMillis;
 
+    String url = "http://203.143.21.121:8080/LankaHDWebServices/LankaHDWebServicesRest.svc/ffreehed/mobile123/lhd"; // Replace with your own url
+    //ExpandableListAdapter listAdapter;
 
-   // private CalendarDatePickerDialog calendarDatePickerDialogFrom, calendarDatePickerDialogTo;
-    private int mYearFrom, mMonthFrom, mDayFrom, mYearTo, mMonthTo, mDayTo;
-
-    private RelativeLayout filterHolder;
-    private ImageView arrow;
-
-    private TextView dateFrom, dateTo;
-    private Spinner filterSpinner;
-
-    private long selectedFromTime, selectedToTime;
-
-    private boolean filtersOpen = false, timeFrameChanged = false, filterChanged = false;
-
-    private OvershootInterpolator overshootInterpolator;
-
-    private TextView invoiceGrossTotal;
-    private TextView invoiceNetTotal;
-    private TextView invoiceOutstandingTotal;
-    private TextView invoiceDiscountTotal;
-    private TextView invoiceMarketReturnTotal;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-//        dbHandler = DatabaseHandler.getDbHandler(getActivity());
-////        pref = SharedPref.getInstance(getActivity());
-//        networkFunctions = new NetworkFunctions(getActivity());
+        View rootView = inflater.inflate(R.layout.promotion, container, false);
 
-        filtersOpen = false;
 
-        View rootView = inflater.inflate(R.layout.fragment_invoice_details, container, false);
-
-//        timeInMillis = System.currentTimeMillis();
-
-        selectedFromTime = System.currentTimeMillis();
-        selectedToTime = System.currentTimeMillis();
-
-//        tvDate = (TextView) rootView.findViewById(R.id.fragment_invoice_details_select_date);
-        StickyListHeadersListView listView = (StickyListHeadersListView)
-                rootView.findViewById(R.id.fragment_invoice_details_listview);
-
-//        RelativeLayout filterHeader = (RelativeLayout) rootView.findViewById(R.id.fragment_invoice_details_rl_filter_header);
-//        filterHolder = (RelativeLayout) rootView.findViewById(R.id.fragment_invoice_details_rl_filter_params);
-//
-//        filterSpinner = (Spinner) rootView.findViewById(R.id.fragment_invoice_details_spinner_filter_params);
-//        dateFrom = (TextView) rootView.findViewById(R.id.fragment_invoice_details_tv_filter_params_date_from);
-//        dateTo = (TextView) rootView.findViewById(R.id.fragment_invoice_details_tv_filter_params_date_to);
-
-        invoiceGrossTotal = (TextView) rootView.findViewById(R.id.item_invoice_details_tv_invoice_gross_total);
-        invoiceNetTotal = (TextView) rootView.findViewById(R.id.item_invoice_details_tv_invoice_net_total);
-        invoiceOutstandingTotal = (TextView) rootView.findViewById(R.id.item_invoice_details_tv_invoice_outstanding_total);
-        invoiceDiscountTotal = (TextView) rootView.findViewById(R.id.item_invoice_details_tv_invoice_discount_total);
-        invoiceMarketReturnTotal = (TextView) rootView.findViewById(R.id.item_invoice_details_tv_invoice_market_return_total);
-
-//        dateFrom.setText(dateFormat.format(new Date(selectedFromTime)));
-//        dateTo.setText(dateFormat.format(new Date(selectedToTime)));
-//
-//        dateFrom.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//              //  calendarDatePickerDialogFrom.show(getFragmentManager(), "TAG_FROM");
-//            }
-//        });
-//
-//        dateTo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //calendarDatePickerDialogTo.show(getFragmentManager(), "TAG_TO");
-//            }
-//        });
-
-      //  Button btnFilter = (Button) rootView.findViewById(R.id.fragment_invoice_details_btn_filter_params_execute);
-//        btnFilter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (timeFrameChanged || filterChanged) {
-//                    //refreshList(filterSpinner.getSelectedItemPosition());
-//                } else {
-//                    MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-//                            .content("Already displaying search results. Are you sure you want to force refresh?")
-//                            .positiveText("Yes")
-//                            .positiveColor(getResources().getColor(R.color.material_alert_positive_button))
-//                            .negativeText("No")
-//                            .negativeColor(getResources().getColor(R.color.material_alert_negative_button))
-//                            .callback(new MaterialDialog.ButtonCallback() {
-//                                @Override
-//                                public void onPositive(MaterialDialog dialog) {
-//                                    super.onPositive(dialog);
-//                                    //refreshList(filterSpinner.getSelectedItemPosition());
-//                                }
-//                            })
-//                            .build();
-//                    materialDialog.show();
-//                }
-//            }
-//        });
-
-//        List<String> filters = new ArrayList<>();
-//        filters.add("All");
-//        filters.add("Discounted");
-//        filters.add("Free Issued");
-//
-//        filterSpinner.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, filters));
-//
-//        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                filterChanged = true;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-
-       // arrow = (ImageView) rootView.findViewById(R.id.fragment_invoice_details_imageview_arrow);
-
- //       overshootInterpolator = new OvershootInterpolator();
-
-//        filterHeader.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (filtersOpen) {
-//                    ViewCompat.animate(arrow).rotation(0).setDuration(300).setInterpolator(overshootInterpolator);
-//                    //AnimationUtil.collapse(filterHolder, 300);
-//                } else {
-//                    ViewCompat.animate(arrow).rotation(180).setDuration(300).setInterpolator(overshootInterpolator);
-//                   // AnimationUtil.expand(filterHolder, 300);
-//                }
-//
-//                filtersOpen = !filtersOpen;
-//            }
-//        });
-
-        numberFormat = NumberFormat.getInstance();
-        numberFormat.setGroupingUsed(true);
-        numberFormat.setMinimumFractionDigits(2);
         numberFormat.setMaximumFractionDigits(2);
+        numberFormat.setMinimumFractionDigits(2);
+        numberFormat.setGroupingUsed(true);
 
-        pinHolders = new OrderDetailController(getActivity()).getTodayOrders();
-//        try {
-//            outlets = dbHandler.getAllOutlets();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-      // mapHistoriesWithFreeIssues();
+//        progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_SPINNER);
+//        progressDialog.setMessage("Please wait...");
+//        progressDialog.setCancelable(false);
+//        progressDialog.show();
 
-        adapter = new OrderAdapter(getActivity(), pinHolders);
-//
-        listView.setAdapter(adapter);
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                final HistoryDetail selectedDetail = adapter.getItem(position);
-//
-//                if (selectedDetail.getInvoice() != null) {
-//                    Order order = dbHandler.getOrderOfOrderId(selectedDetail.getInvoice().getInvoiceId());
-//
-//                    if (order != null) {
-//                        Intent intent = new Intent(getActivity(), InvoiceReprintActivity.class);
-//                        intent.putExtra("order", order);
-//                        startActivity(intent);
-//                    } else {
-//                        if (NetworkUtil.isNetworkAvailable(getActivity())) {
-//                            MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-//                                    .content("Order Details not found!\nDo you wish to get order details from server?")
-//                                    .positiveText("Yes")
-//                                    .negativeText("No")
-//                                    .positiveColor(getResources().getColor(R.color.material_alert_positive_button))
-//                                    .negativeColor(getResources().getColor(R.color.material_alert_negative_button))
-//                                    .callback(new MaterialDialog.ButtonCallback() {
-//                                        @Override
-//                                        public void onPositive(MaterialDialog dialog) {
-//                                            super.onPositive(dialog);
-//                                            dialog.dismiss();
-//                                            new OrderDetailFetcher(selectedDetail.getInvoice().getInvoiceId(), selectedDetail.getOutletId()).execute();
-//                                        }
-//
-//                                        @Override
-//                                        public void onNegative(MaterialDialog dialog) {
-//                                            super.onNegative(dialog);
-//                                            dialog.dismiss();
-//                                        }
-//                                    })
-//                                    .build();
-//                            materialDialog.show();
-//                        } else {
-//                            // Details not available to print. Internet not available to download
-////                            Toast.makeText(getActivity(), "Order details not available", Toast.LENGTH_SHORT).show();
-//                            MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-//                                    .content("Order Details not available to produce")
-//                                    .positiveText("Ok")
-//                                    .positiveColor(getResources().getColor(R.color.material_alert_neutral_button))
-//                                    .callback(new MaterialDialog.ButtonCallback() {
-//                                        @Override
-//                                        public void onPositive(MaterialDialog dialog) {
-//                                            super.onPositive(dialog);
-//                                            dialog.dismiss();
-//                                        }
-//                                    })
-//                                    .build();
-//                            materialDialog.show();
-//                        }
-//
-//                    }
-//                }
-//
-//            }
-//        });
-//
-//        calendarDatePickerDialogFrom = new CalendarDatePickerDialog();
-//        calendarDatePickerDialogFrom.setOnDateSetListener(new CalendarDatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int year, int month, int day) {
-//
-//                if (year != mYearFrom || month != mMonthFrom || day != mDayFrom) {
-//                    Log.d(LOG_TAG, "Different date selected");
-//                    mYearFrom = year;
-//                    mMonthFrom = month;
-//                    mDayFrom = day;
-//
-//                    selectedFromTime = TimeUtils.parseIntoTimeInMillis(mYearFrom, mMonthFrom, mDayFrom);
-//                    dateFrom.setText(dateFormat.format(new Date(selectedFromTime)));
-//
-//                    timeFrameChanged = true;
-//                }
-//
-//            }
-//        });
-//
-//        calendarDatePickerDialogTo = new CalendarDatePickerDialog();
-//        calendarDatePickerDialogTo.setOnDateSetListener(new CalendarDatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int year, int month, int day) {
-//
-//                if (year != mYearTo || month != mMonthTo || day != mDayTo) {
-//                    Log.d(LOG_TAG, "Different date selected");
-//                    mYearTo = year;
-//                    mMonthTo = month;
-//                    mDayTo = day;
-//
-//                    selectedToTime = TimeUtils.parseIntoTimeInMillis(mYearTo, mMonthTo, mDayTo);
-//                    dateTo.setText(dateFormat.format(new Date(selectedToTime)));
-//
-//                    timeFrameChanged = true;
-//                }
-//
-//            }
-//        });
+        // Creating database to store menu items
+        // database = openOrCreateDatabase("Menu.db", MODE_PRIVATE, null);
+        // final String q = "Create Table if not exists List (dishName varchar(50), categoryName varchar(50), categoryID varchar(20), itemCode varchar(20), rateOfHalf varchar(10), rateOfFull varchar(10), itemStatus varchar(20), half varchar(20), full varchar(20))";
+        // database.execSQL(q);
+        // Get data from JSON
+        // getMenu();
 
-      //  filterChanged = false;
+        // Swipe down to refresh list
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeToRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //  getMenu();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
+        expListView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
+
+
+        final int[] prevExpandPosition = {-1};
+        //Lisview on group expand listner... to close other expanded headers...
+        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int i) {
+                if (prevExpandPosition[0] >= 0) {
+                    expListView.collapseGroup(prevExpandPosition[0]);
+                }
+                prevExpandPosition[0] = i;
+            }
+        });
+
+
+        // Listview on child click listener
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+                String itemName = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFORDERDET_ITEMCODE();
+                Toast.makeText(getActivity(), "You selected : " + itemName, Toast.LENGTH_SHORT).show();
+                Log.e("Child", listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFORDERDET_ITEMCODE());
+                return false;
+            }
+        });
+
+        prepareListData();
+
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
         return rootView;
     }
+    //https://github.com/Rishijay/Dynamic-Expandable-ListView
+    private void prepareListData() {
+        listDataHeader = new OrderController(getActivity()).getTodayOrders();
+        listDataChild = new HashMap<PRESALE, List<OrderDetail>>();
 
-//    private void refreshList(int spinnerPosition) {
-//
-//        historyDetails = dbHandler.getInvoicesOfTimeFrame(TimeUtils.getDayBeginningTime(selectedFromTime),
-//                TimeUtils.getDayEndTime(selectedToTime));
-//        mapHistoriesWithFreeIssues();
-//        adapter.setDetails(historyDetails);
-//
-//        adapter.setMode(spinnerPosition);
-//
-//        timeFrameChanged = false;
-//        filterChanged = false;
-//
-//        adapter.notifyDataSetChanged();
-//
-//    }
-//
-//    private void mapHistoriesWithFreeIssues() {
-//
-//        historyFreeMap = new HashMap<>();
-//
-//        if (historyDetails != null) {
-//
-//            for (HistoryDetail historyDetail : historyDetails) {
-//                Invoice invoice = historyDetail.getInvoice();
-//                if (invoice != null) {
-//
-//                        List<FreeIssueDetail> freeIssueDetails = dbHandler.getFreeIssueDetailByOrderId(invoice.getInvoiceId());
-//                    if(freeIssueDetails!=null){
-//                        historyFreeMap.put(invoice.getInvoiceId(), freeIssueDetails);
-//                    }else{
-//                        List<OrderDetail>freeIssueDetailsFromOder=dbHandler.getOrderDetailsByOrderId(invoice.getInvoiceId());
-//                        historyfreeMap2.put(invoice.getInvoiceId(), freeIssueDetailsFromOder);
-//                    }
-//
-//
-//
-//                }
-//            }
-//
-//        }
-//
-//
-//    }
-//
-public void refresh() {
-    if (adapter != null) adapter.notifyDataSetChanged();
-}
-//
-//    public void showCalendar() {
-//        if (calendarDatePickerDialogFrom != null)
-//            calendarDatePickerDialogFrom.show(getFragmentManager(), "TAG");
-//    }
-//
-//    @Override
-//    public void onFragmentVisible(DashboardContainerFragment dashboardContainerFragment) {
-//        dashboardContainerFragment.currentFragment = this;
-//    }
+        for(PRESALE free : listDataHeader){
+            listDataChild.put(free,new OrderDetailController(getActivity()).getTodayOrderDets(free.getORDER_REFNO()));
+        }
 
-    private static class ViewHolder {
-        TextView invoiceId;
-        TextView invoiceGross;
-        TextView invoiceNet;
-        TextView invoiceOutstanding;
-        TextView invoiceDiscount;
-        ImageView freeIssueIndicator;
-        TextView invoiceMarketReturn;
-        TextView invoiceFreeItems;
     }
+
+    public void refresh() {
+        //   if (adapter != null) adapter.notifyDataSetChanged();
+    }
+
 
     private static class HeaderViewHolder {
         TextView pinLabel;
     }
 
-    private class OrderAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+    private static class ViewHolder {
+        TextView tvInvoiceDetails;
+        TextView tvGrossAmount;
+        TextView tvNetAmount;
+        TextView tvOutstandingAmount;
+        TextView tvCashPayment;
+        TextView tvChequeAmount;
+    }
 
-        private List<OrderDetail> details;
-        private LayoutInflater inflater;
+    public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-//        private List<HistoryDetail> discountedDetails;
-//        private List<HistoryDetail> freeIssuedDetails;
+        private Context _context;
+        private List<PRESALE> _listDataHeader; // header titles
+        // child data in format of header title, child title
+        private HashMap<PRESALE, List<OrderDetail>> _listDataChild;
 
-        /**
-         * 1 : Discounted
-         * 2 : Free Issued
-         * Else : All
-         */
-        private int mode = 0;
-
-        public OrderAdapter(Context context, List<OrderDetail> details) {
-            this.details = details;
-            this.inflater = LayoutInflater.from(context);
-
-            filterDetails();
-        }
-
-        private void filterDetails() {
-//            discountedDetails = new ArrayList<>();
-//            freeIssuedDetails = new ArrayList<>();
-//
-//            for (HistoryDetail historyDetail : details) {
-//                Invoice invoice = historyDetail.getInvoice();
-//                if (invoice != null) {
-//                    if (invoice.getTotalDiscount() > 0) discountedDetails.add(historyDetail);
-//                    if (invoice.hasFree()) freeIssuedDetails.add(historyDetail);
-//                }
-//            }
-        }
-
-        public void setMode(int mode) {
-            this.mode = mode;
+        public ExpandableListAdapter(Context context, List<PRESALE> listDataHeader,
+                                     HashMap<PRESALE, List<OrderDetail>> listChildData) {
+            this._context = context;
+            this._listDataHeader = listDataHeader;
+            this._listDataChild = listChildData;
         }
 
         @Override
-        public int getCount() {
-            if (details != null) {
-                return details.size();
-            }
-            return 0;
+        public Object getChild(int groupPosition, int childPosititon) {
+            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                    .get(childPosititon);
         }
 
         @Override
-        public OrderDetail getItem(int position) {
-            return details.get(position);
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
         }
 
         @Override
-        public long getItemId(int position) {
-            return position;
-        }
+        public View getChildView(int groupPosition, final int childPosition,
+                                 boolean isLastChild, View convertView, ViewGroup parent) {
 
-        @SuppressLint("InflateParams")
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+            final OrderDetail childText = (OrderDetail) getChild(groupPosition, childPosition);
 
-            ViewHolder viewHolder;
             if (convertView == null) {
-                convertView = inflater.inflate(R.layout.item_invoice_details, null, false);
-
-                viewHolder = new ViewHolder();
-                viewHolder.invoiceId = (TextView) convertView.findViewById(R.id.item_invoice_details_tv_invoice_id);
-//                viewHolder.invoiceDate = (TextView)convertView.findViewById(R.id.item_invoice_details_tv_invoice_date);
-//                viewHolder.dealerName = (TextView)convertView.findViewById(R.id.item_invoice_details_tv_invoice_dealer);
-                viewHolder.invoiceGross = (TextView) convertView.findViewById(R.id.item_invoice_details_tv_invoice_gross);
-                viewHolder.invoiceNet = (TextView) convertView.findViewById(R.id.item_invoice_details_tv_invoice_net);
-                viewHolder.invoiceOutstanding = (TextView) convertView.findViewById(R.id.item_invoice_details_tv_invoice_outstanding);
-                viewHolder.invoiceDiscount = (TextView) convertView.findViewById(R.id.item_invoice_details_tv_invoice_discount);
-//                viewHolder.hasFreeIndicator = convertView.findViewById(R.id.item_invoice_details_view_free_indicator);
-                viewHolder.freeIssueIndicator = (ImageView) convertView.findViewById(R.id.item_invoice_details_cb_free_issue);
-                viewHolder.invoiceMarketReturn = (TextView) convertView.findViewById(R.id.item_invoice_details_tv_invoice_market_return);
-                viewHolder.invoiceFreeItems = (TextView) convertView.findViewById(R.id.item_invoice_details_cb_free_issue_items);
-
-                convertView.setTag(viewHolder);
-
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
+                LayoutInflater infalInflater = (LayoutInflater) this._context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = infalInflater.inflate(R.layout.list_items, null);
             }
 
-            OrderDetail invoice = getItem(position);
+            TextView txtListChild = (TextView) convertView
+                    .findViewById(R.id.lblListItem);
 
-            if (invoice != null) {
+            txtListChild.setText(childText.getFORDERDET_ITEMCODE()+" - "+childText.getFORDERDET_QTY()+" - "+childText.getFORDERDET_AMT());
+            return convertView;
+        }
 
-//                if (invoice.hasFree()) {
-//                    viewHolder.freeIssueIndicator.setVisibility(View.VISIBLE);
-//
-//                    List<FreeIssueDetail> freeIssueDetails = historyFreeMap.get(invoice.getInvoiceId());
-//                    if (freeIssueDetails != null && freeIssueDetails.size() > 0) {
-//                        StringBuilder freeBuilder = new StringBuilder();
-//                        boolean first = true;
-//                        for (FreeIssueDetail freeIssueDetail : freeIssueDetails) {
-//                            if (freeIssueDetail.getSelectedFreeQty() > 0) {
-//
-//                                Item item = freeIssueDetail.getItem();
-//                                if (item != null) {
-//
-//                                    if (first) {
-//                                        freeBuilder.append("Free : ");
-//                                    } else {
-//                                        freeBuilder.append("\n");
-//                                    }
-//
-//                                    Flavour flavour = item.getFlavour();
-//                                    if (flavour != null) {
-//                                        freeBuilder.append(freeIssueDetail.getItem().getItemName())
-//                                                .append(" - ")
-//                                                .append(flavour.getFlavourName())
-//                                                .append(" x ")
-//                                                .append(freeIssueDetail.getSelectedFreeQty());
-//                                    } else {
-//                                        freeBuilder.append(freeIssueDetail.getItem().getItemShortName())
-//                                                .append(" x ")
-//                                                .append(freeIssueDetail.getSelectedFreeQty());
-//                                    }
-//
-//                                    first = false;
-//                                }
-//                            }
-//                        }
-//
-//                        viewHolder.invoiceFreeItems.setText(freeBuilder.toString());
-//                        viewHolder.invoiceFreeItems.setVisibility(View.VISIBLE);
-//                    } else {
-//                        viewHolder.invoiceFreeItems.setText("");
-//                        viewHolder.invoiceFreeItems.setVisibility(View.GONE);
-//                    }
-//
-//
-//                } else {
-                viewHolder.freeIssueIndicator.setVisibility(View.INVISIBLE);
-                viewHolder.invoiceFreeItems.setText("");
-                viewHolder.invoiceFreeItems.setVisibility(View.GONE);
-                // }
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                    .size();
+        }
 
-//                StringBuilder invoiceBuilder = new StringBuilder();
-//
-//                Outlet outlet = getOutletOfId(historyDetail.getOutletId());
-//                if (outlet != null) {
-//                    invoiceBuilder.append(outlet.getOutletName()).append("\n");
-//                }
-//
-//                invoiceBuilder.append(invoice.getInvoiceId());
-//
-////                String invId = String.valueOf(invoice.getInvoiceId());
-//                if (invoice.getInvoiceType() == Invoice.OPEN_BALANCE) {
-//                    invoiceBuilder.append("*");
-//                }
+        @Override
+        public Object getGroup(int groupPosition) {
+            return this._listDataHeader.get(groupPosition);
+        }
 
-                viewHolder.invoiceId.setText(invoice.getFORDERDET_REFNO());
-//                viewHolder.invoiceDate.setText(dateFormat.format(new Date(invoice.getInvoiceTime())));
-                viewHolder.invoiceDiscount.setText(numberFormat.format(0.0));
+        @Override
+        public int getGroupCount() {
+            return this._listDataHeader.size();
+        }
 
-//            viewHolder.invoiceId.setText("123123123123");
-//            viewHolder.invoiceDate.setText("2015-04-08");
-//            viewHolder.dealerName.setText("Test Dealer");
-//            viewHolder.invoiceGross.setText(numberFormat.format(180000.00));
-//            viewHolder.invoiceNet.setText(numberFormat.format(170000.00));
-//            viewHolder.invoiceOutstanding.setText(numberFormat.format(100000.00));
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
 
-                viewHolder.invoiceGross.setText(numberFormat.format(Double.parseDouble(invoice.getFORDERDET_AMT())));
-
-                //double net = Double.parseDouble(invoice.getFINVDET_AMT()) - invoice.getReturnAmount() - invoice.getTotalDiscount();
-                double net = Double.parseDouble(invoice.getFORDERDET_AMT());
-
-
-                viewHolder.invoiceNet.setText(numberFormat.format(net));
-                viewHolder.invoiceOutstanding.setText(invoice.getFORDERDET_QTY());
-
-                // viewHolder.invoiceMarketReturn.setText(numberFormat.format(invoice.getReturnAmount()));
-                viewHolder.invoiceMarketReturn.setText(numberFormat.format(0.0));
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded,
+                                 View convertView, ViewGroup parent) {
+            PRESALE headerTitle = (PRESALE) getGroup(groupPosition);
+            if (convertView == null) {
+                LayoutInflater infalInflater = (LayoutInflater) this._context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = infalInflater.inflate(R.layout.list_group, null);
             }
+
+            TextView lblListHeader = (TextView) convertView
+                    .findViewById(R.id.lblListHeader);
+            lblListHeader.setTypeface(null, Typeface.BOLD);
+            lblListHeader.setText(headerTitle.getORDER_REFNO()+" Customer : ("+headerTitle.getORDER_DEBCODE()+")");
 
             return convertView;
         }
 
-//        private Outlet getOutletOfId(int outletId) {
-//
-//            for (Outlet outlet : outlets) {
-//                if (outlet.getOutletId() == outletId) return outlet;
-//            }
-//
-//            return null;
-//        }
-
-        public void setDetails(List<OrderDetail> details) {
-            this.details = details;
-
-            filterDetails();
-
-//            notifyDataSetChanged();
-        }
-
-        @SuppressLint("InflateParams")
         @Override
-        public View getHeaderView(int position, View view, ViewGroup viewGroup) {
-
-            HeaderViewHolder headerViewHolder;
-            if (view == null) {
-                view = inflater.inflate(R.layout.item_payment_details_header, null, false);
-
-                headerViewHolder = new HeaderViewHolder();
-                headerViewHolder.pinLabel = (TextView) view.findViewById(R.id.item_payment_details_tv_pin_txt);
-
-                view.setTag(headerViewHolder);
-            } else {
-                headerViewHolder = (HeaderViewHolder) view.getTag();
-            }
-
-            OrderDetail invoice = details.get(position);
-            // Invoice won't be null. But just in case.
-            if (invoice != null) {
-                //  headerViewHolder.pinLabel.setText(dateFormat.format(new Date(invoice.getInvoiceTime())));
-            }
-
-            return view;
+        public boolean hasStableIds() {
+            return false;
         }
 
         @Override
-        public long getHeaderId(int position) {
-            return 0;
-        }
-
-        @Override
-        public void notifyDataSetChanged() {
-            super.notifyDataSetChanged();
-
-            double grossTotal = 0;
-            double netTotal = 0;
-            double outstandingTotal = 0;
-            double marketReturnTotal = 0;
-            double discountTotal = 0;
-
-            List<OrderDetail> searchingDetails = details;
-
-
-            for (OrderDetail invoice : searchingDetails) {
-
-                if (invoice != null) {
-                    grossTotal += Double.parseDouble(invoice.getFORDERDET_AMT());
-                    netTotal += Double.parseDouble(invoice.getFORDERDET_AMT());
-//                    outstandingTotal += (invoice.getNetAmount() - invoice.getTotalPaidAmount());
-//                    marketReturnTotal += invoice.getReturnAmount();
-//                    discountTotal += invoice.getTotalDiscount();
-                }
-            }
-
-            invoiceGrossTotal.setText(numberFormat.format(grossTotal));
-            invoiceNetTotal.setText(numberFormat.format(netTotal));
-            invoiceOutstandingTotal.setText(numberFormat.format(outstandingTotal));
-            invoiceMarketReturnTotal.setText(numberFormat.format(marketReturnTotal));
-            invoiceDiscountTotal.setText(numberFormat.format(discountTotal));
-
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
         }
     }
-
-
 }

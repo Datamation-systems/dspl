@@ -178,7 +178,7 @@ public class FragmentHome extends Fragment {
     private class DashboardPagerAdapter extends FragmentPagerAdapter {
 
       //  private String[] titles = {"Main", "Summary","Promotion","Order", "Invoice", "Payment"};
-        private String[] titles = {"Main", "Summary", "Invoice", "Promotion", "Payment"};
+        private String[] titles = {"Main", "Summary", "Order", "Invoice", "Promotion", "Payment"};
 
         public DashboardPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -196,12 +196,15 @@ public class FragmentHome extends Fragment {
                     if (daySummaryFragment == null) daySummaryFragment = new DaySummaryFragment();
                     return daySummaryFragment;
                 case 2:
+                    if(orderDetailsFragment == null) orderDetailsFragment = new OrderDetailsFragment();
+                    return orderDetailsFragment;
+                case 3:
                     if(invoiceDetailsFragment == null) invoiceDetailsFragment = new InvoiceDetailsFragment();
                     return invoiceDetailsFragment;
-                case 3:
+                case 4:
                     if(promoDetailsFragment == null) promoDetailsFragment = new PromotionDetailsFragment();
                     return promoDetailsFragment;
-                case 4:
+                case 5:
                     if(paymentDetailsFragment == null) paymentDetailsFragment = new PaymentDetailsFragment();
                     return paymentDetailsFragment;
 //
