@@ -261,8 +261,8 @@ public class ActivitySplash extends AppCompatActivity{
                 //set user details to shared prefferences
                 //Intent mainActivity = new Intent(ActivitySplash.this, SettingsActivity.class);
                 // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
-                //Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
-                Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
+                Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+              //  Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
                 // ..............................................................................................
 //
                 startActivity(loginActivity);
