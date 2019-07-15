@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // database information
     public static final String DATABASE_NAME = "sfa_database.db";
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 8;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -1928,6 +1928,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //    public static final String NONPRDDET_LATITUDE = "Latitude";
     public static final String NONPRDDET_REASON_CODE = "ReasonCode";
     public static final String NONPRDDET_IS_SYNCED = "ISsync";
+    public static final String NONPRDDET_IS_ACTIVE = "IsActive";
+
+
     private static final String CREATE_TABLE_NONPRDHED = "CREATE  TABLE IF NOT EXISTS " + TABLE_NONPRDHED + " (" + NONPRDHED_ID +
             " INTEGER PRIMARY KEY AUTOINCREMENT, " + NONPRDHED_REFNO +
             " TEXT, " + NONPRDHED_TXNDAET + " TEXT, " +
@@ -1949,6 +1952,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + NONPRDDET_REPCODE + " TEXT, "
             + NONPRDDET_REASON_CODE + " TEXT, "
             + NONPRDDET_REASON + " TEXT, "
+            + NONPRDDET_IS_ACTIVE + " TEXT, "
             + NONPRDDET_IS_SYNCED + " TEXT); ";
 
     public static final String TABLE_FDAMHED = "FDamHed";
@@ -2538,6 +2542,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_ATTENDANCE_TABLE);
         arg0.execSQL(CREATE_TARGET_TABLE);
         arg0.execSQL(CREATE_TABLE_ORDER);
+        arg0.execSQL(CREATE_DAYEXPDET_TABLE);
+        arg0.execSQL(CREATE_DAYEXPHED_TABLE);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -2556,6 +2562,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_TARGET_TABLE);
             arg0.execSQL(CREATE_TABLE_ORDER);
             arg0.execSQL(CREATE_FTOURHED_TABLE);
+            arg0.execSQL(CREATE_DAYEXPDET_TABLE);
+            arg0.execSQL(CREATE_DAYEXPHED_TABLE);
 
         } catch (SQLiteException e) {
         }

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.sfa.helpers.DatabaseHelper;
+import com.datamation.sfa.model.DayNPrdDet;
 import com.datamation.sfa.model.FInvRDet;
 
 import java.util.ArrayList;
@@ -106,9 +107,11 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select * from " + DatabaseHelper.TABLE_FINVRDET
-                + " WHERE "
-                + DatabaseHelper.REFNO + " in (select RefNo from FInvRHed where InvRefNo = '" + refno + "')";
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' ";
+
+//        String selectQuery = "select * from " + DatabaseHelper.TABLE_FINVRDET
+//                + " WHERE "
+//                + DatabaseHelper.REFNO + " in (select RefNo from FInvRHed where InvRefNo = '" + refno + "')";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
@@ -142,6 +145,7 @@ public class SalesReturnDetController
 
         return list;
     }
+
     public ArrayList<FInvRDet> getAllItemsAddedInCurrentReturn(String refNo)
     {
         if (dB == null) {
@@ -451,5 +455,123 @@ public class SalesReturnDetController
             dB.close();
         }
         return list;
+    }
+
+    public ArrayList<FInvRDet> getAllActiveNPs() {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
+
+        String selectQuery = "select * from " + dbHelper.TABLE_FINVRDET + " WHERE " + dbHelper.FINVRDET_IS_ACTIVE + "='" + "1" + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                FInvRDet ordDet = new FInvRDet();
+
+                ordDet.setFINVRDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_ID)));
+                ordDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+                ordDet.setFINVRDET_RETURN_REASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_REASON_CODE)));
+                ordDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_RETURN_TYPE)));
+                ordDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_QTY)));
+                ordDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_AMT)));
+
+                list.add(ordDet);
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
+
+    public FInvRDet getActiveReturnRefNo()
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        FInvRDet ordDet = new FInvRDet();
+
+        String selectQuery = "select * from " + dbHelper.TABLE_FINVRDET + " WHERE " + dbHelper.FINVRDET_IS_ACTIVE + "='" + "1" + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                ordDet.setFINVRDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_ID)));
+                ordDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+                ordDet.setFINVRDET_RETURN_REASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_REASON_CODE)));
+                ordDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_RETURN_TYPE)));
+                ordDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_QTY)));
+                ordDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_AMT)));
+
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return ordDet;
+    }
+
+    public boolean isAnyActiveRetuens()
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "select * from " + dbHelper.TABLE_FINVRDET + " WHERE " + dbHelper.FINVRDET_IS_ACTIVE + "='" + "1" + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            if (cursor.getCount()>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return false;
     }
 }

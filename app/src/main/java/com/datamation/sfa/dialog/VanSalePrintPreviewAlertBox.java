@@ -45,6 +45,7 @@ import com.datamation.sfa.model.PRESALE;
 import com.datamation.sfa.model.SalRep;
 import com.datamation.sfa.model.StkIss;
 import com.datamation.sfa.model.VanSalPrintPre;
+import com.datamation.sfa.view.DebtorDetailsActivity;
 
 import java.io.OutputStream;
 import java.lang.reflect.Method;
@@ -319,8 +320,8 @@ public class VanSalePrintPreviewAlertBox {
                 txtfiQty.setText(String.valueOf(returnQty));
                 txtTotVal.setText(String.format("%,.2f", dTotAmt));
 
-                localSP = context.getSharedPreferences(SETTINGS, 0);
-                PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
+                //localSP = context.getSharedPreferences(SETTINGS, 0);
+                //PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -330,6 +331,7 @@ public class VanSalePrintPreviewAlertBox {
 
                 alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        onCancelClick(dialog,id);
                         dialog.cancel();
                     }
                 });
@@ -348,6 +350,12 @@ public class VanSalePrintPreviewAlertBox {
         {
             return -1;
         }
+    }
+
+    public void onCancelClick(DialogInterface dialog, int which) {
+        Intent intent = new Intent(context, DebtorDetailsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

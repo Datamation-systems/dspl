@@ -44,7 +44,7 @@ public class PrintPreSaleItemAdapter extends ArrayAdapter<OrderDetail> {
 
         itemname.setText(list.get(position).getFORDERDET_ITEMCODE());
         pieceqty.setText(list.get(position).getFORDERDET_QTY());
-        mrp.setText(list.get(position).getFORDERDET_SELLPRICE());
+        mrp.setText(list.get(position).getFORDERDET_TSELLPRICE());
         Disc.setText(list.get(position).getFORDERDET_BPDISAMT());
         amount.setText(list.get(position).getFORDERDET_AMT());
 

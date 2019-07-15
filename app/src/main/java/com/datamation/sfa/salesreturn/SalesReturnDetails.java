@@ -1,8 +1,10 @@
 package com.datamation.sfa.salesreturn;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -134,7 +136,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 //            }
 
 
-        //FetchData();
+        FetchData();
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -173,8 +175,8 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                FInvRDet returnDet = returnList.get(position);
-//                deleteOrderDialog(getActivity(), "Return Details ", returnDet.getFINVRDET_ID());
+                //FInvRDet returnDet = returnList.get(position);
+                deleteReturnDialog(position);
                 return true;
             }
         });
@@ -232,6 +234,34 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         });
 
         return view;
+    }
+
+    private void deleteReturnDialog(final int position) {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setMessage("Are you sure you want to delete this entry?");
+        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+        alertDialogBuilder.setTitle("Return Details");
+        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                int count = new SalesReturnDetController(getActivity()).mDeleteRetDet(returnList.get(position).getFINVRDET_ITEMCODE(),returnList.get(position).getFINVRDET_REFNO());
+
+                if (count > 0)
+                {
+                    Toast.makeText(getActivity(), "Deleted successfully", Toast.LENGTH_LONG).show();
+                    clearTextFields();
+                    FetchData();
+                }
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
     }
 
     @Override
@@ -334,9 +364,19 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
     public void FetchData() {
         try {
-            lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(activity.selectedReturnHed.getFINVRHED_REFNO());
-            lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
+
+            if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
+            {
+                lv_return_det.setAdapter(null);
+                returnList = new SalesReturnDetController(getActivity()).getAllActiveNPs();
+                lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
+            }
+            else
+            {
+                lv_return_det.setAdapter(null);
+                returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(activity.selectedReturnHed.getFINVRHED_REFNO());
+                lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
+            }
 
         } catch (NullPointerException e) {
             Log.v(" Error", e.toString());
@@ -399,6 +439,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
         clearTextFields();
         dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
         productList.clearTextFilter();
 
         Log.v("Return Itms bfr adapter", ">>>>>"+itemList.size());

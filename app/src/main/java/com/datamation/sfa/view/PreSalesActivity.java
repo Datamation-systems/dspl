@@ -10,15 +10,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.model.Customer;
+import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.InvHed;
+import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.model.PRESALE;
 import com.datamation.sfa.presale.OrderDetailFragment;
 import com.datamation.sfa.presale.OrderHeaderFragment;
@@ -36,7 +40,11 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
     public Customer selectedRetDebtor = null;
     public PRESALE selectedPreHed = null;
     public FInvRHed selectedReturnHed = null;
+    public FInvRDet selectedReturnDet = null;
+    public OrderDetail selectedOrderDet = null;
     Context context;
+    boolean status = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +92,15 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        status = new OrderDetailController(getApplicationContext()).isAnyActiveOrders();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (status)
+            viewPager.setCurrentItem(1);
     }
 
     private class PreSalesPagerAdapter extends FragmentPagerAdapter {

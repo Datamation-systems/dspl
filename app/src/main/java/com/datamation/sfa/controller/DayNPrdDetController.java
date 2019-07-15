@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.DayNPrdDet;
+import com.datamation.sfa.model.OrderDetail;
 
 import java.util.ArrayList;
 
@@ -129,7 +130,41 @@ public class DayNPrdDetController {
 	
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*/
 
-    public int deleteOrdDetByID(String id) {
+    public int deleteOrdDetByID(String refNo, String ReasonCode) {
+
+        int count = 0;
+        int success = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        try {
+
+            cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_NONPRDDET + " WHERE " + DatabaseHelper.REFNO + "='" + refNo + "'" + " AND " + DatabaseHelper.NONPRDDET_REASON_CODE + " ='" + ReasonCode + "'", null);
+            count = cursor.getCount();
+            if (count > 0) {
+                success = dB.delete(DatabaseHelper.TABLE_NONPRDDET, DatabaseHelper.REFNO + "='" + refNo + "'" + " AND " + DatabaseHelper.NONPRDDET_REASON_CODE + " ='" + ReasonCode + "'", null);
+                Log.v("FNONPRO_DET Deleted ", success + "");
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return success;
+
+    }
+
+    public int deleteOrdDetByRefNo(String id) {
 
         int count = 0;
 
@@ -217,5 +252,120 @@ public class DayNPrdDetController {
         }
         return 0;
 
+    }
+
+    public ArrayList<DayNPrdDet> getAllActiveNPs() {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<DayNPrdDet> list = new ArrayList<DayNPrdDet>();
+
+        String selectQuery = "select * from " + dbHelper.TABLE_NONPRDDET + " WHERE " + dbHelper.ORDDET_IS_ACTIVE + "='" + "1" + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                DayNPrdDet ordDet = new DayNPrdDet();
+
+                ordDet.setNONPRDDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_ID)));
+                ordDet.setNONPRDDET_REASON(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REASON)));
+                ordDet.setNONPRDDET_REASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REASON_CODE)));
+                ordDet.setNONPRDDET_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REPCODE)));
+                ordDet.setNONPRDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REFNO)));
+
+                list.add(ordDet);
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
+
+    public DayNPrdDet getActiveNPRefNo()
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        DayNPrdDet ordDet = new DayNPrdDet();
+
+        String selectQuery = "select * from " + dbHelper.TABLE_NONPRDDET + " WHERE " + dbHelper.ORDDET_IS_ACTIVE + "='" + "1" + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                ordDet.setNONPRDDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_ID)));
+                ordDet.setNONPRDDET_REASON(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REASON)));
+                ordDet.setNONPRDDET_REASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REASON_CODE)));
+                ordDet.setNONPRDDET_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REPCODE)));
+                ordDet.setNONPRDDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REFNO)));
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return ordDet;
+    }
+
+    public boolean isAnyActiveNPs()
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "select * from " + dbHelper.TABLE_NONPRDDET + " WHERE " + dbHelper.ORDDET_IS_ACTIVE + "='" + "1" + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            if (cursor.getCount()>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return false;
     }
 }

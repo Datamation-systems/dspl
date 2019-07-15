@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.helpers.SalesReturnResponseListener;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.salesreturn.SalesReturnHeader;
@@ -30,6 +31,7 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
     private SalesReturnSummary salesReturnSummary;
     Context context;
     public FInvRHed selectedReturnHed = null;
+    boolean status = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
         viewPager.setPageMargin(pageMargin);
         slidingTabStrip.setViewPager(viewPager);
 
+        status = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens();
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -75,6 +79,13 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (status)
+            viewPager.setCurrentItem(1);
     }
 
     @Override

@@ -111,7 +111,6 @@ public class OrderSummaryFragment extends Fragment {
 
         mSharedPref = new SharedPref(getActivity());
         mainActivity = (PreSalesActivity)getActivity();
-        RefNo = mainActivity.selectedPreHed.getORDER_REFNO();
         ReturnRefNo = "/0001";
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
@@ -124,6 +123,15 @@ public class OrderSummaryFragment extends Fragment {
         lblReplacements = (TextView) view.findViewById(R.id.lblReplacement);
         lblGross = (TextView) view.findViewById(R.id.lblGross_Inv);
         lblQty = (TextView) view.findViewById(R.id.lblQty_Inv);
+
+        if (new OrderDetailController(getActivity()).isAnyActiveOrders())
+        {
+            RefNo = new OrderDetailController(getActivity()).getActiveRefNo().getFORDERDET_REFNO();
+        }
+        else
+        {
+            RefNo = mainActivity.selectedPreHed.getORDER_REFNO();
+        }
 
         fam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -606,7 +614,7 @@ public class OrderSummaryFragment extends Fragment {
 ////
     public void mPauseinvoice() {
 
-        if (new InvDetController(getActivity()).getItemCount(RefNo) > 0) {
+        if (new OrderDetailController(getActivity()).getItemCount(RefNo) > 0) {
             Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
             startActivity(intnt);
             getActivity().finish();

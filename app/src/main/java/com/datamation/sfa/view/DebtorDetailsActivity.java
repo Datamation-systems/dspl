@@ -23,6 +23,10 @@ import android.widget.Toast;
 import com.datamation.sfa.R;
 import at.markushi.ui.CircleButton;
 import com.astuetz.PagerSlidingTabStrip;
+import com.datamation.sfa.controller.DayNPrdDetController;
+import com.datamation.sfa.controller.OrderDetailController;
+import com.datamation.sfa.controller.SalesReturnController;
+import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.fragment.debtordetails.HistoryDetailsFragment;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
@@ -60,6 +64,9 @@ public class DebtorDetailsActivity extends AppCompatActivity {
     private int[] famDisplayIntervals = {0, 100, 200, 300, 400, 500, 600, 700, 800, 900};
 
     private User user;
+    boolean isAnyActiveOrders = false;
+    boolean isAnyActiveReturns = false;
+    boolean isAnyActiveNonProds = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +87,12 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setText(sharedPref.getSelectedDebName());
 
-
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.outlet_details_tab_strip);
         ViewPager viewPager = (ViewPager) findViewById(R.id.outlet_details_viewpager);
+
+        isAnyActiveOrders = new OrderDetailController(getApplicationContext()).isAnyActiveOrders();
+        isAnyActiveReturns = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens();
+        //isAnyActiveNonProds  = new DayNPrdDetController(getApplicationContext()).isAnyActiveNPs();
 
         fabVansale = (CircleButton)findViewById(R.id.outlet_details_fab_van_sale);
         fabInvoice = (CircleButton)findViewById(R.id.outlet_details_fab_receipt);
@@ -90,24 +100,35 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         fabReturnNote = (CircleButton)findViewById(R.id.outlet_details_fab_sales_return);
         fabSalesOrder = (CircleButton) findViewById(R.id.outlet_details_fab_pre_sale);
 
-//        labelVanSale = (TextView)findViewById(R.id.outlet_details_label_vansale);
-//        labelInvoice = (TextView)findViewById(R.id.outlet_details_label_invoice);
-//        labelUnproductive = (TextView)findViewById(R.id.outlet_details_label_non_productive);
-//        labelReturnNote = (TextView)findViewById(R.id.outlet_details_label_sales_return);
-//        labelSalesOrder = (TextView)findViewById(R.id.outlet_details_label_pre_sale);
-
-        // Setting the expanded options button colors
-//        fabSalesOrder.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
-//        fabInvoice.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
-//        fabUnproductive.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
-//        fabReturnNote.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
-//        fabVansale.setColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.blueColor));
-
         // Setting the expanded options button drawables
-        fabSalesOrder.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_sales));
+        if (isAnyActiveOrders)
+        {
+            fabSalesOrder.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.presale_active));
+        }
+        else {
+            fabSalesOrder.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_sales));
+        }
+
+        if (isAnyActiveReturns)
+        {
+            fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.returns_active));
+        }
+        else {
+            fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_return));
+        }
+
+//        if (isAnyActiveNonProds)
+//        {
+//            fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.nonprod_pending));
+//        }
+//        else
+//        {
+            fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_nonprod));
+        //}
+
+
         fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_receipt));
-        fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_nonprod));
-        fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_return));
+
         fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_expensive));
 
         // The overlay when showing expanding the menu

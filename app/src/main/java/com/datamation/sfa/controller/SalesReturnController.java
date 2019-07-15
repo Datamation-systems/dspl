@@ -202,6 +202,63 @@ public class SalesReturnController
         return list;
     }
 
+    public FInvRHed getActiveReturnHed() {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        FInvRHed invrHed = new FInvRHed();
+
+        @SuppressWarnings("static-access")
+        String selectQuery = "select * from " + dbHelper.TABLE_FINVRHED + " Where " + dbHelper.FINVRHED_IS_ACTIVE
+                + "='1' and " + dbHelper.FINVRHED_IS_SYNCED + "='0'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        while (cursor.moveToNext()) {
+
+            // invHed.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRHED_ID)));
+            invrHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            invrHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            invrHed.setFINVRHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ROUTE_CODE)));
+            invrHed.setFINVRHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TXNTYPE)));
+            invrHed.setFINVRHED_ADD_MACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ADD_MACH)));
+            invrHed.setFINVRHED_ADD_USER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ADD_USER)));
+            invrHed.setFINVRHED_MANUREF(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_MANUREF)));
+            invrHed.setFINVRHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_REMARKS)));
+            invrHed.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_DEBCODE)));
+            invrHed.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_AMT)));
+            invrHed.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_IS_SYNCED)));
+            invrHed.setFINVRHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_IS_ACTIVE)));
+            invrHed.setFINVRHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ADD_DATE)));
+            invrHed.setFINVRHED_COSTCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_COSTCODE)));
+            invrHed.setFINVRHED_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_LOCCODE)));
+            invrHed.setFINVRHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ADDRESS)));
+            invrHed.setFINVRHED_REASON_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_REASON_CODE)));
+            invrHed.setFINVRHED_TAX_REG(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TAX_REG)));
+            invrHed.setFINVRHED_TOTAL_TAX(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_TAX)));
+            invrHed.setFINVRHED_TOTAL_DIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_DIS)));
+            invrHed.setFINVRHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_LONGITUDE)));
+            invrHed.setFINVRHED_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_LATITUDE)));
+            invrHed.setFINVRHED_START_TIME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_START_TIME)));
+            invrHed.setFINVRHED_END_TIME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_END_TIME)));
+            invrHed.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_REPCODE)));
+//            invrHed.setFINVRHED_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_RETURN_TYPE)));
+//            invrHed.setFINVRHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOURCODE)));
+//            invrHed.setFINVRHED_AREACODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_AREACODE)));
+//            invrHed.setFINVRHED_DRIVERCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_DRIVERCODE)));
+//            invrHed.setFINVRHED_HELPERCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_HELPERCODE)));
+//            invrHed.setFINVRHED_LORRYCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_LORRYCODE)));
+
+
+
+        }
+
+        return invrHed;
+    }
+
     public int restData(String refno) {
 
         int count = 0;

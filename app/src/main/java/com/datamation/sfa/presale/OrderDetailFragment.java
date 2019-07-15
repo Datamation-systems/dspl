@@ -215,12 +215,26 @@ public class OrderDetailFragment extends Fragment{
     }
 
     public void showData() {
+
         try {
-            lv_order_det.setAdapter(null);
-            orderList = new OrderDetailController(getActivity()).getAllOrderDetails(mainActivity.selectedPreHed.getORDER_REFNO());
-            ArrayList<OrderDetail> freeList = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(mainActivity.selectedPreHed.getORDER_REFNO());
-            lv_order_det.setAdapter(new OrderDetailsAdapter(getActivity(), orderList));//2019-07-07 till error free
-            //lvFree.setAdapter(new PreSalesFreeItemAdapter(getActivity(), freeList));
+
+            if (new OrderDetailController(getActivity()).isAnyActiveOrders())
+            {
+                lv_order_det.setAdapter(null);
+                orderList = new OrderDetailController(getActivity()).getAllActiveOrders();
+                //ArrayList<OrderDetail> freeList = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(mainActivity.selectedPreHed.getORDER_REFNO());
+                lv_order_det.setAdapter(new OrderDetailsAdapter(getActivity(), orderList));//2019-07-07 till error free
+                //lvFree.setAdapter(new PreSalesFreeItemAdapter(getActivity(), freeList));
+            }
+            else
+            {
+                lv_order_det.setAdapter(null);
+                orderList = new OrderDetailController(getActivity()).getAllOrderDetails(mainActivity.selectedPreHed.getORDER_REFNO());
+                //ArrayList<OrderDetail> freeList = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(mainActivity.selectedPreHed.getORDER_REFNO());
+                lv_order_det.setAdapter(new OrderDetailsAdapter(getActivity(), orderList));//2019-07-07 till error free
+                //lvFree.setAdapter(new PreSalesFreeItemAdapter(getActivity(), freeList));
+            }
+
         } catch (NullPointerException e) {
             Log.v("SA Error", e.toString());
         }

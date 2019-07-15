@@ -396,6 +396,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@color/list_view_diveder"
-        android:dividerHeight="1dp"></ListView>
+        android:dividerHeight="2dp"></ListView>
 
 </LinearLayout>

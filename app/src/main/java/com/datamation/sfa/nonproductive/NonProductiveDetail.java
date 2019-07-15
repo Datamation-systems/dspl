@@ -49,6 +49,7 @@ import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.UtilityContainer;
 import com.datamation.sfa.view.ActivityHome;
 import com.datamation.sfa.view.DebtorDetailsActivity;
+import com.datamation.sfa.view.NonProductiveActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -75,6 +76,7 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
     FloatingActionButton fabPause, fabDiscard, fabSave;
     SharedPref mSharedPref;
     Activity thisActivity;
+    NonProductiveActivity mainActivity;
 
     MyReceiver r;
     @Override
@@ -83,6 +85,7 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
 
         //final ActivityHome activity = (ActivityHome) getActivity();
         thisActivity = getActivity();
+        mainActivity = (NonProductiveActivity)getActivity();
         lv_invent_load = (ListView) view.findViewById(R.id.lv_loading_sum);
         RefNo = (EditText) view.findViewById(R.id._refNo);
         Txndate = (TextView) view.findViewById(R.id._date);
@@ -135,10 +138,10 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
         lv_invent_load.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                DayNPrdDet fnondet = loadlist.get(arg2);
-                deleteOrderDialog(getActivity(), fnondet.getNONPRDDET_REFNO());
-                return false;
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //new InvDetController(getActivity()).restFreeIssueData(RefNo);
+                deleteNonProDialog(position);
+                return true;
             }
         });
 
@@ -361,7 +364,35 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    private void deleteOrderDialog(final Context context, final String _id) {
+//    private void deleteOrderDialog(final Context context, final String _id) {
+//
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//        // alertDialogBuilder.setTitle(title);
+//        alertDialogBuilder.setMessage("Are you sure you want to delete this entry?");
+//        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+//        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//
+//                int count = new DayNPrdDetController(context).deleteOrdDetByID(_id);
+//                if (count > 0) {
+//                    Toast.makeText(getActivity(), "Deleted successfully", Toast.LENGTH_LONG).show();
+//                    fatchData(_id);
+//                    clearTextFields();
+//                }
+//            }
+//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//
+//            }
+//        });
+//
+//        AlertDialog alertD = alertDialogBuilder.create();
+//
+//        alertD.show();
+//    }
+
+    private void deleteNonProDialog(final int position) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         // alertDialogBuilder.setTitle(title);
@@ -370,10 +401,10 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
         alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                int count = new DayNPrdDetController(context).deleteOrdDetByID(_id);
+                int count = new DayNPrdDetController(getActivity()).deleteOrdDetByID(loadlist.get(position).getNONPRDDET_REFNO(), loadlist.get(position).getNONPRDDET_REASON_CODE());
                 if (count > 0) {
                     Toast.makeText(getActivity(), "Deleted successfully", Toast.LENGTH_LONG).show();
-                    fatchData(_id);
+                    fatchData(loadlist.get(position).getNONPRDDET_REFNO());
                     clearTextFields();
                 }
             }
@@ -399,20 +430,21 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
         alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                ActivityHome activity = (ActivityHome) getActivity();
                 try {
                     new DayNPrdHedController(getActivity()).undoOrdHedByID(RefNo.getText().toString().trim());
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
                 try {
                     new DayNPrdDetController(getActivity()).OrdDetByRefno(RefNo.getText().toString().trim());
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
-                activity.cusPosition = 0;
-                activity.selectedDebtor = null;
-                UtilityContainer.mLoadFragment(new NonProductiveMain(), getActivity());
+                //activity.cusPosition = 0;
+                mainActivity.selectedNonDebtor = null;
+                Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+                startActivity(intnt);
+                getActivity().finish();
                 //UtilityContainer.ClearNonSharedPref(getActivity());
                 Toast.makeText(getActivity(), "Undo Success", Toast.LENGTH_LONG).show();
             }

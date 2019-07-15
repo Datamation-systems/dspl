@@ -25,7 +25,7 @@
             android:contentDescription="@string/app_name"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
-            app:srcCompat="@drawable/logo_sfa" />
+            app:srcCompat="@drawable/dm_logo" />
 
         <com.datamation.sfa.utils.CustomFont
             android:layout_width="match_parent"

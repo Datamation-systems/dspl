@@ -2,9 +2,10 @@ package com.datamation.sfa.model;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class OrderDetail {
+public class OrderDetail implements Serializable {
     private String FORDERDET_ID;
     private String FORDERDET_REFNO;
     private String FORDERDET_TXNDATE;

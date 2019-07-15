@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.DayNPrdDetController;
+import com.datamation.sfa.controller.SalesReturnDetController;
+import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.nonproductive.NonProductiveDetail;
 import com.datamation.sfa.salesreturn.SalesReturnDetails;
@@ -26,6 +29,8 @@ public class NonProductiveActivity extends AppCompatActivity {
     ViewPager viewPager;
     private NonProductiveDetail nonProductiveDetail;
     Context context;
+    public Customer selectedNonDebtor = null;
+    boolean status = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,8 @@ public class NonProductiveActivity extends AppCompatActivity {
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
         viewPager.setPageMargin(pageMargin);
         slidingTabStrip.setViewPager(viewPager);
+
+        status = new DayNPrdDetController(getApplicationContext()).isAnyActiveNPs();
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

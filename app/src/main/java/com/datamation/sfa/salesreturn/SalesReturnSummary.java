@@ -72,6 +72,11 @@ public class SalesReturnSummary extends Fragment {
         activity = (SalesReturnActivity)getActivity();
         thisActivity = getActivity();
 
+        if (activity.selectedReturnHed == null && new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
+        {
+            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
+        }
+
         fam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,15 +118,13 @@ public class SalesReturnSummary extends Fragment {
             isSalesReturnPending = false;
         }
 
-        //mRefreshData();
-
         return view;
     }
 
     public void mRefreshData() {
         String itemCode = "";
 
-        if (activity.selectedReturnHed != null)
+        if (activity.selectedReturnHed != null )
         {
             RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
@@ -148,6 +151,29 @@ public class SalesReturnSummary extends Fragment {
             totReturnDiscount = 0;
             fTotQty = 0;
         }
+        else if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
+        {
+            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
+
+            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+            HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
+            returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
+
+            for (FInvRDet retDet : returnDetList) {
+                ftotAmt += Double.parseDouble(retDet.getFINVRDET_AMT());
+                totReturnDiscount += Double.parseDouble(retDet.getFINVRDET_DIS_AMT());
+                fTotQty += Double.parseDouble(retDet.getFINVRDET_QTY());
+                itemCode = retDet.getFINVRDET_ITEMCODE();
+            }
+
+            lblGross.setText(String.format("%.2f", ftotAmt));
+            lblDisc.setText(String.format("%.2f", totReturnDiscount));
+            lblNetVal.setText(String.format("%.2f", (ftotAmt - totReturnDiscount)));
+
+            ftotAmt = 0;
+            totReturnDiscount = 0;
+            fTotQty = 0;
+        }
         else
         {
             Toast.makeText(getActivity(), "Invalid sales return head..." , Toast.LENGTH_LONG).show();
@@ -159,7 +185,15 @@ public class SalesReturnSummary extends Fragment {
 
     public void undoEditingData() {
 
-        RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+        if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
+        {
+            //RefNo = new SalesReturnDetController(getActivity()).getActiveReturnRefNo().getFINVRDET_REFNO();
+            RefNo = "/001";
+        }
+        else
+        {
+            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+        }
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage("Do you want to discard the return?");

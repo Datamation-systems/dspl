@@ -41,6 +41,7 @@ import com.datamation.sfa.adapter.SalesReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriController;
+import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
@@ -123,6 +124,13 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
         reasonSearch.setOnClickListener(this);
         bAdd.setOnClickListener(this);
         bFreeIssue.setOnClickListener(this);
+
+        if (new SalesReturnController(getActivity()).isAnyActive())
+        {
+            activity.selectedReturnDet = new OrderDetailController(getActivity()).getActiveReturnDet();
+            //activity.selectedOrderDet.setFORDERDET_REFNO(new OrderDetailController(getActivity()).getActiveRefNo());
+        }
+
 
         if(activity.selectedPreHed != null){
             Toast.makeText(getActivity(),"InvHed not null"+activity.selectedPreHed.toString(),Toast.LENGTH_LONG).show();
@@ -221,7 +229,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 FInvRDet returnDet = returnList.get(position);
-                deleteOrderDialog(getActivity(), "Return Details ", returnDet.getFINVRDET_ITEMCODE(),RefNo);
+                deleteReturnDialog(getActivity(), "Return Details ", returnDet.getFINVRDET_ITEMCODE(),RefNo);
                 return true;
             }
         });
@@ -240,7 +248,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                 index_id = Integer.parseInt(returnDet.getFINVRDET_ID());
                 lblItemName.setText(new ItemController(getActivity()).getItemNameByCode(returnDet.getFINVRDET_ITEMCODE()));
                 txtQty.setText(returnDet.getFINVRDET_QTY());
-                lblPrice.setText(new ItemPriController(getActivity()).getProductPriceByCode(selectedItem.getFITEM_ITEM_CODE(), activity.selectedRetDebtor.getCusPrilCode()));
+                //lblPrice.setText(new ItemPriController(getActivity()).getProductPriceByCode(selectedItem.getFITEM_ITEM_CODE(), activity.selectedRetDebtor.getCusPrilCode()));
                 hasChanged = false;
                 editTotDisc.setText(returnDet.getFINVRDET_DIS_AMT());
                 lblReason.setText(returnDet.getFINVRDET_RETURN_REASON());
@@ -282,14 +290,14 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                         FInvRHed hed = new FInvRHed();
 
                         hed.setFINVRHED_REFNO(RefNo);
-                        hed.setFINVRHED_MANUREF(activity.selectedPreHed.getORDER_MANUREF());
-                        hed.setFINVRHED_INV_REFNO(activity.selectedPreHed.getORDER_REFNO());
-                        hed.setFINVRHED_REMARKS(activity.selectedPreHed.getORDER_REMARKS());
+                        //hed.setFINVRHED_MANUREF(activity.selectedPreHed.getORDER_MANUREF());
+                        //hed.setFINVRHED_INV_REFNO(activity.selectedPreHed.getORDER_REFNO());
+                        //hed.setFINVRHED_REMARKS(activity.selectedPreHed.getORDER_REMARKS());
                         hed.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());
                         hed.setFINVRHED_ADD_DATE(currentTime());
                         hed.setFINVRHED_ADD_MACH(localSP.getString("MAC_Address", "No MAC Address").toString());
                         hed.setFINVRHED_TXNTYPE("24");
-                        hed.setFINVRHED_TXN_DATE(activity.selectedPreHed.getORDER_TXNDATE());
+                        //hed.setFINVRHED_TXN_DATE(activity.selectedPreHed.getORDER_TXNDATE());
                         hed.setFINVRHED_IS_ACTIVE("1");
                         hed.setFINVRHED_IS_SYNCED("0");
 
@@ -359,7 +367,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    private void deleteOrderDialog(final Context context, String title, final String itemCode,final String refNo) {
+    private void deleteReturnDialog(final Context context, String title, final String itemCode,final String refNo) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setMessage("Are you sure you want to delete this entry?");
