@@ -58,7 +58,6 @@ public class NetworkFunctions {
         restOfURL = "/mobile123/"+dbname;
         //baseURL = domain + "/android_service/";
         //testing
-        //TODO :: set real url mmmmmmmmm....
         Log.d(LOG_TAG, "testing : " + baseURL + "login" + restOfURL);
         user = pref.getLoginUser();
     }
@@ -71,7 +70,7 @@ public String validate(String macId) throws IOException {
 
     List<CustomNameValuePair> params = new ArrayList<>();
    // params.add(new CustomNameValuePair("mac_id", macId));
-    Log.d(LOG_TAG, "Validating : " + baseURL + "login" +restOfURL+"/"+ params);
+    Log.d(LOG_TAG, "Validating : " + baseURL + "fSalRep" +restOfURL+"/"+ macId);
 
     return getFromServer(baseURL + "fSalRep"+restOfURL+"/"+macId, params);
 }

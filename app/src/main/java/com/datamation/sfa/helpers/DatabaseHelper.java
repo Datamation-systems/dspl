@@ -1212,8 +1212,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FSALREP_PRILCODE = "prillcode";
 
     // create String
-    private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ASE_CODE + " TEXT, "+ FSALREP_PRILCODE + " TEXT, " + FSALREP_AREA_CODE + " TEXT, " + FSALREP_DEAL_CODE + " TEXT, " + FSALREP_RECORD_ID + " TEXT, " + FSALREP_REP_CODE + " TEXT, " + FSALREP_REP_PREFIX + " TEXT, " + FSALREP_REP_TCODE + " TEXT, " + FSALREP_REP_PHONE_NO + " TEXT, " + FSALREP_REP_NAME + " TEXT, " + FSALREP_REP_EMAIL + " TEXT, " + FSALREP_REP_MOB + " TEXT, " + FSALREP_PASSWORD + " TEXT, "+ FSALREP_LOCCODE+ " TEXT, " + FSALREP_COSTCODE + " TEXT); ";
-
+    private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ADDMACH + " TEXT, " + FSALREP_ADDUSER + " TEXT, " + FSALREP_PASSWORD + " TEXT, " + FSALREP_RECORDID + " TEXT, " + FSALREP_REPCODE + " TEXT, " + FSALREP_EMAIL + " TEXT, " + FSALREP_REPID + " TEXT, " + FSALREP_MOBILE + " TEXT, " + FSALREP_NAME + " TEXT, " + FSALREP_PREFIX + " TEXT, " + FSALREP_TELE + " TEXT, "
+            + FSALREP_STATUS + " TEXT, "
+            + FSALREP_LOCCODE + " TEXT, "
+            + FSALREP_MACID + " TEXT); ";
     /**
      * ############################ FDDbNote table Details
      * ################################

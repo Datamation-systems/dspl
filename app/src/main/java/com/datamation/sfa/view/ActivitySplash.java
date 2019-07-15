@@ -24,10 +24,12 @@ import android.widget.Toast;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
 
+import com.datamation.sfa.model.SalRep;
 import com.datamation.sfa.utils.NetworkUtil;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.User;
@@ -38,6 +40,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivitySplash extends AppCompatActivity{
 
@@ -201,10 +205,15 @@ public class ActivitySplash extends AppCompatActivity{
                     // Login successful. Proceed to download other items
 
                     JSONArray repArray = validateJSON.getJSONArray("fSalRepResult");
+                    ArrayList<SalRep> salRepList = new ArrayList<>();
+                    for (int i = 0; i<repArray.length(); i++){
+                        JSONObject expenseJSON = repArray.getJSONObject(i);
+                        salRepList.add(SalRep.parseUser(expenseJSON));
+                    }
+                    new SalRepController(getApplicationContext()).createOrUpdateSalRep(salRepList);
                     User user = User.parseUser(repArray.getJSONObject(0));
-                    //networkFunctions.setUser(user);
+                    networkFunctions.setUser(user);
                     pref.storeLoginUser(user);
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

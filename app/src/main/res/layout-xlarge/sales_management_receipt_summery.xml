@@ -16,19 +16,19 @@
         android:layout_marginTop="15dp"
         android:background="@color/unselected"
         android:gravity="top|center">
-    <com.datamation.megaheaters.control.FinacFont
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
-        android:shadowColor="@android:color/darker_gray"
-        android:text="SUMMARY"
-        android:textColor="@color/greenColor"
-        android:textAllCaps="true"
-        android:textSize="28sp"
-      />
+        <com.datamation.sfa.utils.CustomFont
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:shadowColor="@android:color/darker_gray"
+            android:text="SUMMARY"
+            android:textColor="@color/greenColor"
+            android:textAllCaps="true"
+            android:textSize="28sp"
+            />
     </LinearLayout>
 
 
@@ -45,143 +45,143 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:padding="5dp"
-            android:orientation="vertical"
-            android:id="@+id/Relative_layer_heading2">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_textbox"
-        android:padding="15dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="10dp">
+            android:orientation="vertical">
 
-        <com.datamation.megaheaters.control.FinacFont
-            android:id="@+id/TextView02"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="RECEIPT AMT (Rs) : "
-            android:textColor="@color/greenColor"
-            android:textSize="14sp"
-            />
-        <com.datamation.megaheaters.control.FinacFont
-            android:id="@+id/lblRecAmt"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:paddingLeft="5dp"
-            android:textSize="14sp" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_textbox"
-        android:padding="15dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center"
+                android:padding="5dp"
+                android:orientation="vertical"
+                android:id="@+id/Relative_layer_heading2">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_textbox"
+                    android:padding="15dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
 
-        <com.datamation.megaheaters.control.FinacFont
-            android:id="@+id/textView4"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="PAY MODE : "
-            android:textColor="@color/greenColor"
-            android:textSize="14sp"
-            />
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/TextView02"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="RECEIPT AMT (Rs) : "
+                        android:textColor="@color/greenColor"
+                        android:textSize="14sp"
+                        />
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/lblRecAmt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/lblPayMode"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:paddingLeft="5dp"
-            android:textSize="14sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_textbox"
+                    android:padding="15dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
 
-    </LinearLayout>
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/textView4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="PAY MODE : "
+                        android:textColor="@color/greenColor"
+                        android:textSize="14sp"
+                        />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_textbox"
-        android:padding="15dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="10dp">
+                    <TextView
+                        android:id="@+id/lblPayMode"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:textSize="14sp" />
 
-        <com.datamation.megaheaters.control.FinacFont
-            android:id="@+id/textNo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="CHEQUE NO : "
-            android:textColor="@color/greenColor"
-            android:textSize="14sp" />
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/lblCHQNo"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:paddingLeft="5dp"
-            android:text="N/A"
-            android:textSize="14sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_textbox"
+                    android:padding="15dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
 
-    </LinearLayout>
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/textNo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="CHEQUE NO : "
+                        android:textColor="@color/greenColor"
+                        android:textSize="14sp" />
 
-    <LinearLayout
-        android:id="@+id/lnBank"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_textbox"
-        android:padding="15dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="10dp">
+                    <TextView
+                        android:id="@+id/lblCHQNo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:text="N/A"
+                        android:textSize="14sp" />
 
-        <com.datamation.megaheaters.control.FinacFont
-            android:id="@+id/textBank"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="BANK - BRANCH: "
-            android:textColor="@color/greenColor"
-            android:textSize="14sp" />
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/lblBank"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:paddingLeft="5dp"
-            android:text="N/A"
-            android:textSize="14sp" />
+                <LinearLayout
+                    android:id="@+id/lnBank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_textbox"
+                    android:padding="15dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
 
-    </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
+                    <com.datamation.sfa.utils.CustomFont
+                        android:id="@+id/textBank"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="BANK - BRANCH: "
+                        android:textColor="@color/greenColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblBank"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:text="N/A"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
     <LinearLayout
@@ -192,7 +192,7 @@
         android:weightSum="11">
 
 
-        <com.datamation.megaheaters.control.FinacFont
+        <com.datamation.sfa.utils.CustomFont
             android:id="@+id/add"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
             android:textSize="14sp"
             />
 
-        <com.datamation.megaheaters.control.FinacFont
+        <com.datamation.sfa.utils.CustomFont
             android:id="@+id/date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -220,7 +220,7 @@
             android:textSize="14sp" />
 
 
-        <com.datamation.megaheaters.control.FinacFont
+        <com.datamation.sfa.utils.CustomFont
             android:id="@+id/repName"
             android:visibility="gone"
             android:layout_width="0dp"
@@ -234,7 +234,7 @@
             android:textColor="@color/unselected"
             android:textSize="14sp" />
 
-        <com.datamation.megaheaters.control.FinacFont
+        <com.datamation.sfa.utils.CustomFont
             android:id="@+id/datediff"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -247,7 +247,7 @@
             android:textColor="@color/unselected"
             android:textSize="14sp" />
 
-        <com.datamation.megaheaters.control.FinacFont
+        <com.datamation.sfa.utils.CustomFont
             android:id="@+id/indexhistory3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -260,7 +260,7 @@
             android:textColor="@color/unselected"
             android:textSize="14sp" />
 
-        <com.datamation.megaheaters.control.FinacFont
+        <com.datamation.sfa.utils.CustomFont
             android:id="@+id/indexmanual3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -274,7 +274,7 @@
             android:textSize="14sp"/>
 
 
-        <com.datamation.megaheaters.control.FinacFont
+        <com.datamation.sfa.utils.CustomFont
             android:id="@+id/days"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

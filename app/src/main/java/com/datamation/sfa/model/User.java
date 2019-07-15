@@ -113,15 +113,15 @@ public class User implements Serializable {
 
         if(instance != null) {
             User user = new User();
-            user.setCode(instance.getString("Code"));
-            user.setName(instance.getString("Name"));
-            user.setUserName(instance.getString("UserName"));
+            user.setCode(instance.getString("RepCode"));
+            user.setName(instance.getString("RepName"));
+         //   user.setUserName(instance.getString("UserName"));
             user.setPassword(instance.getString("Password"));
-            user.setTarget(instance.getString("Target"));
-            user.setMobile(instance.getString("Mobile"));
-            user.setAddress(instance.getString("Address"));
+        //    user.setTarget(instance.getString("Target"));
+            user.setMobile(instance.getString("RepMobil"));
+            //  user.setAddress(instance.getString("Address"));
             user.setStatus(instance.getString("Status"));
-            user.setStatus(instance.getString("Prefix"));
+            user.setStatus(instance.getString("RepPrefix"));
             return user;
         }
 
