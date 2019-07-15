@@ -349,30 +349,6 @@ public class DayNPrdHedController {
         return false;
 
     }
-    public int getNonPrdCount() {
-        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
-        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
-        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
 
-        Cursor cursor = dB.rawQuery("select count(refno) from FDaynPrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'", null);
-
-        while (cursor.moveToNext()) {
-
-            int result = cursor.getInt(0);
-
-            if (result>0)
-                return result;
-
-        }
-        cursor.close();
-        dB.close();
-        return 0;
-
-    }
 
 }

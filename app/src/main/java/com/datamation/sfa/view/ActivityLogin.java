@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.CompanyDetailsController;
 import com.datamation.sfa.controller.CustomerController;
 //import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriceController;
@@ -25,6 +26,8 @@ import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.Control;
+import com.datamation.sfa.model.Debtor;
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.ItemPri;
 import com.datamation.sfa.model.Reason;
@@ -106,11 +109,12 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                else if(!(username.getText().toString().equals("")) && !(password.getText().toString().equals(""))) {
                     //temparary for datamation
-                    Intent intent = new Intent(ActivityLogin
-                            .this, ActivityHome
-                            .class);
-                    startActivity(intent);
-                    finish();
+                    new Authenticate(SharedPref.getInstance(this).getLoginUser().getCode()).execute();
+//                    Intent intent = new Intent(ActivityLogin
+//                            .this, ActivityHome
+//                            .class);
+//                    startActivity(intent);
+//                    finish();
 
 
 
@@ -160,9 +164,13 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         CustomProgressDialog pdialog;
         private String uname,pwd,repcode;
 
-        public Authenticate(String uname, String pwd, String repCode){
-            this.uname = uname;
-            this.pwd = pwd;
+//        public Authenticate(String uname, String pwd, String repCode){
+//            this.uname = uname;
+//            this.pwd = pwd;
+//            this.repcode = repCode;
+//            this.pdialog = new CustomProgressDialog(ActivityLogin.this);
+//        }
+        public Authenticate(String repCode){
             this.repcode = repCode;
             this.pdialog = new CustomProgressDialog(ActivityLogin.this);
         }
@@ -194,13 +202,13 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Authenticated\nDownloading Customers...");
+                            pdialog.setMessage("Authenticated\nDownloading company control data...");
                         }
                     });
 
-                    String outlets = "";
+                    String controls = "";
                     try {
-                        outlets = networkFunctions.getCustomer(repcode);
+                        controls = networkFunctions.getCompanyDetails(repcode);
                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -210,20 +218,20 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Processing downloaded data (customer details)...");
+                            pdialog.setMessage("Processing downloaded data (Company details)...");
                         }
                     });
 
                     // Processing outlets
                     try {
-                        JSONObject customersJSON = new JSONObject(outlets);
-                        JSONArray customersJSONArray =customersJSON.getJSONArray("outlets");
-                        ArrayList<Customer> customerList = new ArrayList<Customer>();
-                        CustomerController customerController = new CustomerController(ActivityLogin.this);
-                        for (int i = 0; i < customersJSONArray.length(); i++) {
-                            customerList.add(Customer.parseOutlet(customersJSONArray.getJSONObject(i)));
+                        JSONObject controlJSON = new JSONObject(controls);
+                        JSONArray controlJSONArray = controlJSON.getJSONArray("fControlResult");
+                        ArrayList<Control> controlList = new ArrayList<Control>();
+                        CompanyDetailsController companyController = new CompanyDetailsController(ActivityLogin.this);
+                        for (int i = 0; i < controlJSONArray.length(); i++) {
+                            controlList.add(Control.parseControlDetails(controlJSONArray.getJSONObject(i)));
                         }
-                        customerController.createOrUpdateDebtor(customerList);
+                        companyController.createOrUpdateFControl(controlList);
                     } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
@@ -232,210 +240,86 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         throw e;
                     }
 /*****************end Customers**********************************************************************/
+
+/*****************Customers**********************************************************************/
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Control downloaded\nDownloading Customers...");
+                    }
+                });
+
+                String outlets = "";
+                try {
+                    outlets = networkFunctions.getCustomer(repcode);
+                    // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (customer details)...");
+                    }
+                });
+
+                // Processing outlets
+                try {
+                    JSONObject customersJSON = new JSONObject(outlets);
+                    JSONArray customersJSONArray =customersJSON.getJSONArray("FdebtorResult");
+                    ArrayList<Debtor> customerList = new ArrayList<Debtor>();
+                    CustomerController customerController = new CustomerController(ActivityLogin.this);
+                    for (int i = 0; i < customersJSONArray.length(); i++) {
+                        customerList.add(Debtor.parseOutlet(customersJSONArray.getJSONObject(i)));
+                    }
+                   // customerController.createOrUpdateDebtor(customerList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+/*****************end Customers**********************************************************************/
 /*****************routes*****************************************************************************/
 
                     //routes
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Customer downloaded\nDownloading Routes...");
-                        }
-                    });
-
-                    String routes = "";
-                    try {
-                        routes = networkFunctions.getRoutes(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (route details)...");
-                        }
-                    });
-
-                    // Processing outlets
-                    try {
-                        JSONObject routesJSON = new JSONObject(routes);
-                        JSONArray routesJSONArray =routesJSON.getJSONArray("routes");
-                        ArrayList<Route> routeList = new ArrayList<Route>();
-                        RouteController routeController = new RouteController(ActivityLogin.this);
-                        for (int i = 0; i < routesJSONArray.length(); i++) {
-                            routeList.add(Route.parseRoute(routesJSONArray.getJSONObject(i)));
-                        }
-                        routeController.createOrUpdateRoute(routeList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
-/*****************end routes**********************************************************************/
-/*****************references**********************************************************************/
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Routes downloaded\nDownloading References...");
-                        }
-                    });
-
-                    String references = "";
-                    try {
-                        references = networkFunctions.getReferences(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (reference details)...");
-                        }
-                    });
-
-                    // Processing references
-                    try {
-                        JSONObject refJSON = new JSONObject(references);
-                        JSONArray refJSONArray =refJSON.getJSONArray("references");
-                        ArrayList<ReferenceDetail> refList = new ArrayList<ReferenceDetail>();
-                        ReferenceDetailDownloader refController = new ReferenceDetailDownloader(ActivityLogin.this);
-                        for (int i = 0; i < refJSONArray.length(); i++) {
-                            refList.add(ReferenceDetail.parseRef(refJSONArray.getJSONObject(i)));
-                        }
-                        refController.createOrUpdateFCompanyBranch(refList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
-/*****************ennd references**********************************************************************/
-/*****************reference settings**********************************************************************/
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Reference detail downloaded\nDownloading reference settings...");
-                        }
-                    });
-
-                    String settings = "";
-                    try {
-                        settings = networkFunctions.getReferenceSettings();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (setting details)...");
-                        }
-                    });
-
-                    // Processing outlets
-                    try {
-                        JSONObject settingJSON = new JSONObject(settings);
-                        JSONArray settingJSONArray =settingJSON.getJSONArray("refSettings");
-                        ArrayList<RefSetting> settingList = new ArrayList<RefSetting>();
-                        ReferenceSettingController settingController = new ReferenceSettingController(ActivityLogin.this);
-                        for (int i = 0; i < settingJSONArray.length(); i++) {
-                            settingList.add(RefSetting.parseSetting(settingJSONArray.getJSONObject(i)));
-                        }
-                        settingController.createOrUpdateReferenceSetting(settingList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
-                    /*****************end reference settings**********************************************************************/
-                    /*****************reasons**********************************************************************/
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Reference Setting details downloaded\nDownloading reasons...");
-                        }
-                    });
-
-                    String reasons = "";
-                    try {
-                        reasons = networkFunctions.getReasons();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (reasons)...");
-                        }
-                    });
-
-                    // Processing reasons
-                    try {
-                        JSONObject reasonJSON = new JSONObject(reasons);
-                        JSONArray reasonJSONArray =reasonJSON.getJSONArray("reasons");
-                        ArrayList<Reason> reasonList = new ArrayList<Reason>();
-                        ReasonController reasonController = new ReasonController(ActivityLogin.this);
-                        for (int i = 0; i < reasonJSONArray.length(); i++) {
-                            reasonList.add(Reason.parseReason(reasonJSONArray.getJSONObject(i)));
-                        }
-                        reasonController.createOrUpdateReason(reasonList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
-                    /*****************end reasons**********************************************************************/
-                    /*****************reasons**********************************************************************/
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Reasons downloaded\nDownloading items...");
-                        }
-                    });
-
-                    String items = "";
-                    try {
-                        items = networkFunctions.getItems();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (items)...");
-                        }
-                    });
-
-                    // Processing items
-//                    try {
-//                        JSONObject itemJSON = new JSONObject(items);
-//                        JSONArray itemJSONArray =itemJSON.getJSONArray("items");
-//                        ArrayList<Item> itemList = new ArrayList<Item>();
-//                        ItemController itemController = new ItemController(ActivityLogin.this);
-//                        for (int i = 0; i < itemJSONArray.length(); i++) {
-//                            itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Customer downloaded\nDownloading Routes...");
 //                        }
-//                        itemController.InsertItems(itemList);
+//                    });
+//
+//                    String routes = "";
+//                    try {
+//                        routes = networkFunctions.getRoutes(repcode);
+//                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        throw e;
+//                    }
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (route details)...");
+//                        }
+//                    });
+//
+//                    // Processing outlets
+//                    try {
+//                        JSONObject routesJSON = new JSONObject(routes);
+//                        JSONArray routesJSONArray =routesJSON.getJSONArray("routes");
+//                        ArrayList<Route> routeList = new ArrayList<Route>();
+//                        RouteController routeController = new RouteController(ActivityLogin.this);
+//                        for (int i = 0; i < routesJSONArray.length(); i++) {
+//                            routeList.add(Route.parseRoute(routesJSONArray.getJSONObject(i)));
+//                        }
+//                        routeController.createOrUpdateRoute(routeList);
 //                    } catch (JSONException | NumberFormatException e) {
 //
 ////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
@@ -443,48 +327,216 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 //
 //                        throw e;
 //                    }
-                    /*****************end items**********************************************************************/
-                    /*****************prices**********************************************************************/
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Items downloaded\nDownloading prices...");
-                        }
-                    });
-
-                    String prices = "";
-                    try {
-                        prices = networkFunctions.getPrices();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (prices)...");
-                        }
-                    });
-
-                    // Processing reasons
-                    try {
-                        JSONObject priceJSON = new JSONObject(prices);
-                        JSONArray priceJSONArray =priceJSON.getJSONArray("itemprices");
-                        ArrayList<ItemPri> priceList = new ArrayList<ItemPri>();
-                        ItemPriceController priceController = new ItemPriceController(ActivityLogin.this);
-                        for (int i = 0; i < priceJSONArray.length(); i++) {
-                           // priceList.add(ItemPri.parsePrices(priceJSONArray.getJSONObject(i)));
-                        }
-                      //  priceController.createOrUpdateItemPri(priceList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
+///*****************end routes**********************************************************************/
+///*****************references**********************************************************************/
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Routes downloaded\nDownloading References...");
+//                        }
+//                    });
+//
+//                    String references = "";
+//                    try {
+//                        references = networkFunctions.getReferences(repcode);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        throw e;
+//                    }
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (reference details)...");
+//                        }
+//                    });
+//
+//                    // Processing references
+//                    try {
+//                        JSONObject refJSON = new JSONObject(references);
+//                        JSONArray refJSONArray =refJSON.getJSONArray("references");
+//                        ArrayList<ReferenceDetail> refList = new ArrayList<ReferenceDetail>();
+//                        ReferenceDetailDownloader refController = new ReferenceDetailDownloader(ActivityLogin.this);
+//                        for (int i = 0; i < refJSONArray.length(); i++) {
+//                            refList.add(ReferenceDetail.parseRef(refJSONArray.getJSONObject(i)));
+//                        }
+//                        refController.createOrUpdateFCompanyBranch(refList);
+//                    } catch (JSONException | NumberFormatException e) {
+//
+////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+////                                e, routes, BugReport.SEVERITY_HIGH);
+//
+//                        throw e;
+//                    }
+///*****************ennd references**********************************************************************/
+///*****************reference settings**********************************************************************/
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Reference detail downloaded\nDownloading reference settings...");
+//                        }
+//                    });
+//
+//                    String settings = "";
+//                    try {
+//                        settings = networkFunctions.getReferenceSettings();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        throw e;
+//                    }
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (setting details)...");
+//                        }
+//                    });
+//
+//                    // Processing outlets
+//                    try {
+//                        JSONObject settingJSON = new JSONObject(settings);
+//                        JSONArray settingJSONArray =settingJSON.getJSONArray("refSettings");
+//                        ArrayList<RefSetting> settingList = new ArrayList<RefSetting>();
+//                        ReferenceSettingController settingController = new ReferenceSettingController(ActivityLogin.this);
+//                        for (int i = 0; i < settingJSONArray.length(); i++) {
+//                            settingList.add(RefSetting.parseSetting(settingJSONArray.getJSONObject(i)));
+//                        }
+//                        settingController.createOrUpdateReferenceSetting(settingList);
+//                    } catch (JSONException | NumberFormatException e) {
+//
+////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+////                                e, routes, BugReport.SEVERITY_HIGH);
+//
+//                        throw e;
+//                    }
+//                    /*****************end reference settings**********************************************************************/
+//                    /*****************reasons**********************************************************************/
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Reference Setting details downloaded\nDownloading reasons...");
+//                        }
+//                    });
+//
+//                    String reasons = "";
+//                    try {
+//                        reasons = networkFunctions.getReasons();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        throw e;
+//                    }
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (reasons)...");
+//                        }
+//                    });
+//
+//                    // Processing reasons
+//                    try {
+//                        JSONObject reasonJSON = new JSONObject(reasons);
+//                        JSONArray reasonJSONArray =reasonJSON.getJSONArray("reasons");
+//                        ArrayList<Reason> reasonList = new ArrayList<Reason>();
+//                        ReasonController reasonController = new ReasonController(ActivityLogin.this);
+//                        for (int i = 0; i < reasonJSONArray.length(); i++) {
+//                            reasonList.add(Reason.parseReason(reasonJSONArray.getJSONObject(i)));
+//                        }
+//                        reasonController.createOrUpdateReason(reasonList);
+//                    } catch (JSONException | NumberFormatException e) {
+//
+////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+////                                e, routes, BugReport.SEVERITY_HIGH);
+//
+//                        throw e;
+//                    }
+//                    /*****************end reasons**********************************************************************/
+//                    /*****************reasons**********************************************************************/
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Reasons downloaded\nDownloading items...");
+//                        }
+//                    });
+//
+//                    String items = "";
+//                    try {
+//                        items = networkFunctions.getItems();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        throw e;
+//                    }
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (items)...");
+//                        }
+//                    });
+//
+//                    // Processing items
+////                    try {
+////                        JSONObject itemJSON = new JSONObject(items);
+////                        JSONArray itemJSONArray =itemJSON.getJSONArray("items");
+////                        ArrayList<Item> itemList = new ArrayList<Item>();
+////                        ItemController itemController = new ItemController(ActivityLogin.this);
+////                        for (int i = 0; i < itemJSONArray.length(); i++) {
+////                            itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
+////                        }
+////                        itemController.InsertItems(itemList);
+////                    } catch (JSONException | NumberFormatException e) {
+////
+//////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//////                                e, routes, BugReport.SEVERITY_HIGH);
+////
+////                        throw e;
+////                    }
+//                    /*****************end items**********************************************************************/
+//                    /*****************prices**********************************************************************/
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Items downloaded\nDownloading prices...");
+//                        }
+//                    });
+//
+//                    String prices = "";
+//                    try {
+//                        prices = networkFunctions.getPrices();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        throw e;
+//                    }
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (prices)...");
+//                        }
+//                    });
+//
+//                    // Processing reasons
+//                    try {
+//                        JSONObject priceJSON = new JSONObject(prices);
+//                        JSONArray priceJSONArray =priceJSON.getJSONArray("itemprices");
+//                        ArrayList<ItemPri> priceList = new ArrayList<ItemPri>();
+//                        ItemPriceController priceController = new ItemPriceController(ActivityLogin.this);
+//                        for (int i = 0; i < priceJSONArray.length(); i++) {
+//                           // priceList.add(ItemPri.parsePrices(priceJSONArray.getJSONObject(i)));
+//                        }
+//                      //  priceController.createOrUpdateItemPri(priceList);
+//                    } catch (JSONException | NumberFormatException e) {
+//
+////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+////                                e, routes, BugReport.SEVERITY_HIGH);
+//
+//                        throw e;
+//                    }
                     /*****************end prices**********************************************************************/
 
                     return true;

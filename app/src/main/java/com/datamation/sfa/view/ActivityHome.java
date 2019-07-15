@@ -1017,7 +1017,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
                         for (int i = 0; i < customersJSONArray.length(); i++) {
                             customerList.add(Customer.parseOutlet(customersJSONArray.getJSONObject(i)));
                         }
-                        customerController.createOrUpdateDebtor(customerList);
+                       // customerController.createOrUpdateDebtor(customerList);
                     } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",

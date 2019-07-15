@@ -1,5 +1,10 @@
 package com.datamation.sfa.model;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Control {
 
     private String FCONTROL_ID;
@@ -345,5 +350,47 @@ public class Control {
     public void setFCONTROL_COMDISPER(String fCONTROL_COMDISPER) {
         FCONTROL_COMDISPER = fCONTROL_COMDISPER;
     }
+    public static Control parseControlDetails(JSONObject instance) throws JSONException, NumberFormatException {
 
+        if(instance != null) {
+
+                Control ctrl = new Control();
+
+                ctrl.setFCONTROL_COM_ADD1(instance.getString("ComAdd1"));
+                ctrl.setFCONTROL_COM_ADD2(instance.getString("ComAdd2"));
+                ctrl.setFCONTROL_COM_ADD3(instance.getString("ComAdd3"));
+                ctrl.setFCONTROL_COM_NAME(instance.getString("ComName"));
+                ctrl.setFCONTROL_BASECUR(instance.getString("basecur"));
+                ctrl.setFCONTROL_COM_EMAIL(instance.getString("comemail"));
+                ctrl.setFCONTROL_COM_TEL1(instance.getString("comtel1"));
+                ctrl.setFCONTROL_COM_TEL2(instance.getString("comtel2"));
+                ctrl.setFCONTROL_COM_FAX(instance.getString("comfax1"));
+                ctrl.setFCONTROL_COM_WEB(instance.getString("comweb"));
+                ctrl.setFCONTROL_CONAGE1(instance.getString("conage1"));
+                ctrl.setFCONTROL_CONAGE2(instance.getString("conage2"));
+                ctrl.setFCONTROL_CONAGE3(instance.getString("conage3"));
+                ctrl.setFCONTROL_CONAGE4(instance.getString("conage4"));
+                ctrl.setFCONTROL_CONAGE5(instance.getString("conage5"));
+                ctrl.setFCONTROL_CONAGE6(instance.getString("conage6"));
+                ctrl.setFCONTROL_CONAGE7(instance.getString("conage7"));
+                ctrl.setFCONTROL_CONAGE8(instance.getString("conage8"));
+                ctrl.setFCONTROL_CONAGE9(instance.getString("conage9"));
+                ctrl.setFCONTROL_CONAGE10(instance.getString("conage10"));
+                ctrl.setFCONTROL_CONAGE11(instance.getString("conage11"));
+                ctrl.setFCONTROL_CONAGE12(instance.getString("conage12"));
+                ctrl.setFCONTROL_CONAGE13(instance.getString("conage13"));
+                ctrl.setFCONTROL_CONAGE14(instance.getString("conage14"));
+                ctrl.setFCONTROL_COM_REGNO(instance.getString("comRegNo"));
+                ctrl.setFCONTROL_SYSTYPE("");
+                // ctrl.setFCONTROL_COMDISPER(jObject.getString("DisPer"));
+                // ctrl.setFCONTROL_VATCMTAXNO(jObject.getString("vatcmtaxno"));
+
+                // Type = jObject.getString("SysType");
+
+                return ctrl;
+
+        }
+            return null;
+
+        }
 }

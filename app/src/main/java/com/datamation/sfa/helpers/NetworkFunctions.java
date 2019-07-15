@@ -82,15 +82,25 @@ public String validate(String macId) throws IOException {
      * @return The response as a String
      * @throws IOException Throws if unable to reach the server
      */
-
-    public String getCustomer(String repCode) throws IOException {
+    public String getCompanyDetails(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
-        params.add(new CustomNameValuePair("repcode", repCode));
+       // params.add(new CustomNameValuePair("repcode", repCode));
 
         Log.d(LOG_TAG, "Getting customer : " + baseURL + "customer" + params);
 
-        return postToServer(baseURL + "customer.php", params);
+        return getFromServer(baseURL  + "fControl"+restOfURL, params);
+
+    }
+    public String getCustomer(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+       // params.add(new CustomNameValuePair("repcode", repCode));
+
+        Log.d(LOG_TAG, "Getting customer : " + baseURL + "customer" + params);
+
+        return getFromServer(baseURL + "Fdebtor"+restOfURL+"/"+repCode, params);
+
     }
 
     public String getRoutes(String repCode) throws IOException {

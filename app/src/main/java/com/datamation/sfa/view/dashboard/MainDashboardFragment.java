@@ -173,7 +173,7 @@ public class MainDashboardFragment extends Fragment {
     }
 
     private BarDataSet getDataSet() {
-        int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
+        int nonprd = new DashboardController(getActivity()).getNonPrdCount();
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
         String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
         int outlets = new DashboardController(getActivity()).getOutletCount(route);
@@ -199,7 +199,7 @@ public class MainDashboardFragment extends Fragment {
     }
 
     private ArrayList<String> getXAxisValues() {
-        int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
+        int nonprd = new DashboardController(getActivity()).getNonPrdCount();
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
         String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
         int outlets = new DashboardController(getActivity()).getOutletCount(route);

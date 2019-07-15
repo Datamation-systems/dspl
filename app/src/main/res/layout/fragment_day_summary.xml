@@ -649,6 +649,7 @@
                     android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale"
                     android:layout_marginLeft="15dp"
                     android:gravity="bottom|end"
+                    android:visibility="gone"
                     android:text="(0.00%)"
                     android:layout_alignRight="@+id/dashboard_tv_card_this_month_gross_sale"
                     android:textColor="@android:color/primary_text_light"
@@ -742,6 +743,7 @@
                     android:layout_marginLeft="15dp"
                     android:gravity="bottom|end"
                     android:text="(0.00%)"
+                    android:visibility="gone"
                     android:layout_alignRight="@+id/dashboard_tv_card_this_month_discount"
                     android:textColor="@android:color/primary_text_light"
                     android:textSize="12sp" />
@@ -897,6 +899,7 @@
                     android:layout_marginLeft="15dp"
                     android:gravity="bottom|end"
                     android:text="(0.00%)"
+                    android:visibility="gone"
                     android:layout_alignRight="@+id/dashboard_tv_card_prev_month_gross_sale"
                     android:textColor="@android:color/primary_text_light"
                     android:textSize="12sp" />
