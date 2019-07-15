@@ -172,7 +172,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String ORDER_REPCODE = "RepCode";
     public static final String ORDER_TOTAL_AMT = "TotalAmt";
     public static final String ORDER_ADDDATE = "AddDate";
-
     public static final String ORDER_IS_SYNCED = "isSynced";
     public static final String ORDER_IS_ACTIVE = "isActive";
     public static final String ORDER_ROUTE_CODE = "RouteCode";

@@ -163,7 +163,7 @@ public class OrderSummaryFragment extends Fragment {
     public void undoEditingData() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setMessage("Do you want to discard the invoice with return ?");
+        alertDialogBuilder.setMessage("Do you want to discard the order with return ?");
         alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -184,7 +184,7 @@ public class OrderSummaryFragment extends Fragment {
                 mainActivity.selectedRetDebtor = null;
                 mainActivity.selectedPreHed = null;
                 mainActivity.selectedReturnHed = null;
-                Toast.makeText(getActivity(), "Invoice and return details discarded successfully..!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Order and return details discarded successfully..!", Toast.LENGTH_SHORT).show();
                 // UtilityContainer.ClearVanSharedPref(getActivity());
                 UtilityContainer.ClearReturnSharedPref(getActivity());
 
@@ -343,6 +343,7 @@ public class OrderSummaryFragment extends Fragment {
                             FInvRHed mainHead = new FInvRHed();
                             ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
                             ArrayList<FInvRHed> HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
+
                             if (!HedList.isEmpty()) {
 
                                 mainHead.setFINVRHED_REFNO(ReturnRefNo);
@@ -394,16 +395,16 @@ public class OrderSummaryFragment extends Fragment {
                             new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
                             new ItemLocController(getActivity()).UpdateOrderQOHInReturn(RefNo, "+", locCode);
 //                            updateDispTables(sHed);
-                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
+                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(),"PRINT PREVIEW", RefNo, true);
 
                             Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
                             activity.selectedRetDebtor = null;
                             activity.selectedReturnHed = null;
                             activity.selectedPreHed = null;
 
-                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
+//                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+//                            startActivity(intent);
+//                            getActivity().finish();
 
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
@@ -498,10 +499,11 @@ public class OrderSummaryFragment extends Fragment {
                             //UpdateQOH_FIFO();
                             new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
                             //updateDispTables(sHed);
-                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
+                            //new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
 
                             //if(a == 1)
                             //{
+                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,true);
                             Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
                             //  UtilityContainer.ClearVanSharedPref(getActivity());
                             //   activity.cusPosition = 0;
@@ -509,10 +511,12 @@ public class OrderSummaryFragment extends Fragment {
                             activity.selectedRetDebtor = null;
                             // activity.selectedRecHed = null;
                             activity.selectedPreHed = null;
-                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
+//                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+//                            startActivity(intent);
+//                            getActivity().finish();
                             //}
+
+                            //new LoardingPrintView();
 
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
@@ -710,7 +714,7 @@ public class OrderSummaryFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
+            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,true);
             return null;
 
         }

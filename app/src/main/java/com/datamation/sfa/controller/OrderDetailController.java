@@ -903,4 +903,48 @@ public class OrderDetailController {
 
         return list;
     }
+
+    public ArrayList<OrderDetail> getAllItemsForPrint(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        Cursor cursor = null;
+        ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
+
+        String selectQuery = "select Itemcode,Qty,Amt,TSellPrice,Type from " + DatabaseHelper.TABLE_ORDER_DETAIL + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+
+        try {
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                OrderDetail order = new OrderDetail();
+
+                order.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_AMT)));
+                order.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_ITEM_CODE)));
+                order.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_QTY)));
+                order.setFORDERDET_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_TYPE)));
+                order.setFORDERDET_TSELLPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_TSELL_PRICE)));
+                //order.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_DISVALAMT)));
+                order.setFORDERDET_REFNO(refno);
+
+                list.add(order);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return list;
+    }
 }

@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.adapter.PrintPreSaleItemAdapter;
 import com.datamation.sfa.adapter.PrintVanSaleItemAdapter;
 import com.datamation.sfa.adapter.PrintVanSaleReturnAdapter;
 import com.datamation.sfa.controller.CompanyDetailsController;
@@ -26,6 +27,8 @@ import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.InvHedController;
 import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.OrderController;
+import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
@@ -37,6 +40,8 @@ import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.InvDet;
 import com.datamation.sfa.model.InvHed;
+import com.datamation.sfa.model.OrderDetail;
+import com.datamation.sfa.model.PRESALE;
 import com.datamation.sfa.model.SalRep;
 import com.datamation.sfa.model.StkIss;
 import com.datamation.sfa.model.VanSalPrintPre;
@@ -120,130 +125,223 @@ public class VanSalePrintPreviewAlertBox {
 
         try
         {
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+            View promptView = layoutInflater.inflate(R.layout.sales_management_vansales_print_view, null);
+            localSP = context.getSharedPreferences(SETTINGS, 0);
 
-        View promptView = layoutInflater.inflate(R.layout.sales_management_vansales_print_view, null);
-        localSP = context.getSharedPreferences(SETTINGS, 0);
+            final TextView Companyname = (TextView) promptView.findViewById(R.id.headcompanyname);
+            final TextView Companyaddress1 = (TextView) promptView.findViewById(R.id.headaddress1);
+            final TextView Companyaddress2 = (TextView) promptView.findViewById(R.id.headaddress2);
+            final TextView CompanyTele = (TextView) promptView.findViewById(R.id.headteleno);
+            final TextView Companyweb = (TextView) promptView.findViewById(R.id.headwebsite);
+            final TextView Companyemail = (TextView) promptView.findViewById(R.id.heademail);
 
-        final TextView Companyname = (TextView) promptView.findViewById(R.id.headcompanyname);
-        final TextView Companyaddress1 = (TextView) promptView.findViewById(R.id.headaddress1);
-        final TextView Companyaddress2 = (TextView) promptView.findViewById(R.id.headaddress2);
-        final TextView CompanyTele = (TextView) promptView.findViewById(R.id.headteleno);
-        final TextView Companyweb = (TextView) promptView.findViewById(R.id.headwebsite);
-        final TextView Companyemail = (TextView) promptView.findViewById(R.id.heademail);
+            final TextView SalesRepname = (TextView) promptView.findViewById(R.id.salesrepname);
+            final TextView SalesRepPhone = (TextView) promptView.findViewById(R.id.salesrepphone);
 
-        final TextView SalesRepname = (TextView) promptView.findViewById(R.id.salesrepname);
-        final TextView SalesRepPhone = (TextView) promptView.findViewById(R.id.salesrepphone);
+            final TextView Debname = (TextView) promptView.findViewById(R.id.headcusname);
+            final TextView Debaddress1 = (TextView) promptView.findViewById(R.id.headcusaddress1);
+            final TextView Debaddress2 = (TextView) promptView.findViewById(R.id.headcusaddress2);
+            final TextView DebTele = (TextView) promptView.findViewById(R.id.headcustele);
 
-        final TextView Debname = (TextView) promptView.findViewById(R.id.headcusname);
-        final TextView Debaddress1 = (TextView) promptView.findViewById(R.id.headcusaddress1);
-        final TextView Debaddress2 = (TextView) promptView.findViewById(R.id.headcusaddress2);
-        final TextView DebTele = (TextView) promptView.findViewById(R.id.headcustele);
+            final TextView SalOrdDate = (TextView) promptView.findViewById(R.id.printsalorddate);
+            final TextView OrderNo = (TextView) promptView.findViewById(R.id.printrefno);
+            final TextView Remarks = (TextView) promptView.findViewById(R.id.printremark);
 
-        final TextView SalOrdDate = (TextView) promptView.findViewById(R.id.printsalorddate);
-        final TextView OrderNo = (TextView) promptView.findViewById(R.id.printrefno);
-        final TextView Remarks = (TextView) promptView.findViewById(R.id.printremark);
+            final TextView txtfiQty = (TextView) promptView.findViewById(R.id.printFiQty);
+            final TextView TotalDiscount = (TextView) promptView.findViewById(R.id.printtotaldisamt);
+            final TextView TotalNetValue = (TextView) promptView.findViewById(R.id.printnettotal);
 
-        final TextView txtfiQty = (TextView) promptView.findViewById(R.id.printFiQty);
-        final TextView TotalDiscount = (TextView) promptView.findViewById(R.id.printtotaldisamt);
-        final TextView TotalNetValue = (TextView) promptView.findViewById(R.id.printnettotal);
+            final TextView txtTotVal = (TextView) promptView.findViewById(R.id.printTotalVal);
+            final TextView TotalPieceQty = (TextView) promptView.findViewById(R.id.printpiecesqty);
+            final TextView txtRoute = (TextView) promptView.findViewById(R.id.printRoute);
 
-        final TextView txtTotVal = (TextView) promptView.findViewById(R.id.printTotalVal);
-        final TextView TotalPieceQty = (TextView) promptView.findViewById(R.id.printpiecesqty);
-        final TextView txtRoute = (TextView) promptView.findViewById(R.id.printRoute);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+            alertDialogBuilder.setTitle(title.toUpperCase());
 
+            alertDialogBuilder.setView(promptView);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle(title.toUpperCase());
+            ArrayList<Control> controlList;
+            controlList = new CompanyDetailsController(context).getAllControl();
 
-        alertDialogBuilder.setView(promptView);
+            PRefno = refno;
 
-        ArrayList<Control> controlList;
-        controlList = new CompanyDetailsController(context).getAllControl();
+//            Companyname.setText(controlList.get(0).getFCONTROL_COM_NAME());
+//            Companyaddress1.setText(controlList.get(0).getFCONTROL_COM_ADD1());
+//            Companyaddress2.setText(controlList.get(0).getFCONTROL_COM_ADD2());
+//            CompanyTele.setText("Tele: " + controlList.get(0).getFCONTROL_COM_TEL1() + " / Fax: " + controlList.get(0).getFCONTROL_COM_FAX());
+//            Companyweb.setText(controlList.get(0).getFCONTROL_COM_WEB());
+//            Companyemail.setText(controlList.get(0).getFCONTROL_COM_EMAIL());
+//
+//            SalRep salrep = new SalRepController(context).getSaleRep(new SalRepController(context).getCurrentRepCode());
+//            SalesRepname.setText(salrep.getREPCODE() + "/ " + salrep.getNAME());
+//            SalesRepPhone.setText("Tele: " + salrep.getMOBILE());
 
-        PRefno = refno;
+            Companyname.setText("DATAMATION SYSTEMS (PVT) LTD");
+            Companyaddress1.setText("No.15, SHRUBBERY GARDENS,");
+            Companyaddress2.setText("COLOMBO 04");
+            CompanyTele.setText("Tele: " +"0114100100");
+            Companyweb.setText("datamation.lk");
+            Companyemail.setText("info@datamation.lk");
 
-        Companyname.setText(controlList.get(0).getFCONTROL_COM_NAME());
-        Companyaddress1.setText(controlList.get(0).getFCONTROL_COM_ADD1());
-        Companyaddress2.setText(controlList.get(0).getFCONTROL_COM_ADD2());
-        CompanyTele.setText("Tele: " + controlList.get(0).getFCONTROL_COM_TEL1() + " / Fax: " + controlList.get(0).getFCONTROL_COM_FAX());
-        Companyweb.setText(controlList.get(0).getFCONTROL_COM_WEB());
-        Companyemail.setText(controlList.get(0).getFCONTROL_COM_EMAIL());
+            String repCode = new SalRepController(context).getCurrentRepCode();
+            SalRep salRep = new SalRepController(context).getSaleRep(repCode);
 
-        SalRep salrep = new SalRepController(context).getSaleRep(new SalRepController(context).getCurrentRepCode());
-        SalesRepname.setText(salrep.getREPCODE() + "/ " + salrep.getNAME());
-        SalesRepPhone.setText("Tele: " + salrep.getMOBILE());
+//        User salrep = SharedPref.getInstance(context).getLoginUser();
+            SalesRepname.setText(salRep.getREPCODE() + "/ " + salRep.getNAME());
+            SalesRepPhone.setText("Tele: " + salRep.getMOBILE());
 
-        InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
+            if (!isPreSale) // if van sale
+            {
+                InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
 
-        ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrint(refno);
-        ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(refno.trim());
+                ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrint(refno);
+                ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(refno.trim());
 
-        Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
+                Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
 
-        Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
-        Debaddress1.setText(debtor.getCusAdd1() + ", " + debtor.getCusAdd2());
-        //Debaddress2.setText(debtor.getFDEBTOR_ADD3());
-        DebTele.setText(debtor.getCusMob());
+                Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
+                Debaddress1.setText(debtor.getCusAdd1() + ", " + debtor.getCusAdd2());
+                //Debaddress2.setText(debtor.getFDEBTOR_ADD3());
+                DebTele.setText(debtor.getCusMob());
 
-        SalOrdDate.setText("Date: " + invhed.getFINVHED_TXNDATE() + " " + currentTime());
-        Remarks.setText("Remarks: " + invhed.getFINVHED_REMARKS());
-        OrderNo.setText("Ref No: " + refno);
-        txtRoute.setText(invhed.getFINVHED_TOURCODE() + " / " + invhed.getFINVHED_ROUTECODE());
+                SalOrdDate.setText("Date: " + invhed.getFINVHED_TXNDATE() + " " + currentTime());
+                Remarks.setText("Remarks: " + invhed.getFINVHED_REMARKS());
+                OrderNo.setText("Ref No: " + refno);
+                txtRoute.setText(invhed.getFINVHED_TOURCODE() + " / " + invhed.getFINVHED_ROUTECODE());
 
-        int qty = 0, fiQty = 0, returnQty = 0;
-        double dDisc = 0, dTotAmt = 0, returnTot = 0;
+                int qty = 0, fiQty = 0, returnQty = 0;
+                double dDisc = 0, dTotAmt = 0, returnTot = 0;
 
-        for (InvDet det : list) {
+                for (InvDet det : list) {
 
-            if (det.getFINVDET_TYPE().equals("SA"))
-                qty += Integer.parseInt(det.getFINVDET_QTY());
-//            else
-//                fiQty += Integer.parseInt(det.getFINVDET_QTY());
+                    if (det.getFINVDET_TYPE().equals("SA"))
+                        qty += Integer.parseInt(det.getFINVDET_QTY());
+                    //            else
+                    //                fiQty += Integer.parseInt(det.getFINVDET_QTY());
 
-           // dDisc += Double.parseDouble(det.getFINVDET_DISVALAMT());
-            dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
-        }
-        for (FInvRDet retrnDet :Rlist){
-                returnQty += Integer.parseInt(retrnDet.getFINVRDET_QTY());
-                returnTot += Double.parseDouble(retrnDet.getFINVRDET_AMT());
-        }
+                    // dDisc += Double.parseDouble(det.getFINVDET_DISVALAMT());
+                    dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
+                }
+                for (FInvRDet retrnDet :Rlist){
+                    returnQty += Integer.parseInt(retrnDet.getFINVRDET_QTY());
+                    returnTot += Double.parseDouble(retrnDet.getFINVRDET_AMT());
+                }
 
-        lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
-        lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
-        lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, list));
-        lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, Rlist));
+                lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
+                lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
+                lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, list));
+                lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, Rlist));
 
-		/*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+                /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-        TotalPieceQty.setText(String.valueOf(qty));
-        TotalNetValue.setText(String.format("%,.2f", (dTotAmt-returnTot)));
-        TotalDiscount.setText(String.format("%,.2f", returnTot));
-        txtfiQty.setText(String.valueOf(returnQty));
-        txtTotVal.setText(String.format("%,.2f", dTotAmt));
+                TotalPieceQty.setText(String.valueOf(qty));
+                TotalNetValue.setText(String.format("%,.2f", (dTotAmt-returnTot)));
+                TotalDiscount.setText(String.format("%,.2f", returnTot));
+                txtfiQty.setText(String.valueOf(returnQty));
+                txtTotVal.setText(String.format("%,.2f", dTotAmt));
 
-        localSP = context.getSharedPreferences(SETTINGS, 0);
-        PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
+                localSP = context.getSharedPreferences(SETTINGS, 0);
+                PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
 
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                PrintCurrentview();
+                alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        PrintCurrentview();
+                    }
+                });
+
+                alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
+                ListExpandHelper.getListViewSize(lvItemDetails);
+                ListExpandHelper.getListViewSize(lvReturnDetails);
+
+                return 1;
+
             }
-        });
+            else // if pre sale
+            {
+                PRESALE presale = new OrderController(context).getDetailsForPrint(refno);
 
-        alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
+                ArrayList<OrderDetail> list = new OrderDetailController(context).getAllItemsForPrint(refno);
+                ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(refno);
+
+                Customer debtor = new CustomerController(context).getSelectedCustomerByCode(presale.getORDER_DEBCODE());
+
+                Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
+                Debaddress1.setText(debtor.getCusAdd1() + ", " + debtor.getCusAdd2());
+                //Debaddress2.setText(debtor.getFDEBTOR_ADD3());
+                DebTele.setText(debtor.getCusMob());
+
+                SalOrdDate.setText("Date: " + presale.getORDER_TXNDATE() + " " + currentTime());
+                Remarks.setText("Remarks: " + presale.getORDER_REMARKS());
+                OrderNo.setText("Ref No: " + refno);
+                txtRoute.setText(presale.getORDER_TOURCODE() + " / " + presale.getORDER_ROUTECODE());
+
+                int qty = 0, fiQty = 0, returnQty = 0;
+                double dDisc = 0, dTotAmt = 0, returnTot = 0;
+
+                for (OrderDetail det : list) {
+
+                    if (det.getFORDERDET_TYPE().equals("SA"))
+                    {
+                        qty += Integer.parseInt(det.getFORDERDET_QTY());
+                    }
+                    else
+                    {
+                        fiQty += Integer.parseInt(det.getFORDERDET_QTY());
+                    }
+
+                    // dDisc += Double.parseDouble(det.getFINVDET_DISVALAMT());
+                    dTotAmt += Double.parseDouble(det.getFORDERDET_AMT());
+                }
+                for (FInvRDet retrnDet :Rlist){
+                    returnQty += Integer.parseInt(retrnDet.getFINVRDET_QTY());
+                    returnTot += Double.parseDouble(retrnDet.getFINVRDET_AMT());
+                }
+
+                lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
+                lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
+                lvItemDetails.setAdapter(new PrintPreSaleItemAdapter(context, list));
+                lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, Rlist));
+
+                /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+                TotalPieceQty.setText(String.valueOf(qty));
+                TotalNetValue.setText(String.format("%,.2f", (dTotAmt-returnTot)));
+                TotalDiscount.setText(String.format("%,.2f", returnTot));
+                txtfiQty.setText(String.valueOf(returnQty));
+                txtTotVal.setText(String.format("%,.2f", dTotAmt));
+
+                localSP = context.getSharedPreferences(SETTINGS, 0);
+                PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
+
+                alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        PrintCurrentview();
+                    }
+                });
+
+                alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
+                ListExpandHelper.getListViewSize(lvItemDetails);
+                ListExpandHelper.getListViewSize(lvReturnDetails);
+
+                return 1;
+
             }
-        });
-
-        AlertDialog alertD = alertDialogBuilder.create();
-        alertD.show();
-        ListExpandHelper.getListViewSize(lvItemDetails);
-        ListExpandHelper.getListViewSize(lvReturnDetails);
-
-        return 1;
 
         }
         catch (Exception ex)

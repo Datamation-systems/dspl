@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.PRESALE;
@@ -579,6 +580,45 @@ public class OrderController {
         }
 
         return count;
+
+    }
+
+    public PRESALE getDetailsForPrint(String Refno) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        PRESALE SOHed = new PRESALE();
+
+        try {
+            String selectQuery = "SELECT TxnDate,CustomerCode,Remarks,RouteCode,TotalAmt FROM " + DatabaseHelper.TABLE_ORDER + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                SOHed.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                SOHed.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDER_CUSCODE)));
+                SOHed.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDER_REMARKS)));
+//                SOHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOURCODE)));
+                SOHed.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDER_ROUTE_CODE)));
+                SOHed.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDER_TOTAL_AMT)));
+                //SOHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALDIS)));
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return SOHed;
 
     }
 }
