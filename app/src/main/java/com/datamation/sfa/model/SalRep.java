@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class SalRep {
 
     private String Id;
@@ -156,5 +159,25 @@ public class SalRep {
     public void setId(String id) {
         Id = id;
     }
+    public static SalRep parseUser(JSONObject instance) throws JSONException, NumberFormatException {
 
+        if(instance != null) {
+            SalRep user = new SalRep();
+            user.setREPCODE(instance.getString("RepCode"));
+            user.setNAME(instance.getString("RepName"));
+            user.setREPID(instance.getString("RepIdNo"));
+            user.setADDMACH(instance.getString("AddMach"));
+            user.setPASSWORD(instance.getString("Password"));
+            user.setADDUSER(instance.getString("AddUser"));
+            user.setMOBILE(instance.getString("RepMobil"));
+            user.setLOCCODE(instance.getString("LocCode").trim());
+            user.setSTATUS(instance.getString("Status"));
+            user.setPREFIX(instance.getString("RepPrefix"));
+            user.setTELE(instance.getString("RepTele"));
+        //    user.setRECORDID(instance.getInt("RecordId"));
+            return user;
+        }
+
+        return null;
+    }
 }
