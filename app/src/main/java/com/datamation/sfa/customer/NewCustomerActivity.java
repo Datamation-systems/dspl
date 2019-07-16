@@ -482,7 +482,7 @@ public class NewCustomerActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (Flag == 3)
                 {
-                    route.setText(routeArrayList.get(position).getRouteCode());
+                    route.setText(routeArrayList.get(position).getFROUTE_ROUTECODE());
                 }
                 else if (Flag == 2)
                 {

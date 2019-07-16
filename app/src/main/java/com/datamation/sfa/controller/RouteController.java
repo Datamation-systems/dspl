@@ -52,12 +52,12 @@ public class RouteController {
                 ContentValues values = new ContentValues();
 
 
-                values.put(dbHelper.ROUTE_NAME, route.getRouteName());
-                values.put(dbHelper.ROUTE_CODE, route.getRouteCode());
+                values.put(dbHelper.ROUTE_NAME, route.getFROUTE_ROUTE_NAME());
+                values.put(dbHelper.ROUTE_CODE, route.getFROUTE_ROUTECODE());
 
 
                 if (cursor.getCount() > 0) {
-                    dB.update(DatabaseHelper.TABLE_ROUTE, values, DatabaseHelper.ROUTE_CODE + "=?", new String[]{route.getRouteCode().toString()});
+                    dB.update(DatabaseHelper.TABLE_ROUTE, values, DatabaseHelper.ROUTE_CODE + "=?", new String[]{route.getFROUTE_ROUTECODE().toString()});
                     Log.v("TABLE_ROUTE : ", "Updated");
                 } else {
                     count = (int) dB.insert(dbHelper.TABLE_ROUTE, null, values);
@@ -157,8 +157,8 @@ public class RouteController {
             cursor = dB.rawQuery(selectQuery, null);
             while (cursor.moveToNext()) {
                 Route route = new Route();
-                route.setRouteCode(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ROUTE_CODE)));
-                route.setRouteName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ROUTE_NAME)));
+                route.setFROUTE_ROUTECODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ROUTE_CODE)));
+                route.setFROUTE_ROUTE_NAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ROUTE_NAME)));
 
                 list.add(route);
 

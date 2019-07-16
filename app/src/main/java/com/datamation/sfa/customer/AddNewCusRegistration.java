@@ -537,7 +537,7 @@ public class AddNewCusRegistration extends Fragment implements AsyncTaskListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
          if (Flag == 3) {
-                    route.setText(routeArrayList.get(position).getRouteCode());
+                    route.setText(routeArrayList.get(position).getFROUTE_ROUTECODE());
 
                 } else if (Flag == 4) {
                     editTextCNic.setEnabled(true);

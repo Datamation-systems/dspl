@@ -40,8 +40,8 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         TextView routeCodeTxt = (TextView) row.findViewById(R.id.tv_item_code);
         TextView routeName = (TextView) row.findViewById(R.id.TextView01);
 
-        routeCodeTxt.setText(list.get(position).getRouteCode());
-        routeName.setText(list.get(position).getRouteName());
+        routeCodeTxt.setText(list.get(position).getFROUTE_ROUTECODE());
+        routeName.setText(list.get(position).getFROUTE_ROUTE_NAME());
 
         return row;
     }

@@ -49,15 +49,12 @@ public class NetworkFunctions {
     private User user;
 
     public NetworkFunctions(Context context) {
-         pref = SharedPref.getInstance(context);
+        pref = SharedPref.getInstance(context);
         String domain = pref.getBaseURL();
         Log.wtf("baseURL>>>>>>>>>",domain);
-//        baseURL = domain + "/SFA/android_service/";
         baseURL = domain +"/LankaHDWebServices/LankaHDWebServicesRest.svc/";
         dbname = "LHD_PDA_TEST";
         restOfURL = "/mobile123/"+dbname;
-        //baseURL = domain + "/android_service/";
-        //testing
         Log.d(LOG_TAG, "testing : " + baseURL + "login" + restOfURL);
         user = pref.getLoginUser();
     }
@@ -66,14 +63,14 @@ public class NetworkFunctions {
         this.user = user;
     }
 
-public String validate(String macId) throws IOException {
+    public String validate(String macId) throws IOException {
 
-    List<CustomNameValuePair> params = new ArrayList<>();
-   // params.add(new CustomNameValuePair("mac_id", macId));
-    Log.d(LOG_TAG, "Validating : " + baseURL + "fSalRep" +restOfURL+"/"+ macId);
+        List<CustomNameValuePair> params = new ArrayList<>();
 
-    return getFromServer(baseURL + "fSalRep"+restOfURL+"/"+macId, params);
-}
+        Log.d(LOG_TAG, "Validating : " + baseURL + "fSalRep" +restOfURL+"/"+ macId);
+
+        return getFromServer(baseURL + "fSalRep"+restOfURL+"/"+macId, params);
+    }
     /**
      * This function will POST repCode will return a the response JSON
      * from the server.
@@ -85,9 +82,8 @@ public String validate(String macId) throws IOException {
     public String getCompanyDetails(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
-       // params.add(new CustomNameValuePair("repcode", repCode));
 
-        Log.d(LOG_TAG, "Getting customer : " + baseURL + "customer" + params);
+        Log.d(LOG_TAG, "Getting company details : " + baseURL + "fControl"+restOfURL + params);
 
         return getFromServer(baseURL  + "fControl"+restOfURL, params);
 
@@ -95,47 +91,245 @@ public String validate(String macId) throws IOException {
     public String getCustomer(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
-       // params.add(new CustomNameValuePair("repcode", repCode));
 
-        Log.d(LOG_TAG, "Getting customer : " + baseURL + "customer" + params);
+        Log.d(LOG_TAG, "Getting customer : " + baseURL + "Fdebtor"+restOfURL+"/"+repCode+ params);
 
         return getFromServer(baseURL + "Fdebtor"+restOfURL+"/"+repCode, params);
 
     }
+    public String getItemLocations(String repCode) throws IOException {
 
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting itemlocs : " + baseURL + "fItemLoc"+restOfURL+"/"+repCode+ params);
+
+        return getFromServer(baseURL + "fItemLoc"+restOfURL+"/"+repCode, params);
+
+    }
+    public String getItemPrices(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fItemPri : " + baseURL + "fItemPri"+restOfURL+"/"+repCode+ params);
+
+        return getFromServer(baseURL + "fItemPri"+restOfURL+"/"+repCode, params);
+
+    }
+    public String getItems(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fItems : " + baseURL + "fItems"+restOfURL+"/"+repCode+ params);
+
+        return getFromServer(baseURL + "fItems"+restOfURL+"/"+repCode, params);
+
+    }
+    public String getLocations() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fLocations : " + baseURL + "fLocations"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fLocations"+restOfURL, params);
+
+    }
+    public String getTax() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting Ftax : " + baseURL + "Ftax"+restOfURL+ params);
+
+        return getFromServer(baseURL + "Ftax"+restOfURL, params);
+
+    }
+    public String getTaxHed() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting Ftaxhed : " + baseURL + "Ftaxhed"+restOfURL+ params);
+
+        return getFromServer(baseURL + "Ftaxhed"+restOfURL, params);
+
+    }
+    public String getTaxDet() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting Ftaxdet : " + baseURL + "Ftaxdet"+restOfURL+ params);
+
+        return getFromServer(baseURL + "Ftaxdet"+restOfURL, params);
+
+    }
+    public String getTourHed(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting ftourhed : " + baseURL + "ftourhed"+restOfURL+"/"+repCode+ params);
+
+        return getFromServer(baseURL + "ftourhed"+restOfURL+"/"+repCode, params);
+
+    }
+    public String getStkIn(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fstkin : " + baseURL + "fstkin"+restOfURL+"/"+repCode+ params);
+
+        return getFromServer(baseURL + "fstkin"+restOfURL+"/"+repCode, params);
+
+    }
+    public String getReferences(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting FCompanyBranch : " + baseURL + "FCompanyBranch"+restOfURL+"/"+repCode+ params);
+
+        return getFromServer(baseURL + "FCompanyBranch"+restOfURL+"/"+repCode, params);
+    }
+    public String getReferenceSettings() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fCompanySetting : " + baseURL + "fCompanySetting"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fCompanySetting"+restOfURL, params);
+    }
+    public String getReasons() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting freason  : " + baseURL + "freason "+restOfURL+ params);
+
+        return getFromServer(baseURL + "freason"+restOfURL, params);
+    }
+    public String getExpenses() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fexpense   : " + baseURL + "fexpense  "+restOfURL+ params);
+
+        return getFromServer(baseURL + "fexpense"+restOfURL, params);
+    }
+    public String getFreeSlab() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fFreeslab   : " + baseURL + "fFreeslab  "+restOfURL+ params);
+
+        return getFromServer(baseURL + "fFreeslab"+restOfURL, params);
+    }
+    public String getFreeDet() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fFreedet   : " + baseURL + "fFreedet  "+restOfURL+ params);
+
+        return getFromServer(baseURL + "fFreedet"+restOfURL, params);
+    }
+    public String getFreeDebs() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fFreedeb : " + baseURL + "fFreedeb"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fFreedeb"+restOfURL, params);
+    }
+    public String getFreeItems() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting ffreeitem : " + baseURL + "ffreeitem"+restOfURL+ params);
+
+        return getFromServer(baseURL + "ffreeitem"+restOfURL, params);
+    }
+    public String getDebItemPrices() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fdebitempri : " + baseURL + "fdebitempri"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fdebitempri"+restOfURL, params);
+    }
+    public String getBanks() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fbank : " + baseURL + "fbank"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fbank"+restOfURL, params);
+    }
+    public String getDiscDet() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fdiscdet : " + baseURL + "fdiscdet"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fdiscdet"+restOfURL, params);
+    }
+    public String getDiscSlab() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fdiscslab : " + baseURL + "fdiscslab"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fdiscslab"+restOfURL, params);
+    }
+    public String getFreeMslab() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting ffreemslab : " + baseURL + "ffreemslab"+restOfURL+ params);
+
+        return getFromServer(baseURL + "ffreemslab"+restOfURL, params);
+    }
     public String getRoutes(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
-        params.add(new CustomNameValuePair("repcode", repCode));
 
-        Log.d(LOG_TAG, "Getting Routes");
+        Log.d(LOG_TAG, "Getting froute : " + baseURL + "froute"+restOfURL+ params);
 
-        return postToServer(baseURL + "route.php", params);
+        return getFromServer(baseURL + "froute"+restOfURL, params);
     }
-//
-    public String getReferences(String repCode) throws IOException {
+    public String getRouteDets(String repCode) throws IOException {
+
         List<CustomNameValuePair> params = new ArrayList<>();
-        params.add(new CustomNameValuePair("repcode", repCode));
 
-        Log.d(LOG_TAG, "Getting References");
+        Log.d(LOG_TAG, "Getting froutedet : " + baseURL + "froutedet"+restOfURL+ params);
 
-        return postToServer(baseURL + "reference.php", params);
+        return getFromServer(baseURL + "froutedet"+restOfURL, params);
     }
+    public String getDiscDeb(String repCode) throws IOException {
 
-    public String getReferenceSettings() throws IOException {
+        List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting Reference Settings");
+        Log.d(LOG_TAG, "Getting fdiscdeb : " + baseURL + "fdiscdeb"+restOfURL+ params);
 
-        return getFromServer(baseURL + "refsetting.php", null);
+        return getFromServer(baseURL + "fdiscdeb"+restOfURL, params);
     }
+    public String getDiscHed(String repCode) throws IOException {
 
-    public String getReasons() throws IOException {
+        List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting Reasons");
+        Log.d(LOG_TAG, "Getting fdisched : " + baseURL + "fdisched"+restOfURL+ params);
 
-        return getFromServer(baseURL + "reason.php", null);
+        return getFromServer(baseURL + "fdisched"+restOfURL, params);
     }
+    public String getFddbNotes(String repCode) throws IOException {
 
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fDdbNoteWithCondition : " + baseURL + "fDdbNoteWithCondition"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fDdbNoteWithCondition"+restOfURL, params);
+    }
+    public String getFfreeHed(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fFreehed : " + baseURL + "fFreehed"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fFreehed"+restOfURL, params);
+    }
     public String getItems() throws IOException {
 
         Log.d(LOG_TAG, "Getting Items");
@@ -149,6 +343,7 @@ public String validate(String macId) throws IOException {
 
         return getFromServer(baseURL + "itemprices.php", null);
     }
+
 //
 //    public String syncAttendanceDetails(Attendance attendance) throws IOException {
 //        List<CustomNameValuePair> params = new ArrayList<>();
