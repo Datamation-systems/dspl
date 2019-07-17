@@ -236,6 +236,7 @@ public class SalesReturnHeader extends Fragment {
             {
                 salesReturnResponseListener.moveNextTo_ret(1);
                 Toast.makeText(getActivity(),"Return Header Saved...", Toast.LENGTH_LONG).show();
+                Log.d("RETRUN_HEADER", "IS:" + activity.selectedReturnHed);
             }
 
 //            if (returnHed.createOrUpdateInvRHed(ordHedList)>0)
