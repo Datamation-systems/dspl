@@ -18,6 +18,7 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.controller.CompanyDetailsController;
 import com.datamation.sfa.controller.CustomerController;
 //import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.ExpenseController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.ItemPriceController;
@@ -35,6 +36,7 @@ import com.datamation.sfa.model.CompanyBranch;
 import com.datamation.sfa.model.CompanySetting;
 import com.datamation.sfa.model.Control;
 import com.datamation.sfa.model.Debtor;
+import com.datamation.sfa.model.Expense;
 import com.datamation.sfa.model.FddbNote;
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.ItemLoc;
@@ -633,6 +635,92 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         throw e;
                     }
                     /*****************end reasons**********************************************************************/
+                /*****************expenses**********************************************************************/
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Reasons downloaded\nDownloading expense details...");
+                    }
+                });
+
+                String expenses = "";
+                try {
+                    expenses = networkFunctions.getExpenses();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (expenses)...");
+                    }
+                });
+
+                // Processing expense
+                try {
+                    JSONObject expenseJSON = new JSONObject(expenses);
+                    JSONArray expenseJSONArray =expenseJSON.getJSONArray("fExpenseResult");
+                    ArrayList<Expense> expensesList = new ArrayList<Expense>();
+                    ExpenseController expenseController = new ExpenseController(ActivityLogin.this);
+                    for (int i = 0; i < expenseJSONArray.length(); i++) {
+                        expensesList.add(Expense.parseExpense(expenseJSONArray.getJSONObject(i)));
+                    }
+                    expenseController.createOrUpdateFExpense(expensesList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end expenses**********************************************************************/
+                /*****************Route**********************************************************************/
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Expenses downloaded\nDownloading route details...");
+                    }
+                });
+
+                String route = "";
+                try {
+                    route = networkFunctions.getRoutes(repcode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (routes)...");
+                    }
+                });
+
+                // Processing route
+                try {
+                    JSONObject routeJSON = new JSONObject(route);
+                    JSONArray routeJSONArray =routeJSON.getJSONArray("fRouteResult");
+                    ArrayList<Route> routeList = new ArrayList<Route>();
+                    RouteController routeController = new RouteController(ActivityLogin.this);
+                    for (int i = 0; i < routeJSONArray.length(); i++) {
+                        routeList.add(Route.parseRoute(routeJSONArray.getJSONObject(i)));
+                    }
+                    routeController.createOrUpdateFRoute(routeList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end route**********************************************************************/
+
+
                 /*****************end fddbnote **********************************************************************/
                     //routes
 //                    runOnUiThread(new Runnable() {

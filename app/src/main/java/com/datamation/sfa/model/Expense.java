@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Expense {
 
     private String FEXPENSE_ID;
@@ -84,5 +87,20 @@ public class Expense {
     public void setFEXPENSE_ADD_USER(String fEXPENSE_ADD_USER) {
         FEXPENSE_ADD_USER = fEXPENSE_ADD_USER;
     }
+    public static Expense parseExpense(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            Expense expense = new Expense();
+            expense.setFEXPENSE_ADD_DATE(instance.getString("AddDate"));
+            expense.setFEXPENSE_ADD_MACH(instance.getString("AddMach"));
+            expense.setFEXPENSE_ADD_USER(instance.getString("AddUser"));
+            expense.setFEXPENSE_CODE(instance.getString("ExpCode"));
+            // expense.setFEXPENSE_GRP_CODE(jObject.getString("ExpGrpCode"));
+            expense.setFEXPENSE_NAME(instance.getString("ExpName"));
+            expense.setFEXPENSE_STATUS(instance.getString("Status"));
+            return expense;
+        }
+
+        return null;
+    }
 }

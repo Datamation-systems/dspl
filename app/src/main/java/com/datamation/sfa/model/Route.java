@@ -164,8 +164,22 @@ public class Route {
 
         if (instance != null) {
             Route route = new Route();
-//            route.setRouteCode(instance.getString("routecode"));
-//            route.setRouteName(instance.getString("routename"));
+            route.setFROUTE_ADDDATE(instance.getString("AddDate"));
+            route.setFROUTE_ADD_MACH(instance.getString("AddMach"));
+            route.setFROUTE_ADD_USER(instance.getString("AddUser"));
+            route.setFROUTE_AREACODE(instance.getString("AreaCode"));
+            // route.setFROUTE_DEALCODE(jObject.getString("DealCode"));
+            route.setFROUTE_FREQNO(instance.getString("FreqNo"));
+            route.setFROUTE_KM(instance.getString("Km"));
+            route.setFROUTE_MINPROCALL(instance.getString("MinProcall"));
+            route.setFROUTE_RDALORATE(instance.getString("RDAloRate"));
+            route.setFROUTE_RDTARGET(instance.getString("RDTarget"));
+            route.setFROUTE_REMARKS(instance.getString("Remarks"));
+            route.setFROUTE_REPCODE(instance.getString("RepCode"));
+            route.setFROUTE_ROUTECODE(instance.getString("RouteCode"));
+            route.setFROUTE_ROUTE_NAME(instance.getString("RouteName"));
+            route.setFROUTE_STATUS(instance.getString("Status"));
+            route.setFROUTE_TONNAGE(instance.getString("Tonnage"));
 
             return route;
         }

@@ -286,9 +286,9 @@ public class NetworkFunctions {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting froute : " + baseURL + "froute"+restOfURL+ params);
+        Log.d(LOG_TAG, "Getting froute : " + baseURL + "froute"+restOfURL+"/"+repCode+ params);
 
-        return getFromServer(baseURL + "froute"+restOfURL, params);
+        return getFromServer(baseURL + "froute"+restOfURL+"/"+repCode, params);
     }
     public String getRouteDets(String repCode) throws IOException {
 
