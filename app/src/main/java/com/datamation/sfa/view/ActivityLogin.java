@@ -30,6 +30,8 @@ import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.RouteDetController;
+import com.datamation.sfa.controller.TaxController;
+import com.datamation.sfa.controller.TaxHedController;
 import com.datamation.sfa.controller.TourController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.NetworkFunctions;
@@ -51,6 +53,8 @@ import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.RefSetting;
 import com.datamation.sfa.model.Route;
 import com.datamation.sfa.model.RouteDet;
+import com.datamation.sfa.model.Tax;
+import com.datamation.sfa.model.TaxHed;
 import com.datamation.sfa.model.TourHed;
 import com.datamation.sfa.model.User;
 
@@ -800,6 +804,74 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     throw e;
                 }
                 /*****************end banks**********************************************************************/
+                /*****************Tax**********************************************************************/
+                String tax = "";
+                try {
+                    tax = networkFunctions.getTax();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (tax)...");
+                    }
+                });
+
+                // Processing route
+                try {
+                    JSONObject taxJSON = new JSONObject(tax);
+                    JSONArray taxJSONArray =taxJSON.getJSONArray("fTaxResult");
+                    ArrayList<Tax> taxList = new ArrayList<Tax>();
+                    TaxController taxController = new TaxController(ActivityLogin.this);
+                    for (int i = 0; i < taxJSONArray.length(); i++) {
+                        taxList.add(Tax.parseTax(taxJSONArray.getJSONObject(i)));
+                    }
+                    taxController.createOrUpdateTaxHed(taxList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end Tax**********************************************************************/
+                /*****************TaxHed**********************************************************************/
+                String taxHed = "";
+                try {
+                    taxHed = networkFunctions.getTaxHed();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (taxHed)...");
+                    }
+                });
+
+                // Processing route
+                try {
+                    JSONObject taxJSON = new JSONObject(taxHed);
+                    JSONArray taxJSONArray =taxJSON.getJSONArray("fTaxHedResult");
+                    ArrayList<TaxHed> taxList = new ArrayList<TaxHed>();
+                    TaxHedController taxController = new TaxHedController(ActivityLogin.this);
+                    for (int i = 0; i < taxJSONArray.length(); i++) {
+                        taxList.add(TaxHed.parseTaxHed(taxJSONArray.getJSONObject(i)));
+                    }
+                    taxController.createOrUpdateTaxHed(taxList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end Tax**********************************************************************/
                 /*****************end fddbnote **********************************************************************/
                     //routes
 //                    runOnUiThread(new Runnable() {
