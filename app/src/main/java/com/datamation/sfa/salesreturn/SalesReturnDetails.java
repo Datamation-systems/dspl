@@ -94,8 +94,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         txtQty = (EditText) view.findViewById(R.id.et_pieces);
         returnType = (Spinner) view.findViewById(R.id.spinner_return_Type);
 
-        //RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
-
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 
         ArrayList<String> strList = new ArrayList<String>();
         strList.add("Select Return type to continue ...");
@@ -279,7 +278,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
                         if (activity.selectedReturnHed != null)
                         {
-                            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+                            //RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
 
                             FInvRDet ReturnDet = new FInvRDet();
                             ArrayList<FInvRDet> ReturnList = new ArrayList<FInvRDet>();
@@ -363,6 +362,9 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
     }
 
     public void FetchData() {
+
+        Log.d("RETRUN_HEADER", "IS:" + activity.selectedReturnHed);
+
         try {
 
             if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
