@@ -122,7 +122,7 @@ public class VanSalePrintPreviewAlertBox {
 
 	/*-*-*-*-*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-**-*-**-*-*-*--*/
 
-    public int PrintDetailsDialogbox(final Context context, String title, String refno, boolean isPreSale) {
+    public int PrintDetailsDialogbox(final Context context, String title, String refno, String retRef, boolean isPreSale) {
 
         try
         {
@@ -271,7 +271,7 @@ public class VanSalePrintPreviewAlertBox {
                 PRESALE presale = new OrderController(context).getDetailsForPrint(refno);
 
                 ArrayList<OrderDetail> list = new OrderDetailController(context).getAllItemsForPrint(refno);
-                ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(refno);
+                ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(retRef);
 
                 Customer debtor = new CustomerController(context).getSelectedCustomerByCode(presale.getORDER_DEBCODE());
 
@@ -963,7 +963,7 @@ public class VanSalePrintPreviewAlertBox {
         } catch (Exception e) {
             android.widget.Toast.makeText(context, "Printer Device Disable Or Invalid MAC.Please Enable the Printer or MAC Address.", android.widget.Toast.LENGTH_LONG).show();
             e.printStackTrace();
-            this.PrintDetailsDialogbox(context, "", PRefno,false);
+            this.PrintDetailsDialogbox(context, "", PRefno,"",false);
         }
     }
 

@@ -230,7 +230,7 @@ public class OrderDetailFragment extends Fragment{
 //            else
 //            {
                 lv_order_det.setAdapter(null);
-                orderList = new OrderDetailController(getActivity()).getAllOrderDetails(mainActivity.selectedPreHed.getORDER_REFNO());
+                orderList = new OrderDetailController(getActivity()).getAllOrderDetails(RefNo);
                 //ArrayList<OrderDetail> freeList = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(mainActivity.selectedPreHed.getORDER_REFNO());
                 lv_order_det.setAdapter(new OrderDetailsAdapter(getActivity(), orderList));//2019-07-07 till error free
                 //lvFree.setAdapter(new PreSalesFreeItemAdapter(getActivity(), freeList));
@@ -307,7 +307,8 @@ public class OrderDetailFragment extends Fragment{
             protected Void doInBackground(Void... params) {
 
                 int i = 0;
-                new OrderDetailController(getActivity()).deleteRecords(mainActivity.selectedPreHed.getORDER_REFNO());
+                RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
+                new OrderDetailController(getActivity()).deleteRecords(RefNo);
 
                 for (PreProduct product : list) {
                     i++;

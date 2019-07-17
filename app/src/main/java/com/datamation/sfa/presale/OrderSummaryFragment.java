@@ -111,8 +111,8 @@ public class OrderSummaryFragment extends Fragment {
 
         mSharedPref = new SharedPref(getActivity());
         mainActivity = (PreSalesActivity)getActivity();
-        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
+        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
@@ -216,7 +216,8 @@ public class OrderSummaryFragment extends Fragment {
 
     public void mRefreshData() {
 
-        Log.d("ORDER_SUMMARY", "1234");
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
+        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
 
         int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
@@ -404,7 +405,7 @@ public class OrderSummaryFragment extends Fragment {
                             new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
                             new ItemLocController(getActivity()).UpdateOrderQOHInReturn(RefNo, "+", locCode);
 //                            updateDispTables(sHed);
-                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(),"PRINT PREVIEW", RefNo, true);
+                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(),"PRINT PREVIEW", RefNo, ReturnRefNo,true);
 
                             Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
                             activity.selectedRetDebtor = null;
@@ -512,7 +513,7 @@ public class OrderSummaryFragment extends Fragment {
 
                             //if(a == 1)
                             //{
-                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,true);
+                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,"",true);
                             Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
                             //  UtilityContainer.ClearVanSharedPref(getActivity());
                             //   activity.cusPosition = 0;
@@ -723,7 +724,7 @@ public class OrderSummaryFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,true);
+            //new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,true);
             return null;
 
         }
