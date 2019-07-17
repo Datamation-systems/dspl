@@ -149,8 +149,9 @@ public class OrderDetailFragment extends Fragment{
             if (new PreProductController(getActivity()).tableHasRecords()) {
                 productList = new PreProductController(getActivity()).getAllItems("");
             } else {
-                productList =new ItemController(getActivity()).getAllItemForPreSales("","",RefNo, "WSP001");
-                new PreProductController(getActivity()).insertOrUpdatePreProducts(productList);
+                //productList =new ItemController(getActivity()).getAllItemForPreSales("","",RefNo, mSharedPref.getSelectedDebtorPrilCode());
+                new PreProductController(getActivity()).insertIntoProductAsBulkForPre(new SalRepController(getActivity()).getCurrentLocCode().trim(), mSharedPref.getSelectedDebtorPrilCode());
+                //productList = new PreProductController(getActivity()).getAllItems("");
 
                 if(tmpsoHed!=null) {
 

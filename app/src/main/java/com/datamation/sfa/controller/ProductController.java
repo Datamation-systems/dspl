@@ -224,6 +224,7 @@ public class ProductController {
         }
         return  count;
     }
+
     public int updateProductPrice(String itemCode, String price) {
         int count = 0;
         if (dB == null) {
@@ -422,6 +423,74 @@ public class ProductController {
                         "AND pri.PrilCode = '"+prillcode+"'\n" +
                         "WHERE loc.LocCode = '"+LocCode+"'\n" +
                     //    "AND pri.Price > 0\n" +//commented on 2019-07-08 because price is 0.0
+                        "GROUP BY itm.ItemCode ORDER BY QOH DESC";
+
+                dB.execSQL(insertQuery2);
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            if(dB.isOpen())
+            {
+                dB.close();
+            }
+        }
+    }
+
+    public void insertIntoProductAsBulkForPre(String LocCode, String prillcode)
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try
+        {
+
+            if(prillcode.equals(null) || prillcode.isEmpty())
+            {
+                String insertQuery1;
+                insertQuery1 = "INSERT INTO fProducts (itemcode,itemname,price,qoh,ChangedPrice,TxnType,qty)\n" +
+                        "SELECT \n" +
+                        "itm.ItemCode AS ItemCode , \n" +
+                        "itm.ItemName AS ItemName ,  \n" +
+                        "IFNULL(pri.Price,0.0) AS Price , \n" +
+//                        "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +//commented on 2019-07-08 because price is 0.0
+//                        "IFNULL(pri.MaxPrice,0.0) AS MaxPrice ,\n" +//commented on 2019-07-08 because price is 0.0
+                        "loc.QOH AS QOH , \n" +
+                        "\"0.0\" AS ChangedPrice , \n" +
+                        "\"SA\" AS TxnType , \n" +
+                        "\"0\" AS Qty \n" +
+                        "FROM fItem itm\n" +
+                        "INNER JOIN fItemLoc loc ON loc.ItemCode = itm.ItemCode \n" +
+                        "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
+                        "AND pri.PrilCode = itm.PrilCode\n" +
+                        "WHERE loc.LocCode = '"+LocCode+"'\n" +
+                        //   "AND pri.Price > 0\n" +//commented on 2019-07-08 because price is 0.0
+                        "GROUP BY itm.ItemCode ORDER BY QOH DESC";
+
+                dB.execSQL(insertQuery1);
+            }
+            else
+            {
+                String insertQuery2;
+                insertQuery2 = "INSERT INTO fProducts (itemcode,itemname,price,qoh,ChangedPrice,TxnType,qty)\n" +
+                        "SELECT \n" +
+                        "itm.ItemCode AS ItemCode , itm.ItemName AS ItemName ,  \n" +
+                        "IFNULL(pri.Price,0.0) AS Price , " +
+//                        "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +//commented on 2019-07-08 because price is 0.0
+//                        "IFNULL(pri.MaxPrice,0.0) AS MaxPrice ,\n" +//commented on 2019-07-08 because price is 0.0
+                        "loc.QOH AS QOH , \"0.0\" AS ChangedPrice , \"SA\" AS TxnType , \"0\" AS Qty FROM fItem itm\n" +
+                        "INNER JOIN fItemLoc loc ON loc.ItemCode = itm.ItemCode \n" +
+                        "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
+                        "AND pri.PrilCode = '"+prillcode+"'\n" +
+                        "WHERE loc.LocCode = '"+LocCode+"'\n" +
+                        //    "AND pri.Price > 0\n" +//commented on 2019-07-08 because price is 0.0
                         "GROUP BY itm.ItemCode ORDER BY QOH DESC";
 
                 dB.execSQL(insertQuery2);

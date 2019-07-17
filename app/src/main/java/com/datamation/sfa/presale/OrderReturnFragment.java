@@ -112,8 +112,8 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
         lblReason = (EditText) view.findViewById(R.id.et_reason);
 
         lv_return_det = (ListView) view.findViewById(R.id.lv_pre_return_det);
-//        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
-        RefNo = "/0001";
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
+//        RefNo = "/0001";
 
         editTotDisc = (EditText) view.findViewById(R.id.et_TotalDisc);
         lblNou = (EditText) view.findViewById(R.id.et_pieces);
@@ -130,7 +130,6 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
             activity.selectedReturnDet = new OrderDetailController(getActivity()).getActiveReturnDet();
             //activity.selectedOrderDet.setFORDERDET_REFNO(new OrderDetailController(getActivity()).getActiveRefNo());
         }
-
 
         if(activity.selectedPreHed != null){
             Toast.makeText(getActivity(),"InvHed not null"+activity.selectedPreHed.toString(),Toast.LENGTH_LONG).show();
@@ -439,7 +438,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
         productList.clearTextFilter();
 
         //list = new ItemsDS(getActivity()).getAllItem("", "txntype ='21'", RefNo, new SalRepDS(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getFDEBTOR_PRILLCODE());
-        list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","NEG01","WSP001");
+        list = new ItemController(getActivity()).getAllItemForSalesReturn("","","",new SalRepController(getActivity()).getCurrentLocCode().trim(),mSharedPref.getSelectedDebtorPrilCode());
 
         productList.setAdapter(new ProductAdapter(getActivity(), list));
 
@@ -626,7 +625,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
 
             itemList = null;
             // itemList = new ItemsDS(getActivity()).getAllItem("", "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
-            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
+            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","",new SalRepController(getActivity()).getCurrentLocCode().trim(),mSharedPref.getSelectedDebtorPrilCode());
 
             return itemList;
         }
