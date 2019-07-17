@@ -294,9 +294,9 @@ public class NetworkFunctions {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting froutedet : " + baseURL + "froutedet"+restOfURL+ params);
+        Log.d(LOG_TAG, "Getting froutedet : " + baseURL + "froutedet"+restOfURL+"/"+repCode+ params);
 
-        return getFromServer(baseURL + "froutedet"+restOfURL, params);
+        return getFromServer(baseURL + "froutedet"+restOfURL+"/"+repCode, params);
     }
     public String getDiscDeb(String repCode) throws IOException {
 
