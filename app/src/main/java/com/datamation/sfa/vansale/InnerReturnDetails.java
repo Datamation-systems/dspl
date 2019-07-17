@@ -471,8 +471,8 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         dialog.setCancelable(true);
         productList.clearTextFilter();
 
-        //list = new ItemsDS(getActivity()).getAllItem("", "txntype ='21'", RefNo, new SalRepDS(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getFDEBTOR_PRILLCODE());
-        list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
+        list = new ItemController(getActivity()).getAllItemForSalesReturn("", "", "", new SalRepController(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getCusPrilCode());
+        //list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
 
         productList.setAdapter(new ProductAdapter(getActivity(), list));
 

@@ -766,6 +766,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     throw e;
                 }
                 /*****************end route det**********************************************************************/
+                /*****************Banks**********************************************************************/
                 String banks = "";
                 try {
                     banks = networkFunctions.getBanks();
@@ -798,7 +799,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                     throw e;
                 }
-                /*****************end route det**********************************************************************/
+                /*****************end banks**********************************************************************/
                 /*****************end fddbnote **********************************************************************/
                     //routes
 //                    runOnUiThread(new Runnable() {
