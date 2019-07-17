@@ -482,10 +482,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * ################################
      */
 
-    // table
     public static final String TABLE_FDEBTOR = "fDebtor";
     // table attributes
-    public static final String FDEBTOR_ID = "_id";
+    public static final String FDEBTOR_ID = "id";
     public static final String FDEBTOR_CODE = "DebCode";
     public static final String FDEBTOR_NAME = "DebName";
     public static final String FDEBTOR_ADD1 = "DebAdd1";
@@ -495,31 +494,67 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FDEBTOR_MOB = "DebMob";
     public static final String FDEBTOR_EMAIL = "DebEMail";
     public static final String FDEBTOR_CREATEDATE = "CretDate";
+    public static final String FDEBTOR_REM_DIS = "RemDis";
     public static final String FDEBTOR_TOWN_CODE = "TownCode";
     public static final String FDEBTOR_AREA_CODE = "AreaCode";
+    public static final String FDEBTOR_DEB_CAT_CODE = "DebCatCode";
     public static final String FDEBTOR_DBGR_CODE = "DbGrCode";
+    public static final String FDEBTOR_DEB_CLS_CODE = "DebClsCode";
     public static final String FDEBTOR_STATUS = "Status";
+    public static final String FDEBTOR_LYLTY = "DebLylty";
+    public static final String FDEBTOR_DEAL_CODE = "DealCode";
     public static final String FDEBTOR_ADD_USER = "AddUser";
     public static final String FDEBTOR_ADD_DATE_DEB = "AddDateDEB";
     public static final String FDEBTOR_ADD_MACH = "AddMach";
+    public static final String FDEBTOR_RECORD_ID = "RecordId";
+    public static final String FDEBTOR_TIME_STAMP = "timestamp_column";
     public static final String FDEBTOR_CRD_PERIOD = "CrdPeriod";
     public static final String FDEBTOR_CHK_CRD_PRD = "ChkCrdPrd";
     public static final String FDEBTOR_CRD_LIMIT = "CrdLimit";
     public static final String FDEBTOR_CHK_CRD_LIMIT = "ChkCrdLmt";
     public static final String FDEBTOR_REP_CODE = "RepCode";
     public static final String FDEBTOR_RANK_CODE = "RankCode";
-    public static final String FDEBTOR_TAXREG = "TaxReg";
-    public static final String FDEBTOR_PRIL_CODE = "PrilCode";
-    public static final String FDEBTOR_ROUTE_CODE = "RouteCode";
+    public static final String FDEBTOR_TRAN_DATE = "txndate";
+    public static final String FDEBTOR_TRAN_BATCH = "TranBatch";
     public static final String FDEBTOR_SUMMARY = "DebSumary";
-    public static final String FDEBTOR_CHK_MUSTFREE = "ChkMustFree";
-    public static final String FDEBTOR_CHK_FREE = "ChkFree";
+    public static final String FDEBTOR_OUT_DIS = "OutDis";
+    public static final String FDEBTOR_DEB_FAX = "DebFax";
+    public static final String FDEBTOR_DEB_WEB = "DebWeb";
+    public static final String FDEBTOR_DEBCT_NAM = "DebCTNam";
+    public static final String FDEBTOR_DEBCT_ADD1 = "DebCTAdd1";
+    public static final String FDEBTOR_DEBCT_ADD2 = "DebCTAdd2";
+    public static final String FDEBTOR_DEBCT_ADD3 = "DebCTAdd3";
+    public static final String FDEBTOR_DEBCT_TELE = "DebCTTele";
+    public static final String FDEBTOR_DEBCT_FAX = "DebCTFax";
+    public static final String FDEBTOR_DEBCT_EMAIL = "DebCTEmail";
+    public static final String FDEBTOR_DEL_PERSN = "DelPersn";
+    public static final String FDEBTOR_DEL_ADD1 = "DelAdd1";
+    public static final String FDEBTOR_DEL_ADD2 = "DelAdd2";
+    public static final String FDEBTOR_DEL_ADD3 = "DelAdd3";
+    public static final String FDEBTOR_DEL_TELE = "DelTele";
+    public static final String FDEBTOR_DEL_FAX = "DelFax";
+    public static final String FDEBTOR_DEL_EMAIL = "DelEmail";
+    public static final String FDEBTOR_DATE_OFB = "DateOfB";
+    public static final String FDEBTOR_TAX_REG = "TaxReg";
+    public static final String FDEBTOR_CUSDISPER = "CusDIsPer";
+    public static final String FDEBTOR_PRILLCODE = "PrillCode";
+    public static final String FDEBTOR_CUSDISSTAT = "CusDisStat";
+    public static final String FDEBTOR_BUS_RGNO = "BusRgNo";
+    public static final String FDEBTOR_POSTCODE = "PostCode";
+    public static final String FDEBTOR_GEN_REMARKS = "GenRemarks";
+    public static final String FDEBTOR_BRANCODE = "BranCode";
+    public static final String FDEBTOR_BANK = "Bank";
+    public static final String FDEBTOR_BRANCH = "Branch";
+    public static final String FDEBTOR_ACCTNO = "AcctNo";
+    public static final String FDEBTOR_CUS_VATNO = "CusVatNo";
+    public static final String FDEBTOR_LATITUDE = "Latitude";
+    public static final String FDEBTOR_LONGITUDE = "Longitude";
+    public static final String FDEBTOR_NIC = "NIC";
+    public static final String FDEBTOR_BIS_REG = "BisRegNo";
 
     // create String
-    private static final String CREATE_FDEBTOR_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FDEBTOR + " (" + FDEBTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDEBTOR_CODE + " TEXT, " + FDEBTOR_NAME + " TEXT, " + FDEBTOR_ADD1 + " TEXT, " + FDEBTOR_ADD2 + " TEXT, " + FDEBTOR_ADD3 + " TEXT, " + FDEBTOR_TELE + " TEXT, " + FDEBTOR_MOB + " TEXT, " + FDEBTOR_EMAIL + " TEXT, " + FDEBTOR_CREATEDATE + " TEXT, " + FDEBTOR_TOWN_CODE + " TEXT, " + FDEBTOR_AREA_CODE + " TEXT, " + FDEBTOR_DBGR_CODE + " TEXT, " + FDEBTOR_STATUS + " TEXT, " + FDEBTOR_ADD_USER + " TEXT, " + FDEBTOR_ADD_DATE_DEB + " TEXT, " + FDEBTOR_ADD_MACH + " TEXT, " + FDEBTOR_CRD_PERIOD + " TEXT, " + FDEBTOR_CHK_CRD_PRD + " TEXT, " + FDEBTOR_CRD_LIMIT + " TEXT, " + FDEBTOR_CHK_CRD_LIMIT + " TEXT, " + FDEBTOR_REP_CODE + " TEXT, " + FDEBTOR_RANK_CODE + " TEXT, " + FDEBTOR_TAXREG + " TEXT, " + FDEBTOR_PRIL_CODE + " TEXT, " + FDEBTOR_ROUTE_CODE + " TEXT, " + FDEBTOR_SUMMARY + " TEXT, " + FDEBTOR_CHK_MUSTFREE + " TEXT, " + FDEBTOR_CHK_FREE + " TEXT); ";
-
-    private static final String TESTDEBTOR = "CREATE UNIQUE INDEX IF NOT EXISTS idxdebtor_something ON " + TABLE_FDEBTOR + " (" + FDEBTOR_CODE + ")";
-
+    private static final String CREATE_FDEBTOR_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FDEBTOR + " (" + FDEBTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDEBTOR_CODE + " TEXT, " + FDEBTOR_NAME + " TEXT, " + FDEBTOR_ADD1 + " TEXT, " + FDEBTOR_ADD2 + " TEXT, " + FDEBTOR_ADD3 + " TEXT, " + FDEBTOR_TELE + " TEXT, " + FDEBTOR_MOB + " TEXT, " + FDEBTOR_EMAIL + " TEXT, " + FDEBTOR_CREATEDATE + " TEXT, " + FDEBTOR_REM_DIS + " TEXT, " + FDEBTOR_TOWN_CODE + " TEXT, " + FDEBTOR_AREA_CODE + " TEXT, " + FDEBTOR_DEB_CAT_CODE + " TEXT, " + FDEBTOR_DBGR_CODE + " TEXT, " + FDEBTOR_DEB_CLS_CODE + " TEXT, " + FDEBTOR_STATUS + " TEXT, " + FDEBTOR_LYLTY + " TEXT, " + FDEBTOR_DEAL_CODE + " TEXT, " + FDEBTOR_ADD_USER + " TEXT, " + FDEBTOR_ADD_DATE_DEB + " TEXT, " + FDEBTOR_ADD_MACH + " TEXT, " + FDEBTOR_RECORD_ID + " TEXT, " + FDEBTOR_TIME_STAMP + " TEXT, " + FDEBTOR_CRD_PERIOD + " TEXT, " + FDEBTOR_CHK_CRD_PRD + " TEXT, " + FDEBTOR_CRD_LIMIT + " TEXT, " + FDEBTOR_CHK_CRD_LIMIT + " TEXT, " + FDEBTOR_REP_CODE + " TEXT, " + FDEBTOR_RANK_CODE + " TEXT, " + FDEBTOR_TRAN_DATE + " TEXT, " + FDEBTOR_TRAN_BATCH + " TEXT, " + FDEBTOR_OUT_DIS + " TEXT, " + FDEBTOR_DEB_FAX + " TEXT, " + FDEBTOR_DEB_WEB + " TEXT, " + FDEBTOR_DEBCT_NAM + " TEXT, " + FDEBTOR_DEBCT_ADD1 + " TEXT, " + FDEBTOR_DEBCT_ADD2 + " TEXT, " + FDEBTOR_DEBCT_ADD3 + " TEXT, " + FDEBTOR_DEBCT_TELE + " TEXT, " + FDEBTOR_DEBCT_FAX + " TEXT, " + FDEBTOR_DEBCT_EMAIL + " TEXT, " + FDEBTOR_DEL_PERSN + " TEXT, " + FDEBTOR_DEL_ADD1 + " TEXT, " + FDEBTOR_DEL_ADD2 + " TEXT, " + FDEBTOR_DEL_ADD3 + " TEXT, " + FDEBTOR_DEL_TELE + " TEXT, " + FDEBTOR_DEL_FAX + " TEXT, " + FDEBTOR_DEL_EMAIL + " TEXT, " + FDEBTOR_DATE_OFB + " TEXT, " + FDEBTOR_TAX_REG + " TEXT, " + FDEBTOR_CUSDISPER + " TEXT, " + FDEBTOR_PRILLCODE + " TEXT, " + FDEBTOR_CUSDISSTAT + " TEXT, " + FDEBTOR_BUS_RGNO + " TEXT, " + FDEBTOR_POSTCODE + " TEXT, " + FDEBTOR_GEN_REMARKS + " TEXT, " + FDEBTOR_BRANCODE + " TEXT, " + FDEBTOR_BANK + " TEXT, " + FDEBTOR_BRANCH + " TEXT, " + FDEBTOR_ACCTNO + " TEXT, " + FDEBTOR_LATITUDE + " TEXT, " + FDEBTOR_LONGITUDE + " TEXT, " + FDEBTOR_CUS_VATNO + " TEXT, " + FDEBTOR_NIC + " TEXT, " + FDEBTOR_BIS_REG + " TEXT, "  + FDEBTOR_SUMMARY + " TEXT); ";
+    private static final String INDEX_DEBTOR = "CREATE UNIQUE INDEX IF NOT EXISTS ui_debtor ON " + TABLE_FDEBTOR + " (DebCode);";
     /**
      * ############################ fControl table Details
      * ################################
@@ -1428,9 +1463,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FITEMLOC_ITEM_CODE = "ItemCode";
     public static final String FITEMLOC_LOC_CODE = "LocCode";
     public static final String FITEMLOC_QOH = "QOH";
-
+    public static final String FITEMLOC_RECORD_ID = "RecordId";
     // create String
-    private static final String CREATE_FITEMLOC_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITEMLOC + " (" + FITEMLOC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITEMLOC_ITEM_CODE + " TEXT, " + FITEMLOC_LOC_CODE + " TEXT, " + FITEMLOC_QOH + " TEXT); ";
+    private static final String CREATE_FITEMLOC_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITEMLOC + " (" + FITEMLOC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITEMLOC_ITEM_CODE + " TEXT, " + FITEMLOC_LOC_CODE + " TEXT, " + FITEMLOC_QOH + " TEXT, "+ FITEMLOC_RECORD_ID + " TEXT); ";
 
     private static final String TESTITEMLOC = "CREATE UNIQUE INDEX IF NOT EXISTS idxitemloc_something ON " + TABLE_FITEMLOC + " (" + FITEMLOC_ITEM_CODE + "," + FITEMLOC_LOC_CODE + ")";
 
@@ -2512,7 +2547,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(TESTINVDETL3);
         arg0.execSQL(TESTROUTEDET);
         arg0.execSQL(TESTFREEDEB);
-        arg0.execSQL(TESTDEBTOR);
+        arg0.execSQL(INDEX_DEBTOR);
         arg0.execSQL(TESTDDBNOTE);
         arg0.execSQL(TESTBANK);
         arg0.execSQL(IDXCOMSETT);
@@ -2552,6 +2587,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         this.onCreate(arg0);
         try {
+            arg0.execSQL(CREATE_FDEBTOR_TABLE);
             arg0.execSQL(CREATE_FPRODUCT_TABLE);
             arg0.execSQL(CREATE_FINVHED_TABLE);
             arg0.execSQL(CREATE_FINVDET_TABLE);

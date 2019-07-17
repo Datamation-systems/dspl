@@ -18,9 +18,11 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.controller.CompanyDetailsController;
 import com.datamation.sfa.controller.CustomerController;
 //import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.ItemPriceController;
 import com.datamation.sfa.controller.LocationsController;
+import com.datamation.sfa.controller.OutstandingController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
@@ -33,6 +35,7 @@ import com.datamation.sfa.model.CompanyBranch;
 import com.datamation.sfa.model.CompanySetting;
 import com.datamation.sfa.model.Control;
 import com.datamation.sfa.model.Debtor;
+import com.datamation.sfa.model.FddbNote;
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.ItemLoc;
 import com.datamation.sfa.model.ItemPri;
@@ -466,11 +469,11 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 // Processing itemLocations
                 try {
                     JSONObject tourJSON = new JSONObject(tours);
-                    JSONArray tourJSONArray =tourJSON.getJSONArray("fLocationsResult");
+                    JSONArray tourJSONArray =tourJSON.getJSONArray("FTourHedResult");
                     ArrayList<TourHed> tourList = new ArrayList<TourHed>();
                     TourController tourController = new TourController(ActivityLogin.this);
                     for (int i = 0; i < tourJSONArray.length(); i++) {
-                        tourList.add(TourHed.parseLocs(tourJSONArray.getJSONObject(i)));
+                        tourList.add(TourHed.parseTours(tourJSONArray.getJSONObject(i)));
                     }
                     tourController.createOrUpdateTourHed(tourList);
                 } catch (JSONException | NumberFormatException e) {
@@ -481,6 +484,114 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     throw e;
                 }
                 /*****************end tourhed**********************************************************************/
+                /*****************ItemPrice*****************************************************************************/
+
+                String itemPrices = "";
+                try {
+                    itemPrices = networkFunctions.getItemPrices(repcode);
+                    // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (item price details)...");
+                    }
+                });
+
+                // Processing itemLocations
+                try {
+                    JSONObject itemPriceJSON = new JSONObject(itemPrices);
+                    JSONArray itemPriceJSONArray =itemPriceJSON.getJSONArray("fItemPriResult");
+                    ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
+                    ItemPriceController priceController = new ItemPriceController(ActivityLogin.this);
+                    for (int i = 0; i < itemPriceJSONArray.length(); i++) {
+                        itemPriceList.add(ItemPri.parseItemPrices(itemPriceJSONArray.getJSONObject(i)));
+                    }
+                    priceController.InsertOrReplaceItemPri(itemPriceList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end item prices**********************************************************************/
+                /*****************Item*****************************************************************************/
+
+                String item = "";
+                try {
+                    item = networkFunctions.getItems(repcode);
+                    // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (item price details)...");
+                    }
+                });
+
+                // Processing item price
+                try {
+                    JSONObject itemJSON = new JSONObject(item);
+                    JSONArray itemJSONArray =itemJSON.getJSONArray("fItemsResult");
+                    ArrayList<Item> itemList = new ArrayList<Item>();
+                    ItemController itemController = new ItemController(ActivityLogin.this);
+                    for (int i = 0; i < itemJSONArray.length(); i++) {
+                        itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
+                    }
+                    itemController.InsertOrReplaceItems(itemList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end item **********************************************************************/
+                /*****************fddbnote*****************************************************************************/
+
+                String fddbnote = "";
+                try {
+                    fddbnote = networkFunctions.getFddbNotes(repcode);
+                    // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (item price details)...");
+                    }
+                });
+
+                // Processing fddbnote
+                try {
+                    JSONObject fddbnoteJSON = new JSONObject(fddbnote);
+                    JSONArray fddbnoteJSONArray =fddbnoteJSON.getJSONArray("fDdbNoteWithConditionResult");
+                    ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
+                    OutstandingController outstandingController = new OutstandingController(ActivityLogin.this);
+                    for (int i = 0; i < fddbnoteJSONArray.length(); i++) {
+                        fddbnoteList.add(FddbNote.parseFddbnote(fddbnoteJSONArray.getJSONObject(i)));
+                    }
+                    outstandingController.createOrUpdateFDDbNote(fddbnoteList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end fddbnote **********************************************************************/
                     //routes
 //                    runOnUiThread(new Runnable() {
 //                        @Override

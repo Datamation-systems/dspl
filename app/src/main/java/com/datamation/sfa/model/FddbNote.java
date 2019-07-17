@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FddbNote {
 
     private String refNo;
@@ -337,5 +340,39 @@ public class FddbNote {
 
     public void setAmt(String amt) {
         this.amt = amt;
+    }
+
+    public static FddbNote parseFddbnote(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            FddbNote fdDbNote = new FddbNote();
+            fdDbNote.setFDDBNOTE_ADD_DATE(instance.getString("AddDate"));
+            fdDbNote.setFDDBNOTE_ADD_MACH(instance.getString("AddMach"));
+            fdDbNote.setFDDBNOTE_ADD_USER(instance.getString("AddUser"));
+            fdDbNote.setFDDBNOTE_AMT(instance.getString("Amt"));
+            fdDbNote.setFDDBNOTE_B_AMT(instance.getString("BAmt"));
+            fdDbNote.setFDDBNOTE_B_TAX_AMT(instance.getString("BTaxAmt"));
+            fdDbNote.setFDDBNOTE_CUR_CODE(instance.getString("CurCode"));
+            fdDbNote.setFDDBNOTE_CUR_RATE(instance.getString("CurRate"));
+            fdDbNote.setFDDBNOTE_DEB_CODE(instance.getString("DebCode"));
+            fdDbNote.setFDDBNOTE_MANU_REF(instance.getString("ManuRef"));
+            fdDbNote.setFDDBNOTE_OV_PAY_AMT(instance.getString("OvPayAmt"));
+            fdDbNote.setFDDBNOTE_REF_INV(instance.getString("RefInv"));
+            fdDbNote.setFDDBNOTE_REFNO(instance.getString("RefNo"));
+            fdDbNote.setFDDBNOTE_REFNO1(instance.getString("RefNo1"));
+            fdDbNote.setFDDBNOTE_REMARKS(instance.getString("Remarks"));
+            fdDbNote.setFDDBNOTE_REP_CODE(instance.getString("RepCode"));
+            fdDbNote.setFDDBNOTE_SALE_REF_NO(instance.getString("SaleRefNo"));
+            fdDbNote.setFDDBNOTE_TAX_AMT(instance.getString("TaxAmt"));
+            fdDbNote.setFDDBNOTE_TAX_COM_CODE(instance.getString("TaxComCode"));
+            fdDbNote.setFDDBNOTE_TOT_BAL(instance.getString("TotBal"));
+            fdDbNote.setFDDBNOTE_TOT_BAL1(instance.getString("TotBal1"));
+            fdDbNote.setFDDBNOTE_TXN_DATE(instance.getString("TxnDate"));
+            fdDbNote.setFDDBNOTE_TXN_TYPE(instance.getString("TxnType"));
+
+            return fdDbNote;
+        }
+
+        return null;
     }
 }

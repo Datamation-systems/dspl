@@ -214,6 +214,32 @@ public class Item {
 	public void setFITEM_REORDER_LVL(String fITEM_REORDER_LVL) {
 		FITEM_REORDER_LVL = fITEM_REORDER_LVL;
 	}
+	public static Item parseItem(JSONObject instance) throws JSONException {
+
+		if (instance != null) {
+			Item itm = new Item();
+
+			itm.setFITEM_AVGPRICE(instance.getString("AvgPrice"));
+			itm.setFITEM_BRANDCODE(instance.getString("BrandCode"));
+			itm.setFITEM_GROUPCODE(instance.getString("GroupCode"));
+			itm.setFITEM_ITEM_CODE(instance.getString("ItemCode"));
+			itm.setFITEM_ITEM_NAME(instance.getString("ItemName"));
+			itm.setFITEM_ITEMSTATUS(instance.getString("ItemStatus"));
+			itm.setFITEM_PRILCODE(instance.getString("PrilCode"));
+			itm.setFITEM_TYPECODE(instance.getString("TypeCode"));
+			itm.setFITEM_UNITCODE(instance.getString("UnitCode"));
+			itm.setFITEM_VENPCODE(instance.getString("VenPcode"));
+			itm.setFITEM_NOUCASE(instance.getString("NOUCase"));
+			itm.setFITEM_REORDER_LVL(instance.getString("ReOrderLvl"));
+			itm.setFITEM_REORDER_QTY(instance.getString("ReOrderQty"));
+			itm.setFITEM_TAXCOMCODE(instance.getString("TaxComCode"));
+
+
+			return itm;
+		}
+
+		return null;
+	}
 
 
 }
