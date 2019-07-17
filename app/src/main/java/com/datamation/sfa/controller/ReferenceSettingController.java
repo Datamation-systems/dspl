@@ -1,5 +1,6 @@
 package com.datamation.sfa.controller;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -7,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import com.datamation.sfa.model.CompanySetting;
 import com.datamation.sfa.model.RefSetting;
 import com.datamation.sfa.helpers.DatabaseHelper;
 
@@ -28,48 +30,47 @@ public class ReferenceSettingController {
 	}
 
 	@SuppressWarnings("static-access")
-	public int createOrUpdateReferenceSetting(ArrayList<RefSetting> list) {
+	public int createOrUpdateFCompanySetting(ArrayList<CompanySetting> list) {
 		int count = 0;
 		if (dB == null) {
 			open();
 		} else if (!dB.isOpen()) {
 			open();
 		}
-	
-		
+
 		try {
 
-			dB.beginTransaction();
-			
-			String sql = "Insert or Replace into " + dbHelper.TABLE_FCOMPANYSETTING + " (" + dbHelper.FCOMPANYSETTING_SETTINGS_CODE + ", "
-		 + dbHelper.FCOMPANYSETTING_CHAR_VAL + ", "
-					+ dbHelper.FCOMPANYSETTING_REMARKS
-					+ ") values(?,?,?)";
-			
-			SQLiteStatement insert = dB.compileStatement(sql);
-			
-			for (int i = 0; i < list.size(); i++) {
+			for (CompanySetting setting : list) {
 
-				RefSetting item = list.get(i);
-				
-				insert.bindString(1, item.getREF_SETTINGS_CODE());
-				insert.bindString(2, item.getREFSETTING_CHAR_VAL());
-				insert.bindString(3, item.getREFSETTING_REMARKS());
+				Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FCOMPANYSETTING + " WHERE " + DatabaseHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + setting.getFCOMPANYSETTING_SETTINGS_CODE() + "'", null);
 
-				insert.execute();
-				
-				
+				ContentValues values = new ContentValues();
+
+				values.put(DatabaseHelper.FCOMPANYSETTING_SETTINGS_CODE, setting.getFCOMPANYSETTING_SETTINGS_CODE());
+				values.put(DatabaseHelper.FCOMPANYSETTING_GRP, setting.getFCOMPANYSETTING_GRP());
+				values.put(DatabaseHelper.FCOMPANYSETTING_LOCATION_CHAR, setting.getFCOMPANYSETTING_LOCATION_CHAR());
+				values.put(DatabaseHelper.FCOMPANYSETTING_CHAR_VAL, setting.getFCOMPANYSETTING_CHAR_VAL());
+				values.put(DatabaseHelper.FCOMPANYSETTING_NUM_VAL, setting.getFCOMPANYSETTING_NUM_VAL());
+				values.put(DatabaseHelper.FCOMPANYSETTING_REMARKS, setting.getFCOMPANYSETTING_REMARKS());
+				values.put(DatabaseHelper.FCOMPANYSETTING_TYPE, setting.getFCOMPANYSETTING_TYPE());
+				values.put(DatabaseHelper.FCOMPANYSETTING_COMPANY_CODE, setting.getFCOMPANYSETTING_COMPANY_CODE());
+
+				if (cursor.getCount() > 0) {
+					dB.update(DatabaseHelper.TABLE_FCOMPANYSETTING, values, DatabaseHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "=?", new String[]{setting.getFCOMPANYSETTING_SETTINGS_CODE().toString()});
+					Log.v(TAG, "Updated");
+
+				} else {
+					count = (int) dB.insert(DatabaseHelper.TABLE_FCOMPANYSETTING, null, values);
+					Log.v(TAG, "Inserted " + count);
+
+				}
+				cursor.close();
 			}
-			dB.setTransactionSuccessful();
-			Log.w(TAG, "Done");
-			
+
 		} catch (Exception e) {
-			Log.w("XML:", e);
-		}
+			Log.v(TAG, e.toString());
 
-		finally {
-			dB.endTransaction();
-
+		} finally {
 			dB.close();
 		}
 		return count;

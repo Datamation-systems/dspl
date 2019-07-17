@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class CompanyBranch {
 
     private String FCOMPANYBRANCH_ID;
@@ -66,5 +69,18 @@ public class CompanyBranch {
     public void setNMONTH(String nMONTH) {
         NMONTH = nMONTH;
     }
+    public static CompanyBranch parseSettings(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            CompanyBranch branch = new CompanyBranch();
+            branch.setFCOMPANYBRANCH_BRANCH_CODE(instance.getString("BranchCode"));
+            branch.setFCOMPANYBRANCH_CSETTINGS_CODE(instance.getString("cSettingsCode"));
+            branch.setFCOMPANYBRANCH_NNUM_VAL(instance.getString("nNumVal"));
+            branch.setNYEAR(instance.getString("nYear"));
+            branch.setNMONTH(instance.getString("nMonth"));
+            return branch;
+        }
+
+        return null;
+    }
 }

@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ItemLoc
 {
     private String FITEMLOC_ID;
@@ -46,5 +49,18 @@ public class ItemLoc
 
     public void setFITEMLOC_RECORD_ID(String fITEMLOC_RECORD_ID) {
         FITEMLOC_RECORD_ID = fITEMLOC_RECORD_ID;
+    }
+    public static ItemLoc parseSettings(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            ItemLoc loc = new ItemLoc();
+            loc.setFITEMLOC_ITEM_CODE(instance.getString("ItemCode"));
+            loc.setFITEMLOC_LOC_CODE(instance.getString("LocCode"));
+            loc.setFITEMLOC_QOH(instance.getString("QOH"));
+            loc.setFITEMLOC_RECORD_ID(instance.getString("RecordId"));
+            return loc;
+        }
+
+        return null;
     }
 }
