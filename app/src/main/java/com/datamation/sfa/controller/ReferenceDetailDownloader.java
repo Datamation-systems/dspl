@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.datamation.sfa.model.CompanyBranch;
 import com.datamation.sfa.model.ReferenceDetail;
 import com.datamation.sfa.helpers.DatabaseHelper;
 
@@ -34,51 +35,43 @@ public class ReferenceDetailDownloader {
     }
 
     @SuppressWarnings("static-access")
-    public int createOrUpdateFCompanyBranch(ArrayList<ReferenceDetail> list) {
-        int count =0;
-        if(dB == null){
+    public int createOrUpdateFCompanyBranch(ArrayList<CompanyBranch> list) {
+
+        int count = 0;
+        if (dB == null) {
             open();
-        }else if(!dB.isOpen()){
+        } else if (!dB.isOpen()) {
             open();
         }
-        Cursor cursor = null;
-        Cursor cursor_ini = null;
-        try{
 
-            cursor_ini = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FCOMPANYBRANCH, null);
+        try {
 
-            for (ReferenceDetail branch : list) {
+            for (CompanyBranch branch : list) {
+
+                Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FCOMPANYBRANCH + " WHERE " + DatabaseHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + branch.getFCOMPANYBRANCH_CSETTINGS_CODE() + "' AND " + DatabaseHelper.FCOMPANYBRANCH_BRANCH_CODE + "='" + branch.getFCOMPANYBRANCH_BRANCH_CODE() + "' AND nYear='" + branch.getNYEAR() + "' AND nMonth='" + branch.getNMONTH() + "'", null);
 
                 ContentValues values = new ContentValues();
-                values.put(dbHelper.FCOMPANYBRANCH_BRANCH_CODE,  branch.getREFERENCE_REP_CODE());
-                values.put(dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE,  branch.getREFERENCE_SETTING_CODE());
-                values.put(dbHelper.FCOMPANYBRANCH_NNUM_VAL,  branch.getREFERENCE_NNUM_VAL());
-                values.put(dbHelper.FCOMPANYBRANCH_YEAR,  branch.getREFERENCE_NYEAR_VAL());
-                values.put(dbHelper.FCOMPANYBRANCH_MONTH,  branch.getREFERENCE_NMONTH_VAL());
 
-                if (cursor_ini.moveToFirst()) {
-                    String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FCOMPANYBRANCH + " WHERE " + dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + branch.getREFERENCE_SETTING_CODE() + "' AND " + dbHelper.FCOMPANYBRANCH_BRANCH_CODE + "='" + branch.getREFERENCE_REP_CODE() + "' AND " + dbHelper.FCOMPANYBRANCH_YEAR + "='" + branch.getREFERENCE_NYEAR_VAL() + "' AND " + dbHelper.FCOMPANYBRANCH_MONTH + "='" + branch.getREFERENCE_NMONTH_VAL() + "'";
-                    cursor = dB.rawQuery(selectQuery, null);
+                values.put(DatabaseHelper.FCOMPANYBRANCH_BRANCH_CODE, branch.getFCOMPANYBRANCH_BRANCH_CODE());
+                values.put(DatabaseHelper.FCOMPANYBRANCH_RECORD_ID, "");
+                values.put(DatabaseHelper.FCOMPANYBRANCH_CSETTINGS_CODE, branch.getFCOMPANYBRANCH_CSETTINGS_CODE());
+                values.put(DatabaseHelper.FCOMPANYBRANCH_NNUM_VAL, branch.getFCOMPANYBRANCH_NNUM_VAL());
+                values.put(DatabaseHelper.FCOMPANYBRANCH_YEAR, branch.getNYEAR());
+                values.put(DatabaseHelper.FCOMPANYBRANCH_MONTH, branch.getNMONTH());
 
-                    if (cursor.moveToFirst()) {
-                        count = (int) dB.update(dbHelper.TABLE_FCOMPANYBRANCH, values, dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + branch.getREFERENCE_SETTING_CODE() + "' AND " + dbHelper.FCOMPANYBRANCH_BRANCH_CODE + "='" + branch.getREFERENCE_REP_CODE() + "' AND " + dbHelper.FCOMPANYBRANCH_YEAR + "='" + branch.getREFERENCE_NYEAR_VAL() + "' AND " + dbHelper.FCOMPANYBRANCH_MONTH + "='" + branch.getREFERENCE_NMONTH_VAL() + "'", null);
-                    } else {
-                        count = (int) dB.insert(dbHelper.TABLE_FCOMPANYBRANCH, null, values);
-                    }
-
+                if (cursor.getCount() > 0) {
+                    dB.update(DatabaseHelper.TABLE_FCOMPANYBRANCH, values, DatabaseHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "=? AND " + DatabaseHelper.FCOMPANYBRANCH_BRANCH_CODE + "=? AND " + DatabaseHelper.FCOMPANYBRANCH_YEAR + "=? AND " + DatabaseHelper.FCOMPANYBRANCH_MONTH + "=?", new String[]{branch.getFCOMPANYBRANCH_CSETTINGS_CODE().toString(), branch.getFCOMPANYBRANCH_BRANCH_CODE().toString(), branch.getNYEAR().toString(), branch.getNMONTH().toString()});
+                    Log.v(TAG, "Updated");
                 } else {
-                    count = (int) dB.insert(dbHelper.TABLE_FCOMPANYBRANCH, null, values);
+                    count = (int) dB.insert(DatabaseHelper.TABLE_FCOMPANYBRANCH, null, values);
+                    Log.v(TAG, "Inserted" + count);
                 }
-
-            }
-        }finally {
-            if (cursor !=null) {
                 cursor.close();
             }
 
-            if (cursor_ini !=null) {
-                cursor_ini.close();
-            }
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
             dB.close();
         }
         return count;

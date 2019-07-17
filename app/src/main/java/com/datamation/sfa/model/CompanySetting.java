@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class CompanySetting {
 
     private String FCOMPANYSETTING_ID;
@@ -86,5 +89,21 @@ public class CompanySetting {
         FCOMPANYSETTING_COMPANY_CODE = fCOMPANYSETTING_COMPANY_CODE;
     }
 
+    public static CompanySetting parseSettings(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            CompanySetting setting = new CompanySetting();
+            setting.setFCOMPANYSETTING_CHAR_VAL(instance.getString("cCharVal"));
+            setting.setFCOMPANYSETTING_COMPANY_CODE(instance.getString("cCompanyCode"));
+            setting.setFCOMPANYSETTING_LOCATION_CHAR(instance.getString("cLocationChar"));
+            setting.setFCOMPANYSETTING_REMARKS(instance.getString("cRemarks"));
+            setting.setFCOMPANYSETTING_GRP(instance.getString("cSettingGrp"));
+            setting.setFCOMPANYSETTING_SETTINGS_CODE(instance.getString("cSettingsCode"));
+            setting.setFCOMPANYSETTING_NUM_VAL(instance.getString("nNumVal"));
+            setting.setFCOMPANYSETTING_TYPE(instance.getString("nType"));
+            return setting;
+        }
+
+        return null;
+    }
 }
