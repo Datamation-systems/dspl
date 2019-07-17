@@ -37,7 +37,7 @@ public class ReturnReasonAdapter extends BaseAdapter {
         TextView Itemcode = (TextView) row.findViewById(R.id.row_return_reasonName);
 
 
-        Itemcode.setText(list.get(position).getReasonName());
+        Itemcode.setText(list.get(position).getFREASON_NAME());
 
 
         return row;

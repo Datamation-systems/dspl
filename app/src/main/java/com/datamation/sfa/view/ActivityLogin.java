@@ -591,6 +591,48 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                     throw e;
                 }
+                /*****************reasons**********************************************************************/
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Outstanding details downloaded\nDownloading reasons...");
+                        }
+                    });
+
+                    String reasons = "";
+                    try {
+                        reasons = networkFunctions.getReasons();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (reasons)...");
+                        }
+                    });
+
+                    // Processing reasons
+                    try {
+                        JSONObject reasonJSON = new JSONObject(reasons);
+                        JSONArray reasonJSONArray =reasonJSON.getJSONArray("fReasonResult");
+                        ArrayList<Reason> reasonList = new ArrayList<Reason>();
+                        ReasonController reasonController = new ReasonController(ActivityLogin.this);
+                        for (int i = 0; i < reasonJSONArray.length(); i++) {
+                            reasonList.add(Reason.parseReason(reasonJSONArray.getJSONObject(i)));
+                        }
+                        reasonController.createOrUpdateReason(reasonList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+                    /*****************end reasons**********************************************************************/
                 /*****************end fddbnote **********************************************************************/
                     //routes
 //                    runOnUiThread(new Runnable() {
@@ -718,48 +760,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 //                        throw e;
 //                    }
 //                    /*****************end reference settings**********************************************************************/
-//                    /*****************reasons**********************************************************************/
 //
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Reference Setting details downloaded\nDownloading reasons...");
-//                        }
-//                    });
-//
-//                    String reasons = "";
-//                    try {
-//                        reasons = networkFunctions.getReasons();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        throw e;
-//                    }
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Processing downloaded data (reasons)...");
-//                        }
-//                    });
-//
-//                    // Processing reasons
-//                    try {
-//                        JSONObject reasonJSON = new JSONObject(reasons);
-//                        JSONArray reasonJSONArray =reasonJSON.getJSONArray("reasons");
-//                        ArrayList<Reason> reasonList = new ArrayList<Reason>();
-//                        ReasonController reasonController = new ReasonController(ActivityLogin.this);
-//                        for (int i = 0; i < reasonJSONArray.length(); i++) {
-//                            reasonList.add(Reason.parseReason(reasonJSONArray.getJSONObject(i)));
-//                        }
-//                        reasonController.createOrUpdateReason(reasonList);
-//                    } catch (JSONException | NumberFormatException e) {
-//
-////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-////                                e, routes, BugReport.SEVERITY_HIGH);
-//
-//                        throw e;
-//                    }
-//                    /*****************end reasons**********************************************************************/
 //                    /*****************reasons**********************************************************************/
 //
 //                    runOnUiThread(new Runnable() {

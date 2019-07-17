@@ -51,16 +51,16 @@ public class ReasonController {
 			for (Reason reason : list) {
 				ContentValues values = new ContentValues();
 
-				values.put(dbHelper.FREASON_NAME, reason.getReasonName());
-				values.put(dbHelper.FREASON_CODE, reason.getReasonCode());
-				values.put(dbHelper.FREASON_TYPE, reason.getReasonType());
+				values.put(dbHelper.FREASON_NAME, reason.getFREASON_NAME());
+				values.put(dbHelper.FREASON_CODE, reason.getFREASON_CODE());
+				values.put(dbHelper.FREASON_TYPE, reason.getFREASON_TYPE());
 
 				if (cursor_ini.moveToFirst()) {
-					String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + reason.getReasonCode() + "'";
+					String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + reason.getFREASON_CODE() + "'";
 					cursor = dB.rawQuery(selectQuery, null);
 
 					if (cursor.moveToFirst()) {
-						count = (int) dB.update(dbHelper.TABLE_FREASON, values, dbHelper.FREASON_CODE + "='" + reason.getReasonCode() + "'", null);
+						count = (int) dB.update(dbHelper.TABLE_FREASON, values, dbHelper.FREASON_CODE + "='" + reason.getFREASON_CODE() + "'", null);
 					} else {
 						count = (int) dB.insert(dbHelper.TABLE_FREASON, null, values);
 					}
@@ -142,8 +142,8 @@ public class ReasonController {
 
 			Reason res = new Reason();
 
-			res.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
-			res.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+			res.setFREASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			res.setFREASON_NAME(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
 
 			list.add(res);
 
@@ -167,8 +167,8 @@ public class ReasonController {
 
 			Reason reason = new Reason();
 
-			reason.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
-			reason.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+			reason.setFREASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			reason.setFREASON_NAME(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
 
 			list.add(reason);
 
@@ -239,8 +239,8 @@ public class ReasonController {
 
 			Reason expense = new Reason();
 
-			expense.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
-			expense.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+			expense.setFREASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			expense.setFREASON_NAME(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
 
 			list.add(expense);
 
@@ -286,8 +286,8 @@ public class ReasonController {
 
 			Reason FREASON = new Reason();
 
-			FREASON.setReasonCode(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
-			FREASON.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+			FREASON.setFREASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			FREASON.setFREASON_NAME(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
 
 			list.add(FREASON);
 
@@ -313,8 +313,8 @@ public class ReasonController {
 		while (cursor.moveToNext()) {
 			Reason items = new Reason();
 
-			items.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
-			items.setReasonName(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+			items.setFREASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+			items.setFREASON_NAME(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
 			Itemname.add(items);
 		}
 

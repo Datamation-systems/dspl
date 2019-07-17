@@ -192,7 +192,7 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TxtReason.setText(list2.get(position).getReasonName());
+                TxtReason.setText(list2.get(position).getFREASON_NAME());
                 dialog.dismiss();
             }
         });

@@ -36,8 +36,8 @@ public class SalesExpenseDetailAdapter extends ArrayAdapter<Reason> {
         TextView Itemname = (TextView) row.findViewById(R.id.row_sales_expensename);
         TextView Itemcode = (TextView) row.findViewById(R.id.row_sales_expensecode);
 
-        Itemname.setText(list.get(position).getReasonName());
-        Itemcode.setText(list.get(position).getReasonCode());
+        Itemname.setText(list.get(position).getFREASON_NAME());
+        Itemcode.setText(list.get(position).getFREASON_CODE());
 
         return row;
     }

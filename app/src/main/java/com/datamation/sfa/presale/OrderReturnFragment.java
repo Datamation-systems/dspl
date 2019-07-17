@@ -511,7 +511,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 selectedReason = reasonList.get(position);
-                lblReason.setText(selectedReason.getReasonName());
+                lblReason.setText(selectedReason.getFREASON_NAME());
                 lblItemName.requestFocus();
                 dialog.dismiss();
 

@@ -199,8 +199,8 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExpCode.setText(list2.get(position).getReasonName());
-                sExpenseCode = list2.get(position).getReasonCode();
+                ExpCode.setText(list2.get(position).getFREASON_NAME());
+                sExpenseCode = list2.get(position).getFREASON_CODE();
                 dialog.dismiss();
             }
         });
