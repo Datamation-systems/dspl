@@ -127,7 +127,8 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:weightSum="2"
-                android:clickable="false">
+                android:clickable="false"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
