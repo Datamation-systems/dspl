@@ -165,12 +165,13 @@ public class RouteCustomerFragment extends Fragment {
 
     public boolean isValidateCustomer(Customer customer)
     {
-        if (customer.getCusRoute().equals(""))
-        {
-            errorDialog("Route Error", "Selected debtor has no route to continue...");
-            return false;
-        }
-        else if (customer.getCusStatus().equals("I"))
+//        if (customer.getCusRoute().equals(""))
+//        {
+//            errorDialog("Route Error", "Selected debtor has no route to continue...");
+//            return false;
+//        }
+//        else
+        if (customer.getCusStatus().equals("I"))
         {
             errorDialog("Status Error", "Selected debtor is inactive to continue...");
             return false;
