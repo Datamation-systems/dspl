@@ -363,7 +363,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
     public void FetchData() {
 
-        Log.d("RETRUN_HEADER", "IS:" + activity.selectedReturnHed);
+        Log.d("RETRUN_DETAILS", "IS:" + activity.selectedReturnHed);
 
         try {
 

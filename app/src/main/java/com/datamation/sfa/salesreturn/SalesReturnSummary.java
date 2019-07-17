@@ -124,6 +124,8 @@ public class SalesReturnSummary extends Fragment {
     public void mRefreshData() {
         String itemCode = "";
 
+        Log.d("RETRUN_SUMMARY", "IS:" + activity.selectedReturnHed);
+
         if (activity.selectedReturnHed != null )
         {
             //RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
