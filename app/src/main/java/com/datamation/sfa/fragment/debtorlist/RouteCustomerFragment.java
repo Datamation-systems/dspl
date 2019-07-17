@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.CustomerAdapter;
 import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.RouteDetController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.NetworkFunctions;
@@ -82,7 +83,7 @@ public class RouteCustomerFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
                         mSharedPref.setSelectedDebCode(debtor.getCusCode());
                         mSharedPref.setSelectedDebName(debtor.getCusName());
-                        mSharedPref.setSelectedDebRouteCode(debtor.getCusRoute());
+                        mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
                         mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
                         startActivity(intent);
                     }

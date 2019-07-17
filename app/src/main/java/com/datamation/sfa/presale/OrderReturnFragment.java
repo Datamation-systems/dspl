@@ -398,7 +398,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
     public void FetchData() {
         try {
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(activity.selectedReturnHed.getFINVRHED_REFNO());
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
         } catch (NullPointerException e) {

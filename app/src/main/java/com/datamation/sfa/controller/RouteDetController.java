@@ -138,4 +138,25 @@ public class RouteDetController {
         return count;
 
     }
+
+    public String getRouteCodeByDebCode(String debCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FROUTEDET +  " WHERE "  + dbHelper.FROUTEDET_DEB_CODE + "='" + debCode + "'";
+
+        Cursor cursor = null;
+        cursor = dB.rawQuery(selectQuery, null);
+
+        while (cursor.moveToNext()) {
+
+            return cursor.getString(cursor.getColumnIndex(dbHelper.FROUTEDET_ROUTE_CODE));
+
+        }
+
+        return "";
+    }
 }

@@ -22,6 +22,7 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.dialog.PrintPreviewAlertBox;
+import com.datamation.sfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.sfa.helpers.SalesReturnResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.FInvRDet;
@@ -299,7 +300,7 @@ public class SalesReturnSummary extends Fragment {
 
                         UpdateTaxDetails(RefNo, mSharedPref.getSelectedDebCode());
                         activity.selectedReturnHed = null;
-                        //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                        new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
                         Toast.makeText(getActivity(), "Return saved successfully !", Toast.LENGTH_LONG).show();
                         UtilityContainer.ClearReturnSharedPref(getActivity());
                         //UtilityContainer.mLoadFragment();
@@ -307,7 +308,7 @@ public class SalesReturnSummary extends Fragment {
 //                        Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
 //                        startActivity(intent);
 
-                        //new SalesPrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Sales return", RefNo, true);
+                        //new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Sales return", RefNo, true);
                     } else {
                         Toast.makeText(getActivity(), "Return failed !", Toast.LENGTH_LONG)
                                 .show();

@@ -104,7 +104,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         txtQty = (EditText) view.findViewById(R.id.et_pieces);
         returnType = (Spinner) view.findViewById(R.id.spinner_return_Type);
 
-        //RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 
         if (activity.selectedReturnHed == null)
         {

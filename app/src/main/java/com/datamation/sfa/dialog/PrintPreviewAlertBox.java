@@ -117,7 +117,7 @@ public class PrintPreviewAlertBox {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        View promptView = layoutInflater.inflate(R.layout.sales_management_vansales_print_view, null);
+        View promptView = layoutInflater.inflate(R.layout.sales_management_returnsale_print_preview, null);
 
         final TextView Companyname = (TextView) promptView.findViewById(R.id.headcompanyname);
         final TextView Companyaddress1 = (TextView) promptView.findViewById(R.id.headaddress1);

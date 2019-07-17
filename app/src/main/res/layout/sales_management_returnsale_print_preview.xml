@@ -225,7 +225,8 @@
                 android:maxLines="1"
                 android:text="INVOICE DETAILS"
                 android:textColor="#000000"
-                android:textSize="15dip"/>
+                android:textSize="15dip"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/docheadtitledd2"
@@ -235,13 +236,15 @@
                 android:maxLines="1"
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
-                android:textSize="15dip"/>
+                android:textSize="15dip"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="20dip"
                 android:layout_marginTop="0dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/transdetProductname"
@@ -306,14 +309,15 @@
                 android:maxLines="1"
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
-                android:textSize="15dip"/>
+                android:textSize="15dip"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:orientation="horizontal"
-                >
+                android:visibility="gone">
 
                 <ListView
                     android:id="@+id/vansaleList"
@@ -334,7 +338,8 @@
                 android:maxLines="1"
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
-                android:textSize="15dip"/>
+                android:textSize="15dip"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/docdetailline2"
@@ -476,7 +481,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="28dip"
                 android:layout_marginTop="0dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/transsummarytotalvalue"

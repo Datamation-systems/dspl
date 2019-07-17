@@ -111,7 +111,8 @@ public class OrderSummaryFragment extends Fragment {
 
         mSharedPref = new SharedPref(getActivity());
         mainActivity = (PreSalesActivity)getActivity();
-        ReturnRefNo = "/0001";
+        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
@@ -124,14 +125,14 @@ public class OrderSummaryFragment extends Fragment {
         lblGross = (TextView) view.findViewById(R.id.lblGross_Inv);
         lblQty = (TextView) view.findViewById(R.id.lblQty_Inv);
 
-        if (new OrderDetailController(getActivity()).isAnyActiveOrders())
-        {
-            RefNo = new OrderDetailController(getActivity()).getActiveRefNo().getFORDERDET_REFNO();
-        }
-        else
-        {
-            RefNo = mainActivity.selectedPreHed.getORDER_REFNO();
-        }
+//        if (new OrderDetailController(getActivity()).isAnyActiveOrders())
+//        {
+//            RefNo = new OrderDetailController(getActivity()).getActiveRefNo().getFORDERDET_REFNO();
+//        }
+//        else
+//        {
+//            RefNo = mainActivity.selectedPreHed.getORDER_REFNO();
+//        }
 
         fam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,7 +347,7 @@ public class OrderSummaryFragment extends Fragment {
 
                             final PreSalesActivity activity = (PreSalesActivity) getActivity();
 
-                            //new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.NumVal));
+                            new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
 
                             FInvRHed mainHead = new FInvRHed();
                             ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
@@ -390,7 +391,7 @@ public class OrderSummaryFragment extends Fragment {
                                 new SalesReturnController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
 
                                 activity.selectedReturnHed = null;
-                                //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanReturnNumVal));
+                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.PreReturnNumVal));
                                 Toast.makeText(getActivity(), "Order Return saved successfully !", Toast.LENGTH_LONG).show();
                                 UtilityContainer.ClearReturnSharedPref(getActivity());
 
