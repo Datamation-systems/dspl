@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RouteDet {
 
     private String FROUTEDET_ID;
@@ -29,5 +32,16 @@ public class RouteDet {
     public void setFROUTEDET_ROUTE_CODE(String fROUTEDET_ROUTE_CODE) {
         FROUTEDET_ROUTE_CODE = fROUTEDET_ROUTE_CODE;
     }
+    public static RouteDet parseRoute(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            RouteDet routeDet = new RouteDet();
+            routeDet.setFROUTEDET_DEB_CODE(instance.getString("DebCode"));
+            routeDet.setFROUTEDET_ROUTE_CODE(instance.getString("RouteCode"));
+
+            return routeDet;
+        }
+
+        return null;
+    }
 }

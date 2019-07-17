@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Bank {
     private String FBANK_ID;
     private String FBANK_RECORD_ID;
@@ -104,5 +107,26 @@ public class Bank {
     @Override
     public String toString() {
         return FBANK_BANK_NAME;
+    }
+
+    public static Bank parseBank(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            Bank bank = new Bank();
+
+            bank.setFBANK_BANK_CODE(instance.getString("Bankcode"));
+            bank.setFBANK_BANK_NAME(instance.getString("Bankname"));
+            bank.setFBANK_BANK_ACC_NO(instance.getString("Bankaccno"));
+            bank.setFBANK_BRANCH(instance.getString("Branch"));
+            bank.setFBANK_ADD1(instance.getString("Bankadd1"));
+            bank.setFBANK_ADD2(instance.getString("Bankadd2"));
+            bank.setFBANK_ADD_DATE(instance.getString("AddDate"));
+            bank.setFBANK_ADD_MACH(instance.getString("AddMach"));
+            bank.setFBANK_ADD_USER(instance.getString("AddUser"));
+
+            return bank;
+        }
+
+        return null;
     }
 }

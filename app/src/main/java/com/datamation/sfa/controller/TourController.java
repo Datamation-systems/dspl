@@ -66,6 +66,8 @@ public class TourController
                 values.put(DatabaseHelper.TOURHED_TOURTYPE, hed.getTOURHED_TOURTYPE());
                 values.put(DatabaseHelper.TXNDATE, hed.getTOURHED_TXNDATE());
                 values.put(DatabaseHelper.TOURHED_VANLOADFLG, hed.getTOURHED_VANLOADFLG());
+                values.put(DatabaseHelper.TOURHED_FROMDATE, hed.getTOURHED_DATEFROM());
+                values.put(DatabaseHelper.TOURHED_TODATE, hed.getTOURHED_DATETO());
 
                 if (cursor.getCount() > 0) {
                     dB.update(DatabaseHelper.TABLE_FTOURHED, values, DatabaseHelper.REFNO + "=?", new String[]{hed.getTOURHED_REFNO()});

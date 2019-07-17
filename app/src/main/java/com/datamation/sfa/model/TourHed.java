@@ -218,6 +218,8 @@ public class TourHed {
             hed.setTOURHED_TOURTYPE(instance.getString("TourType"));
             hed.setTOURHED_TXNDATE(instance.getString("TxnDate"));
             hed.setTOURHED_VANLOADFLG(instance.getString("VanLoadFlg"));
+            hed.setTOURHED_DATEFROM(instance.getString("DateFrom"));
+            hed.setTOURHED_DATETO(instance.getString("DateTo"));
 
             return hed;
         }
