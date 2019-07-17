@@ -404,7 +404,9 @@ public class VanSalesSummary extends Fragment {
                             activity.selectedReturnHed = null;
                             activity.selectedInvHed = null;
                          //   loadFragment(new VanSaleInvoice());
-
+                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
 
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
