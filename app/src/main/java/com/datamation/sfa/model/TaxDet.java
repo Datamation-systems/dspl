@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class TaxDet {
 
     private String ID;
@@ -75,5 +78,21 @@ public class TaxDet {
         TAXTYPE = tAXTYPE;
     }
 
+    public static TaxDet parseTaxDet(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            TaxDet tax = new TaxDet();
+
+            tax.setTAXVAL(instance.getString("TaxRate"));
+            tax.setSEQ(instance.getString("TaxSeq"));
+            tax.setTAXCODE(instance.getString("TaxCode"));
+            tax.setTAXCOMCODE(instance.getString("TaxComCode"));
+            tax.setMODE(instance.getString("TaxMode"));
+            tax.setRATE(instance.getString("TaxPer"));
+
+            return tax;
+        }
+
+        return null;
+    }
 }

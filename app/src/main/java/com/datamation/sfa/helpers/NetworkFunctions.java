@@ -282,6 +282,14 @@ public class NetworkFunctions {
 
         return getFromServer(baseURL + "ffreemslab"+restOfURL, params);
     }
+    public String getFreeHed() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting FreeHed : " + baseURL + "FreeHed"+restOfURL+ params);
+
+        return getFromServer(baseURL + "fFreehed"+restOfURL, params);
+    }
     public String getRoutes(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();

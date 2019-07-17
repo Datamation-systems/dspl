@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FreeSlab {
     private String FFREESLAB_ID;
     private String FFREESLAB_REFNO;
@@ -108,5 +111,25 @@ public class FreeSlab {
 
     public void setFFREESLAB_SEQ_NO(String fFREESLAB_SEQ_NO) {
         FFREESLAB_SEQ_NO = fFREESLAB_SEQ_NO;
+    }
+    public static FreeSlab parseFreeSlab(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            FreeSlab freeslab = new FreeSlab();
+
+//            freeMslab.setFFREEMSLAB_REFNO(instance.getString("Refno"));
+//            freeMslab.setFFREEMSLAB_QTY_F(instance.getString("Qtyf"));
+//            freeMslab.setFFREEMSLAB_QTY_T(instance.getString("Qtyt"));
+//            freeMslab.setFFREEMSLAB_ITEM_QTY(instance.getString("ItemQty"));
+//            freeMslab.setFFREEMSLAB_FREE_IT_QTY(instance.getString("FreeItQty"));
+//            freeMslab.setFFREEMSLAB_ADD_USER(instance.getString("AddUser"));
+//            freeMslab.setFFREEMSLAB_ADD_DATE(instance.getString("AddDate"));
+//            freeMslab.setFFREEMSLAB_ADD_MACH(instance.getString("AddMach"));
+//            freeMslab.setFFREEMSLAB_SEQ_NO(instance.getString("Seqno"));
+
+            return freeslab;
+        }
+
+        return null;
     }
 }

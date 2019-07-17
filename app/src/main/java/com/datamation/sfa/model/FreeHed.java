@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FreeHed {
 
     private String FFREEHED_ID;
@@ -121,5 +124,24 @@ public class FreeHed {
         FFREEHED_COSTCODE = fFREEHED_COSTCODE;
     }
 
+    public static FreeHed parseFreeHed(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            FreeHed freeHed = new FreeHed();
+
+//            freeMslab.setFFREEMSLAB_REFNO(instance.getString("Refno"));
+//            freeMslab.setFFREEMSLAB_QTY_F(instance.getString("Qtyf"));
+//            freeMslab.setFFREEMSLAB_QTY_T(instance.getString("Qtyt"));
+//            freeMslab.setFFREEMSLAB_ITEM_QTY(instance.getString("ItemQty"));
+//            freeMslab.setFFREEMSLAB_FREE_IT_QTY(instance.getString("FreeItQty"));
+//            freeMslab.setFFREEMSLAB_ADD_USER(instance.getString("AddUser"));
+//            freeMslab.setFFREEMSLAB_ADD_DATE(instance.getString("AddDate"));
+//            freeMslab.setFFREEMSLAB_ADD_MACH(instance.getString("AddMach"));
+//            freeMslab.setFFREEMSLAB_SEQ_NO(instance.getString("Seqno"));
+
+            return freeHed;
+        }
+
+        return null;
+    }
 }

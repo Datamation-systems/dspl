@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FreeDet {
 
     private String FFREEDET_ID;
@@ -38,6 +41,25 @@ public class FreeDet {
     public void setFFREEDET_RECORD_ID(String fFREEDET_RECORD_ID) {
         FFREEDET_RECORD_ID = fFREEDET_RECORD_ID;
     }
+    public static FreeDet parseFreeDet(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            FreeDet freedet = new FreeDet();
+
+//            freeMslab.setFFREEMSLAB_REFNO(instance.getString("Refno"));
+//            freeMslab.setFFREEMSLAB_QTY_F(instance.getString("Qtyf"));
+//            freeMslab.setFFREEMSLAB_QTY_T(instance.getString("Qtyt"));
+//            freeMslab.setFFREEMSLAB_ITEM_QTY(instance.getString("ItemQty"));
+//            freeMslab.setFFREEMSLAB_FREE_IT_QTY(instance.getString("FreeItQty"));
+//            freeMslab.setFFREEMSLAB_ADD_USER(instance.getString("AddUser"));
+//            freeMslab.setFFREEMSLAB_ADD_DATE(instance.getString("AddDate"));
+//            freeMslab.setFFREEMSLAB_ADD_MACH(instance.getString("AddMach"));
+//            freeMslab.setFFREEMSLAB_SEQ_NO(instance.getString("Seqno"));
+
+            return freedet;
+        }
+
+        return null;
+    }
 
 }
