@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Locations {
 
     private String FLOCATIONS_ID;
@@ -65,5 +68,19 @@ public class Locations {
     public void setFLOCATIONS_REP_CODE(String fLOCATIONS_REP_CODE) {
         FLOCATIONS_REP_CODE = fLOCATIONS_REP_CODE;
     }
+    public static Locations parseLocs(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            Locations locations = new Locations();
+            locations.setFLOCATIONS_ADD_MACH(instance.getString("AddMach"));
+            locations.setFLOCATIONS_ADD_USER(instance.getString("AddUser"));
+            locations.setFLOCATIONS_LOC_CODE(instance.getString("LocCode"));
+            locations.setFLOCATIONS_LOC_NAME(instance.getString("LocName"));
+            locations.setFLOCATIONS_LOC_T_CODE(instance.getString("LoctCode"));
+            locations.setFLOCATIONS_REP_CODE(instance.getString("RepCode"));
+            return locations;
+        }
+
+        return null;
+    }
 }

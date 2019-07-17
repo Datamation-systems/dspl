@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class TourHed {
 
 
@@ -192,6 +195,34 @@ public class TourHed {
     public void setTOURHED_TOURTYPE(String tOURHED_TOURTYPE) {
         TOURHED_TOURTYPE = tOURHED_TOURTYPE;
     }
+    public static TourHed parseLocs(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            TourHed hed = new TourHed();
+
+            hed.setTOURHED_ADDMACH(instance.getString("AddMach"));
+            hed.setTOURHED_ADDUSER(instance.getString("AddUser"));
+            hed.setTOURHED_AREACODE(instance.getString("AreaCode"));
+            hed.setTOURHED_CLSFLG(instance.getString("Clsflg"));
+            hed.setTOURHED_COSTCODE(instance.getString("CostCode"));
+            hed.setTOURHED_DRIVERCODE(instance.getString("DriverCode"));
+            hed.setTOURHED_HELPERCODE(instance.getString("HelperCode"));
+            hed.setTOURHED_LOCCODE(instance.getString("LocCode"));
+            hed.setTOURHED_LOCCODEF(instance.getString("LocCodeF"));
+            hed.setTOURHED_LORRYCODE(instance.getString("LorryCode"));
+            hed.setTOURHED_MANUREF(instance.getString("ManuRef"));
+            hed.setTOURHED_REFNO(instance.getString("RefNo"));
+            hed.setTOURHED_REMARKS(instance.getString("Remarks"));
+            hed.setTOURHED_REPCODE(instance.getString("RepCode"));
+            hed.setTOURHED_ROUTECODE(instance.getString("RouteCode"));
+            hed.setTOURHED_TOURTYPE(instance.getString("TourType"));
+            hed.setTOURHED_TXNDATE(instance.getString("TxnDate"));
+            hed.setTOURHED_VANLOADFLG(instance.getString("VanLoadFlg"));
+
+            return hed;
+        }
+
+        return null;
+    }
 
 }

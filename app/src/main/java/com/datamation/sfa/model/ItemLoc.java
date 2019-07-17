@@ -50,7 +50,7 @@ public class ItemLoc
     public void setFITEMLOC_RECORD_ID(String fITEMLOC_RECORD_ID) {
         FITEMLOC_RECORD_ID = fITEMLOC_RECORD_ID;
     }
-    public static ItemLoc parseSettings(JSONObject instance) throws JSONException {
+    public static ItemLoc parseItemLocs(JSONObject instance) throws JSONException {
 
         if (instance != null) {
             ItemLoc loc = new ItemLoc();

@@ -124,13 +124,13 @@ public class NetworkFunctions {
         return getFromServer(baseURL + "fItems"+restOfURL+"/"+repCode, params);
 
     }
-    public String getLocations() throws IOException {
+    public String getLocations(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting fLocations : " + baseURL + "fLocations"+restOfURL+ params);
+        Log.d(LOG_TAG, "Getting fLocations : " + baseURL + "fLocations"+restOfURL+"/"+repCode+ params);
 
-        return getFromServer(baseURL + "fLocations"+restOfURL, params);
+        return getFromServer(baseURL + "fLocations"+restOfURL+"/"+repCode, params);
 
     }
     public String getTax() throws IOException {
