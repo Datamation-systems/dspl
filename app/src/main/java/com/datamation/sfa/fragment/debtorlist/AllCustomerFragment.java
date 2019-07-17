@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.CustomerAdapter;
 import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
@@ -114,7 +115,7 @@ public class AllCustomerFragment extends Fragment {
 
             try
             {
-                customerList = new CustomerController(getActivity()).getAllCustomers();
+                customerList = new CustomerController(getActivity()).getAllCustomersForSelectedRepCode(new SalRepController(getActivity()).getCurrentRepCode());
 
                 return true;
 
