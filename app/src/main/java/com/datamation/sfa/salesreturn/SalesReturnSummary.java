@@ -59,7 +59,7 @@ public class SalesReturnSummary extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_sales_return_summary, container, false);
 
-        //RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanReturnNumVal));
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanReturnNumVal));
         mSharedPref = new SharedPref(getActivity());
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
@@ -126,7 +126,7 @@ public class SalesReturnSummary extends Fragment {
 
         if (activity.selectedReturnHed != null )
         {
-            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+            //RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
             returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
 
@@ -155,7 +155,7 @@ public class SalesReturnSummary extends Fragment {
         {
             activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
 
-            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+            //RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
             returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
 
@@ -187,8 +187,8 @@ public class SalesReturnSummary extends Fragment {
 
         if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
         {
-            //RefNo = new SalesReturnDetController(getActivity()).getActiveReturnRefNo().getFINVRDET_REFNO();
-            RefNo = "/001";
+            RefNo = new SalesReturnDetController(getActivity()).getActiveReturnRefNo().getFINVRDET_REFNO();
+            //RefNo = "/001";
         }
         else
         {
@@ -230,7 +230,7 @@ public class SalesReturnSummary extends Fragment {
     {
         gpsTracker = new GPSTracker(getActivity());
 
-        RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+        //RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
 
         if (!(gpsTracker.canGetLocation()))
         {
@@ -332,7 +332,7 @@ public class SalesReturnSummary extends Fragment {
 
     public void mPauseinvoice() {
 
-        RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+        //RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
 
         if (new SalesReturnDetController(getActivity()).getItemCount(RefNo) > 0)
         {

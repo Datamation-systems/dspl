@@ -341,7 +341,7 @@ public class DayNPrdDetController {
             open();
         }
 
-        String selectQuery = "select * from " + dbHelper.TABLE_NONPRDDET + " WHERE " + dbHelper.ORDDET_IS_ACTIVE + "='" + "1" + "'";
+        String selectQuery = "select * from " + dbHelper.TABLE_NONPRDHED + " WHERE " + dbHelper.NONPRDHED_IS_ACTIVE + "='" + "1" + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 

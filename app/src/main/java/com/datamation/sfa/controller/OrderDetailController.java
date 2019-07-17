@@ -1084,7 +1084,10 @@ public class OrderDetailController {
 
         @SuppressWarnings("static-access")
         String selectQuery = "select * from " + dbHelper.TABLE_FINVRDET + " Where " + dbHelper.FINVRDET_IS_ACTIVE
-                + "='1' and " + dbHelper.FINVRHED_IS_SYNCED + "='0'";
+                + "='1' ";
+
+//        String selectQuery = "select * from " + dbHelper.TABLE_FINVRDET + " Where " + dbHelper.FINVRDET_IS_ACTIVE
+//                + "='1' and " + dbHelper.FINVRHED_IS_SYNCED + "='0'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
