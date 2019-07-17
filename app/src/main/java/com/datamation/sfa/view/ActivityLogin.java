@@ -757,7 +757,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     for (int i = 0; i < routeJSONArray.length(); i++) {
                         routeList.add(RouteDet.parseRoute(routeJSONArray.getJSONObject(i)));
                     }
-                    routeController.createOrUpdateFRouteDet(routeList);
+                    routeController.InsertOrReplaceRouteDet(routeList);
                 } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
