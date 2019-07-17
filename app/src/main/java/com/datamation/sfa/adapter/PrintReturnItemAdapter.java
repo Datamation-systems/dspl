@@ -48,8 +48,18 @@ public class PrintReturnItemAdapter extends ArrayAdapter<FInvRDet> {
         pieceqty.setText(list.get(position).getFINVRDET_QTY());
 
         double amt = Double.parseDouble(list.get(position).getFINVRDET_AMT());
-        double taxAmt = Double.parseDouble(list.get(position).getFINVRDET_TAX_AMT());
-        double finalAmt = amt - taxAmt;
+
+        if (list.get(position).getFINVRDET_TAX_AMT()== null)
+        {
+            double finalAmt = amt;
+
+        }
+        else
+        {
+            double taxAmt = Double.parseDouble(list.get(position).getFINVRDET_TAX_AMT());
+            double finalAmt = amt - taxAmt;
+
+        }
 
         // if Debtor is Tax enable
 
