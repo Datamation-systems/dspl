@@ -359,7 +359,55 @@ public class CustomerController {
 				customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD1)));
 				customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD2)));
 				customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_MOB)));
-				//customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_RO)));
+//				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_RO)));
+				customer.setCusEmail(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_EMAIL)));
+				customer.setCusStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_STATUS)));
+				customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
+				customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_PERIOD)));
+				customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CHK_CRD_LIMIT)));
+				customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_PRILLCODE)));
+
+				list.add(customer);
+
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+
+		return list;
+	}
+
+	public ArrayList<Customer> getAllCustomersForSelectedRepCode(String RepCode) {
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		ArrayList<Customer> list = new ArrayList<Customer>();
+		Cursor cursor = null;
+		try {
+			String selectQuery = "select * from " + dbHelper.TABLE_FDEBTOR + " Where " + dbHelper.FDEBTOR_REP_CODE + "='"
+					+ RepCode + "'";
+
+			cursor = dB.rawQuery(selectQuery, null);
+			while (cursor.moveToNext()) {
+
+				Customer customer = new Customer();
+
+				customer.setCusCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CODE)));
+				customer.setCusName(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_NAME)));
+				customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD1)));
+				customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD2)));
+				customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_MOB)));
+//				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_RO)));
 				customer.setCusEmail(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_EMAIL)));
 				customer.setCusStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_STATUS)));
 				customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
@@ -402,7 +450,7 @@ public class CustomerController {
 		Cursor cursor = null;
 		try {
 
-			cursor = dB.rawQuery("select * from fDebtor where RouteCode in (select RouteCode from fTourHed where '"+curdate+"' between DateFrom And DateTo and RepCode = '"+repCode+"')", null);
+			cursor = dB.rawQuery("select * from fDebtor where DebCode in (select Debcode from fRouteDet where RouteCode in (select RouteCode from fTourHed where '"+curdate+"' between DateFrom And DateTo and RepCode = '"+repCode+"'));", null);
 
 			while (cursor.moveToNext()) {
 

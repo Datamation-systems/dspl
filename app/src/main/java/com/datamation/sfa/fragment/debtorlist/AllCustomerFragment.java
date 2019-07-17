@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.CustomerAdapter;
 import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
@@ -114,7 +115,7 @@ public class AllCustomerFragment extends Fragment {
 
             try
             {
-                customerList = new CustomerController(getActivity()).getAllCustomers();
+                customerList = new CustomerController(getActivity()).getAllCustomersForSelectedRepCode(new SalRepController(getActivity()).getCurrentRepCode());
 
                 return true;
 
@@ -152,12 +153,13 @@ public class AllCustomerFragment extends Fragment {
 
     public boolean isValidateCustomer(Customer customer)
     {
-        if (customer.getCusRoute().equals(""))
-        {
-            errorDialog("Route Error", "Selected debtor has no route to continue...");
-            return false;
-        }
-        else if (customer.getCusStatus().equals("I"))
+//        if (customer.getCusRoute().equals(""))
+//        {
+//            errorDialog("Route Error", "Selected debtor has no route to continue...");
+//            return false;
+//        }
+//        else
+        if (customer.getCusStatus().equals("I"))
         {
             errorDialog("Status Error", "Selected debtor is inactive to continue...");
             return false;

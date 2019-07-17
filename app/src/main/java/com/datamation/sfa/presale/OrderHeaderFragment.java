@@ -111,8 +111,8 @@ public class OrderHeaderFragment extends Fragment{
             //mSaveInvoiceHeader();
         } else { /*No header*/
 
-            //lblPreRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
-            lblPreRefno.setText("/0001");
+            lblPreRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
+            //lblPreRefno.setText("/0001");
         }
 
         outStandingAmt.setOnClickListener(new View.OnClickListener() {
@@ -158,86 +158,6 @@ public class OrderHeaderFragment extends Fragment{
 
             }
         });
-
-//        locationProvider = new LocationProvider((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE),
-//                new LocationProvider.ICustomLocationListener() {
-//
-//                    @Override
-//                    public void onProviderEnabled(String provider) {
-//                        Log.d(LOG_TAG, "Provider enabled");
-//                        locationProvider.startLocating();
-//                    }
-//
-//                    @Override
-//                    public void onProviderDisabled(String provider) {
-//                        Log.d(LOG_TAG, "Provider disabled");
-//                        locationProvider.stopLocating();
-//                    }
-//
-//                    @Override
-//                    public void onUnableToGetLocation() {
-//                        Toast.makeText(getActivity(), "Unable to get location", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onGotLocation(Location location, int locationType) {
-//                        if (location != null) {
-//                            finalLocation = location;
-//
-//                            SharedPref.getInstance(getActivity()).setGlobalVal("startLongitude", String.valueOf(finalLocation.getLongitude()));
-//                            SharedPref.getInstance(getActivity()).setGlobalVal("startLatitude", String.valueOf(finalLocation.getLatitude()));
-//                            System.currentTimeMillis();
-//
-//
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onProgress(int type) {
-//                        if (type == LocationProvider.LOCATION_TYPE_GPS) {
-//                            Toast.makeText(getActivity(),"Getting location (GPS)",Toast.LENGTH_LONG).show();
-//                        } else {
-//                            Toast.makeText(getActivity(),"Getting location (Network)",Toast.LENGTH_LONG).show();
-//
-//                        }
-//                    }
-//                });
-//        try {
-//            locationProvider.setOnGPSTimeoutListener(new LocationProvider.OnGPSTimeoutListener() {
-//                @Override
-//                public void onGPSTimeOut() {
-//
-//                    MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-//                            .content("Please move to a more clear location to get GPS")
-//                            .positiveText("Try Again")
-//                            .positiveColor(getResources().getColor(R.color.material_alert_neutral_button))
-//                            .callback(new MaterialDialog.ButtonCallback() {
-//                                @Override
-//                                public void onPositive(MaterialDialog dialog) {
-//                                    super.onPositive(dialog);
-//                                    locationProvider.startLocating();
-//                                }
-//
-//                                @Override
-//                                public void onNegative(MaterialDialog dialog) {
-//                                    super.onNegative(dialog);
-//                                }
-//
-//                                @Override
-//                                public void onNeutral(MaterialDialog dialog) {
-//                                    super.onNeutral(dialog);
-//                                }
-//                            })
-//                            .build();
-//                    materialDialog.setCancelable(false);
-//                    materialDialog.setCanceledOnTouchOutside(false);
-//                    materialDialog.show();
-//                }
-//            }, 0);
-//        } catch (UnsupportedOperationException e) {
-//            e.printStackTrace();
-//        }
 
         return view;
     }
