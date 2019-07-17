@@ -80,7 +80,7 @@ public class ReferenceController {
 		Calendar c = Calendar.getInstance();
 
 		try {
-			String query = "SELECT " + DatabaseHelper.FCOMPANYBRANCH_NNUM_VAL +" from "+ DatabaseHelper.TABLE_FCOMPANYBRANCH + " WHERE " + DatabaseHelper.FCOMPANYBRANCH_BRANCH_CODE + " = '" + repcode + "'  AND SettingsCode = '" + cSettingsCode + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
+			String query = "SELECT " + DatabaseHelper.FCOMPANYBRANCH_NNUM_VAL +" from "+ DatabaseHelper.TABLE_FCOMPANYBRANCH + " WHERE " + DatabaseHelper.FCOMPANYBRANCH_BRANCH_CODE + " = '" + repcode + "'  AND cSettingsCode = '" + cSettingsCode + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
 			Cursor cursor = dB.rawQuery(query, null);
 			int count = cursor.getCount();
 			if (count > 0) {
@@ -112,7 +112,7 @@ public class ReferenceController {
 		ArrayList<Reference> list = new ArrayList<Reference>();
 
 		try {
-			String selectRep = "select CharVal from fCompanySetting where cSettingsCode ='" + cSettingsCode + "'";
+			String selectRep = "select cCharVal from fCompanySetting where cSettingsCode ='" + cSettingsCode + "'";
 
 			Cursor cursor = null;
 			cursor = dB.rawQuery(selectRep, null);
