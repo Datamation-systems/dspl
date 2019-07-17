@@ -20,10 +20,12 @@ import com.datamation.sfa.controller.CustomerController;
 //import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.ItemPriceController;
+import com.datamation.sfa.controller.LocationsController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.controller.RouteController;
+import com.datamation.sfa.controller.TourController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
@@ -34,11 +36,13 @@ import com.datamation.sfa.model.Debtor;
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.ItemLoc;
 import com.datamation.sfa.model.ItemPri;
+import com.datamation.sfa.model.Locations;
 import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.model.ReferenceDetail;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.RefSetting;
 import com.datamation.sfa.model.Route;
+import com.datamation.sfa.model.TourHed;
 import com.datamation.sfa.model.User;
 
 import org.json.JSONArray;
@@ -394,7 +398,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
                     ItemLocController locController = new ItemLocController(ActivityLogin.this);
                     for (int i = 0; i < settingsJSONArray.length(); i++) {
-                        itemLocList.add(ItemLoc.parseSettings(settingsJSONArray.getJSONObject(i)));
+                        itemLocList.add(ItemLoc.parseItemLocs(settingsJSONArray.getJSONObject(i)));
                     }
                     locController.InsertOrReplaceItemLoc(itemLocList);
                 } catch (JSONException | NumberFormatException e) {
@@ -408,9 +412,9 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 /*****************end Item Loc**********************************************************************/
                 /*****************Locations*****************************************************************************/
 
-                String itemLocs = "";
+                String locations = "";
                 try {
-                    itemLocs = networkFunctions.getItemLocations(repcode);
+                    locations = networkFunctions.getLocations(repcode);
                     // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -420,20 +424,20 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        pdialog.setMessage("Processing downloaded data (item location details)...");
+                        pdialog.setMessage("Processing downloaded data (location details)...");
                     }
                 });
 
                 // Processing itemLocations
                 try {
-                    JSONObject itemLocJSON = new JSONObject(itemLocs);
-                    JSONArray settingsJSONArray =itemLocJSON.getJSONArray("fItemLocResult");
-                    ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
-                    ItemLocController locController = new ItemLocController(ActivityLogin.this);
-                    for (int i = 0; i < settingsJSONArray.length(); i++) {
-                        itemLocList.add(ItemLoc.parseSettings(settingsJSONArray.getJSONObject(i)));
+                    JSONObject locJSON = new JSONObject(locations);
+                    JSONArray locJSONArray =locJSON.getJSONArray("fLocationsResult");
+                    ArrayList<Locations> locList = new ArrayList<Locations>();
+                    LocationsController locController = new LocationsController(ActivityLogin.this);
+                    for (int i = 0; i < locJSONArray.length(); i++) {
+                        locList.add(Locations.parseLocs(locJSONArray.getJSONObject(i)));
                     }
-                    locController.InsertOrReplaceItemLoc(itemLocList);
+                    locController.createOrUpdateFLocations(locList);
                 } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
@@ -441,8 +445,42 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                     throw e;
                 }
+                /*****************Tourhed*****************************************************************************/
 
-                /*****************end Locations**********************************************************************/
+                String tours = "";
+                try {
+                    tours = networkFunctions.getTourHed(repcode);
+                    // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (tour details)...");
+                    }
+                });
+
+                // Processing itemLocations
+                try {
+                    JSONObject tourJSON = new JSONObject(tours);
+                    JSONArray tourJSONArray =tourJSON.getJSONArray("fLocationsResult");
+                    ArrayList<TourHed> tourList = new ArrayList<TourHed>();
+                    TourController tourController = new TourController(ActivityLogin.this);
+                    for (int i = 0; i < tourJSONArray.length(); i++) {
+                        tourList.add(TourHed.parseLocs(tourJSONArray.getJSONObject(i)));
+                    }
+                    tourController.createOrUpdateTourHed(tourList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end tourhed**********************************************************************/
                     //routes
 //                    runOnUiThread(new Runnable() {
 //                        @Override

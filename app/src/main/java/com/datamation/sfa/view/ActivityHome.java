@@ -1095,22 +1095,22 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
                     });
 
                     // Processing references
-                    try {
-                        JSONObject refJSON = new JSONObject(references);
-                        JSONArray refJSONArray =refJSON.getJSONArray("references");
-                        ArrayList<ReferenceDetail> refList = new ArrayList<ReferenceDetail>();
-                        ReferenceDetailDownloader refController = new ReferenceDetailDownloader(ActivityHome.this);
-                        for (int i = 0; i < refJSONArray.length(); i++) {
-                            refList.add(ReferenceDetail.parseRef(refJSONArray.getJSONObject(i)));
-                        }
-                        refController.createOrUpdateFCompanyBranch(refList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
+//                    try {
+//                        JSONObject refJSON = new JSONObject(references);
+//                        JSONArray refJSONArray =refJSON.getJSONArray("references");
+//                        ArrayList<ReferenceDetail> refList = new ArrayList<ReferenceDetail>();
+//                        ReferenceDetailDownloader refController = new ReferenceDetailDownloader(ActivityHome.this);
+//                        for (int i = 0; i < refJSONArray.length(); i++) {
+//                            refList.add(ReferenceDetail.parseRef(refJSONArray.getJSONObject(i)));
+//                        }
+//                        refController.createOrUpdateFCompanyBranch(refList);
+//                    } catch (JSONException | NumberFormatException e) {
+//
+////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+////                                e, routes, BugReport.SEVERITY_HIGH);
+//
+//                        throw e;
+//                    }
 /*****************ennd references**********************************************************************/
 /*****************reference settings**********************************************************************/
 
@@ -1137,22 +1137,22 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
                     });
 
                     // Processing outlets
-                    try {
-                        JSONObject settingJSON = new JSONObject(settings);
-                        JSONArray settingJSONArray =settingJSON.getJSONArray("refSettings");
-                        ArrayList<RefSetting> settingList = new ArrayList<RefSetting>();
-                        ReferenceSettingController settingController = new ReferenceSettingController(ActivityHome.this);
-                        for (int i = 0; i < settingJSONArray.length(); i++) {
-                            settingList.add(RefSetting.parseSetting(settingJSONArray.getJSONObject(i)));
-                        }
-                        settingController.createOrUpdateReferenceSetting(settingList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
+//                    try {
+//                        JSONObject settingJSON = new JSONObject(settings);
+//                        JSONArray settingJSONArray =settingJSON.getJSONArray("refSettings");
+//                        ArrayList<RefSetting> settingList = new ArrayList<RefSetting>();
+//                        ReferenceSettingController settingController = new ReferenceSettingController(ActivityHome.this);
+//                        for (int i = 0; i < settingJSONArray.length(); i++) {
+//                            settingList.add(RefSetting.parseSetting(settingJSONArray.getJSONObject(i)));
+//                        }
+//                        settingController.createOrUpdateReferenceSetting(settingList);
+//                    } catch (JSONException | NumberFormatException e) {
+//
+////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+////                                e, routes, BugReport.SEVERITY_HIGH);
+//
+//                        throw e;
+//                    }
                     /*****************end reference settings**********************************************************************/
                     /*****************reasons**********************************************************************/
 
