@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
-    String Name, UserName, Password, Mobile, Address, target, Status, Code, Prefix, macID;
+    String Name, UserName, Password, Mobile, Address, target, Status, Code, Prefix, macID, loccode;
 
     public User(){
 
@@ -27,6 +27,14 @@ public class User implements Serializable {
         this.Code = code;
         this.Prefix = prefix;
         this.macID = macid;
+    }
+
+    public String getLoccode() {
+        return loccode;
+    }
+
+    public void setLoccode(String loccode) {
+        this.loccode = loccode;
     }
 
     public String getTarget() {
@@ -115,13 +123,13 @@ public class User implements Serializable {
             User user = new User();
             user.setCode(instance.getString("RepCode"));
             user.setName(instance.getString("RepName"));
-         //   user.setUserName(instance.getString("UserName"));
+            user.setLoccode(instance.getString("LocCode"));
             user.setPassword(instance.getString("Password"));
         //    user.setTarget(instance.getString("Target"));
             user.setMobile(instance.getString("RepMobil"));
             //  user.setAddress(instance.getString("Address"));
             user.setStatus(instance.getString("Status"));
-            user.setStatus(instance.getString("RepPrefix"));
+            user.setPrefix(instance.getString("RepPrefix"));
             return user;
         }
 
