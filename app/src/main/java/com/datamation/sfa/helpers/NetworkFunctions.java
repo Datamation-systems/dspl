@@ -318,9 +318,9 @@ public class NetworkFunctions {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting fDdbNoteWithCondition : " + baseURL + "fDdbNoteWithCondition"+restOfURL+ params);
+        Log.d(LOG_TAG, "Getting fDdbNoteWithCondition : " + baseURL + "fDdbNoteWithCondition"+restOfURL+"/"+repCode+ params);
 
-        return getFromServer(baseURL + "fDdbNoteWithCondition"+restOfURL, params);
+        return getFromServer(baseURL + "fDdbNoteWithCondition"+restOfURL+"/"+repCode, params);
     }
     public String getFfreeHed(String repCode) throws IOException {
 

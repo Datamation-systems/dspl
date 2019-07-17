@@ -195,7 +195,7 @@ public class TourHed {
     public void setTOURHED_TOURTYPE(String tOURHED_TOURTYPE) {
         TOURHED_TOURTYPE = tOURHED_TOURTYPE;
     }
-    public static TourHed parseLocs(JSONObject instance) throws JSONException {
+    public static TourHed parseTours(JSONObject instance) throws JSONException {
 
         if (instance != null) {
             TourHed hed = new TourHed();

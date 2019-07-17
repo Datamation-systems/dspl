@@ -29,52 +29,43 @@ public class ItemPriceController {
 	}
 
 	@SuppressWarnings("static-access")
-//	public int createOrUpdateItemPri(ArrayList<ItemPri> list) {
-//
-//		int count = 0;
-//
-//		if (dB == null) {
-//			open();
-//		} else if (!dB.isOpen()) {
-//			open();
-//		}
-//
-//		try {
-//
-//			dB.beginTransaction();
-//
-//			String sql = "Insert or Replace into " + dbHelper.TABLE_ITEMPRI + " (" + dbHelper.ITEMPRI_ITEM_CODE + ", " +
-//					dbHelper.ITEMPRI_PRIL_CODE +
-//					", " + dbHelper.ITEMPRI_PRICE +
-//				  ") values(?,?,?)";
-//
-//			SQLiteStatement insert = dB.compileStatement(sql);
-//
-//			for (ItemPri pri : list) {
-//
-//				insert.bindString(1, pri.getITEMPRI_ITEM_CODE());
-//				insert.bindString(2, pri.getITEMPRI_PRIL_CODE());
-//				insert.bindString(3, pri.getITEMPRI_PRICE());
-//
-//
-//				insert.execute();
-//
-//				count = 1;
-//			}
-//
-//			dB.setTransactionSuccessful();
-//		} catch (Exception e) {
-//
-//			Log.v(TAG + " Exception", e.toString());
-//
-//		} finally {
-//			dB.endTransaction();
-//			dB.close();
-//		}
-//		return count;
-//
-//	}
+	public void InsertOrReplaceItemPri(ArrayList<ItemPri> list) {
 
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		try {
+			dB.beginTransactionNonExclusive();
+			String sql = "INSERT OR REPLACE INTO " + DatabaseHelper.TABLE_FITEMPRI + " (AddMach,AddUser,ItemCode,Price,PrilCode,TxnMach,Txnuser) VALUES (?,?,?,?,?,?,?)";
+
+			SQLiteStatement stmt = dB.compileStatement(sql);
+
+			for (ItemPri itemPri : list) {
+
+				stmt.bindString(1, itemPri.getFITEMPRI_ADD_MACH());
+				stmt.bindString(2, itemPri.getFITEMPRI_ADD_USER());
+				stmt.bindString(3, itemPri.getFITEMPRI_ITEM_CODE());
+				stmt.bindString(4, itemPri.getFITEMPRI_PRICE());
+				stmt.bindString(5, itemPri.getFITEMPRI_PRIL_CODE());
+				stmt.bindString(6, itemPri.getFITEMPRI_TXN_MACH());
+				stmt.bindString(7, itemPri.getFITEMPRI_TXN_USER());
+
+				stmt.execute();
+				stmt.clearBindings();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dB.setTransactionSuccessful();
+			dB.endTransaction();
+			dB.close();
+		}
+
+	}
 	public int deleteAllItemPri() {
 
 		int count = 0;

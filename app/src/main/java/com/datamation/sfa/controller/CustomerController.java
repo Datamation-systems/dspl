@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.datamation.sfa.helpers.DatabaseHelper.FDDBNOTE_DEB_CODE;
-import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_ROUTE_CODE;
+
 
 public class CustomerController {
 
@@ -359,13 +359,13 @@ public class CustomerController {
 				customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD1)));
 				customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD2)));
 				customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_MOB)));
-				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ROUTE_CODE)));
+				//customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_RO)));
 				customer.setCusEmail(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_EMAIL)));
 				customer.setCusStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_STATUS)));
 				customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
 				customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_PERIOD)));
 				customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CHK_CRD_LIMIT)));
-				customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_PRIL_CODE)));
+				customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_PRILLCODE)));
 
 				list.add(customer);
 
@@ -413,13 +413,13 @@ public class CustomerController {
 				customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD1)));
 				customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD2)));
 				customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_MOB)));
-				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ROUTE_CODE)));
+				//customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ROUTE_CODE)));
 				customer.setCusEmail(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_EMAIL)));
 				customer.setCusStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_STATUS)));
 				customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
 				customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_PERIOD)));
 				customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CHK_CRD_LIMIT)));
-				customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_PRIL_CODE)));
+				customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_PRILLCODE)));
 
 				list.add(customer);
 
@@ -676,7 +676,7 @@ public class CustomerController {
 
 				customer.setCusName(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_NAME)));
 				customer.setCusCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CODE)));
-				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ROUTE_CODE)));
+			//	customer.setCusRoute(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ROUTE_CODE)));
 				customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD1)));
 				customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD2)));
 				customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_MOB)));

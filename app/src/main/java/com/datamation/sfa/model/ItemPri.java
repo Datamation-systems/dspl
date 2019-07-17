@@ -103,4 +103,23 @@ public class ItemPri {
 	public void setFITEMPRI_MAX_PRICE(String FITEMPRI_MAX_PRICE) {
 		this.FITEMPRI_MAX_PRICE = FITEMPRI_MAX_PRICE;
 	}
+	public static ItemPri parseItemPrices(JSONObject instance) throws JSONException {
+
+		if (instance != null) {
+			ItemPri pri = new ItemPri();
+
+			pri.setFITEMPRI_ADD_MACH(instance.getString("AddMach"));
+			pri.setFITEMPRI_ADD_USER(instance.getString("AddUser"));
+			pri.setFITEMPRI_ITEM_CODE(instance.getString("ItemCode"));
+			pri.setFITEMPRI_PRICE(instance.getString("Price"));
+			pri.setFITEMPRI_PRIL_CODE(instance.getString("PrilCode"));
+			pri.setFITEMPRI_TXN_MACH(instance.getString("TxnMach"));
+			pri.setFITEMPRI_TXN_USER(instance.getString("Txnuser"));
+
+			return pri;
+		}
+
+		return null;
+	}
+
 }
