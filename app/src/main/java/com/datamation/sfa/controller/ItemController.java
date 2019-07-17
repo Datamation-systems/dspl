@@ -127,7 +127,7 @@ public class ItemController {
         return list;
     }
 
-    public ArrayList<Item> getAllItemForSalesReturn(String newText, String type, String refno, String LocCode, String prillcode ) {
+    public ArrayList<Item> getAllItemForSalesReturn(String newText, String type, String refno, String LocCode, String prillcode) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -137,7 +137,8 @@ public class ItemController {
         ArrayList<Item> list = new ArrayList<Item>();
         String selectQuery;
 //        selectQuery = "SELECT itm.ItemName, itm.NouCase, itm.ItemCode, itm.brandcode, itm.avgprice, loc.QOH, pric.price FROM fitem itm, fitemLoc loc, fitempri pric WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.ItemCode=itm.ItemCode AND loc.LocCode='" + LocCode + "' AND pric.ItemCode=itm.ItemCode AND pric.prilcode='" + prillcode + "' AND  itm.ItemCode not in (SELECT DISTINCT ItemCode FROM FTranSODet WHERE " + type + " And RefNo ='" + refno + "') ORDER BY CAST(loc.QOH AS FLOAT) DESC";
-        selectQuery = "SELECT itm.ItemName, itm.NouCase, itm.ItemCode, itm.brandcode, itm.avgprice, loc.QOH, pric.price FROM fitem itm, fitemLoc loc, fitempri pric WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.ItemCode=itm.ItemCode AND loc.LocCode='" + LocCode + "' AND pric.ItemCode=itm.ItemCode AND pric.prilcode='" + prillcode + "' ORDER BY CAST(loc.QOH AS FLOAT) DESC";
+        //selectQuery = "SELECT itm.ItemName, itm.NouCase, itm.ItemCode, itm.brandcode, itm.avgprice, loc.QOH, pric.price FROM fitem itm, fitemLoc loc, fitempri pric WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.ItemCode=itm.ItemCode AND loc.LocCode='" + LocCode + "' AND pric.ItemCode=itm.ItemCode AND pric.prilcode='" + prillcode + "' ORDER BY CAST(loc.QOH AS FLOAT) DESC";
+        selectQuery = "SELECT itm.ItemName, itm.NouCase, itm.ItemCode, itm.brandcode, itm.avgprice, loc.QOH, pric.price FROM fitem itm, fitemLoc loc, fitempri pric WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.ItemCode=itm.ItemCode AND loc.LocCode='" + LocCode + "' AND pric.ItemCode=itm.ItemCode ORDER BY CAST(loc.QOH AS FLOAT) DESC";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
             while (cursor.moveToNext()) {

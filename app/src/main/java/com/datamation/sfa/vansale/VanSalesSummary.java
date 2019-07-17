@@ -311,7 +311,7 @@ public class VanSalesSummary extends Fragment {
                         sHed.setFINVHED_START_TIME_SO(invHed.getFINVHED_START_TIME_SO());
                         sHed.setFINVHED_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
                         sHed.setFINVHED_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
-                        sHed.setFINVHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
+                       // sHed.setFINVHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
                         sHed.setFINVHED_TOTALTAX("0");
                         sHed.setFINVHED_TOTALDIS("0.0");
                         sHed.setFINVHED_TOTALAMT(lblNetVal.getText().toString());
