@@ -3,13 +3,17 @@ package com.datamation.sfa.salesreturn;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -75,6 +79,8 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
     SweetAlertDialog pDialog;
     String RefNo;
     SalesReturnResponseListener salesReturnResponseListener;
+    MyReceiver r;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,7 +100,12 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         txtQty = (EditText) view.findViewById(R.id.et_pieces);
         returnType = (Spinner) view.findViewById(R.id.spinner_return_Type);
 
-        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        //RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+
+        if (activity.selectedReturnHed == null)
+        {
+            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
+        }
 
         ArrayList<String> strList = new ArrayList<String>();
         strList.add("Select Return type to continue ...");
@@ -135,7 +146,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 //            }
 
 
-        FetchData();
+        //FetchData();
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -278,7 +289,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
                         if (activity.selectedReturnHed != null)
                         {
-                            //RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+                            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
 
                             FInvRDet ReturnDet = new FInvRDet();
                             ArrayList<FInvRDet> ReturnList = new ArrayList<FInvRDet>();
@@ -363,22 +374,28 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
     public void FetchData() {
 
-        Log.d("RETRUN_DETAILS", "IS:" + activity.selectedReturnHed);
+//        if (activity.selectedReturnHed == null)
+//        {
+//            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
+//            Log.d("SALES_RETRUN", "DETAIL_IS:" + activity.selectedReturnHed.getFINVRHED_REFNO());
+//        }
+
+        //Log.d("SALES_RETRUN", "DETAIL_IS:" + activity.selectedReturnHed.getFINVRHED_REFNO());
 
         try {
 
-            if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
-            {
-                lv_return_det.setAdapter(null);
-                returnList = new SalesReturnDetController(getActivity()).getAllActiveNPs();
-                lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
-            }
-            else
-            {
+//            if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
+//            {
+//                lv_return_det.setAdapter(null);
+//                returnList = new SalesReturnDetController(getActivity()).getAllActiveNPs();
+//                lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
+//            }
+//            else
+//            {
                 lv_return_det.setAdapter(null);
                 returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(activity.selectedReturnHed.getFINVRHED_REFNO());
                 lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
-            }
+//            }
 
         } catch (NullPointerException e) {
             Log.v(" Error", e.toString());
@@ -510,5 +527,37 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
         }
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mRefreshData();
+        }
+    }
+
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+
+    public void onResume() {
+        super.onResume();
+        r = new MyReceiver();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_RET_DETAILS"));
+    }
+
+    public void mRefreshData()
+    {
+        if (activity.selectedReturnHed == null)
+        {
+            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
+        }
+
+        Log.d("SALES_RETRUN", "DETAIL_IS:" + activity.selectedReturnHed.getFINVRHED_REFNO());
+
+        FetchData();
     }
 }

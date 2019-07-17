@@ -232,11 +232,11 @@ public class SalesReturnHeader extends Fragment {
             ArrayList<FInvRHed> ordHedList=new ArrayList<FInvRHed>();
             ordHedList.add(hed);
 
-            if (ordHedList.size()>0)
+            if (new SalesReturnController(getActivity()).createOrUpdateInvRHed(ordHedList) > 0)
             {
                 salesReturnResponseListener.moveNextTo_ret(1);
                 Toast.makeText(getActivity(),"Return Header Saved...", Toast.LENGTH_LONG).show();
-                Log.d("RETRUN_HEADER", "IS:" + activity.selectedReturnHed);
+                Log.d("SALES_RETRUN", "HEADER_IS:" + activity.selectedReturnHed);
             }
 
 //            if (returnHed.createOrUpdateInvRHed(ordHedList)>0)
@@ -340,7 +340,7 @@ public class SalesReturnHeader extends Fragment {
             remarks.setEnabled(true);
             mNo.setEnabled(true);
             cusName.setText(SharedPref.getInstance(getActivity()).getGlobalVal("PrekeyCusName"));
-            ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
+            ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet)));
             // String debCode= new SharedPref(getActivity()).getGlobalVal("PrekeyCusCode");
 
             if (home.selectedOrdHed != null) {
@@ -355,7 +355,7 @@ public class SalesReturnHeader extends Fragment {
 
             } else {
 
-                ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
+                ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet)));
                 deldate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                 SaveReturnHeader();
             }
