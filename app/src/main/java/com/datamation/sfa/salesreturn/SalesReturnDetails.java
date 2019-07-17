@@ -36,10 +36,12 @@ import com.datamation.sfa.adapter.ProductAdapter;
 import com.datamation.sfa.adapter.SalesReturnDetailsAdapter;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ReasonController;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.dialog.CustomKeypadDialog;
 import com.datamation.sfa.helpers.SalesReturnResponseListener;
+import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.Item;
@@ -80,6 +82,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
     String RefNo;
     SalesReturnResponseListener salesReturnResponseListener;
     MyReceiver r;
+    SharedPref sharedPref;
 
 
     @Override
@@ -89,6 +92,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         activity = (SalesReturnActivity)getActivity();
         seqno = 0;
         totPieces = 0;
+        sharedPref = SharedPref.getInstance(getActivity());
         itemSearch = (Button) view.findViewById(R.id.btn_item_search);
         bAdd = (Button) view.findViewById(R.id.btn_add);
         bFreeIssue = (Button) view.findViewById(R.id.btn_free);
@@ -416,7 +420,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         @Override
         protected ArrayList<Item> doInBackground(Object... objects) {
 
-            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","NEG01","WSP001");
+            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","",new SalRepController(getActivity()).getCurrentLocCode().trim(),sharedPref.getSelectedDebtorPrilCode());
             Log.v("Return Item count", ">>>>>"+list.size());
             return list;
         }

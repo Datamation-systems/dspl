@@ -106,7 +106,7 @@ public class SalesReturnHeader extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (cusName.getText().toString().equals("")|| ordno.getText().toString().equals("")||route.getText().toString().equals("")||date.getText().toString().equals(""))
+                if (cusName.getText().toString().equals("")|| ordno.getText().toString().equals("")||date.getText().toString().equals(""))
                 {
                     salesReturnResponseListener.moveBackTo_ret(0);
                     Toast.makeText(getActivity(), "Can not proceed without Route...", Toast.LENGTH_LONG).show();

@@ -2432,6 +2432,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FPRODUCT_PRICE_PRE = "price_pre";
     public static final String FPRODUCT_QOH_PRE = "qoh_pre";
     public static final String FPRODUCT_QTY_PRE = "qty_pre";
+
     private static final String CREATE_FPRODUCT_PRE_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRODUCT_PRE + " ("
             + FPRODUCT_ID_PRE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + FPRODUCT_ITEMCODE_PRE + " TEXT, "
