@@ -1061,7 +1061,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
                         for (int i = 0; i < routesJSONArray.length(); i++) {
                             routeList.add(Route.parseRoute(routesJSONArray.getJSONObject(i)));
                         }
-                        routeController.createOrUpdateRoute(routeList);
+                        routeController.createOrUpdateFRoute(routeList);
                     } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",

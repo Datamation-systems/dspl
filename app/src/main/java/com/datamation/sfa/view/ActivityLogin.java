@@ -15,9 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.BankController;
 import com.datamation.sfa.controller.CompanyDetailsController;
 import com.datamation.sfa.controller.CustomerController;
 //import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.ExpenseController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.ItemPriceController;
@@ -27,14 +29,17 @@ import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.controller.RouteController;
+import com.datamation.sfa.controller.RouteDetController;
 import com.datamation.sfa.controller.TourController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.Bank;
 import com.datamation.sfa.model.CompanyBranch;
 import com.datamation.sfa.model.CompanySetting;
 import com.datamation.sfa.model.Control;
 import com.datamation.sfa.model.Debtor;
+import com.datamation.sfa.model.Expense;
 import com.datamation.sfa.model.FddbNote;
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.ItemLoc;
@@ -45,6 +50,7 @@ import com.datamation.sfa.model.ReferenceDetail;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.RefSetting;
 import com.datamation.sfa.model.Route;
+import com.datamation.sfa.model.RouteDet;
 import com.datamation.sfa.model.TourHed;
 import com.datamation.sfa.model.User;
 
@@ -633,6 +639,166 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         throw e;
                     }
                     /*****************end reasons**********************************************************************/
+                /*****************expenses**********************************************************************/
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Reasons downloaded\nDownloading expense details...");
+                    }
+                });
+
+                String expenses = "";
+                try {
+                    expenses = networkFunctions.getExpenses();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (expenses)...");
+                    }
+                });
+
+                // Processing expense
+                try {
+                    JSONObject expenseJSON = new JSONObject(expenses);
+                    JSONArray expenseJSONArray =expenseJSON.getJSONArray("fExpenseResult");
+                    ArrayList<Expense> expensesList = new ArrayList<Expense>();
+                    ExpenseController expenseController = new ExpenseController(ActivityLogin.this);
+                    for (int i = 0; i < expenseJSONArray.length(); i++) {
+                        expensesList.add(Expense.parseExpense(expenseJSONArray.getJSONObject(i)));
+                    }
+                    expenseController.createOrUpdateFExpense(expensesList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end expenses**********************************************************************/
+                /*****************Route**********************************************************************/
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Expenses downloaded\nDownloading route details...");
+                    }
+                });
+
+                String route = "";
+                try {
+                    route = networkFunctions.getRoutes(repcode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (routes)...");
+                    }
+                });
+
+                // Processing route
+                try {
+                    JSONObject routeJSON = new JSONObject(route);
+                    JSONArray routeJSONArray =routeJSON.getJSONArray("fRouteResult");
+                    ArrayList<Route> routeList = new ArrayList<Route>();
+                    RouteController routeController = new RouteController(ActivityLogin.this);
+                    for (int i = 0; i < routeJSONArray.length(); i++) {
+                        routeList.add(Route.parseRoute(routeJSONArray.getJSONObject(i)));
+                    }
+                    routeController.createOrUpdateFRoute(routeList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end route**********************************************************************/
+
+                /*****************Route det**********************************************************************/
+
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        pdialog.setMessage("Expenses downloaded\nDownloading route details...");
+//                    }
+//                });
+
+                String routedet = "";
+                try {
+                    routedet = networkFunctions.getRouteDets(repcode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (routes)...");
+                    }
+                });
+
+                // Processing route
+                try {
+                    JSONObject routeJSON = new JSONObject(routedet);
+                    JSONArray routeJSONArray =routeJSON.getJSONArray("fRouteDetResult");
+                    ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
+                    RouteDetController routeController = new RouteDetController(ActivityLogin.this);
+                    for (int i = 0; i < routeJSONArray.length(); i++) {
+                        routeList.add(RouteDet.parseRoute(routeJSONArray.getJSONObject(i)));
+                    }
+                    routeController.InsertOrReplaceRouteDet(routeList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end route det**********************************************************************/
+                String banks = "";
+                try {
+                    banks = networkFunctions.getBanks();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (banks)...");
+                    }
+                });
+
+                // Processing route
+                try {
+                    JSONObject bankJSON = new JSONObject(banks);
+                    JSONArray bankJSONArray =bankJSON.getJSONArray("fbankResult");
+                    ArrayList<Bank> bankList = new ArrayList<Bank>();
+                    BankController bankController = new BankController(ActivityLogin.this);
+                    for (int i = 0; i < bankJSONArray.length(); i++) {
+                        bankList.add(Bank.parseBank(bankJSONArray.getJSONObject(i)));
+                    }
+                    bankController.createOrUpdateBank(bankList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end route det**********************************************************************/
                 /*****************end fddbnote **********************************************************************/
                     //routes
 //                    runOnUiThread(new Runnable() {
