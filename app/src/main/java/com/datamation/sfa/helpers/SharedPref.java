@@ -372,6 +372,14 @@ public  void  setMacAddress(String MacAddress){
         editor.putString("app_version_name", versionName).commit();
     }
 
+    public String getPayMode(){
+        return sharedPref.getString("paymode", "");
+    }
+    public void setPayMode(String payMode) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("paymode", payMode).commit();
+    }
+
     public String getVersionName(){
         return sharedPref.getString("app_version_name", "0.0.0");
     }

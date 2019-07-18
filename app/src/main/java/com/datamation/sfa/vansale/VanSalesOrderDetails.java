@@ -915,7 +915,7 @@ public class VanSalesOrderDetails extends Fragment {
             protected Void doInBackground(Void... params) {
 
                 int i = 0;
-                new InvDetController(getActivity()).mDeleteRecords(mainActivity.selectedInvHed.getFINVHED_REFNO());
+                new InvDetController(getActivity()).mDeleteRecords(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
 
                 for (Product product : list) {
                     i++;

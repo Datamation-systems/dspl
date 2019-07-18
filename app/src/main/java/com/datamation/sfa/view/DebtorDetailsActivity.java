@@ -166,7 +166,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                     Intent intent = new Intent(DebtorDetailsActivity.this, NonProductiveActivity.class);
                     intent.putExtra("outlet", "");
                     startActivity(intent);
-//                    finish();
+                    finish();
                 } else {
                     Toast.makeText(DebtorDetailsActivity.this, "Please enable location service to proceed", Toast.LENGTH_SHORT).show();
                 }
@@ -187,6 +187,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                     intent.putExtra("outlet", "");
                     intent.putExtra("sales_order", false);
                     startActivity(intent);
+                    finish();
                 }
                 else
                 {
@@ -209,6 +210,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                     intent.putExtra("outlet", "");
                     intent.putExtra("sales_order", false);
                     startActivity(intent);
+                    finish();
                 }
                 else
                 {
@@ -229,6 +231,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                     intent.putExtra("outlet", "");
                     intent.putExtra("sales_return", false);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
                 }
@@ -247,6 +250,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                     intent.putExtra("outlet", "");
                     intent.putExtra("sales_order", false);
                     startActivity(intent);
+                    finish();
                 }
                 else
                     {

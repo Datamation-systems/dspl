@@ -86,6 +86,7 @@ public class RouteCustomerFragment extends Fragment {
                         mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
                         mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
                         startActivity(intent);
+
                     }
                 }
                 else {

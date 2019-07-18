@@ -119,6 +119,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
                         Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
                         startActivity(intent);
 
+
                         Log.d("newcus clicked", "position2");
                     } else {
                         UtilityContainer.mLoadFragment(new FragmentMarkAttendance(), ActivityHome.this);

@@ -155,7 +155,7 @@ public class VanSalesHeader extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (lblCustomerName.getText().toString().equals("")|| lblInvRefno.getText().toString().equals("")||txtManual.getText().toString().equals("")||currnentDate.getText().toString().equals(""))
+                if (lblCustomerName.getText().toString().equals("")|| lblInvRefno.getText().toString().equals("")||currnentDate.getText().toString().equals(""))
                 {
                     listener.moveBackToCustomer(0);
                     Toast.makeText(getActivity(), "Can not proceed with empty fields...", Toast.LENGTH_LONG).show();

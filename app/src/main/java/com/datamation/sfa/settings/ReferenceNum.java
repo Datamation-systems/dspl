@@ -55,8 +55,8 @@ public class ReferenceNum {
             Log.v("next num val", "NEXT :" + preFix);
         }
 
-        //return preFix + "/" + dFormat.format(Integer.valueOf(nextNumVal));
-        return preFix + "/" + dFormat.format(Integer.valueOf("00001"));
+        return preFix + "/" + dFormat.format(Integer.valueOf(nextNumVal));
+        //return preFix + "/" + dFormat.format(Integer.valueOf("00001"));
     }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -72,7 +72,8 @@ public class ReferenceNum {
 //        }else{
 //            nextNumVal = 0;
 //        }
-        //nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode())) + 1;
+        Log.d("Check pref values",pref.getLoginUser().toString());
+        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode())) + 1;
 
         int count = referenceDS.InsetOrUpdate(cSettingsCode, nextNumVal);
 

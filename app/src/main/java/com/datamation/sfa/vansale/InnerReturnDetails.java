@@ -174,41 +174,41 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if ((lblPrice.length() > 0)) {
-                   if(!(minPrice<= Double.parseDouble(lblPrice.getText().toString())) || !(maxPrice>= Double.parseDouble(lblPrice.getText().toString()))){
-                       lblPrice.setText(String.format("%.2f",price));
-                       Toast.makeText(getActivity(),"Cannot change price",Toast.LENGTH_LONG).show();
-                   }
-                }
+//                if ((lblPrice.length() > 0)) {
+//                   if(!(minPrice<= Double.parseDouble(lblPrice.getText().toString())) || !(maxPrice>= Double.parseDouble(lblPrice.getText().toString()))){
+//                       lblPrice.setText(String.format("%.2f",price));
+//                       Toast.makeText(getActivity(),"Cannot change price",Toast.LENGTH_LONG).show();
+//                   }
+//                }
             }
         });
-//        lblPrice.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CustomKeypadDialogPrice keypadPrice = new CustomKeypadDialogPrice(getActivity(), true, new CustomKeypadDialogPrice.IOnOkClickListener() {
-//                    @Override
-//                    public void okClicked(double value) {
-//                        //price cannot be changed less than gross profit
-//                        if(minPrice <=value && value <= maxPrice) {
-//                            //  save changed price
-//                           // new ProductDS(context).updateProductPrice(product.getFPRODUCT_ITEMCODE(), String.valueOf(value));
-//                            //  value should be set for another variable in preProduct
-//                            //  preProduct.setPREPRODUCT_PRICE(String.valueOf(value));
-//                            changedPrice = value;
-//                            lblPrice.setText(""+changedPrice);
+        lblPrice.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomKeypadDialogPrice keypadPrice = new CustomKeypadDialogPrice(getActivity(), true, new CustomKeypadDialogPrice.IOnOkClickListener() {
+                    @Override
+                    public void okClicked(double value) {
+                        //price cannot be changed less than gross profit
+                        //if(minPrice <=value && value <= maxPrice) {
+                            //  save changed price
+                           // new ProductDS(context).updateProductPrice(product.getFPRODUCT_ITEMCODE(), String.valueOf(value));
+                            //  value should be set for another variable in preProduct
+                            //  preProduct.setPREPRODUCT_PRICE(String.valueOf(value));
+                            changedPrice = value;
+                            lblPrice.setText(""+changedPrice);
 //                        }else{
 //                            changedPrice = price;
 //                            Toast.makeText(getActivity(),"Price cannot be change..",Toast.LENGTH_LONG).show();
 //                        }
-//                    }
-//                });
-//                keypadPrice.show();
-//
-//                keypadPrice.setHeader("CHANGE PRICE");
-////                if(preProduct.getPREPRODUCT_CHANGED_PRICE().equals("0")){
-//                keypadPrice.loadValue(changedPrice);
-//            }
-//        });
+                    }
+                });
+                keypadPrice.show();
+
+                keypadPrice.setHeader("CHANGE PRICE");
+//                if(preProduct.getPREPRODUCT_CHANGED_PRICE().equals("0")){
+                keypadPrice.loadValue(changedPrice);
+            }
+        });
 			/*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         txtQty.addTextChangedListener(new TextWatcher() {
