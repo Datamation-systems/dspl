@@ -80,19 +80,16 @@ public class FreeDeb {
     public static FreeDeb parseFreeDeb(JSONObject instance) throws JSONException {
 
         if (instance != null) {
-            FreeDeb freedeb = new FreeDeb();
+            FreeDeb deb = new FreeDeb();
 
-//            freeMslab.setFFREEMSLAB_REFNO(instance.getString("Refno"));
-//            freeMslab.setFFREEMSLAB_QTY_F(instance.getString("Qtyf"));
-//            freeMslab.setFFREEMSLAB_QTY_T(instance.getString("Qtyt"));
-//            freeMslab.setFFREEMSLAB_ITEM_QTY(instance.getString("ItemQty"));
-//            freeMslab.setFFREEMSLAB_FREE_IT_QTY(instance.getString("FreeItQty"));
-//            freeMslab.setFFREEMSLAB_ADD_USER(instance.getString("AddUser"));
-//            freeMslab.setFFREEMSLAB_ADD_DATE(instance.getString("AddDate"));
-//            freeMslab.setFFREEMSLAB_ADD_MACH(instance.getString("AddMach"));
-//            freeMslab.setFFREEMSLAB_SEQ_NO(instance.getString("Seqno"));
+            deb.setFFREEDEB_REFNO(instance.getString("Refno"));
+            deb.setFFREEDEB_DEB_CODE(instance.getString("Debcode"));
+            deb.setFFREEDEB_ADD_USER("");
+            deb.setFFREEDEB_ADD_DATE("");
+            deb.setFFREEDEB_ADD_MACH("");
+            deb.setFFREEDEB_TIMESTAMP_COLUMN("");
 
-            return freedeb;
+            return deb;
         }
 
         return null;

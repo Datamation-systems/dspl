@@ -127,19 +127,21 @@ public class FreeHed {
     public static FreeHed parseFreeHed(JSONObject instance) throws JSONException {
 
         if (instance != null) {
-            FreeHed freeHed = new FreeHed();
+            FreeHed hed = new FreeHed();
 
-//            freeMslab.setFFREEMSLAB_REFNO(instance.getString("Refno"));
-//            freeMslab.setFFREEMSLAB_QTY_F(instance.getString("Qtyf"));
-//            freeMslab.setFFREEMSLAB_QTY_T(instance.getString("Qtyt"));
-//            freeMslab.setFFREEMSLAB_ITEM_QTY(instance.getString("ItemQty"));
-//            freeMslab.setFFREEMSLAB_FREE_IT_QTY(instance.getString("FreeItQty"));
-//            freeMslab.setFFREEMSLAB_ADD_USER(instance.getString("AddUser"));
-//            freeMslab.setFFREEMSLAB_ADD_DATE(instance.getString("AddDate"));
-//            freeMslab.setFFREEMSLAB_ADD_MACH(instance.getString("AddMach"));
-//            freeMslab.setFFREEMSLAB_SEQ_NO(instance.getString("Seqno"));
+            hed.setFFREEHED_REFNO(instance.getString("Refno"));
+            hed.setFFREEHED_TXNDATE(instance.getString("Txndate"));
+            hed.setFFREEHED_DISC_DESC(instance.getString("DiscDesc"));
+            hed.setFFREEHED_PRIORITY(instance.getString("Priority"));
+            hed.setFFREEHED_VDATEF(instance.getString("Vdatef"));
+            hed.setFFREEHED_VDATET(instance.getString("Vdatet"));
+            hed.setFFREEHED_REMARKS(instance.getString("Remarks"));
+            hed.setFFREEHED_ITEM_QTY(instance.getString("ItemQty"));
+            hed.setFFREEHED_FREE_IT_QTY(instance.getString("FreeItQty"));
+            hed.setFFREEHED_FTYPE(instance.getString("Ftype"));
+            hed.setFFREEHED_COSTCODE(instance.getString("CostCode"));
 
-            return freeHed;
+            return hed;
         }
 
         return null;

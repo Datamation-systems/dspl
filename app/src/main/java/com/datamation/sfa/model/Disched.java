@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Disched {
 
     private String FDISCHED_ID;
@@ -127,5 +130,30 @@ public class Disched {
 
     public void setFDISCHED_TIMESTAMP_COLUMN(String fDISCHED_TIMESTAMP_COLUMN) {
         FDISCHED_TIMESTAMP_COLUMN = fDISCHED_TIMESTAMP_COLUMN;
+    }
+    public static Disched parseDisched(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            Disched disched = new Disched();
+
+            disched.setFDISCHED_REF_NO(instance.getString("Refno"));
+            disched.setFDISCHED_TXN_DATE(instance.getString("Txndate"));
+            disched.setFDISCHED_DISC_DESC(instance.getString("DiscDesc"));
+            disched.setFDISCHED_PRIORITY(instance.getString("Priority"));
+            disched.setFDISCHED_DIS_TYPE(instance.getString("DisType"));
+            disched.setFDISCHED_V_DATE_F(instance.getString("Vdatef"));
+            disched.setFDISCHED_V_DATE_T(instance.getString("Vdatet"));
+            disched.setFDISCHED_REMARK("");
+            disched.setFDISCHED_ADD_USER("");
+            disched.setFDISCHED_ADD_DATE("");
+            disched.setFDISCHED_ADD_MACH("");
+            disched.setFDISCHED_RECORD_ID("");
+            disched.setFDISCHED_TIMESTAMP_COLUMN("");
+
+
+            return disched;
+        }
+
+        return null;
     }
 }

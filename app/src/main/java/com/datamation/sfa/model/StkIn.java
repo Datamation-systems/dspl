@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class StkIn {
 
     private String ID;
@@ -120,5 +123,26 @@ public class StkIn {
     public void setSTKTXNNO(String sTKTXNNO) {
         STKTXNNO = sTKTXNNO;
     }
+    public static StkIn parseStkIn(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            StkIn stkIn = new StkIn();
+
+            stkIn.setBALQTY((instance.getString("BalQty")));
+            stkIn.setCOSTPRICE((instance.getString("CostPrice")));
+            stkIn.setINQTY((instance.getString("InQty")));
+            stkIn.setITEMCODE((instance.getString("ItemCode")));
+            stkIn.setLOCCODE((instance.getString("LocCode")));
+            stkIn.setOTHCOST((instance.getString("OthCost")));
+            stkIn.setREFNO((instance.getString("RefNo")));
+            stkIn.setSTKRecDate((instance.getString("StkRecDate")));
+            stkIn.setSTKRECNO((instance.getString("StkRecNo")));
+            stkIn.setTXNDATE((instance.getString("TxnDate")));
+            stkIn.setTXNTYPE((instance.getString("TxnType")));
+
+            return stkIn;
+        }
+
+        return null;
+    }
 }

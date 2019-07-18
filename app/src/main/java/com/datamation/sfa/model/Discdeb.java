@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Discdeb {
 
     private String FDISCDEB_ID;
@@ -46,5 +49,18 @@ public class Discdeb {
 
     public void setFDISCDEB_TIEMSTAMP_COLUMN(String fDISCDEB_TIEMSTAMP_COLUMN) {
         FDISCDEB_TIEMSTAMP_COLUMN = fDISCDEB_TIEMSTAMP_COLUMN;
+    }
+    public static Discdeb parseDiscDeb(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            Discdeb did = new Discdeb();
+
+            did.setFDISCDEB_REF_NO(instance.getString("Refno"));
+            did.setFDISCDEB_DEB_CODE(instance.getString("Debcode"));
+
+            return did;
+        }
+
+        return null;
     }
 }

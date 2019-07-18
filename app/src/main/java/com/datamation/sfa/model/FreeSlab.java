@@ -115,19 +115,13 @@ public class FreeSlab {
     public static FreeSlab parseFreeSlab(JSONObject instance) throws JSONException {
 
         if (instance != null) {
-            FreeSlab freeslab = new FreeSlab();
-
-//            freeMslab.setFFREEMSLAB_REFNO(instance.getString("Refno"));
-//            freeMslab.setFFREEMSLAB_QTY_F(instance.getString("Qtyf"));
-//            freeMslab.setFFREEMSLAB_QTY_T(instance.getString("Qtyt"));
-//            freeMslab.setFFREEMSLAB_ITEM_QTY(instance.getString("ItemQty"));
-//            freeMslab.setFFREEMSLAB_FREE_IT_QTY(instance.getString("FreeItQty"));
-//            freeMslab.setFFREEMSLAB_ADD_USER(instance.getString("AddUser"));
-//            freeMslab.setFFREEMSLAB_ADD_DATE(instance.getString("AddDate"));
-//            freeMslab.setFFREEMSLAB_ADD_MACH(instance.getString("AddMach"));
-//            freeMslab.setFFREEMSLAB_SEQ_NO(instance.getString("Seqno"));
-
-            return freeslab;
+            FreeSlab slab = new FreeSlab();
+            slab.setFFREESLAB_FITEM_CODE(instance.getString("Fitemcode"));
+            slab.setFFREESLAB_REFNO(instance.getString("Refno"));
+            slab.setFFREESLAB_QTY_F(instance.getString("Qtyf"));
+            slab.setFFREESLAB_QTY_T(instance.getString("Qtyt"));
+            slab.setFFREESLAB_FREE_QTY(instance.getString("Freeqty"));
+            return slab;
         }
 
         return null;
