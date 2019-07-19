@@ -313,7 +313,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
                         ArrayList<FInvRDet> ReturnList = new ArrayList<FInvRDet>();
 
                         ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
-
+                        selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
                      //   String TaxedAmt = new TaxDetDS(getActivity()).calculateTax(selectedItem.getFITEM_ITEM_CODE(),
                       //          new BigDecimal(amount - Double.parseDouble(editTotDisc.getText().toString())));
                         FInvRHed hed = new FInvRHed();

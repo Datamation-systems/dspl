@@ -186,6 +186,9 @@ public class ReceiptSummary extends Fragment {
                 activity.selectedDebtor = null;
                 activity.selectedRecHed = null;
                 Toast.makeText(getActivity(), "Receipt discarded successfully..!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+                startActivity(intent);
+                getActivity().finish();
               //  UtilityContainer.ClearReceiptSharedPref(getActivity());
               //  UtilityContainer.mLoadFragment(new ReceiptInvoice(), getActivity());
 

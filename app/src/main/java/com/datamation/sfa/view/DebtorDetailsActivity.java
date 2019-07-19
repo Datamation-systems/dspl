@@ -24,6 +24,7 @@ import com.datamation.sfa.R;
 import at.markushi.ui.CircleButton;
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.controller.DayNPrdDetController;
+import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
@@ -67,6 +68,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
     boolean isAnyActiveOrders = false;
     boolean isAnyActiveReturns = false;
     boolean isAnyActiveNonProds = false;
+    boolean isAnyActiveInvoices = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
         isAnyActiveOrders = new OrderDetailController(getApplicationContext()).isAnyActiveOrders();
         isAnyActiveReturns = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens();
+        isAnyActiveInvoices = new InvDetController(getApplicationContext()).isAnyActiveOrders();
         //isAnyActiveNonProds  = new DayNPrdDetController(getApplicationContext()).isAnyActiveNPs();
 
         fabVansale = (CircleButton)findViewById(R.id.outlet_details_fab_van_sale);
@@ -128,7 +131,11 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
 
         fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_receipt));
+        //fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_receipt));
 
+        if(isAnyActiveInvoices)
+        fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.vansale_active));
+        else
         fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_expensive));
 
         // The overlay when showing expanding the menu

@@ -158,6 +158,41 @@ public class InvDetController {
         return list;
 
     }
+    public boolean isAnyActiveOrders()
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_FINVDET + " WHERE " + DatabaseHelper.FINVDET_IS_ACTIVE + "='" + "1" + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            if (cursor.getCount()>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return false;
+    }
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public ArrayList<InvDet> getAllItemsforPrint(String refno) {
