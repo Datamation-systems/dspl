@@ -53,7 +53,7 @@ public class FragmentHome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_home, container, false);
-        ImageButton imgbtnCalendar = (ImageButton) view.findViewById(R.id.dashboard_toolbar_icon_calendar);
+       // ImageButton imgbtnCalendar = (ImageButton) view.findViewById(R.id.dashboard_toolbar_icon_calendar);
 
 //        calendarDatePickerDialog = new CalendarDatePickerDialog();
 //
@@ -95,7 +95,7 @@ public class FragmentHome extends Fragment {
 //            }
 //        });
 
-        ImageButton imgbtnSync = (ImageButton) view.findViewById(R.id.dashboard_toolbar_icon_sync);
+       // ImageButton imgbtnSync = (ImageButton) view.findViewById(R.id.dashboard_toolbar_icon_sync);
 //        imgbtnSync.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
