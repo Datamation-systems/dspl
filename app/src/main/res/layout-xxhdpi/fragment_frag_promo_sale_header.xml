@@ -19,7 +19,6 @@
 
 
             <TextView
-                android:id="@+id/textViewCustomer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -42,7 +41,6 @@
                     android:text="Order No" />
 
                 <EditText
-                    android:id="@+id/editTextOrdno"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/edittextstyle"
@@ -87,7 +85,6 @@
                     android:text="Manual No" />
 
                 <EditText
-                    android:id="@+id/editTextManualNo"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/edittextstyle"
@@ -110,7 +107,6 @@
                     android:text="Delivery Date" />
 
                 <EditText
-                    android:id="@+id/editTextdelDate"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/edittextstyle"
@@ -136,7 +132,6 @@
                     android:text="Remarks" />
 
                 <EditText
-                    android:id="@+id/editTextRemarks"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:background="@drawable/edittextstyle"
@@ -187,7 +182,6 @@
                     android:text="Cost Center" />
 
                 <TextView
-                    android:id="@+id/editTextcostCenter"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/edittextstyle"

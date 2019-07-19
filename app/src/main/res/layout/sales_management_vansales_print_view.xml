@@ -77,7 +77,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/docdelaerLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -107,7 +106,6 @@
                 android:textSize="15dip" />
 
             <TextView
-                android:id="@+id/docrepline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -157,7 +155,6 @@
                 android:textSize="15dip" />
 
             <TextView
-                android:id="@+id/docheadcustomer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -208,7 +205,6 @@
                 android:textColor="#000000"
                 android:textSize="15dip" />
             <TextView
-                android:id="@+id/docheadtitledd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -218,7 +214,6 @@
                 android:textSize="15dip"/>
 
             <TextView
-                android:id="@+id/docheadtitledd1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -228,7 +223,6 @@
                 android:textSize="15dip"/>
 
             <TextView
-                android:id="@+id/docheadtitledd2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -244,7 +238,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/transdetProductname"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -276,7 +269,6 @@
 
 
                 <TextView
-                    android:id="@+id/productunitsrs"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -287,7 +279,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/printcspsheading"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -299,7 +290,6 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/docdetailline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -327,7 +317,6 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/docdetaillineret"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -337,7 +326,6 @@
                 android:textSize="15dip"/>
 
             <TextView
-                android:id="@+id/docdetailline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -346,7 +334,6 @@
                 android:textColor="#000000"
                 android:textSize="15dip" />
             <TextView
-                android:id="@+id/detoverline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -361,7 +348,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/transdetProduct"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -393,7 +379,6 @@
 
 
                 <TextView
-                    android:id="@+id/printRetQty"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -404,7 +389,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/printretAmt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -415,7 +399,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
             <TextView
-                android:id="@+id/retdetoverline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -438,7 +421,6 @@
                     android:drawSelectorOnTop="false"></ListView>
             </LinearLayout>
             <TextView
-                android:id="@+id/returndetoverline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -453,7 +435,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/transsummarytotqty"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
@@ -479,7 +460,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/transsummarytotalvalue"
                     android:layout_width="0.0dip"
                     android:layout_height="fill_parent"
                     android:layout_weight="2.3"
@@ -499,7 +479,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearComp"
                 android:layout_width="fill_parent"
                 android:layout_height="28dip"
                 android:layout_marginTop="0dp"
@@ -507,7 +486,6 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/txtview22"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -516,7 +494,6 @@
                     android:textStyle="bold|italic" />
 
                 <TextView
-                    android:id="@+id/printCompDisc"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -527,14 +504,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearTerm"
                 android:layout_width="fill_parent"
                 android:layout_height="28dip"
                 android:layout_marginTop="0dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txtview55"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -561,7 +536,6 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/transsummarytotaldisc"
                     android:layout_width="0.0dip"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
@@ -588,7 +562,6 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/textview02"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -598,7 +571,6 @@
                     android:visibility="visible" />
 
                 <TextView
-                    android:id="@+id/txtTax"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -610,7 +582,6 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/transsummarylinestart"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -626,7 +597,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/transsummarynetvalue"
                     android:layout_width="0.0dip"
                     android:layout_height="fill_parent"
                     android:layout_weight="2.3"
@@ -646,7 +616,6 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/transsummarylineover"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -656,7 +625,6 @@
                 android:textSize="15dip" />
 
             <TextView
-                android:id="@+id/docheadtitledp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dip"
@@ -668,7 +636,6 @@
                 android:textSize="15dip" />
 
             <TextView
-                android:id="@+id/txtsig"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -679,7 +646,6 @@
                 android:textSize="15dip" />
 
             <TextView
-                android:id="@+id/docheadtitledq"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dip"
@@ -690,7 +656,6 @@
                 android:textSize="15dip" />
 
             <TextView
-                android:id="@+id/docheadtitledr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -701,7 +666,6 @@
                 android:textSize="15dip" />
 
             <TextView
-                android:id="@+id/lblMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

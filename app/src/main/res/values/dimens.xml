@@ -7,9 +7,5 @@
     <dimen name="body_size">15sp</dimen>
     <dimen name="font_for_all">16sp</dimen>
 
-    <dimen name="font_size_large">25sp</dimen>
-    <dimen name="font_size_Title">28sp</dimen>
 
-
-    <dimen name="font_for_heading">18sp</dimen>
 </resources>

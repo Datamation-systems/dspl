@@ -93,7 +93,6 @@
         android:textStyle="bold" />
 
     <RelativeLayout
-        android:id="@+id/item_payment_rl_header_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -175,7 +174,6 @@
             android:gravity="right" />
 
         <TextView
-            android:id="@+id/item_payment_txt_invoice_days"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:text="Days"

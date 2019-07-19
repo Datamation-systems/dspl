@@ -80,7 +80,6 @@
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/outlet_details_historyt_invoice_days"
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:text="Days"
@@ -96,7 +95,6 @@
     </android.support.v7.widget.CardView>
 
     <ListView
-        android:id="@+id/outlet_details_history_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/outlet_details_history_header_card"/>

@@ -187,7 +187,6 @@
                     android:text="repcode" />
 
                 <TextView
-                    android:id="@+id/editTextcostCenter"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/edittextstyle"

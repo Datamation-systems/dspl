@@ -6,7 +6,6 @@
     xmlns:card_view="http://schemas.android.com/tools">
 
     <ScrollView
-        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -40,7 +39,6 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/dashboard_header_card_this_month"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
@@ -89,7 +87,6 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/dashboard_header_card_prev_month"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -317,7 +314,6 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tr5"
                         android:layout_below="@+id/tr4"
                         android:weightSum="2"
                         android:layout_marginTop="10dp">

@@ -24,7 +24,6 @@
                 android:background="@drawable/custom_textbox" />
 
                 <com.datamation.sfa.utils.CustomFont
-                    android:id="@+id/txtTotQtyLabel"
                     android:layout_width="100dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center_vertical"
@@ -75,7 +74,6 @@
     </LinearLayout>
 
     <TableRow
-        android:id="@+id/tableRow1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -83,7 +81,6 @@
         android:weightSum="3">
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/lblMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
@@ -94,7 +91,6 @@
             />
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
@@ -107,7 +103,6 @@
             />
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/textVie3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
@@ -117,7 +112,6 @@
             android:textColor="@color/unselected"/>
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/textVie4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"

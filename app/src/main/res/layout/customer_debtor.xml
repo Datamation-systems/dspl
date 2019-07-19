@@ -11,7 +11,6 @@
         android:weightSum="8">
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/lblMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
@@ -22,7 +21,6 @@
             android:text="REF NO" />
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
@@ -33,7 +31,6 @@
             android:textColor="@color/unselected" />
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/textView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
@@ -44,7 +41,6 @@
             android:textColor="@color/unselected" />
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/textView4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"

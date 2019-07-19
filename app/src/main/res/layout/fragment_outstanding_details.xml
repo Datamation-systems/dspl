@@ -81,7 +81,6 @@
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/outlet_details_outstanding_invoice_days"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="Days"

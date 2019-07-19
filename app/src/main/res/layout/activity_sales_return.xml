@@ -19,7 +19,6 @@
         android:layout_below="@+id/saleretrun_tab_strip"/>
 
     <View
-        android:id="@+id/saleretrun_view_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/drawer_semi_trans_bg"
