@@ -125,11 +125,11 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
         bAdd.setOnClickListener(this);
         bFreeIssue.setOnClickListener(this);
 
-        if (new SalesReturnController(getActivity()).isAnyActive())
-        {
-            activity.selectedReturnDet = new OrderDetailController(getActivity()).getActiveReturnDet();
-            //activity.selectedOrderDet.setFORDERDET_REFNO(new OrderDetailController(getActivity()).getActiveRefNo());
-        }
+//        if (new SalesReturnController(getActivity()).isAnyActive())
+//        {
+//            activity.selectedReturnDet = new OrderDetailController(getActivity()).getActiveReturnDet();
+//            //activity.selectedOrderDet.setFORDERDET_REFNO(new OrderDetailController(getActivity()).getActiveRefNo());
+//        }
 
         if(activity.selectedPreHed != null){
             Toast.makeText(getActivity(),"InvHed not null"+activity.selectedPreHed.toString(),Toast.LENGTH_LONG).show();
@@ -349,6 +349,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                                 Toast.makeText(getActivity(), "Added successfully !", Toast.LENGTH_LONG).show();
                             FetchData();
                             clearTextFields();
+                            lblReason.setText("");
 
                         }
                     }else{

@@ -57,58 +57,89 @@ public class OrderDetailController {
                 Cursor cursor = null;
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.ORDDET_ID
+                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.FORDDET_ID
                         + " = '" + ordDet.getFORDERDET_ID() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
-                values.put(dbHelper.ORDDET_AMT, ordDet.getFORDERDET_AMT());
-                values.put(dbHelper.ORDDET_ITEM_CODE, ordDet.getFORDERDET_ITEMCODE());
-                values.put(dbHelper.ORDDET_PRIL_CODE, ordDet.getFORDERDET_PRILCODE());
-                values.put(dbHelper.ORDDET_QTY, ordDet.getFORDERDET_QTY());
+//                values.put(dbHelper.ORDDET_AMT, ordDet.getFORDERDET_AMT());
+//                values.put(dbHelper.ORDDET_ITEM_CODE, ordDet.getFORDERDET_ITEMCODE());
+//                values.put(dbHelper.ORDDET_PRIL_CODE, ordDet.getFORDERDET_PRILCODE());
+//                values.put(dbHelper.ORDDET_QTY, ordDet.getFORDERDET_QTY());
+//                values.put(dbHelper.REFNO, ordDet.getFORDERDET_REFNO());
+//                values.put(dbHelper.ORDDET_PRICE, ordDet.getFORDERDET_PRICE());
+//                values.put(dbHelper.ORDDET_IS_ACTIVE, ordDet.getFORDERDET_IS_ACTIVE());
+//                values.put(dbHelper.ORDDET_ITEM_NAME, ordDet.getFORDERDET_ITEMNAME());
+//                values.put(dbHelper.ORDDET_BAL_QTY, ordDet.getFORDERDET_BALQTY());
+//                values.put(dbHelper.ORDDET_BAMT, ordDet.getFORDERDET_BAMT());
+//                values.put(dbHelper.ORDDET_BDIS_AMT, ordDet.getFORDERDET_BDISAMT());
+//                values.put(dbHelper.ORDDET_BPDIS_AMT, ordDet.getFORDERDET_BPDISAMT());
+//                values.put(dbHelper.ORDDET_BTAX_AMT, ordDet.getFORDERDET_BTAXAMT());
+//                values.put(dbHelper.ORDDET_TAX_AMT, ordDet.getFORDERDET_TAXAMT());
+//                values.put(dbHelper.ORDDET_DIS_AMT, ordDet.getFORDERDET_DISAMT());
+//                values.put(dbHelper.ORDDET_SCHDISPER, ordDet.getFORDERDET_SCHDISPER());
+//                values.put(dbHelper.ORDDET_BRAND_DISPER, ordDet.getFORDERDET_BRAND_DISPER());
+//                values.put(dbHelper.ORDDET_BRAND_DISC, ordDet.getFORDERDET_BRAND_DISC());
+//                values.put(dbHelper.ORDDET_COMP_DISC, ordDet.getFORDERDET_COMP_DISC());
+//                values.put(dbHelper.ORDDET_COST_PRICE, ordDet.getFORDERDET_COSTPRICE());
+//                values.put(dbHelper.ORDDET_PIECE_QTY, ordDet.getFORDERDET_PICE_QTY());
+//                values.put(dbHelper.ORDDET_SELL_PRICE, ordDet.getFORDERDET_SELLPRICE());
+//                values.put(dbHelper.ORDDET_BSELL_PRICE, ordDet.getFORDERDET_BSELLPRICE());
+//                values.put(dbHelper.ORDDET_SEQ_NO, ordDet.getFORDERDET_SEQNO());
+//                values.put(dbHelper.ORDDET_TAX_COM_CODE, ordDet.getFORDERDET_TAXCOMCODE());
+//                values.put(dbHelper.ORDDET_TSELL_PRICE, ordDet.getFORDERDET_TSELLPRICE());
+//                values.put(dbHelper.ORDDET_BTSELL_PRICE, ordDet.getFORDERDET_BTSELLPRICE());
+//                values.put(dbHelper.ORDDET_TXN_TYPE, ordDet.getFORDERDET_TXNTYPE());
+//                values.put(dbHelper.ORDDET_LOC_CODE, ordDet.getFORDERDET_LOCCODE());
+//                values.put(dbHelper.ORDDET_TXN_DATE, ordDet.getFORDERDET_TXNDATE());
+//                values.put(dbHelper.ORDDET_RECORD_ID, ordDet.getFORDERDET_RECORDID());
+//                values.put(dbHelper.ORDDET_PDIS_AMT, ordDet.getFORDERDET_PDISAMT());
+//                values.put(dbHelper.ORDDET_IS_SYNCED, ordDet.getFORDERDET_IS_SYNCED());
+//                values.put(dbHelper.ORDDET_QOH, ordDet.getFORDERDET_QOH());
+//                values.put(dbHelper.ORDDET_TYPE, ordDet.getFORDERDET_TYPE());
+//                values.put(dbHelper.ORDDET_SCHDISC, ordDet.getFORDERDET_SCHDISC());
+//                values.put(dbHelper.ORDDET_DIS_TYPE, ordDet.getFORDERDET_DISCTYPE());
+//                values.put(dbHelper.ORDDET_QTY_SLAB_DISC, ordDet.getFORDERDET_QTY_SLAB_DISC());
+//                values.put(dbHelper.ORDDET_ORG_PRICE, ordDet.getFORDERDET_ORG_PRICE());
+//                values.put(dbHelper.ORDDET_DIS_FLAG, ordDet.getFORDERDET_DISFLAG());
+//
+                // commented due to table changed
+
+                values.put(dbHelper.FORDDET_AMT, ordDet.getFORDERDET_AMT());
+                values.put(dbHelper.FORDDET_ITEM_CODE, ordDet.getFORDERDET_ITEMCODE());
+                values.put(dbHelper.FORDDET_PRIL_CODE, ordDet.getFORDERDET_PRILCODE());
+                values.put(dbHelper.FORDDET_QTY, ordDet.getFORDERDET_QTY());
                 values.put(dbHelper.REFNO, ordDet.getFORDERDET_REFNO());
-                values.put(dbHelper.ORDDET_PRICE, ordDet.getFORDERDET_PRICE());
-                values.put(dbHelper.ORDDET_IS_ACTIVE, ordDet.getFORDERDET_IS_ACTIVE());
-                values.put(dbHelper.ORDDET_ITEM_NAME, ordDet.getFORDERDET_ITEMNAME());
-                values.put(dbHelper.ORDDET_BAL_QTY, ordDet.getFORDERDET_BALQTY());
-                values.put(dbHelper.ORDDET_BAMT, ordDet.getFORDERDET_BAMT());
-                values.put(dbHelper.ORDDET_BDIS_AMT, ordDet.getFORDERDET_BDISAMT());
-                values.put(dbHelper.ORDDET_BPDIS_AMT, ordDet.getFORDERDET_BPDISAMT());
-                values.put(dbHelper.ORDDET_BTAX_AMT, ordDet.getFORDERDET_BTAXAMT());
-                values.put(dbHelper.ORDDET_TAX_AMT, ordDet.getFORDERDET_TAXAMT());
-                values.put(dbHelper.ORDDET_DIS_AMT, ordDet.getFORDERDET_DISAMT());
-                values.put(dbHelper.ORDDET_SCHDISPER, ordDet.getFORDERDET_SCHDISPER());
-                values.put(dbHelper.ORDDET_BRAND_DISPER, ordDet.getFORDERDET_BRAND_DISPER());
-                values.put(dbHelper.ORDDET_BRAND_DISC, ordDet.getFORDERDET_BRAND_DISC());
-                values.put(dbHelper.ORDDET_COMP_DISC, ordDet.getFORDERDET_COMP_DISC());
-                values.put(dbHelper.ORDDET_COST_PRICE, ordDet.getFORDERDET_COSTPRICE());
-                values.put(dbHelper.ORDDET_PIECE_QTY, ordDet.getFORDERDET_PICE_QTY());
-                values.put(dbHelper.ORDDET_SELL_PRICE, ordDet.getFORDERDET_SELLPRICE());
-                values.put(dbHelper.ORDDET_BSELL_PRICE, ordDet.getFORDERDET_BSELLPRICE());
-                values.put(dbHelper.ORDDET_SEQ_NO, ordDet.getFORDERDET_SEQNO());
-                values.put(dbHelper.ORDDET_TAX_COM_CODE, ordDet.getFORDERDET_TAXCOMCODE());
-                values.put(dbHelper.ORDDET_TSELL_PRICE, ordDet.getFORDERDET_TSELLPRICE());
-                values.put(dbHelper.ORDDET_BTSELL_PRICE, ordDet.getFORDERDET_BTSELLPRICE());
-                values.put(dbHelper.ORDDET_TXN_TYPE, ordDet.getFORDERDET_TXNTYPE());
-                values.put(dbHelper.ORDDET_LOC_CODE, ordDet.getFORDERDET_LOCCODE());
-                values.put(dbHelper.ORDDET_TXN_DATE, ordDet.getFORDERDET_TXNDATE());
-                values.put(dbHelper.ORDDET_RECORD_ID, ordDet.getFORDERDET_RECORDID());
-                values.put(dbHelper.ORDDET_PDIS_AMT, ordDet.getFORDERDET_PDISAMT());
-                values.put(dbHelper.ORDDET_IS_SYNCED, ordDet.getFORDERDET_IS_SYNCED());
-                values.put(dbHelper.ORDDET_QOH, ordDet.getFORDERDET_QOH());
-                values.put(dbHelper.ORDDET_TYPE, ordDet.getFORDERDET_TYPE());
-                values.put(dbHelper.ORDDET_SCHDISC, ordDet.getFORDERDET_SCHDISC());
-                values.put(dbHelper.ORDDET_DIS_TYPE, ordDet.getFORDERDET_DISCTYPE());
-                values.put(dbHelper.ORDDET_QTY_SLAB_DISC, ordDet.getFORDERDET_QTY_SLAB_DISC());
-                values.put(dbHelper.ORDDET_ORG_PRICE, ordDet.getFORDERDET_ORG_PRICE());
-                values.put(dbHelper.ORDDET_DIS_FLAG, ordDet.getFORDERDET_DISFLAG());
+                values.put(dbHelper.FORDDET_SELL_PRICE, ordDet.getFORDERDET_PRICE());
+                values.put(dbHelper.FORDDET_IS_ACTIVE, ordDet.getFORDERDET_IS_ACTIVE());
+                values.put(dbHelper.FORDDET_ITEMNAME, ordDet.getFORDERDET_ITEMNAME());
+                values.put(dbHelper.FORDDET_BAL_QTY, ordDet.getFORDERDET_BALQTY());
+                values.put(dbHelper.FORDDET_B_AMT, ordDet.getFORDERDET_BAMT());
+                values.put(dbHelper.FORDDET_B_DIS_AMT, ordDet.getFORDERDET_BDISAMT());
+                values.put(dbHelper.FORDDET_BP_DIS_AMT, ordDet.getFORDERDET_BPDISAMT());
+                values.put(dbHelper.FORDDET_BT_TAX_AMT, ordDet.getFORDERDET_BTAXAMT());
+                values.put(dbHelper.FORDDET_TAX_AMT, ordDet.getFORDERDET_TAXAMT());
+                values.put(dbHelper.FORDDET_DIS_AMT, ordDet.getFORDERDET_DISAMT());
+                values.put(dbHelper.FORDDET_DIS_PER, ordDet.getFORDERDET_SCHDISPER());
+                values.put(dbHelper.FORDDET_PICE_QTY, ordDet.getFORDERDET_PICE_QTY());
+                values.put(dbHelper.FORDDET_SELL_PRICE, ordDet.getFORDERDET_SELLPRICE());
+                values.put(dbHelper.FORDDET_B_SELL_PRICE, ordDet.getFORDERDET_BSELLPRICE());
+                values.put(dbHelper.FORDDET_SEQNO, ordDet.getFORDERDET_SEQNO());
+                values.put(dbHelper.FORDDET_TAX_COM_CODE, ordDet.getFORDERDET_TAXCOMCODE());
+                values.put(dbHelper.FORDDET_T_SELL_PRICE, ordDet.getFORDERDET_TSELLPRICE());
+                values.put(dbHelper.FORDDET_BT_SELL_PRICE, ordDet.getFORDERDET_BTSELLPRICE());
+                values.put(dbHelper.FORDDET_TXN_TYPE, ordDet.getFORDERDET_TXNTYPE());
+                values.put(dbHelper.TXNDATE, ordDet.getFORDERDET_TXNDATE());
+                values.put(dbHelper.FORDDET_RECORD_ID, ordDet.getFORDERDET_RECORDID());
+                values.put(dbHelper.FORDDET_P_DIS_AMT, ordDet.getFORDERDET_PDISAMT());
+                values.put(dbHelper.FORDDET_TYPE, ordDet.getFORDERDET_TYPE());
 
                 int cn = cursor.getCount();
 
                 if (cn > 0) {
-                    count = dB.update(dbHelper.TABLE_ORDER_DETAIL, values, dbHelper.ORDDET_ID + " =?", new String[] { String.valueOf(ordDet.getFORDERDET_ID()) });
+                    count = dB.update(dbHelper.TABLE_FORDDET, values, dbHelper.FORDDET_ID + " =?", new String[] { String.valueOf(ordDet.getFORDERDET_ID()) });
                 } else {
-                    count = (int) dB.insert(dbHelper.TABLE_ORDER_DETAIL, null, values);
+                    count = (int) dB.insert(dbHelper.TABLE_FORDDET, null, values);
                 }
 
                 cursor.close();
@@ -239,12 +270,12 @@ public class OrderDetailController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(dbHelper.TABLE_ORDER_DETAIL, dbHelper.REFNO + " ='" + refno + "'", null);
+                count = dB.delete(dbHelper.TABLE_FORDDET, dbHelper.REFNO + " ='" + refno + "'", null);
                 Log.v("Success Stauts", count + "");
             }
         } catch (Exception e) {
@@ -305,9 +336,9 @@ public class OrderDetailController {
 
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
+        String selectQuery = "select * from " + dbHelper.TABLE_FORDDET + " WHERE "
                 +
-                dbHelper.REFNO + "='" + refno + "' and "+dbHelper.ORDDET_IS_ACTIVE +" = '1'";
+                dbHelper.REFNO + "='" + refno + "' and "+dbHelper.FORDDET_IS_ACTIVE +" = '1'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -316,15 +347,27 @@ public class OrderDetailController {
 
                 OrderDetail ordDet = new OrderDetail();
 
-                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ID)));
-                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_AMT)));
-                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
-                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
-                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
+//                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ID)));
+//                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_AMT)));
+//                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
+//                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
+//                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
+//                ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+//                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
+//                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
+//                ordDet.setFORDERDET_ITEMNAME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_NAME)));
+
+                //commented due to table changed
+
+                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_ID)));
+                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_AMT)));
+                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_ITEM_CODE)));
+                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_PRIL_CODE)));
+                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_QTY)));
                 ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
-                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
-                ordDet.setFORDERDET_ITEMNAME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_NAME)));
+                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_SELL_PRICE)));
+                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_IS_ACTIVE)));
+                ordDet.setFORDERDET_ITEMNAME(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_ITEMNAME)));
 
                 list.add(ordDet);
 
@@ -434,7 +477,9 @@ public class OrderDetailController {
 
         return list;
     }
+
     public ArrayList<OrderDetail> getTodayOrderDets(String refno) {
+
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
         int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
@@ -447,7 +492,7 @@ public class OrderDetailController {
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
        // String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
-        String selectQuery = "select * from OrderDetail WHERE "
+        String selectQuery = "select * from FOrddet WHERE "
                 + dbHelper.REFNO + "='" + refno + "' and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -457,14 +502,23 @@ public class OrderDetailController {
 
                 OrderDetail ordDet = new OrderDetail();
 
-                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ID)));
-                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_AMT)));
-                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
-                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
-                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
+//                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ID)));
+//                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_AMT)));
+//                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
+//                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
+//                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
+//                ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+//                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
+//                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
+
+                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_ID)));
+                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_AMT)));
+                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_ITEM_CODE)));
+                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_PRIL_CODE)));
+                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_QTY)));
                 ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
-                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
+                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_SELL_PRICE)));
+                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_IS_ACTIVE)));
 
                 list.add(ordDet);
 
@@ -496,18 +550,18 @@ public class OrderDetailController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
             ContentValues values = new ContentValues();
 
-            values.put(dbHelper.ORDDET_IS_ACTIVE, "0");
+            values.put(dbHelper.FORDDET_IS_ACTIVE, "0");
 
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(dbHelper.TABLE_ORDER_DETAIL, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(refno) });
+                count = dB.update(dbHelper.TABLE_FORDDET, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(refno) });
             }
 
         } catch (Exception e) {
@@ -635,7 +689,7 @@ public class OrderDetailController {
 
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO
+        String selectQuery = "select * from " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.REFNO
                 + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -645,16 +699,25 @@ public class OrderDetailController {
 
                 OrderDetail ordDet = new OrderDetail();
 
-                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ID)));
-                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_AMT)));
-                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
-                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
-                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
+//                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ID)));
+//                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_AMT)));
+//                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
+//                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
+//                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
+//                ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+//                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
+//                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
+
+                //commented due to table changed
+
+                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_ID)));
+                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_AMT)));
+                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_ITEM_CODE)));
+                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_PRIL_CODE)));
+                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_QTY)));
                 ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
-                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
-
-
+                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_SELL_PRICE)));
+                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_IS_ACTIVE)));
 
                 list.add(ordDet);
 
@@ -767,7 +830,7 @@ public class OrderDetailController {
             open();
         }
 
-        String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.ORDDET_IS_ACTIVE + "='" + "1" + "'";
+        String selectQuery = "select * from " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.FORDDET_IS_ACTIVE + "='" + "1" + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -915,7 +978,7 @@ public class OrderDetailController {
             open();
         }
         try {
-            dB.delete(DatabaseHelper.TABLE_ORDER_DETAIL, DatabaseHelper.REFNO + " ='" + RefNo + "'" + " AND " + DatabaseHelper.ORDDET_ITEM_CODE + " ='" + itemCode + "'", null);
+            dB.delete(DatabaseHelper.TABLE_FORDDET, DatabaseHelper.REFNO + " ='" + RefNo + "'" + " AND " + DatabaseHelper.FORDDET_ITEM_CODE + " ='" + itemCode + "'", null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -932,7 +995,7 @@ public class OrderDetailController {
             open();
         }
         try {
-            dB.delete(DatabaseHelper.TABLE_ORDER_DETAIL, DatabaseHelper.REFNO + " ='" + RefNo + "'", null);
+            dB.delete(DatabaseHelper.TABLE_FORDDET, DatabaseHelper.REFNO + " ='" + RefNo + "'", null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -949,7 +1012,7 @@ public class OrderDetailController {
             open();
         }
         try {
-            String selectQuery = "SELECT Max(seqno) as seqno FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + "='" + RefNo + "'";
+            String selectQuery = "SELECT Max(seqno) as seqno FROM " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.REFNO + "='" + RefNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
             cursor.moveToFirst();
 
@@ -971,7 +1034,7 @@ public class OrderDetailController {
         }
 
         try {
-            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_ORDER_DETAIL + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_FORDDET + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -998,7 +1061,7 @@ public class OrderDetailController {
 
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select ItemCode,Qty,Amt from " + DatabaseHelper.TABLE_ORDER_DETAIL + " WHERE " + DatabaseHelper.REFNO + "='" + refNo + "' "         ;
+        String selectQuery = "select ItemCode,Qty,Amt from " + DatabaseHelper.TABLE_FORDDET + " WHERE " + DatabaseHelper.REFNO + "='" + refNo + "' "         ;
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -1007,9 +1070,14 @@ public class OrderDetailController {
             while (cursor.moveToNext())
             {
                 OrderDetail orderDetail = new OrderDetail();
-                orderDetail.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_ITEM_CODE)));
-                orderDetail.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_QTY)));
-                orderDetail.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_AMT)));
+//                orderDetail.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_ITEM_CODE)));
+//                orderDetail.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_QTY)));
+//                orderDetail.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_AMT)));
+
+                // commented due to table changed
+                orderDetail.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_ITEM_CODE)));
+                orderDetail.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_QTY)));
+                orderDetail.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_AMT)));
                 list.add(orderDetail);
             }
         }
@@ -1040,7 +1108,10 @@ public class OrderDetailController {
         Cursor cursor = null;
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select Itemcode,Qty,Amt,TSellPrice,Type from " + DatabaseHelper.TABLE_ORDER_DETAIL + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select Itemcode,Qty,Amt,TSellPrice,Types from " + DatabaseHelper.TABLE_FORDDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+
+        // commented due to table changed
+        //String selectQuery = "select Itemcode,Qty,Amt,TSellPrice,Type from " + DatabaseHelper.TABLE_ORDER_DETAIL + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
 
         try {
 
@@ -1050,11 +1121,20 @@ public class OrderDetailController {
 
                 OrderDetail order = new OrderDetail();
 
-                order.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_AMT)));
-                order.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_ITEM_CODE)));
-                order.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_QTY)));
-                order.setFORDERDET_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_TYPE)));
-                order.setFORDERDET_TSELLPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_TSELL_PRICE)));
+//                order.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_AMT)));
+//                order.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_ITEM_CODE)));
+//                order.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_QTY)));
+//                order.setFORDERDET_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_TYPE)));
+//                order.setFORDERDET_TSELLPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDDET_TSELL_PRICE)));
+
+                // commented due to changed table
+
+                order.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_AMT)));
+                order.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_ITEM_CODE)));
+                order.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_QTY)));
+                order.setFORDERDET_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_TYPE)));
+                order.setFORDERDET_TSELLPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_T_SELL_PRICE)));
+
                 //order.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVDET_DISVALAMT)));
                 order.setFORDERDET_REFNO(refno);
 

@@ -54,7 +54,7 @@ public class OrderController {
 
             for (PRESALE ordHed : list) {
 
-                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO
+                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDHED + " WHERE " + dbHelper.REFNO
                         + " = '" + ordHed.getORDER_REFNO() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
@@ -62,26 +62,26 @@ public class OrderController {
                 ContentValues values = new ContentValues();
 
                 values.put(dbHelper.REFNO, ordHed.getORDER_REFNO());
-                values.put(dbHelper.ORDER_ADDDATE, ordHed.getORDER_ADDDATE());
-                values.put(dbHelper.ORDER_CUSCODE, ordHed.getORDER_DEBCODE());
-                values.put(dbHelper.ORDER_START_TIME, ordHed.getORDER_ADDTIME());
-                values.put(dbHelper.ORDER_LONGITUDE, ordHed.getORDER_LONGITUDE());
-                values.put(dbHelper.ORDER_LATITUDE, ordHed.getORDER_LATITUDE());
-                values.put(dbHelper.ORDER_MANU_REF, ordHed.getORDER_MANUREF());
-                values.put(dbHelper.ORDER_REMARKS, ordHed.getORDER_REMARKS());
-                values.put(dbHelper.ORDER_REPCODE, ordHed.getORDER_REPCODE());
-                values.put(dbHelper.ORDER_TOTAL_AMT, ordHed.getORDER_TOTALAMT());
+                values.put(dbHelper.FORDHED_ADD_DATE, ordHed.getORDER_ADDDATE());
+                values.put(dbHelper.FORDHED_DEB_CODE, ordHed.getORDER_DEBCODE());
+                values.put(dbHelper.FORDHED_START_TIME_SO, ordHed.getORDER_ADDTIME());
+                values.put(dbHelper.FORDHED_LONGITUDE, ordHed.getORDER_LONGITUDE());
+                values.put(dbHelper.FORDHED_LATITUDE, ordHed.getORDER_LATITUDE());
+                values.put(dbHelper.FORDHED_MANU_REF, ordHed.getORDER_MANUREF());
+                values.put(dbHelper.FORDHED_REMARKS, ordHed.getORDER_REMARKS());
+                values.put(dbHelper.FORDHED_REPCODE, ordHed.getORDER_REPCODE());
+                values.put(dbHelper.FORDHED_TOTAL_AMT, ordHed.getORDER_TOTALAMT());
                 values.put(dbHelper.TXNDATE, ordHed.getORDER_TXNDATE());
-                values.put(dbHelper.ORDER_ROUTE_CODE, ordHed.getORDER_ROUTECODE());
-                values.put(dbHelper.ORDER_IS_SYNCED, "0");
-                values.put(dbHelper.ORDER_IS_ACTIVE, ordHed.getORDER_IS_ACTIVE());
+                values.put(dbHelper.FORDHED_ROUTE_CODE, ordHed.getORDER_ROUTECODE());
+                values.put(dbHelper.FORDHED_IS_SYNCED, "0");
+                values.put(dbHelper.FORDHED_IS_ACTIVE, ordHed.getORDER_IS_ACTIVE());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
-                    count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.REFNO + " =?",
+                    count = dB.update(dbHelper.TABLE_FORDHED, values, dbHelper.REFNO + " =?",
                             new String[] { String.valueOf(ordHed.getORDER_REFNO()) });
                 } else {
-                    count = (int) dB.insert(dbHelper.TABLE_ORDER, null, values);
+                    count = (int) dB.insert(dbHelper.TABLE_FORDHED, null, values);
                 }
 
             }
@@ -221,13 +221,13 @@ public class OrderController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO + " = '"
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDHED + " WHERE " + dbHelper.REFNO + " = '"
                     + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(dbHelper.TABLE_ORDER, dbHelper.REFNO + " ='" + refno + "'", null);
+                count = dB.delete(dbHelper.TABLE_FORDHED, dbHelper.REFNO + " ='" + refno + "'", null);
                 Log.v("Success", count + "");
             }
 
@@ -261,18 +261,26 @@ public class OrderController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO + " = '"
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDHED + " WHERE " + dbHelper.REFNO + " = '"
                     + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
             ContentValues values = new ContentValues();
 
-            values.put(dbHelper.ORDER_IS_ACTIVE, "0");
-            values.put(dbHelper.ORDER_END_TIME, UploadDate.split(" ")[1]);
-            values.put(dbHelper.ORDER_ADDDATE, UploadDate.split(" ")[0]);
-            values.put(dbHelper.ORDER_LATITUDE, SharedPref.getInstance(context).getGlobalVal("startLatitude"));
-            values.put(dbHelper.ORDER_LONGITUDE, SharedPref.getInstance(context).getGlobalVal("startLongitude"));
+            values.put(dbHelper.FORDHED_IS_ACTIVE, "0");
+            values.put(dbHelper.FORDHED_END_TIME_SO, UploadDate.split(" ")[1]);
+            values.put(dbHelper.FORDHED_ADD_DATE, UploadDate.split(" ")[0]);
+            values.put(dbHelper.FORDHED_LATITUDE, SharedPref.getInstance(context).getGlobalVal("startLatitude"));
+            values.put(dbHelper.FORDHED_LONGITUDE, SharedPref.getInstance(context).getGlobalVal("startLongitude"));
+
+            //commented due to chaged the table
+
+            //            values.put(dbHelper.ORDER_IS_ACTIVE, "0");
+//            values.put(dbHelper.ORDER_END_TIME, UploadDate.split(" ")[1]);
+//            values.put(dbHelper.ORDER_ADDDATE, UploadDate.split(" ")[0]);
+//            values.put(dbHelper.ORDER_LATITUDE, SharedPref.getInstance(context).getGlobalVal("startLatitude"));
+//            values.put(dbHelper.ORDER_LONGITUDE, SharedPref.getInstance(context).getGlobalVal("startLongitude"));
 
             int cn = cursor.getCount();
 
@@ -497,7 +505,7 @@ public class OrderController {
         }
 
         @SuppressWarnings("static-access")
-        String selectQuery = "select * from " + dbHelper.TABLE_ORDER + " Where " + dbHelper.ORDER_IS_ACTIVE
+        String selectQuery = "select * from " + dbHelper.TABLE_FORDHED + " Where " + dbHelper.ORDER_IS_ACTIVE
                 + "='1' and " + dbHelper.ORDER_IS_SYNCED + "='0'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -512,18 +520,34 @@ public class OrderController {
 
             ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
             presale.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-            presale.setORDER_ADDDATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
-            presale.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
-            presale.setORDER_ADDTIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
-            presale.setORDER_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
-            presale.setORDER_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
-            presale.setORDER_MANUREF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
-            presale.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
-            presale.setORDER_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
-            presale.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
+
+            //commented due to changed table
+
+//            presale.setORDER_ADDDATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
+//            presale.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
+//            presale.setORDER_ADDTIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
+//            presale.setORDER_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
+//            presale.setORDER_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
+//            presale.setORDER_MANUREF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
+//            presale.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
+//            presale.setORDER_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
+//            presale.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
+//            presale.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
+//            presale.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
+//            presale.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
+
+            presale.setORDER_ADDDATE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_ADD_DATE)));
+            presale.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_DEB_CODE)));
+            presale.setORDER_ADDTIME(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_START_TIME_SO)));
+            presale.setORDER_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_LONGITUDE)));
+            presale.setORDER_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_LATITUDE)));
+            presale.setORDER_MANUREF(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_MANU_REF)));
+            presale.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_REMARKS)));
+            presale.setORDER_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_REPCODE)));
+            presale.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_TOTAL_AMT)));
             presale.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
-            presale.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
-            presale.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
+            presale.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_IS_ACTIVE)));
+            presale.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_ROUTE_CODE)));
 
             presale.setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
 
@@ -656,18 +680,18 @@ public class OrderController {
         PRESALE SOHed = new PRESALE();
 
         try {
-            String selectQuery = "SELECT TxnDate,CustomerCode,Remarks,RouteCode,TotalAmt FROM " + DatabaseHelper.TABLE_ORDER + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+            String selectQuery = "SELECT TxnDate,DebCode,Remarks,RouteCode,TotalAmt FROM " + DatabaseHelper.TABLE_FORDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
 
                 SOHed.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
-                SOHed.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDER_CUSCODE)));
-                SOHed.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDER_REMARKS)));
+                SOHed.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_DEB_CODE)));
+                SOHed.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_REMARKS)));
 //                SOHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOURCODE)));
-                SOHed.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDER_ROUTE_CODE)));
-                SOHed.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.ORDER_TOTAL_AMT)));
+                SOHed.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_ROUTE_CODE)));
+                SOHed.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_TOTAL_AMT)));
                 //SOHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALDIS)));
             }
             cursor.close();

@@ -2587,6 +2587,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_TABLE_ORDER);
         arg0.execSQL(CREATE_DAYEXPDET_TABLE);
         arg0.execSQL(CREATE_DAYEXPHED_TABLE);
+        arg0.execSQL(CREATE_NEW_CUSTOMER);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -2617,6 +2618,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_FTOURHED_TABLE);
             arg0.execSQL(CREATE_DAYEXPDET_TABLE);
             arg0.execSQL(CREATE_DAYEXPHED_TABLE);
+            arg0.execSQL(CREATE_NEW_CUSTOMER);
 
 
         } catch (SQLiteException e) {
