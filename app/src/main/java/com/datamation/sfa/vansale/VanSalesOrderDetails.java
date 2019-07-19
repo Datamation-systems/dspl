@@ -978,7 +978,7 @@ public class VanSalesOrderDetails extends Fragment {
      //   invDet.setFINVDET_TAX_COM_CODE(new ItemsDS(getActivity()).getTaxComCodeByItemCode(itemCode));//2019-07-07 till error free
         invDet.setFINVDET_T_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
         invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
-        invDet.setFINVDET_REFNO(selectedInvHed.getFINVHED_REFNO());
+        invDet.setFINVDET_REFNO(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
      //   invDet.setFINVDET_COM_DISCPER(new ControlDS(getActivity()).getCompanyDisc() + "");//2019-07-07 till error free
         invDet.setFINVDET_BRAND_DISCPER("0");
         invDet.setFINVDET_BRAND_DISC("0");

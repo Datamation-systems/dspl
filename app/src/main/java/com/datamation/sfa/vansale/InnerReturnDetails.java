@@ -557,6 +557,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
 
     }
     public void mRefreshData() {
+        selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
         try {
 //            amount = Double.parseDouble(txtQty.getText().toString())
 //                    * Double.parseDouble(lblPrice.getText().toString());
