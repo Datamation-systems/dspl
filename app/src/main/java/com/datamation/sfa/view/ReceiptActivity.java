@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.ReceiptDetController;
 import com.datamation.sfa.helpers.ReceiptResponseListener;
 import com.datamation.sfa.helpers.VanSalesResponseListener;
 import com.datamation.sfa.model.Customer;
@@ -33,6 +34,7 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
     public ReceiptHed selectedRecHed = null;
     public Double ReceivedAmt = 0.0;
     Context context;
+    boolean status = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,7 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
             public void onPageScrollStateChanged(int state) {
             }
         });
+        status = new ReceiptDetController(getApplicationContext()).isAnyActiveReceipt();
     }
 
     private class PreSalesPagerAdapter extends FragmentPagerAdapter {
@@ -136,4 +139,10 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        if (status)
+//            viewPager.setCurrentItem(1);
+    }
 }

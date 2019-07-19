@@ -219,9 +219,67 @@ public class ReceiptDetController {
 		return count;
 
 	}
+	public boolean isAnyActiveReceipt()
+	{
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
 
+		String selectQuery = "select * from " + DatabaseHelper.TABLE_FPRECHEDS + " WHERE " + DatabaseHelper.FPRECHED_ISACTIVE + "='" + "1" + "'";
+
+		Cursor cursor = dB.rawQuery(selectQuery, null);
+
+		try {
+			if (cursor.getCount()>0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+
+		} catch (Exception e) {
+
+			Log.v(TAG + " Exception", e.toString());
+
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+
+		return false;
+	}
 	/*-----------------------------------------------------------------------------------*/
+	public int getItemCount(String refNo) {
 
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		try {
+			String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_FPRECHEDS + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+			Cursor cursor = dB.rawQuery(selectQuery, null);
+
+			while (cursor.moveToNext()) {
+				return Integer.parseInt(cursor.getString(cursor.getColumnIndex("RefNo")));
+			}
+			cursor.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			dB.close();
+		}
+		return 0;
+
+	}
 	//only can use for single receipt
 	public ArrayList<ReceiptDet> GetReceiptByRefno(String Refno) {
 

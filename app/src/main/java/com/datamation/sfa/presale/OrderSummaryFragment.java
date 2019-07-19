@@ -707,6 +707,6 @@ public class OrderSummaryFragment extends Fragment {
             ex.printStackTrace();
         }
     }
-    
+
 
 }

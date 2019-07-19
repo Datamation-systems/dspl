@@ -26,6 +26,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.controller.DayNPrdDetController;
 import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.OrderDetailController;
+import com.datamation.sfa.controller.ReceiptDetController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.fragment.debtordetails.HistoryDetailsFragment;
@@ -69,6 +70,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
     boolean isAnyActiveReturns = false;
     boolean isAnyActiveNonProds = false;
     boolean isAnyActiveInvoices = false;
+    boolean isAnyActiveReceipt = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +97,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         isAnyActiveOrders = new OrderDetailController(getApplicationContext()).isAnyActiveOrders();
         isAnyActiveReturns = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens();
         isAnyActiveInvoices = new InvDetController(getApplicationContext()).isAnyActiveOrders();
+        isAnyActiveReceipt = new ReceiptDetController(getApplicationContext()).isAnyActiveReceipt();
         //isAnyActiveNonProds  = new DayNPrdDetController(getApplicationContext()).isAnyActiveNPs();
 
         fabVansale = (CircleButton)findViewById(R.id.outlet_details_fab_van_sale);
@@ -129,9 +132,10 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_nonprod));
         //}
 
-
+        if(isAnyActiveReceipt)
+        fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.receipt_active));
+        else
         fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_receipt));
-        //fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_receipt));
 
         if(isAnyActiveInvoices)
         fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.vansale_active));

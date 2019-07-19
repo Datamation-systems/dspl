@@ -98,7 +98,7 @@ public class ReceiptSummary extends Fragment {
         fabPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPauseinvoice();
+                mPauseReceipt();
             }
         });
 
@@ -205,12 +205,14 @@ public class ReceiptSummary extends Fragment {
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**/
 
-    public void mPauseinvoice() {
+    public void mPauseReceipt() {
 //
-//        if (mSharedPref.getGlobalVal("ReckeyCustomer").equals("1") && mSharedPref.getGlobalVal("ReckeyHeader").equals("1"))
-//            //UtilityContainer.mLoadFragment(new IconPallet_mega(), activity);
-//        else
-//            Toast.makeText(activity, "Select Customer/Fill in header details before Pause", Toast.LENGTH_SHORT).show();
+        if (new ReceiptDetController(getActivity()).getItemCount(RefNo) > 0) {
+            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+            startActivity(intnt);
+            getActivity().finish();
+        } else
+            Toast.makeText(activity, "Add details before pause ...!", Toast.LENGTH_SHORT).show();
 
     }
 
