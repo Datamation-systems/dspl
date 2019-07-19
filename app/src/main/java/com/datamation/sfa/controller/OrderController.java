@@ -98,6 +98,67 @@ public class OrderController {
         return count;
 
     }
+
+//    public int createOrUpdateOrdHed(ArrayList<PRESALE> list) {
+//
+//        int count = 0;
+//
+//        if (dB == null) {
+//            open();
+//        } else if (!dB.isOpen()) {
+//            open();
+//        }
+//        Cursor cursor = null;
+//
+//        try {
+//
+//            for (PRESALE ordHed : list) {
+//
+//                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER + " WHERE " + dbHelper.REFNO
+//                        + " = '" + ordHed.getORDER_REFNO() + "'";
+//
+//                cursor = dB.rawQuery(selectQuery, null);
+//
+//                ContentValues values = new ContentValues();
+//
+//                values.put(dbHelper.REFNO, ordHed.getORDER_REFNO());
+//                values.put(dbHelper.ORDER_ADDDATE, ordHed.getORDER_ADDDATE());
+//                values.put(dbHelper.ORDER_CUSCODE, ordHed.getORDER_DEBCODE());
+//                values.put(dbHelper.ORDER_START_TIME, ordHed.getORDER_ADDTIME());
+//                values.put(dbHelper.ORDER_LONGITUDE, ordHed.getORDER_LONGITUDE());
+//                values.put(dbHelper.ORDER_LATITUDE, ordHed.getORDER_LATITUDE());
+//                values.put(dbHelper.ORDER_MANU_REF, ordHed.getORDER_MANUREF());
+//                values.put(dbHelper.ORDER_REMARKS, ordHed.getORDER_REMARKS());
+//                values.put(dbHelper.ORDER_REPCODE, ordHed.getORDER_REPCODE());
+//                values.put(dbHelper.ORDER_TOTAL_AMT, ordHed.getORDER_TOTALAMT());
+//                values.put(dbHelper.TXNDATE, ordHed.getORDER_TXNDATE());
+//                values.put(dbHelper.ORDER_ROUTE_CODE, ordHed.getORDER_ROUTECODE());
+//                values.put(dbHelper.ORDER_IS_SYNCED, "0");
+//                values.put(dbHelper.ORDER_IS_ACTIVE, ordHed.getORDER_IS_ACTIVE());
+//
+//                int cn = cursor.getCount();
+//                if (cn > 0) {
+//                    count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.REFNO + " =?",
+//                            new String[] { String.valueOf(ordHed.getORDER_REFNO()) });
+//                } else {
+//                    count = (int) dB.insert(dbHelper.TABLE_ORDER, null, values);
+//                }
+//
+//            }
+//        } catch (Exception e) {
+//
+//            Log.v(TAG + " Exception", e.toString());
+//
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//            dB.close();
+//        }
+//        return count;
+//
+//    }
+
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public ArrayList<PRESALE> getTodayOrders() {
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));

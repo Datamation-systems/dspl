@@ -434,6 +434,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
                 pDialog.dismiss();
             }
             returnProductDialogBox(list);
+            itemSearch.setEnabled(true);
 
         }
     }
