@@ -81,7 +81,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
         locManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         outlet = new Customer();
-        outlet.setCusName("ABCD DISTRIBUTORS");
+        outlet.setCusName(SharedPref.getInstance(getApplicationContext()).getSelectedDebName());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.outlet_details_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);

@@ -744,7 +744,7 @@ public class OrderSummaryFragment extends Fragment {
             //  activity.selectedDebtor = null;
             //  activity.selectedRetDebtor = null;
             //activity.selectedRecHed = null;
-            activity.selectedInvHed = null;
+            //activity.selectedInvHed = null;
             Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
             startActivity(intnt);
             getActivity().finish();

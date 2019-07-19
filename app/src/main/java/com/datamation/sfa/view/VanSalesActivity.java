@@ -33,10 +33,6 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
     private VanSalesSummary salesManagementFragment;
     private InnerReturnDetails orderMainFragment;
     private ViewPager viewPager;
-    public Customer selectedDebtor = null;
-    public InvHed selectedInvHed = null;
-    public FInvRHed selectedReturnHed = null;
-    public Customer selectedRetDebtor = null;
     Context context;
 
     @Override

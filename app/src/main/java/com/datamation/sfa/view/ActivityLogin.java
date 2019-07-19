@@ -1004,7 +1004,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 /*****************FreeHed**********************************************************************/
                 String freehed = "";
                 try {
-                    freehed = networkFunctions.getFreeHed();
+                    freehed = networkFunctions.getFreeHed(repcode);
                 } catch (IOException e) {
                     e.printStackTrace();
                     throw e;

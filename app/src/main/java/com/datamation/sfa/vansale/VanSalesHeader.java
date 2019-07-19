@@ -33,6 +33,7 @@ import com.datamation.sfa.controller.OutstandingController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.helpers.VanSalesResponseListener;
+import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.FddbNote;
 import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.settings.ReferenceNum;
@@ -54,6 +55,8 @@ public class VanSalesHeader extends Fragment {
     TextView lblCustomerName, outStandingAmt, lastBillAmt,lblInvRefno;
     EditText  currnentDate,txtManual,txtRemakrs;
     Spinner spnPayMethod;
+    InvHed selectedInvHed;
+    Customer selectedDebtor;
    VanSalesActivity activity;
    VanSalesResponseListener listener;
 
@@ -76,20 +79,21 @@ public class VanSalesHeader extends Fragment {
         spnPayMethod = (Spinner) view.findViewById(R.id.spnnerPayment);
 
        lblCustomerName.setText(SharedPref.getInstance(getActivity()).getSelectedDebName());
-
+        selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
+        selectedDebtor = new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
 
           //  lblCustomerName.setText(activity.selectedDebtor.getCusName());
-            activity.selectedRetDebtor = activity.selectedDebtor;
+           // activity.selectedRetDebtor = activity.selectedDebtor;
             currnentDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
             outStandingAmt.setText(String.format("%,.2f", new OutstandingController(getActivity()).getDebtorBalance(SharedPref.getInstance(getActivity()).getSelectedDebCode())));
             txtRemakrs.setEnabled(true);
             txtManual.setEnabled(true);
 
             /*already a header exist*/
-            if (activity.selectedInvHed != null) {
-                txtManual.setText(activity.selectedInvHed.getFINVHED_MANUREF());
-                txtRemakrs.setText(activity.selectedInvHed.getFINVHED_REMARKS());
-                lblInvRefno.setText(activity.selectedInvHed.getFINVHED_REFNO());
+            if (selectedInvHed != null) {
+                txtManual.setText(selectedInvHed.getFINVHED_MANUREF());
+                txtRemakrs.setText(selectedInvHed.getFINVHED_REMARKS());
+                lblInvRefno.setText(selectedInvHed.getFINVHED_REFNO());
                 mSaveInvoiceHeader();
             } else { /*No header*/
 
@@ -187,21 +191,21 @@ public class VanSalesHeader extends Fragment {
             hed.setFINVHED_CURRATE("1.00");
             hed.setFINVHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
 
-            if (activity.selectedDebtor != null) {
-                hed.setFINVHED_DEBCODE(activity.selectedDebtor.getCusCode());
-                hed.setFINVHED_CONTACT(activity.selectedDebtor.getCusMob());
-                hed.setFINVHED_CUSADD1(activity.selectedDebtor.getCusAdd1());
-                hed.setFINVHED_CUSADD2(activity.selectedDebtor.getCusAdd2());
-                hed.setFINVHED_CUSADD3(activity.selectedDebtor.getCusAdd1());
+            if (selectedDebtor != null) {
+                hed.setFINVHED_DEBCODE(selectedDebtor.getCusCode());
+                hed.setFINVHED_CONTACT(selectedDebtor.getCusMob());
+                hed.setFINVHED_CUSADD1(selectedDebtor.getCusAdd1());
+                hed.setFINVHED_CUSADD2(selectedDebtor.getCusAdd2());
+                hed.setFINVHED_CUSADD3(selectedDebtor.getCusAdd1());
               //  hed.setFINVHED_CUSTELE(activity.selectedDebtor.getCus);
             //    hed.setFINVHED_TAXREG(activity.selectedDebtor.getFDEBTOR_TAX_REG());
             }else{
-                activity.selectedDebtor  = new CustomerController(getActivity()).getSelectedCustomerByCode(new SharedPref(getActivity()).getSelectedDebCode());
+                selectedDebtor  = new CustomerController(getActivity()).getSelectedCustomerByCode(new SharedPref(getActivity()).getSelectedDebCode());
                 hed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
-                hed.setFINVHED_CONTACT(activity.selectedDebtor.getCusMob());
-                hed.setFINVHED_CUSADD1(activity.selectedDebtor.getCusAdd1());
-                hed.setFINVHED_CUSADD2(activity.selectedDebtor.getCusAdd2());
-                hed.setFINVHED_CUSADD3(activity.selectedDebtor.getCusAdd1());
+                hed.setFINVHED_CONTACT(selectedDebtor.getCusMob());
+                hed.setFINVHED_CUSADD1(selectedDebtor.getCusAdd1());
+                hed.setFINVHED_CUSADD2(selectedDebtor.getCusAdd2());
+                hed.setFINVHED_CUSADD3(selectedDebtor.getCusAdd1());
             }
 
             hed.setFINVHED_TXNTYPE("22");
@@ -220,10 +224,9 @@ public class VanSalesHeader extends Fragment {
             hed.setFINVHED_SETTING_CODE(getResources().getString(R.string.VanNumVal));
 
 
-            activity.selectedInvHed = hed;
            // SharedPreferencesClass.setLocalSharedPreference(activity, "Van_Start_Time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()));
             ArrayList<InvHed> ordHedList = new ArrayList<>();
-            ordHedList.add(activity.selectedInvHed);
+            ordHedList.add(hed);
             new InvHedController(getActivity()).createOrUpdateInvHed(ordHedList);
         }
     }

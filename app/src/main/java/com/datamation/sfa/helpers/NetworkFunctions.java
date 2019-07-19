@@ -282,13 +282,13 @@ public class NetworkFunctions {
 
         return getFromServer(baseURL + "ffreemslab"+restOfURL, params);
     }
-    public String getFreeHed() throws IOException {
+    public String getFreeHed(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting FreeHed : " + baseURL + "FreeHed"+restOfURL+ params);
+        Log.d(LOG_TAG, "Getting FreeHed : " + baseURL + "FreeHed"+restOfURL+"/"+repCode+ params);
 
-        return getFromServer(baseURL + "fFreehed"+restOfURL, params);
+        return getFromServer(baseURL + "fFreehed"+restOfURL+"/"+repCode, params);
     }
     public String getRoutes(String repCode) throws IOException {
 
@@ -310,17 +310,17 @@ public class NetworkFunctions {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting fdiscdeb : " + baseURL + "fdiscdeb"+restOfURL+ params);
+        Log.d(LOG_TAG, "Getting fdiscdeb : " + baseURL + "fdiscdeb"+restOfURL+"/"+repCode+ params);
 
-        return getFromServer(baseURL + "fdiscdeb"+restOfURL, params);
+        return getFromServer(baseURL + "fdiscdeb"+restOfURL+"/"+repCode, params);
     }
     public String getDiscHed(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting fdisched : " + baseURL + "fdisched"+restOfURL+ params);
+        Log.d(LOG_TAG, "Getting fdisched : " + baseURL + "fdisched"+restOfURL+"/"+repCode+ params);
 
-        return getFromServer(baseURL + "fdisched"+restOfURL, params);
+        return getFromServer(baseURL + "fdisched"+restOfURL+"/"+repCode, params);
     }
     public String getFddbNotes(String repCode) throws IOException {
 
@@ -330,14 +330,14 @@ public class NetworkFunctions {
 
         return getFromServer(baseURL + "fDdbNoteWithCondition"+restOfURL+"/"+repCode, params);
     }
-    public String getFfreeHed(String repCode) throws IOException {
-
-        List<CustomNameValuePair> params = new ArrayList<>();
-
-        Log.d(LOG_TAG, "Getting fFreehed : " + baseURL + "fFreehed"+restOfURL+ params);
-
-        return getFromServer(baseURL + "fFreehed"+restOfURL, params);
-    }
+//    public String getFfreeHed(String repCode) throws IOException {
+//
+//        List<CustomNameValuePair> params = new ArrayList<>();
+//
+//        Log.d(LOG_TAG, "Getting fFreehed : " + baseURL + "fFreehed"+restOfURL+ params);
+//
+//        return getFromServer(baseURL + "fFreehed"+restOfURL, params);
+//    }
     public String getItems() throws IOException {
 
         Log.d(LOG_TAG, "Getting Items");
