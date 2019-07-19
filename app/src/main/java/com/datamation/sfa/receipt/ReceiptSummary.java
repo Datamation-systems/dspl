@@ -36,6 +36,7 @@ import com.datamation.sfa.model.ReceiptHed;
 import com.datamation.sfa.settings.GPSTracker;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.UtilityContainer;
+import com.datamation.sfa.view.DebtorDetailsActivity;
 import com.datamation.sfa.view.ReceiptActivity;
 import com.datamation.sfa.view.VanSalesActivity;
 import com.github.clans.fab.FloatingActionButton;
@@ -104,6 +105,8 @@ public class ReceiptSummary extends Fragment {
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fddbnoteList = new OutstandingController(getActivity()).getAllRecords(SharedPref.getInstance(getActivity()).getSelectedDebCode(), true);
+
                 if(fddbnoteList.size()>0)
                 {
                     if (Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRemnant")) <= 0)
@@ -230,11 +233,11 @@ public class ReceiptSummary extends Fragment {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**/
 
     public void FetchData() {
-        if (((ReceiptActivity) getActivity()).selectedDebtor != null) {
+       // if (((ReceiptActivity) getActivity()).selectedDebtor != null) {
             lv_fddbnote.setAdapter(null);
             fddbnoteList = new OutstandingController(getActivity()).getAllRecords(SharedPref.getInstance(getActivity()).getSelectedDebCode(), true);
             lv_fddbnote.setAdapter(new ReceiptAdapter(getActivity(), fddbnoteList, true, RefNo));
-        }
+       // }
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**/
@@ -315,6 +318,10 @@ public class ReceiptSummary extends Fragment {
             //    UtilityContainer.mLoadFragment(new ReceiptInvoice(), getActivity());
                 dialog.dismiss();
                 ClearSharedPref();/* Clear shared preference */
+
+                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                startActivity(intent);
+                getActivity().finish();
 
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {

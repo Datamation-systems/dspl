@@ -76,7 +76,7 @@ public class OutstandingController {
                 values.put(DatabaseHelper.FDDBNOTE_ADD_DATE, fdDbNote.getFDDBNOTE_ADD_DATE());
                 values.put(DatabaseHelper.FDDBNOTE_ADD_MACH, fdDbNote.getFDDBNOTE_ADD_MACH());
                 values.put(DatabaseHelper.FDDBNOTE_REFNO1, fdDbNote.getFDDBNOTE_REFNO1());
-                //  values.put(DatabaseHelper.FDDBNOTE_ENTER_AMT, fdDbNote.getFDDBNOTE_ENTER_AMT());
+                values.put(DatabaseHelper.FDDBNOTE_ENTER_AMT, fdDbNote.getFDDBNOTE_ENTER_AMT());
 
                 if (cursor.getCount() > 0) {
                     dB.update(DatabaseHelper.TABLE_FDDBNOTE, values, DatabaseHelper.REFNO + "=?", new String[]{fdDbNote.getFDDBNOTE_REFNO().toString()});
