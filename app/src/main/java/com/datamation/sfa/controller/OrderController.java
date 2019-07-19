@@ -173,7 +173,8 @@ public class OrderController {
         ArrayList<PRESALE> list = new ArrayList<PRESALE>();
 
         try {
-            String selectQuery = "select DebCode, RefNo from fordHed " +
+            //String selectQuery = "select DebCode, RefNo from fordHed " +
+            String selectQuery = "select DebCode, RefNo from OrderHeader " +
                     //			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
                     "  where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 

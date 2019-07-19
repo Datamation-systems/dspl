@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Discslab {
 
     private String FDISCSLAB_ID;
@@ -83,5 +86,23 @@ public class Discslab {
     public void setFDISCSLAB_TIMESTAMP_COLUMN(String fDISCSLAB_TIMESTAMP_COLUMN) {
         FDISCSLAB_TIMESTAMP_COLUMN = fDISCSLAB_TIMESTAMP_COLUMN;
     }
+    public static Discslab parseDiscslab(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            Discslab discslab = new Discslab();
+
+            discslab.setFDISCSLAB_REF_NO(instance.getString("Refno"));
+            discslab.setFDISCSLAB_SEQ_NO("");
+            discslab.setFDISCSLAB_QTY_F(instance.getString("Qtyf"));
+            discslab.setFDISCSLAB_QTY_T(instance.getString("Qtyt"));
+            discslab.setFDISCSLAB_DIS_PER(instance.getString("Disper"));
+            discslab.setFDISCSLAB_DIS_AMUT(instance.getString("Disamt"));
+            discslab.setFDISCSLAB_TIMESTAMP_COLUMN("");
+
+
+            return discslab;
+        }
+
+        return null;
+    }
 }

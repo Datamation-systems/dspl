@@ -1369,7 +1369,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_FFREEHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEHED + " (" + FFREEHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + TXNDATE + " TEXT, " + FFREEHED_DISC_DESC + " TEXT, " + FFREEHED_PRIORITY + " TEXT, " + FFREEHED_VDATEF + " TEXT, " + FFREEHED_VDATET + " TEXT, " + FFREEHED_REMARKS + " TEXT, " + FFREEHED_RECORD_ID + " TEXT, " + FFREEHED_ITEM_QTY + " TEXT, " + FFREEHED_FREE_IT_QTY + " TEXT, " + FFREEHED_FTYPE + " TEXT); ";
 
 
-    private static final String IDXFREEHED = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreehed_something ON " + TABLE_FFREEHED + " (" + REFNO + ")";
+    private static final String IDXFREEHED = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreehed_something ON " + TABLE_FFREEHED + " (" + FFREEHED_ID + ")";
     /**
      * ############################ FfreeSlab table Details
      * ################################
@@ -2479,7 +2479,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase arg0) {
 
+        arg0.execSQL(CREATE_FSIZEIN_TABLE);
+        arg0.execSQL(CREATE_FSTKISS_TABLE);
+        arg0.execSQL(CREATE_FDISPDET_TABLE);
+        arg0.execSQL(CREATE_FDISPISS_TABLE);
+        arg0.execSQL(CREATE_FDISPHED_TABLE);
+        arg0.execSQL(CREATE_DEBITEMPRI_TABLE);
         arg0.execSQL(CREATE_SERVER_DB_TABLE);
+        arg0.execSQL(CREATE_STKIN_TABLE);
         arg0.execSQL(CREATE_FDEBTOR_TABLE);
         arg0.execSQL(CREATE_FCONTROL_TABLE);
         arg0.execSQL(CREATE_FCOMPANYSETTING_TABLE);
@@ -2568,8 +2575,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_FGPSLOC_TABLE);
         arg0.execSQL(CREATE_FPRODUCT_TABLE);
         arg0.execSQL(CREATE_ATTENDANCE_TABLE);
-
-        // --------------------- Nuwan ------------------------
+        arg0.execSQL(CREATE_FTAX_TABLE);
+        arg0.execSQL(CREATE_FTAXHED_TABLE);
         arg0.execSQL(CREATE_FPRODUCT_PRE_TABLE);
         arg0.execSQL(CREATE_FTOURHED_TABLE);
         arg0.execSQL(CREATE_FDEBTAX_TABLE);
@@ -2588,6 +2595,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         this.onCreate(arg0);
         try {
+            arg0.execSQL(CREATE_FSIZEIN_TABLE);
+            arg0.execSQL(CREATE_FSTKISS_TABLE);
+            arg0.execSQL(CREATE_FDISPDET_TABLE);
+            arg0.execSQL(CREATE_FDISPISS_TABLE);
+            arg0.execSQL(CREATE_DEBITEMPRI_TABLE);
+            arg0.execSQL(CREATE_FDISPHED_TABLE);
+            arg0.execSQL(CREATE_STKIN_TABLE);
+            arg0.execSQL(CREATE_FTAX_TABLE);
+            arg0.execSQL(CREATE_FTAXHED_TABLE);
             arg0.execSQL(CREATE_FDEBTOR_TABLE);
             arg0.execSQL(CREATE_FPRODUCT_TABLE);
             arg0.execSQL(CREATE_FINVHED_TABLE);
@@ -2601,6 +2617,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_FTOURHED_TABLE);
             arg0.execSQL(CREATE_DAYEXPDET_TABLE);
             arg0.execSQL(CREATE_DAYEXPHED_TABLE);
+
 
         } catch (SQLiteException e) {
         }

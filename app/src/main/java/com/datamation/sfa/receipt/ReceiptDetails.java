@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -262,9 +263,13 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void FetchData() {
+        Log.d("Paymode",mSharedPref.getGlobalVal("ReckeyPayMode"));
+        Log.d("Received",mSharedPref.getGlobalVal("ReckeyPayMode"));
 
-            if (mainActivity.selectedDebtor != null && mainActivity.selectedRecHed != null) {
-
+            if (!mSharedPref.getGlobalVal("ReckeyPayMode").equals("***") &&
+                    !mSharedPref.getGlobalVal("ReckeyPayMode").equals("-SELECT-") &&
+        !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("***") && !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("0")) {
+                ReceivedAmt = Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRecAmt"));
             lv_order_det.setAdapter(null);
             orderList = new OutstandingController(getActivity()).getAllRecords(SharedPref.getInstance(getActivity()).getSelectedDebCode(), false);
             lv_order_det.setAdapter(new ReceiptAdapter(getActivity(), orderList, false, RefNo));
@@ -343,7 +348,7 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
 	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 	public void mRefreshHeader(){
-        ReceivedAmt = mainActivity.ReceivedAmt;
+      //  ReceivedAmt = mainActivity.ReceivedAmt;
         FetchData();
     }
 
@@ -351,6 +356,6 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
     public void navigateToHeader(int position) {
         ReceiptActivity activity = (ReceiptActivity) getActivity();
         Toast.makeText(getActivity(), "Enter Header values", Toast.LENGTH_SHORT).show();
-        listener.moveToDetailsRece(1);
+        listener.moveToDetailsRece(0);
     }
 }

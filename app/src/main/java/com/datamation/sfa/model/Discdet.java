@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Discdet {
 
     private String FDISCDET_ID;
@@ -46,5 +49,20 @@ public class Discdet {
 
     public void setFDISCHED_TIEMSTAMP_COLUMN(String fDISCHED_TIEMSTAMP_COLUMN) {
         FDISCHED_TIEMSTAMP_COLUMN = fDISCHED_TIEMSTAMP_COLUMN;
+    }
+    public static Discdet parseDiscDet(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            Discdet did = new Discdet();
+
+            did.setFDISCDET_REF_NO(instance.getString("Refno"));
+            did.setFDISCDET_ITEM_CODE(instance.getString("Itemcode"));
+            did.setFDISCHED_TIEMSTAMP_COLUMN("");
+
+
+            return did;
+        }
+
+        return null;
     }
 }

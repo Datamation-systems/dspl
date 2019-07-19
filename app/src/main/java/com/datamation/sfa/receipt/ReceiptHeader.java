@@ -264,6 +264,7 @@ public class ReceiptHeader extends Fragment {
 //                        }
 //                        else
 //                        {
+
                             if (spnPayMode.getSelectedItemPosition() == 1)
                             {
                                 if (Double.parseDouble(txtReceAmt.getText().toString().replaceAll(",", "")) > 0) {
@@ -590,6 +591,7 @@ public class ReceiptHeader extends Fragment {
         else
         {
             activity.ReceivedAmt = Double.parseDouble(txtReceAmt.getText().toString());
+            activity.selectedRecHed = recHed;
         }
         SharedPref.getInstance(getActivity()).setGlobalVal("Van_Start_Time", currentTime());
         ArrayList<ReceiptHed> RecHedList = new ArrayList<ReceiptHed>();

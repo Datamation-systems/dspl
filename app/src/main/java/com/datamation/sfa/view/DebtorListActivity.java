@@ -67,6 +67,7 @@ public class DebtorListActivity extends AppCompatActivity {
             {
                 Intent intent = new Intent(getApplicationContext(), NewCustomerActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FreeDeb {
 
     private String FFREEDEB_ID;
@@ -74,6 +77,22 @@ public class FreeDeb {
     public void setFFREEDEB_TIMESTAMP_COLUMN(String fFREEDEB_TIMESTAMP_COLUMN) {
         FFREEDEB_TIMESTAMP_COLUMN = fFREEDEB_TIMESTAMP_COLUMN;
     }
+    public static FreeDeb parseFreeDeb(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            FreeDeb deb = new FreeDeb();
+
+            deb.setFFREEDEB_REFNO(instance.getString("Refno"));
+            deb.setFFREEDEB_DEB_CODE(instance.getString("Debcode"));
+            deb.setFFREEDEB_ADD_USER("");
+            deb.setFFREEDEB_ADD_DATE("");
+            deb.setFFREEDEB_ADD_MACH("");
+            deb.setFFREEDEB_TIMESTAMP_COLUMN("");
+
+            return deb;
+        }
+
+        return null;
+    }
 
 }

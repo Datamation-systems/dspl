@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FreeDet {
 
     private String FFREEDET_ID;
@@ -38,6 +41,17 @@ public class FreeDet {
     public void setFFREEDET_RECORD_ID(String fFREEDET_RECORD_ID) {
         FFREEDET_RECORD_ID = fFREEDET_RECORD_ID;
     }
+    public static FreeDet parseFreeDet(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            FreeDet det = new FreeDet();
+
+            det.setFFREEDET_REFNO(instance.getString("Refno"));
+            det.setFFREEDET_ITEM_CODE(instance.getString("Itemcode"));
+            return det;
+        }
+
+        return null;
+    }
 
 }

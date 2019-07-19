@@ -384,7 +384,7 @@ public class OutstandingController {
                 fdDbNote.setFDDBNOTE_CUR_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_CUR_CODE)));
                 fdDbNote.setFDDBNOTE_CUR_RATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_CUR_RATE)));
                 fdDbNote.setFDDBNOTE_DEB_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_DEB_CODE)));
-                //  fdDbNote.setFDDBNOTE_ENTER_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_ENTER_AMT)));
+                fdDbNote.setFDDBNOTE_ENTER_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_ENTER_AMT)));
                 fdDbNote.setFDDBNOTE_GL_BATCH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_GL_BATCH)));
                 fdDbNote.setFDDBNOTE_GL_POST(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_GL_POST)));
                 fdDbNote.setFDDBNOTE_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDDBNOTE_ID)));

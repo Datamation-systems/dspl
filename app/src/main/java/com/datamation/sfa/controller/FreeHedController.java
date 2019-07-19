@@ -43,7 +43,7 @@ public class FreeHedController {
         Cursor cursor_ini = null;
 
         try {
-            cursor_ini = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FFREESLAB, null);
+            cursor_ini = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FFREEHED, null);
 
             for (FreeHed freehed : list) {
 
@@ -63,11 +63,11 @@ public class FreeHedController {
                // values.put(dbHelper.FFREEHED_COSTCODE, freehed.getFFREEHED_COSTCODE());
 
                 if (cursor_ini.getCount() > 0) {
-                    String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FFREESLAB + " WHERE " + dbHelper.REFNO + "='" + freehed.getFFREEHED_REFNO() + "'";
+                    String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FFREEHED + " WHERE " + dbHelper.REFNO + "='" + freehed.getFFREEHED_REFNO() + "'";
                     cursor = dB.rawQuery(selectQuery, null);
 
                     if (cursor.getCount() > 0) {
-                        returnID = (int) dB.update(dbHelper.TABLE_FFREESLAB, values, dbHelper.REFNO + "='" + freehed.getFFREEHED_REFNO() + "'", null);
+                        returnID = (int) dB.update(dbHelper.TABLE_FFREEHED, values, dbHelper.REFNO + "='" + freehed.getFFREEHED_REFNO() + "'", null);
                     } else {
                         returnID = (int) dB.insert(dbHelper.TABLE_FFREEHED, null, values);
                     }

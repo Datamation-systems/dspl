@@ -19,7 +19,18 @@ import com.datamation.sfa.controller.BankController;
 import com.datamation.sfa.controller.CompanyDetailsController;
 import com.datamation.sfa.controller.CustomerController;
 //import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.DebItemPriController;
+import com.datamation.sfa.controller.DiscdebController;
+import com.datamation.sfa.controller.DiscdetController;
+import com.datamation.sfa.controller.DischedController;
+import com.datamation.sfa.controller.DiscslabController;
 import com.datamation.sfa.controller.ExpenseController;
+import com.datamation.sfa.controller.FreeDebController;
+import com.datamation.sfa.controller.FreeDetController;
+import com.datamation.sfa.controller.FreeHedController;
+import com.datamation.sfa.controller.FreeItemController;
+import com.datamation.sfa.controller.FreeMslabController;
+import com.datamation.sfa.controller.FreeSlabController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.ItemPriceController;
@@ -30,7 +41,9 @@ import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.RouteDetController;
+import com.datamation.sfa.controller.STKInController;
 import com.datamation.sfa.controller.TaxController;
+import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.controller.TaxHedController;
 import com.datamation.sfa.controller.TourController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
@@ -40,9 +53,20 @@ import com.datamation.sfa.model.Bank;
 import com.datamation.sfa.model.CompanyBranch;
 import com.datamation.sfa.model.CompanySetting;
 import com.datamation.sfa.model.Control;
+import com.datamation.sfa.model.DebItemPri;
 import com.datamation.sfa.model.Debtor;
+import com.datamation.sfa.model.Discdeb;
+import com.datamation.sfa.model.Discdet;
+import com.datamation.sfa.model.Disched;
+import com.datamation.sfa.model.Discslab;
 import com.datamation.sfa.model.Expense;
 import com.datamation.sfa.model.FddbNote;
+import com.datamation.sfa.model.FreeDeb;
+import com.datamation.sfa.model.FreeDet;
+import com.datamation.sfa.model.FreeHed;
+import com.datamation.sfa.model.FreeItem;
+import com.datamation.sfa.model.FreeMslab;
+import com.datamation.sfa.model.FreeSlab;
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.ItemLoc;
 import com.datamation.sfa.model.ItemPri;
@@ -53,7 +77,9 @@ import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.RefSetting;
 import com.datamation.sfa.model.Route;
 import com.datamation.sfa.model.RouteDet;
+import com.datamation.sfa.model.StkIn;
 import com.datamation.sfa.model.Tax;
+import com.datamation.sfa.model.TaxDet;
 import com.datamation.sfa.model.TaxHed;
 import com.datamation.sfa.model.TourHed;
 import com.datamation.sfa.model.User;
@@ -854,7 +880,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-                // Processing route
+                // Processing taxhed
                 try {
                     JSONObject taxJSON = new JSONObject(taxHed);
                     JSONArray taxJSONArray =taxJSON.getJSONArray("fTaxHedResult");
@@ -872,219 +898,450 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     throw e;
                 }
                 /*****************end Tax**********************************************************************/
-                /*****************end fddbnote **********************************************************************/
-                    //routes
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Customer downloaded\nDownloading Routes...");
-//                        }
-//                    });
-//
-//                    String routes = "";
-//                    try {
-//                        routes = networkFunctions.getRoutes(repcode);
-//                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        throw e;
-//                    }
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Processing downloaded data (route details)...");
-//                        }
-//                    });
-//
-//                    // Processing outlets
-//                    try {
-//                        JSONObject routesJSON = new JSONObject(routes);
-//                        JSONArray routesJSONArray =routesJSON.getJSONArray("routes");
-//                        ArrayList<Route> routeList = new ArrayList<Route>();
-//                        RouteController routeController = new RouteController(ActivityLogin.this);
-//                        for (int i = 0; i < routesJSONArray.length(); i++) {
-//                            routeList.add(Route.parseRoute(routesJSONArray.getJSONObject(i)));
-//                        }
-//                        routeController.createOrUpdateRoute(routeList);
-//                    } catch (JSONException | NumberFormatException e) {
-//
-////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-////                                e, routes, BugReport.SEVERITY_HIGH);
-//
-//                        throw e;
-//                    }
-///*****************end routes**********************************************************************/
-///*****************references**********************************************************************/
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Routes downloaded\nDownloading References...");
-//                        }
-//                    });
-//
-//                    String references = "";
-//                    try {
-//                        references = networkFunctions.getReferences(repcode);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        throw e;
-//                    }
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Processing downloaded data (reference details)...");
-//                        }
-//                    });
-//
-//                    // Processing references
-//                    try {
-//                        JSONObject refJSON = new JSONObject(references);
-//                        JSONArray refJSONArray =refJSON.getJSONArray("references");
-//                        ArrayList<ReferenceDetail> refList = new ArrayList<ReferenceDetail>();
-//                        ReferenceDetailDownloader refController = new ReferenceDetailDownloader(ActivityLogin.this);
-//                        for (int i = 0; i < refJSONArray.length(); i++) {
-//                            refList.add(ReferenceDetail.parseRef(refJSONArray.getJSONObject(i)));
-//                        }
-//                        refController.createOrUpdateFCompanyBranch(refList);
-//                    } catch (JSONException | NumberFormatException e) {
-//
-////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-////                                e, routes, BugReport.SEVERITY_HIGH);
-//
-//                        throw e;
-//                    }
-///*****************ennd references**********************************************************************/
-///*****************reference settings**********************************************************************/
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Reference detail downloaded\nDownloading reference settings...");
-//                        }
-//                    });
-//
-//                    String settings = "";
-//                    try {
-//                        settings = networkFunctions.getReferenceSettings();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        throw e;
-//                    }
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Processing downloaded data (setting details)...");
-//                        }
-//                    });
-//
-//                    // Processing outlets
-//                    try {
-//                        JSONObject settingJSON = new JSONObject(settings);
-//                        JSONArray settingJSONArray =settingJSON.getJSONArray("refSettings");
-//                        ArrayList<RefSetting> settingList = new ArrayList<RefSetting>();
-//                        ReferenceSettingController settingController = new ReferenceSettingController(ActivityLogin.this);
-//                        for (int i = 0; i < settingJSONArray.length(); i++) {
-//                            settingList.add(RefSetting.parseSetting(settingJSONArray.getJSONObject(i)));
-//                        }
-//                        settingController.createOrUpdateReferenceSetting(settingList);
-//                    } catch (JSONException | NumberFormatException e) {
-//
-////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-////                                e, routes, BugReport.SEVERITY_HIGH);
-//
-//                        throw e;
-//                    }
-//                    /*****************end reference settings**********************************************************************/
-//
-//                    /*****************reasons**********************************************************************/
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Reasons downloaded\nDownloading items...");
-//                        }
-//                    });
-//
-//                    String items = "";
-//                    try {
-//                        items = networkFunctions.getItems();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        throw e;
-//                    }
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Processing downloaded data (items)...");
-//                        }
-//                    });
-//
-//                    // Processing items
-////                    try {
-////                        JSONObject itemJSON = new JSONObject(items);
-////                        JSONArray itemJSONArray =itemJSON.getJSONArray("items");
-////                        ArrayList<Item> itemList = new ArrayList<Item>();
-////                        ItemController itemController = new ItemController(ActivityLogin.this);
-////                        for (int i = 0; i < itemJSONArray.length(); i++) {
-////                            itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
-////                        }
-////                        itemController.InsertItems(itemList);
-////                    } catch (JSONException | NumberFormatException e) {
-////
-//////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//////                                e, routes, BugReport.SEVERITY_HIGH);
-////
-////                        throw e;
-////                    }
-//                    /*****************end items**********************************************************************/
-//                    /*****************prices**********************************************************************/
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Items downloaded\nDownloading prices...");
-//                        }
-//                    });
-//
-//                    String prices = "";
-//                    try {
-//                        prices = networkFunctions.getPrices();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        throw e;
-//                    }
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Processing downloaded data (prices)...");
-//                        }
-//                    });
-//
-//                    // Processing reasons
-//                    try {
-//                        JSONObject priceJSON = new JSONObject(prices);
-//                        JSONArray priceJSONArray =priceJSON.getJSONArray("itemprices");
-//                        ArrayList<ItemPri> priceList = new ArrayList<ItemPri>();
-//                        ItemPriceController priceController = new ItemPriceController(ActivityLogin.this);
-//                        for (int i = 0; i < priceJSONArray.length(); i++) {
-//                           // priceList.add(ItemPri.parsePrices(priceJSONArray.getJSONObject(i)));
-//                        }
-//                      //  priceController.createOrUpdateItemPri(priceList);
-//                    } catch (JSONException | NumberFormatException e) {
-//
-////                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-////                                e, routes, BugReport.SEVERITY_HIGH);
-//
-//                        throw e;
-//                    }
-                    /*****************end prices**********************************************************************/
+                /*****************TaxDet**********************************************************************/
+                String taxDet = "";
+                try {
+                    taxDet = networkFunctions.getTaxDet();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
 
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (taxDet)...");
+                    }
+                });
+
+                // Processing route
+                try {
+                    JSONObject taxJSON = new JSONObject(taxDet);
+                    JSONArray taxJSONArray =taxJSON.getJSONArray("fTaxDetResult");
+                    ArrayList<TaxDet> taxList = new ArrayList<TaxDet>();
+                    TaxDetController taxController = new TaxDetController(ActivityLogin.this);
+                    for (int i = 0; i < taxJSONArray.length(); i++) {
+                        taxList.add(TaxDet.parseTaxDet(taxJSONArray.getJSONObject(i)));
+                    }
+                    taxController.createOrUpdateTaxDet(taxList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end Tax**********************************************************************/
+                /*****************Freeslab**********************************************************************/
+                String freeslab = "";
+                try {
+                    freeslab = networkFunctions.getFreeSlab();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (free)...");
+                    }
+                });
+
+                // Processing freeslab
+                try {
+                    JSONObject freeslabJSON = new JSONObject(freeslab);
+                    JSONArray freeslabJSONArray =freeslabJSON.getJSONArray("FfreeslabResult");
+                    ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
+                    FreeSlabController freeslabController = new FreeSlabController(ActivityLogin.this);
+                    for (int i = 0; i < freeslabJSONArray.length(); i++) {
+                        freeslabList.add(FreeSlab.parseFreeSlab(freeslabJSONArray.getJSONObject(i)));
+                    }
+                    freeslabController.createOrUpdateFreeSlab(freeslabList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end freeSlab**********************************************************************/
+                /*****************Freemslab**********************************************************************/
+                String freeMslab = "";
+                try {
+                    freeMslab = networkFunctions.getFreeMslab();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (free)...");
+                    }
+                });
+
+                // Processing freeMslab
+                try {
+                    JSONObject freeMslabJSON = new JSONObject(freeMslab);
+                    JSONArray taxJSONArray =freeMslabJSON.getJSONArray("fFreeMslabResult");
+                    ArrayList<FreeMslab> freeMslabList = new ArrayList<FreeMslab>();
+                    FreeMslabController freeMslabController = new FreeMslabController(ActivityLogin.this);
+                    for (int i = 0; i < taxJSONArray.length(); i++) {
+                        freeMslabList.add(FreeMslab.parseFreeMslab(taxJSONArray.getJSONObject(i)));
+                    }
+                    freeMslabController.createOrUpdateFreeMslab(freeMslabList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end freeMSlab**********************************************************************/
+
+                /*****************FreeHed**********************************************************************/
+                String freehed = "";
+                try {
+                    freehed = networkFunctions.getFreeHed();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (free)...");
+                    }
+                });
+
+                // Processing freehed
+                try {
+                    JSONObject freeHedJSON = new JSONObject(freehed);
+                    JSONArray freeHedJSONArray =freeHedJSON.getJSONArray("FfreehedResult");
+                    ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
+                    FreeHedController freeHedController = new FreeHedController(ActivityLogin.this);
+                    for (int i = 0; i < freeHedJSONArray.length(); i++) {
+                        freeHedList.add(FreeHed.parseFreeHed(freeHedJSONArray.getJSONObject(i)));
+                    }
+                    freeHedController.createOrUpdateFreeHed(freeHedList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end freeHed**********************************************************************/
+                /*****************Freedet**********************************************************************/
+                String freedet = "";
+                try {
+                    freedet = networkFunctions.getFreeDet();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (free)...");
+                    }
+                });
+
+                // Processing freeMslab
+                try {
+                    JSONObject freedetJSON = new JSONObject(freedet);
+                    JSONArray freedetJSONArray =freedetJSON.getJSONArray("FfreedetResult");
+                    ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
+                    FreeDetController freedetController = new FreeDetController(ActivityLogin.this);
+                    for (int i = 0; i < freedetJSONArray.length(); i++) {
+                        freedetList.add(FreeDet.parseFreeDet(freedetJSONArray.getJSONObject(i)));
+                    }
+                    freedetController.createOrUpdateFreeDet(freedetList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end freedet**********************************************************************/
+                /*****************Freeslab**********************************************************************/
+                String freedeb = "";
+                try {
+                    freedeb = networkFunctions.getFreeDebs();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (free)...");
+                    }
+                });
+
+                // Processing freedeb
+                try {
+                    JSONObject freedebJSON = new JSONObject(freedeb);
+                    JSONArray freedebJSONArray =freedebJSON.getJSONArray("FfreedebResult");
+                    ArrayList<FreeDeb> freedebList = new ArrayList<FreeDeb>();
+                    FreeDebController freedebController = new FreeDebController(ActivityLogin.this);
+                    for (int i = 0; i < freedebJSONArray.length(); i++) {
+                        freedebList.add(FreeDeb.parseFreeDeb(freedebJSONArray.getJSONObject(i)));
+                    }
+                    freedebController.createOrUpdateFreeDeb(freedebList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end freeSlab**********************************************************************/
+                /*****************Freeslab**********************************************************************/
+                String freeitem = "";
+                try {
+                    freeitem = networkFunctions.getFreeItems();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (free)...");
+                    }
+                });
+
+                // Processing freeMslab
+                try {
+                    JSONObject freeitemJSON = new JSONObject(freeitem);
+                    JSONArray freeitemJSONArray =freeitemJSON.getJSONArray("fFreeItemResult");
+                    ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
+                    FreeItemController freeitemController = new FreeItemController(ActivityLogin.this);
+                    for (int i = 0; i < freeitemJSONArray.length(); i++) {
+                        freeitemList.add(FreeItem.parseFreeItem(freeitemJSONArray.getJSONObject(i)));
+                    }
+                    freeitemController.createOrUpdateFreeItem(freeitemList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end freeSlab**********************************************************************/
+                /*****************STKin**********************************************************************/
+                String stkin = "";
+                try {
+                    stkin = networkFunctions.getStkIn(repcode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (stock)...");
+                    }
+                });
+
+                // Processing stkin
+                try {
+                    JSONObject stkInJSON = new JSONObject(stkin);
+                    JSONArray stkInJSONArray =stkInJSON.getJSONArray("FStkInResult");
+                    ArrayList<StkIn> stkInList = new ArrayList<StkIn>();
+                    STKInController stkInListController = new STKInController(ActivityLogin.this);
+                    for (int i = 0; i < stkInJSONArray.length(); i++) {
+                        stkInList.add(StkIn.parseStkIn(stkInJSONArray.getJSONObject(i)));
+                    }
+                    stkInListController.createUpdateSTKIn(stkInList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end stkin**********************************************************************/
+                /*****************debitem**********************************************************************/
+                String debItem = "";
+                try {
+                    debItem = networkFunctions.getDebItemPrices();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (prices)...");
+                    }
+                });
+
+                // Processing stkin
+                try {
+                    JSONObject debItemPriJSON = new JSONObject(debItem);
+                    JSONArray debItemPriJSONArray =debItemPriJSON.getJSONArray("fDebItemPriResult");
+                    ArrayList<DebItemPri> debItemPriList = new ArrayList<DebItemPri>();
+                    DebItemPriController debItemPriController = new DebItemPriController(ActivityLogin.this);
+                    for (int i = 0; i < debItemPriJSONArray.length(); i++) {
+                        debItemPriList.add(DebItemPri.parseDebPri(debItemPriJSONArray.getJSONObject(i)));
+                    }
+                    debItemPriController.createOrUpdateDebItemPri(debItemPriList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end debitem**********************************************************************/
+
+                /*****************discdeb**********************************************************************/
+                String debdisc = "";
+                try {
+                    debdisc = networkFunctions.getDiscDeb(repcode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (discount)...");
+                    }
+                });
+
+                // Processing discdeb
+                try {
+                    JSONObject discdebPriJSON = new JSONObject(debdisc);
+                    JSONArray discdebJSONArray = discdebPriJSON.getJSONArray("FdiscdebResult");
+                    ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
+                    DiscdebController discdebController = new DiscdebController(ActivityLogin.this);
+                    for (int i = 0; i < discdebJSONArray.length(); i++) {
+                        discdebList.add(Discdeb.parseDiscDeb(discdebJSONArray.getJSONObject(i)));
+                    }
+                    discdebController.createOrUpdateDiscdeb(discdebList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end discdeb**********************************************************************/
+                /*****************discdet**********************************************************************/
+                String discdet = "";
+                try {
+                    discdet = networkFunctions.getDiscDet();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (discount)...");
+                    }
+                });
+
+                // Processing discdeb
+                try {
+                    JSONObject discdetJSON = new JSONObject(discdet);
+                    JSONArray discdetJSONArray = discdetJSON.getJSONArray("FdiscdetResult");
+                    ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
+                    DiscdetController discdetController = new DiscdetController(ActivityLogin.this);
+                    for (int i = 0; i < discdetJSONArray.length(); i++) {
+                        discdetList.add(Discdet.parseDiscDet(discdetJSONArray.getJSONObject(i)));
+                    }
+                    discdetController.createOrUpdateDiscdet(discdetList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end discdet**********************************************************************/
+                /*****************discshed**********************************************************************/
+                String disched = "";
+                try {
+                    disched = networkFunctions.getDiscHed(repcode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (discount)...");
+                    }
+                });
+
+                // Processing discdeb
+                try {
+                    JSONObject dischedJSON = new JSONObject(disched);
+                    JSONArray dischedJSONArray = dischedJSON.getJSONArray("FDischedResult");
+                    ArrayList<Disched> dischedList = new ArrayList<Disched>();
+                    DischedController dischedController = new DischedController(ActivityLogin.this);
+                    for (int i = 0; i < dischedJSONArray.length(); i++) {
+                        dischedList.add(Disched.parseDisched(dischedJSONArray.getJSONObject(i)));
+                    }
+                    dischedController.createOrUpdateDisched(dischedList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end discdet**********************************************************************/
+                /*****************discslab**********************************************************************/
+                String discslab = "";
+                try {
+                    discslab = networkFunctions.getDiscSlab();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (discount)...");
+                    }
+                });
+
+                // Processing discslab
+                try {
+                    JSONObject discslabJSON = new JSONObject(discslab);
+                    JSONArray discslabJSONArray = discslabJSON.getJSONArray("FdiscslabResult");
+                    ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
+                    DiscslabController discslabController = new DiscslabController(ActivityLogin.this);
+                    for (int i = 0; i < discslabJSONArray.length(); i++) {
+                        discslabList.add(Discslab.parseDiscslab(discslabJSONArray.getJSONObject(i)));
+                    }
+                    discslabController.createOrUpdateDiscslab(discslabList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end discslab**********************************************************************/
                     return true;
 //        } else {
 //            //errors.add("Please enter correct username and password");
