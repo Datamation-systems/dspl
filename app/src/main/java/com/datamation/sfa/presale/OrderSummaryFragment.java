@@ -709,48 +709,4 @@ public class OrderSummaryFragment extends Fragment {
     }
 
 
-    //------------------------------------------------------------------------------------------------------------------------------------
-    public class LoardingPrintView extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setTitleText("Loading...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-            //new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,true);
-            return null;
-
-        }
-
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            if(pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-            final VanSalesActivity activity = (VanSalesActivity) getActivity();
-            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
-            // UtilityContainer.ClearVanSharedPref(getActivity());
-
-            //  activity.selectedDebtor = null;
-            //  activity.selectedRetDebtor = null;
-            //activity.selectedRecHed = null;
-            activity.selectedInvHed = null;
-            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
-            startActivity(intnt);
-            getActivity().finish();
-            //  loadFragment(new VanSaleInvoice());
-
-        }
-    }
-
 }

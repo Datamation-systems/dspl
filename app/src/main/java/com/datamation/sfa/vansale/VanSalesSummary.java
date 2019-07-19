@@ -201,10 +201,6 @@ public class VanSalesSummary extends Fragment {
                 }
 
             //    activity.cusPosition = 0;
-                activity.selectedDebtor = null;
-                activity.selectedRetDebtor = null;
-                activity.selectedInvHed = null;
-                activity.selectedReturnHed = null;
                 Toast.makeText(getActivity(), "Invoice and return details discarded successfully..!", Toast.LENGTH_SHORT).show();
                // UtilityContainer.ClearVanSharedPref(getActivity());
                 UtilityContainer.ClearReturnSharedPref(getActivity());
@@ -400,7 +396,7 @@ public class VanSalesSummary extends Fragment {
                                 new SalesReturnDetController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
                                 new SalesReturnController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
 
-                                activity.selectedReturnHed = null;
+
                                 new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanReturnNumVal));
                                 Toast.makeText(getActivity(), "Return saved successfully !", Toast.LENGTH_LONG).show();
                                 UtilityContainer.ClearReturnSharedPref(getActivity());
@@ -879,10 +875,6 @@ public class VanSalesSummary extends Fragment {
             Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
            // UtilityContainer.ClearVanSharedPref(getActivity());
 
-          //  activity.selectedDebtor = null;
-          //  activity.selectedRetDebtor = null;
-            //activity.selectedRecHed = null;
-            activity.selectedInvHed = null;
             Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
             startActivity(intnt);
             getActivity().finish();

@@ -417,6 +417,7 @@ public class ReceiptHeader extends Fragment {
 
                         activity.ReceivedAmt = value;
                         txtReceAmt.setText(""+activity.ReceivedAmt);
+                        mSharedPref.setGlobalVal("ReckeyRecAmt",""+value)  ;
                         SaveReceiptHeader();
 
                     }
@@ -587,10 +588,12 @@ public class ReceiptHeader extends Fragment {
         if(txtReceAmt.getText().toString().contains(","))
         {
             activity.ReceivedAmt = Double.parseDouble(txtReceAmt.getText().toString().replace(",", ""));
+            mSharedPref.setGlobalVal("ReckeyRecAmt",txtReceAmt.getText().toString().replace(",", ""));
         }
         else
         {
             activity.ReceivedAmt = Double.parseDouble(txtReceAmt.getText().toString());
+            mSharedPref.setGlobalVal("ReckeyRecAmt",txtReceAmt.getText().toString().replace(",", ""));
             activity.selectedRecHed = recHed;
         }
         SharedPref.getInstance(getActivity()).setGlobalVal("Van_Start_Time", currentTime());

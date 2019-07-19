@@ -187,7 +187,6 @@
         android:paddingRight="10dp">
 
         <TextView
-            android:id="@+id/item_invoice_details_tv_invoice_id_total"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/item_invoice_details_tv_invoice_gross_total"

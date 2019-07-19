@@ -30,6 +30,7 @@ import com.datamation.sfa.adapter.FreeItemsAdapter;
 import com.datamation.sfa.adapter.InvDetAdapter;
 import com.datamation.sfa.adapter.NewProduct_Adapter;
 import com.datamation.sfa.controller.InvDetController;
+import com.datamation.sfa.controller.InvHedController;
 import com.datamation.sfa.controller.OrdFreeIssueController;
 import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.SalRepController;
@@ -62,7 +63,7 @@ public class VanSalesOrderDetails extends Fragment {
     ArrayList<Product> productList = null, selectedItemList = null;
     ImageButton ibtProduct, ibtDiscount;
     private  SweetAlertDialog pDialog;
-    private InvHed tmpinvHed=null;
+    private InvHed selectedInvHed;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,10 +73,8 @@ public class VanSalesOrderDetails extends Fragment {
         view = inflater.inflate(R.layout.sales_management_van_sales_new_details, container, false);
         mSharedPref = SharedPref.getInstance(getActivity());
         locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
-        mainActivity = (VanSalesActivity) getActivity();
-        if(mainActivity.selectedDebtor != null)
-
-                RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
+        selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
 
 
 
@@ -84,7 +83,6 @@ public class VanSalesOrderDetails extends Fragment {
 
         ibtDiscount = (ImageButton) view.findViewById(R.id.ibtDisc);
         ibtProduct = (ImageButton) view.findViewById(R.id.ibtProduct);
-        tmpinvHed=new InvHed();
         showData();
 
 
@@ -177,9 +175,9 @@ public class VanSalesOrderDetails extends Fragment {
               //  new ProductController(getActivity()).insertIntoProductAsBulk("NEG01", "WSP001");
                 new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), mSharedPref.getSelectedDebtorPrilCode());
 
-                if(tmpinvHed!=null) {
+                if(selectedInvHed!=null) {
 
-                    ArrayList<InvDet> invDetArrayList = tmpinvHed.getInvDetArrayList();
+                    ArrayList<InvDet> invDetArrayList = selectedInvHed.getInvDetArrayList();
                     if (invDetArrayList != null) {
                         for (int i = 0; i < invDetArrayList.size(); i++) {
                             String tmpItemName = invDetArrayList.get(i).getFINVDET_ITEM_CODE();
@@ -377,9 +375,10 @@ public class VanSalesOrderDetails extends Fragment {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void showData() {
+        selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
         try {
-            orderList = new InvDetController(getActivity()).getAllInvDet(mainActivity.selectedInvHed.getFINVHED_REFNO());
-            ArrayList<InvDet> freeList = new InvDetController(getActivity()).getAllFreeIssue(mainActivity.selectedInvHed.getFINVHED_REFNO());
+            orderList = new InvDetController(getActivity()).getAllInvDet(selectedInvHed.getFINVHED_REFNO());
+            ArrayList<InvDet> freeList = new InvDetController(getActivity()).getAllFreeIssue(selectedInvHed.getFINVHED_REFNO());
             lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));//2019-07-07 till error free
             lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
         } catch (NullPointerException e) {
@@ -786,7 +785,7 @@ public class VanSalesOrderDetails extends Fragment {
             public void onClick(DialogInterface dialog, int id) {
 
                 new ProductController(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
-                new InvDetController(getActivity()).mDeleteProduct(mainActivity.selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
+                new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 
@@ -979,7 +978,7 @@ public class VanSalesOrderDetails extends Fragment {
      //   invDet.setFINVDET_TAX_COM_CODE(new ItemsDS(getActivity()).getTaxComCodeByItemCode(itemCode));//2019-07-07 till error free
         invDet.setFINVDET_T_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
         invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
-        invDet.setFINVDET_REFNO(mainActivity.selectedInvHed.getFINVHED_REFNO());
+        invDet.setFINVDET_REFNO(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
      //   invDet.setFINVDET_COM_DISCPER(new ControlDS(getActivity()).getCompanyDisc() + "");//2019-07-07 till error free
         invDet.setFINVDET_BRAND_DISCPER("0");
         invDet.setFINVDET_BRAND_DISC("0");

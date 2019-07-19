@@ -46,54 +46,22 @@
     <string name="head_comp_email">email</string>
     <string name="printheadingline">-------------------------------------------------------------------------------------------------</string>
     <string name="head_repname">Rep Name</string>
-    <string name="head_cuscode">Customer Code</string>
     <string name="head_cusname">Customer Name</string>
-    <string name="head_sal_ord_date">Sales Order Date</string>
-    <string name="head_sal_delv_date">Delivery Date</string>
-    <string name="head_sal_refno">Order Number</string>
     <string name="head_sal_remarks">Remarks</string>
-    <string name="head_rep_phone">Phone #</string>
-    <string name="head_sal_date">Return Date</string>
     <string name="compulsory">Compulsory</string>
-    <string name="trans_detail_Product_Discount">Disc</string>
-    <string name="trans_detail_Product_CSPC">(CS/PS)</string>
-    <string name="trans_detail_Product_Units">Units</string>
-    <string name="trans_detail_Product_UnitPrice">UnitPrice</string>
-    <string name="trans_detail_Product_Price">Amount</string>
     <string name="trans_summary_total_qty">Total Quantity</string>
-    <string name="trans_summary_total_value">Total Value</string>
-    <string name="trans_summary_total_mkt_ret">Total Market Return</string>
-    <string name="trans_summary_header_disc">Header Discount</string>
-    <string name="trans_summary_line_disc">Line Discount</string>
-    <string name="trans_summary_total_disc">Total Discount</string>
     <string name="trans_summary_net_value">Net Total</string>
-    <string name="trans_summary_caseqty">Cases</string>
-    <string name="trans_summary_pieceqty">Pieces</string>
     <string name="trans_summary_previewvalue">0000</string>
     <!-- Print Preview Descrption -->
-     <string name="head_distributor">Distributor</string>
     <string name="head_dist_address1">Address1</string>
     <string name="head_dist_address2">Address2</string>
     <string name="head_dist_phone">Phone #</string>
 
-    <string name="trans_detail_Product_name">Product Name</string>
-
 
     <!-- Print Preview Loading Descrption -->
-    <string name="refno">RefNo</string>
-    <string name="date">Date</string>
 
     <!-- Print Preview Van Sale Invoice -->
     <string name="head_van_sal_date">Invoice Date</string>
-    <string name="add_geofences_result_success">GeoFencing success</string>
-    <string name="add_geofences_result_failure">GeoFencing failed</string>
-    <string name="remove_geofences_intent_success">GeoFencing removed</string>
-    <string name="remove_geofences_intent_failure">GeoFencing not removed</string>
-    <string name="geofence_transition_notification_title">GeoFencing App</string>
-    <string name="geofence_transition_notification_text">GeoFencing transition detected </string>
-    <string name="geofence_transition_entered">GeoFence Entered</string>
-    <string name="geofence_transition_exited">GeoFence Exited</string>
-    <string name="geofence_transition_unknown">GeoFence unknown</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="imageview_no_image_string">NO IMAGE AVAILABLE</string>

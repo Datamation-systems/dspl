@@ -36,6 +36,7 @@ import com.datamation.sfa.model.ReceiptHed;
 import com.datamation.sfa.settings.GPSTracker;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.UtilityContainer;
+import com.datamation.sfa.view.DebtorDetailsActivity;
 import com.datamation.sfa.view.ReceiptActivity;
 import com.datamation.sfa.view.VanSalesActivity;
 import com.github.clans.fab.FloatingActionButton;
@@ -97,13 +98,15 @@ public class ReceiptSummary extends Fragment {
         fabPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPauseinvoice();
+                mPauseReceipt();
             }
         });
 
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fddbnoteList = new OutstandingController(getActivity()).getAllRecords(SharedPref.getInstance(getActivity()).getSelectedDebCode(), true);
+
                 if(fddbnoteList.size()>0)
                 {
                     if (Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRemnant")) <= 0)
@@ -183,6 +186,9 @@ public class ReceiptSummary extends Fragment {
                 activity.selectedDebtor = null;
                 activity.selectedRecHed = null;
                 Toast.makeText(getActivity(), "Receipt discarded successfully..!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+                startActivity(intent);
+                getActivity().finish();
               //  UtilityContainer.ClearReceiptSharedPref(getActivity());
               //  UtilityContainer.mLoadFragment(new ReceiptInvoice(), getActivity());
 
@@ -199,12 +205,14 @@ public class ReceiptSummary extends Fragment {
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**/
 
-    public void mPauseinvoice() {
+    public void mPauseReceipt() {
 //
-//        if (mSharedPref.getGlobalVal("ReckeyCustomer").equals("1") && mSharedPref.getGlobalVal("ReckeyHeader").equals("1"))
-//            //UtilityContainer.mLoadFragment(new IconPallet_mega(), activity);
-//        else
-//            Toast.makeText(activity, "Select Customer/Fill in header details before Pause", Toast.LENGTH_SHORT).show();
+        if (new ReceiptDetController(getActivity()).getItemCount(RefNo) > 0) {
+            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+            startActivity(intnt);
+            getActivity().finish();
+        } else
+            Toast.makeText(activity, "Add details before pause ...!", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -230,11 +238,11 @@ public class ReceiptSummary extends Fragment {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**/
 
     public void FetchData() {
-        if (((ReceiptActivity) getActivity()).selectedDebtor != null) {
+       // if (((ReceiptActivity) getActivity()).selectedDebtor != null) {
             lv_fddbnote.setAdapter(null);
             fddbnoteList = new OutstandingController(getActivity()).getAllRecords(SharedPref.getInstance(getActivity()).getSelectedDebCode(), true);
             lv_fddbnote.setAdapter(new ReceiptAdapter(getActivity(), fddbnoteList, true, RefNo));
-        }
+       // }
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**/
@@ -315,6 +323,10 @@ public class ReceiptSummary extends Fragment {
             //    UtilityContainer.mLoadFragment(new ReceiptInvoice(), getActivity());
                 dialog.dismiss();
                 ClearSharedPref();/* Clear shared preference */
+
+                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                startActivity(intent);
+                getActivity().finish();
 
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {

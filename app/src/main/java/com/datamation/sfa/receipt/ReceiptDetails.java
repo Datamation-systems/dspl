@@ -269,7 +269,7 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
             if (!mSharedPref.getGlobalVal("ReckeyPayMode").equals("***") &&
                     !mSharedPref.getGlobalVal("ReckeyPayMode").equals("-SELECT-") &&
         !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("***") && !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("0")) {
-                ReceivedAmt = Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRecAmt"));
+
             lv_order_det.setAdapter(null);
             orderList = new OutstandingController(getActivity()).getAllRecords(SharedPref.getInstance(getActivity()).getSelectedDebCode(), false);
             lv_order_det.setAdapter(new ReceiptAdapter(getActivity(), orderList, false, RefNo));
@@ -348,7 +348,7 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
 	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 	public void mRefreshHeader(){
-      //  ReceivedAmt = mainActivity.ReceivedAmt;
+        ReceivedAmt = Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRecAmt"));
         FetchData();
     }
 

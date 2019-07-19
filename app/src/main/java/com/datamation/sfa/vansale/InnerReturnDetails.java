@@ -42,6 +42,7 @@ import com.datamation.sfa.adapter.ProductAdapter;
 import com.datamation.sfa.adapter.ReturnReasonAdapter;
 import com.datamation.sfa.adapter.SalesReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.InvHedController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriController;
 import com.datamation.sfa.controller.ReasonController;
@@ -52,6 +53,7 @@ import com.datamation.sfa.dialog.CustomKeypadDialogPrice;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
+import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.settings.ReferenceNum;
@@ -90,8 +92,8 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
     ArrayList<Item> list = null;
     ArrayList<Item> itemList = null;
     ArrayList<Reason> reasonList = null;
-    VanSalesActivity activity;
-
+    InvHed selectedInvHed;
+    FInvRHed selectedReturnHed;
     MyReceiver r;
     private  SweetAlertDialog pDialog;
 
@@ -100,7 +102,6 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.sales_management_return_details, container, false);
-        activity = (VanSalesActivity) getActivity();
         mSharedPref = new SharedPref(getActivity());
         seqno = 0;
         totPieces = 0;
@@ -127,9 +128,10 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         reasonSearch.setOnClickListener(this);
         bAdd.setOnClickListener(this);
         bFreeIssue.setOnClickListener(this);
+        selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
 
-        if(activity.selectedInvHed != null){
-            Toast.makeText(getActivity(),"InvHed not null"+activity.selectedInvHed.toString(),Toast.LENGTH_LONG).show();
+        if(selectedInvHed != null){
+            Toast.makeText(getActivity(),"InvHed not null"+selectedInvHed.toString(),Toast.LENGTH_LONG).show();
         }else{
             Toast.makeText(getActivity(),"InvHed null",Toast.LENGTH_LONG).show();
         }
@@ -139,12 +141,12 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
             if (!getReturnHed.isEmpty()) {
 
                 for (FInvRHed returnHed : getReturnHed) {
-                    activity.selectedReturnHed = returnHed;
+                    selectedReturnHed = returnHed;
 
-                    if (activity.selectedRetDebtor == null) {
-                        CustomerController debtorDS = new CustomerController(getActivity());
-                        activity.selectedRetDebtor = debtorDS.getSelectedCustomerByCode(returnHed.getFINVRHED_DEBCODE());
-                    }
+//                    if (!SharedPref.getInstance(getActivity()).getSelectedDebCode().equals("0")) {
+//                        CustomerController debtorDS = new CustomerController(getActivity());
+//                        activity.selectedRetDebtor = debtorDS.getSelectedCustomerByCode(returnHed.getFINVRHED_DEBCODE());
+//                    }
                 }
             }
 
@@ -272,7 +274,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
                 index_id = Integer.parseInt(returnDet.getFINVRDET_ID());
                 lblItemName.setText(new ItemController(getActivity()).getItemNameByCode(returnDet.getFINVRDET_ITEMCODE()));
                 txtQty.setText(returnDet.getFINVRDET_QTY());
-                lblPrice.setText(new ItemPriController(getActivity()).getProductPriceByCode(selectedItem.getFITEM_ITEM_CODE(), activity.selectedRetDebtor.getCusPrilCode()));
+                lblPrice.setText(new ItemPriController(getActivity()).getProductPriceByCode(selectedItem.getFITEM_ITEM_CODE(), SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode()));
                 hasChanged = false;
                 editTotDisc.setText(returnDet.getFINVRDET_DIS_AMT());
                 lblReason.setText(returnDet.getFINVRDET_RETURN_REASON());
@@ -311,36 +313,36 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
                         ArrayList<FInvRDet> ReturnList = new ArrayList<FInvRDet>();
 
                         ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
-
+                        selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
                      //   String TaxedAmt = new TaxDetDS(getActivity()).calculateTax(selectedItem.getFITEM_ITEM_CODE(),
                       //          new BigDecimal(amount - Double.parseDouble(editTotDisc.getText().toString())));
                         FInvRHed hed = new FInvRHed();
 
                         hed.setFINVRHED_REFNO(RefNo);
-                        hed.setFINVRHED_MANUREF(activity.selectedInvHed.getFINVHED_MANUREF());
-                        hed.setFINVRHED_INV_REFNO(activity.selectedInvHed.getFINVHED_REFNO());
-                        hed.setFINVRHED_REMARKS(activity.selectedInvHed.getFINVHED_REMARKS());
+                        hed.setFINVRHED_MANUREF(selectedInvHed.getFINVHED_MANUREF());
+                        hed.setFINVRHED_INV_REFNO(selectedInvHed.getFINVHED_REFNO());
+                        hed.setFINVRHED_REMARKS(selectedInvHed.getFINVHED_REMARKS());
                         hed.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());
                         hed.setFINVRHED_ADD_DATE(currentTime());
                         hed.setFINVRHED_ADD_MACH(localSP.getString("MAC_Address", "No MAC Address").toString());
                         hed.setFINVRHED_TXNTYPE("24");
-                        hed.setFINVRHED_TXN_DATE(activity.selectedInvHed.getFINVHED_TXNDATE());
+                        hed.setFINVRHED_TXN_DATE(selectedInvHed.getFINVHED_TXNDATE());
                         hed.setFINVRHED_IS_ACTIVE("1");
                         hed.setFINVRHED_IS_SYNCED("0");
 
-                        if (activity.selectedDebtor != null) {
-                            hed.setFINVRHED_DEBCODE(activity.selectedDebtor.getCusCode());
+
+                            hed.setFINVRHED_DEBCODE(SharedPref.getInstance(getActivity()).getSelectedDebCode());
                           //  hed.setFINVRHED_TAX_REG(activity.selectedDebtor.getFDEBTOR_TAX_REG());
-                        }
+
 
                         hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
                         hed.setFINVRHED_ROUTE_CODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
                         hed.setFINVRHED_COSTCODE("");
 
-                        activity.selectedReturnHed = hed;
+                        selectedReturnHed = hed;
                         //SharedPreferencesClass.setLocalSharedPreference(activity, "Return_Start_Time", currentTime());
 
-                        returnHedList.add(activity.selectedReturnHed);
+                        returnHedList.add(selectedReturnHed);
 //                        Log.v("RETURN HED>>>>",activity.selectedInvHed.toString());
                         if (new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList) > 0) {
 //                            Log.v("START DET SAVE>>>>",">>>>>>");
@@ -432,7 +434,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
     public void FetchData() {
         try {
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(activity.selectedReturnHed.getFINVRHED_REFNO());
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(selectedReturnHed.getFINVRHED_REFNO());
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
         } catch (NullPointerException e) {
@@ -471,7 +473,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         dialog.setCancelable(true);
         productList.clearTextFilter();
 
-        list = new ItemController(getActivity()).getAllItemForSalesReturn("", "", "", new SalRepController(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getCusPrilCode());
+        list = new ItemController(getActivity()).getAllItemForSalesReturn("", "", "", new SalRepController(getActivity()).getCurrentLocCode(),SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
         //list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
 
         productList.setAdapter(new ProductAdapter(getActivity(), list));
@@ -514,7 +516,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
             @Override
             public boolean onQueryTextChange(String newText) {
                 list.clear();
-                list = new ItemController(getActivity()).getAllItem(newText, "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getCusPrilCode());
+                list = new ItemController(getActivity()).getAllItem(newText, "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
                 productList.clearTextFilter();
                 productList.setAdapter(new ProductAdapter(getActivity(), list));
                 return false;
@@ -555,39 +557,36 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
 
     }
     public void mRefreshData() {
+        selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
         try {
 //            amount = Double.parseDouble(txtQty.getText().toString())
 //                    * Double.parseDouble(lblPrice.getText().toString());
             FInvRHed hed = new FInvRHed();
             ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
             hed.setFINVRHED_REFNO(RefNo);
-            hed.setFINVRHED_MANUREF(activity.selectedInvHed.getFINVHED_MANUREF());
-            hed.setFINVRHED_REMARKS(activity.selectedInvHed.getFINVHED_REMARKS());
+            hed.setFINVRHED_MANUREF(selectedInvHed.getFINVHED_MANUREF());
+            hed.setFINVRHED_REMARKS(selectedInvHed.getFINVHED_REMARKS());
             hed.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());
             hed.setFINVRHED_ADD_DATE(currentTime());
             hed.setFINVRHED_ADD_MACH(localSP.getString("MAC_Address", "No MAC Address").toString());
             hed.setFINVRHED_TXNTYPE("42");
-            hed.setFINVRHED_TXN_DATE(activity.selectedInvHed.getFINVHED_TXNDATE());
+            hed.setFINVRHED_TXN_DATE(selectedInvHed.getFINVHED_TXNDATE());
             hed.setFINVRHED_IS_ACTIVE("1");
             hed.setFINVRHED_IS_SYNCED("0");
 
-            if (activity.selectedRetDebtor != null) {
-                hed.setFINVRHED_DEBCODE(activity.selectedRetDebtor.getCusCode());
-               // hed.setFINVRHED_TAX_REG(activity.selectedRetDebtor.getFDEBTOR_TAX_REG());
-            }
+            hed.setFINVRHED_DEBCODE(SharedPref.getInstance(getActivity()).getSelectedDebCode());
+
 
             hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
             hed.setFINVRHED_ROUTE_CODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
             hed.setFINVRHED_COSTCODE("");
-
-            activity.selectedReturnHed = hed;
             //SharedPreferencesClass.setLocalSharedPreference(activity, "Return_Start_Time", currentTime());
 
-            returnHedList.add(activity.selectedReturnHed);
+            returnHedList.add(hed);
 //                        Log.v("RETURN HED>>>>",activity.selectedInvHed.toString());
             new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList );
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(activity.selectedReturnHed.getFINVRHED_REFNO());
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(selectedReturnHed.getFINVRHED_REFNO());
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
             lblPrice.setOnClickListener(new OnClickListener() {
                 @Override
@@ -694,7 +693,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
     {
         @Override
         public void onReceive(Context context, Intent intent) {
-           // InnerReturnDetails.this.
+            InnerReturnDetails.this.mRefreshData();
         }
     }
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

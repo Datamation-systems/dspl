@@ -40,7 +40,6 @@
                     android:textSize="18sp" />
 
                 <ImageButton
-                    android:id="@+id/btnPreSalesProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -100,7 +99,6 @@
             </LinearLayout>
 
             <ListView
-                android:id="@+id/lvProducts_Pre"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:layout_gravity="center_horizontal"

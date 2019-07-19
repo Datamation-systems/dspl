@@ -4,7 +4,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/tableRow1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -13,7 +12,6 @@
         android:layout_marginTop="10dp">
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/lblMessage"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="User Name "
@@ -45,7 +43,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tableRow2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -54,7 +51,6 @@
         android:background="@drawable/custom_label">
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/TextView02"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Rep Code"
@@ -84,7 +80,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tableRow3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -123,7 +118,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tableRow4"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -162,7 +156,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tableRow5"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -201,7 +194,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tableRow6"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
@@ -211,7 +203,6 @@
         android:layout_marginTop="10dp">
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/TextView05"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Deal Code"

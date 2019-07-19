@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 
 import com.datamation.sfa.helpers.VanSalesResponseListener;
@@ -33,12 +34,8 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
     private VanSalesSummary salesManagementFragment;
     private InnerReturnDetails orderMainFragment;
     private ViewPager viewPager;
-    public Customer selectedDebtor = null;
-    public InvHed selectedInvHed = null;
-    public FInvRHed selectedReturnHed = null;
-    public Customer selectedRetDebtor = null;
     Context context;
-
+    boolean status = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +82,7 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
             public void onPageScrollStateChanged(int state) {
             }
         });
+        status = new InvDetController(getApplicationContext()).isAnyActiveOrders();
     }
 
     private class PreSalesPagerAdapter extends FragmentPagerAdapter {
@@ -172,5 +170,12 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
         {
             viewPager.setCurrentItem(3);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (status)
+            viewPager.setCurrentItem(1);
     }
 }

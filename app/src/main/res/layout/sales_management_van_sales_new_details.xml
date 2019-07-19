@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:padding="2dp">
     <ScrollView
-        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -27,7 +26,6 @@
                     android:orientation="horizontal">
 
                     <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/textView11"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -57,7 +55,6 @@
                     android:orientation="horizontal">
 
                     <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/add"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="1dp"
@@ -72,7 +69,6 @@
                         android:textStyle="bold" />
 
                     <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/indexhistory3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="1dip"
@@ -87,7 +83,6 @@
                         />
 
                     <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/indexmanual3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="1dip"
@@ -171,7 +166,6 @@
                         android:textStyle="bold" />
 
                     <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/textView13"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="1dp"
@@ -186,7 +180,6 @@
                         android:textStyle="bold" />
 
                     <com.datamation.sfa.utils.CustomFont
-                        android:id="@+id/textView12"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="1dip"

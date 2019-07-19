@@ -261,7 +261,6 @@
         android:paddingBottom="60dp"/>
 
     <RelativeLayout
-        android:id="@+id/fragment_payment_details_totals_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -269,7 +268,6 @@
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/item_payment_details_tv_invoice_total"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_centerVertical="true"

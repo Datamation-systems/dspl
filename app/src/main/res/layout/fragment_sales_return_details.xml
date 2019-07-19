@@ -12,7 +12,6 @@
             android:padding="5dp">
 
             <ScrollView
-                android:id="@+id/scrollView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -302,7 +301,6 @@
             android:orientation="horizontal">
 
             <com.datamation.sfa.utils.CustomFont
-                android:id="@+id/add"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/finac_medium_textview_height"
                 android:layout_marginLeft="1dip"
@@ -317,7 +315,6 @@
                 android:textStyle="bold" />
 
             <com.datamation.sfa.utils.CustomFont
-                android:id="@+id/indexhistory3"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/finac_medium_textview_height"
                 android:layout_marginLeft="1dip"
@@ -331,7 +328,6 @@
                 android:textStyle="bold" />
 
             <com.datamation.sfa.utils.CustomFont
-                android:id="@+id/indexmanual3"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/finac_medium_textview_height"
                 android:layout_marginLeft="1dip"
