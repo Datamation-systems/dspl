@@ -21,26 +21,20 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.datamation.sfa.adapter.NewProduct_Adapter;
 import com.datamation.sfa.adapter.OrderDetailsAdapter;
 import com.datamation.sfa.adapter.PreOrderAdapter;
-import com.datamation.sfa.adapter.PreProduct_Adapter;
-import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.PreProductController;
-import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.OrderDetail;
-import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.PreProduct;
-import com.datamation.sfa.model.Product;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.settings.ReferenceNum;
@@ -66,7 +60,7 @@ public class OrderDetailFragment extends Fragment{
     public SharedPref mSharedPref;
     private  String RefNo, locCoe;
     private  MyReceiver r;
-    private PRESALE tmpsoHed=null;  //from re oder creation
+    private Order tmpsoHed=null;  //from re oder creation
     PreSalesResponseListener preSalesResponseListener;
     int count = 0;
     private double totAmt = 0.0;
@@ -94,7 +88,7 @@ public class OrderDetailFragment extends Fragment{
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
 
 //        RefNo = mainActivity.selectedPreHed.getORDER_REFNO();
-        tmpsoHed = new PRESALE();
+        tmpsoHed = new Order();
         showData();
 
         ibtProduct.setOnClickListener(new View.OnClickListener() {

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.model.Order;
 
 import java.util.ArrayList;

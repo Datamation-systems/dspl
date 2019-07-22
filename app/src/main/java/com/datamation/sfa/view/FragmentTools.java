@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
 import com.datamation.sfa.controller.BankController;
 import com.datamation.sfa.controller.CompanyDetailsController;
@@ -53,8 +55,6 @@ import com.datamation.sfa.controller.TaxHedController;
 import com.datamation.sfa.controller.TourController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.dialog.StockInquiryDialog;
-import com.datamation.sfa.expense.ExpenseDetail;
-import com.datamation.sfa.expense.ExpenseMain;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Bank;
@@ -212,51 +212,48 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
 
     }
     private void syncMasterDataDialog(final Context context) {
-        // final String sp_url = localSP.getString("URL", "").toString();
-        // String spConsole_DB = localSP.getString("Console_DB", "").toString();
 
-        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
-        // alertDialogBuilder.setTitle(title);
-        alertDialogBuilder.setMessage("Are you sure, Do you want to Sync Master Data?");
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Are you sure, Do you want to Sync Master Data?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
 
-        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @SuppressWarnings("unchecked")
-            public void onClick(DialogInterface dialog, int id) {
-//                if (localSP.getString("MAC_Address", "No MAC Address").equals("No MAC Address")) {
-//                    GetMacAddress macAddress = new GetMacAddress();
-//                    SharedPreferencesClass.setLocalSharedPreference(context, "MAC_Address",
-//                            macAddress.getMacAddress(context));
-//                }
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
 
+                        boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
+                        if (connectionStatus == true) {
 
-                boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
-                if (connectionStatus == true) {
+                            if (isAllUploaded()) {
+                                dialog.dismiss();
+                                try {
+                                    new secondarySync(SharedPref.getInstance(getActivity()).getLoginUser().getCode()).execute();
 
-                    if (isAllUploaded()) {
-                        dialog.dismiss();
-                        try {
-                            new secondarySync(SharedPref.getInstance(getActivity()).getLoginUser().getCode()).execute();
-
-                        } catch (Exception e) {
-                            Log.e("## ErrorIn2ndSync ##", e.toString());
+                                } catch (Exception e) {
+                                    Log.e("## ErrorIn2ndSync ##", e.toString());
+                                }
+                            } else {
+                                Toast.makeText(context, "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        Toast.makeText(context, "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+
                     }
-                } else {
-                    Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show();
-                }
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
 
-        android.support.v7.app.AlertDialog alertD = alertDialogBuilder.create();
-
-        alertD.show();
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
     }
 
     private boolean isAllUploaded() {

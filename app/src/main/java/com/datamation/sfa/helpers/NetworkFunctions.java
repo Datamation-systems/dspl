@@ -1,7 +1,6 @@
 package com.datamation.sfa.helpers;
 
 import android.content.Context;
-import android.util.Base64;
 import android.util.Log;
 
 import com.datamation.sfa.model.CustomNameValuePair;
@@ -20,13 +19,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
 
 
 /**

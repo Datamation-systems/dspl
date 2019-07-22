@@ -1,21 +1,14 @@
 package com.datamation.sfa.controller;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.DatabaseHelper;
-import com.datamation.sfa.helpers.SharedPref;
-import com.datamation.sfa.model.Order;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class DashboardController {

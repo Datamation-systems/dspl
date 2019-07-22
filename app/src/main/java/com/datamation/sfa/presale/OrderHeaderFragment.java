@@ -3,22 +3,16 @@ package com.datamation.sfa.presale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,20 +21,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.adapter.CustomerDebtAdapter;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OutstandingController;
-import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.SalRepController;
-import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
-import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.FddbNote;
-import com.datamation.sfa.model.PRESALE;
-import com.datamation.sfa.utils.LocationProvider;
+import com.datamation.sfa.model.Order;
 import com.datamation.sfa.view.ActivityHome;
 import com.datamation.sfa.R;
 import com.datamation.sfa.settings.ReferenceNum;
@@ -120,7 +109,7 @@ public class OrderHeaderFragment extends Fragment{
 
         if (new OrderController(getActivity()).isAnyActiveOrderHed())
         {
-            PRESALE hed = new OrderController(getActivity()).getAllActiveOrdHed();
+            Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
 
             txtManual.setText(hed.getORDER_MANUREF());
             txtRemakrs.setText(hed.getORDER_REMARKS());
@@ -184,7 +173,7 @@ public class OrderHeaderFragment extends Fragment{
 
         if (lblPreRefno.getText().length() > 0)
         {
-            PRESALE hed =new PRESALE();
+            Order hed =new Order();
             hed.setORDER_REFNO(lblPreRefno.getText().toString());
             hed.setORDER_DEBCODE(pref.getSelectedDebCode());
             hed.setORDER_TXNDATE(currnentDate.getText().toString());
@@ -201,7 +190,7 @@ public class OrderHeaderFragment extends Fragment{
 
             activity.selectedPreHed = hed;
 
-            ArrayList<PRESALE> ordHedList=new ArrayList<PRESALE>();
+            ArrayList<Order> ordHedList=new ArrayList<Order>();
             OrderController ordHedDS =new OrderController(getActivity());
             ordHedList.add(hed);
 

@@ -11,14 +11,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -35,8 +33,6 @@ import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.ItemPriceController;
 import com.datamation.sfa.controller.NewCustomerController;
 import com.datamation.sfa.controller.ReasonController;
-import com.datamation.sfa.controller.ReferenceDetailDownloader;
-import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.customer.CustomerRegMain;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.helpers.IResponseListener;
@@ -46,18 +42,12 @@ import com.datamation.sfa.helpers.SQLiteBackUp;
 
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Customer;
-import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.ItemPri;
-import com.datamation.sfa.model.Order;
 import com.datamation.sfa.controller.RouteController;
-import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.Reason;
-import com.datamation.sfa.model.RefSetting;
-import com.datamation.sfa.model.ReferenceDetail;
 import com.datamation.sfa.model.Route;
 import com.datamation.sfa.model.User;
-import com.datamation.sfa.nonproductive.NonProductiveMain;
-import com.datamation.sfa.nonproductive.NonProductiveManage;
 //import com.datamation.sfa.presale.OrderMainFragment;
 import com.datamation.sfa.R;
 
@@ -88,7 +78,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
     public Customer selectedDebtor = null;
     public boolean FreeTapped = false;
     //fordhed
-    public PRESALE selectedOrdHed = null;
+    public Order selectedOrdHed = null;
     //ftranHed
     public int cusPosition = 0;
     public int gpsseq = 0;
