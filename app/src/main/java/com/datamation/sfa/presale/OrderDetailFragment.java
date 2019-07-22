@@ -339,7 +339,7 @@ public class OrderDetailFragment extends Fragment{
             public void onClick(DialogInterface dialog, int id) {
 
                 new PreProductController(getActivity()).updateProductQty(orderList.get(position).getFORDERDET_ITEMCODE(), "0");
-                new OrderDetailController(getActivity()).mDeleteRecords(mainActivity.selectedPreHed.getORDER_REFNO(), orderList.get(position).getFORDERDET_ITEMCODE());
+                new OrderDetailController(getActivity()).mDeleteRecords(RefNo, orderList.get(position).getFORDERDET_ITEMCODE());
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 

@@ -707,4 +707,38 @@ public class OrderController {
         return SOHed;
 
     }
+
+    public boolean isAnyActiveOrderHed() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        boolean res = false;
+
+        Cursor cursor = null;
+        try {
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FORDHED + " WHERE " + DatabaseHelper.FORDHED_IS_ACTIVE + "='1'";
+            cursor = dB.rawQuery(selectQuery, null);
+
+            if (cursor.getCount() > 0)
+                res = true;
+            else
+                res = false;
+
+        } catch (Exception e) {
+            Log.v(TAG, e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return res;
+
+    }
 }

@@ -79,6 +79,7 @@ public class PrintPreviewAlertBox {
     BluetoothSocket mBTSocket = null;
     String PRINTER_MAC_ID;
     Context context;
+    private Customer outlet;
 
     public BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -168,6 +169,8 @@ public class PrintPreviewAlertBox {
         ArrayList<FInvRDet> retDetList = new SalesReturnDetController(context).getReturnItemsforPrint(refno);
         ArrayList<InvDet> itemList = new InvDetController(context).getAllItemsforPrint(PRefno);
         Customer debtor = new CustomerController(context).getSelectedCustomerByCode(retHed.getFINVRHED_DEBCODE());
+        outlet = debtor;
+
         Debname.setText(debtor.getCusName());
 
         SalOrdDate.setText("Date: " + retHed.getFINVRHED_TXN_DATE() + " " + currentTime());
@@ -235,6 +238,7 @@ public class PrintPreviewAlertBox {
 
     public void onCancelClick(DialogInterface dialog, int which) {
         Intent intent = new Intent(context, DebtorDetailsActivity.class);
+        intent.putExtra("outlet", outlet);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }

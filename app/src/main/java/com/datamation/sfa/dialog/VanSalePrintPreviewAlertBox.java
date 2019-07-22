@@ -92,6 +92,8 @@ public class VanSalePrintPreviewAlertBox {
     BluetoothSocket mBTSocket = null;
     String PRINTER_MAC_ID;
     Context context;
+    private Customer outlet;
+
     public BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
@@ -201,6 +203,7 @@ public class VanSalePrintPreviewAlertBox {
                 ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(refno.trim());
 
                 Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
+                outlet = debtor;
 
                 Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
                 Debaddress1.setText(debtor.getCusAdd1() + ", " + debtor.getCusAdd2());
@@ -274,6 +277,7 @@ public class VanSalePrintPreviewAlertBox {
                 ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(retRef);
 
                 Customer debtor = new CustomerController(context).getSelectedCustomerByCode(presale.getORDER_DEBCODE());
+                outlet = debtor;
 
                 Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
                 Debaddress1.setText(debtor.getCusAdd1() + ", " + debtor.getCusAdd2());
@@ -354,7 +358,9 @@ public class VanSalePrintPreviewAlertBox {
 
     public void onCancelClick(DialogInterface dialog, int which) {
         Intent intent = new Intent(context, DebtorDetailsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("outlet", outlet);
+        //intent.putExtra("sales_order", false);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 

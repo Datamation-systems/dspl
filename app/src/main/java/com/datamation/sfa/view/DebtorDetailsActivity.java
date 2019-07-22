@@ -38,6 +38,7 @@ import com.datamation.sfa.fragment.debtordetails.OutstandingDetailsFragment;
 import com.datamation.sfa.fragment.debtordetails.PersonalDetailsFragment;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.User;
+import com.datamation.sfa.settings.ReferenceNum;
 
 public class DebtorDetailsActivity extends AppCompatActivity {
 
@@ -99,6 +100,8 @@ public class DebtorDetailsActivity extends AppCompatActivity {
        // outlet = new Customer();
        // outlet.setCusName(SharedPref.getInstance(getApplicationContext()).getSelectedDebName());
 
+        ReferenceNum referenceNum = new ReferenceNum(getApplicationContext());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.outlet_details_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setText(sharedPref.getSelectedDebName());
@@ -107,7 +110,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.outlet_details_viewpager);
 
         isAnyActiveOrders = new OrderDetailController(getApplicationContext()).isAnyActiveOrders();
-        isAnyActiveReturns = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens();
+        isAnyActiveReturns = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
         isAnyActiveInvoices = new InvDetController(getApplicationContext()).isAnyActiveOrders();
         isAnyActiveReceipt = new ReceiptDetController(getApplicationContext()).isAnyActiveReceipt();
         //isAnyActiveNonProds  = new DayNPrdDetController(getApplicationContext()).isAnyActiveNPs();

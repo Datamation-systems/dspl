@@ -555,7 +555,7 @@ public class SalesReturnDetController
         return ordDet;
     }
 
-    public boolean isAnyActiveRetuens()
+    public boolean isAnyActiveRetuens(String RefNo)
     {
         if (dB == null) {
             open();
@@ -563,7 +563,7 @@ public class SalesReturnDetController
             open();
         }
 
-        String selectQuery = "select * from " + dbHelper.TABLE_FINVRDET + " WHERE " + dbHelper.FINVRDET_IS_ACTIVE + "='" + "1" + "'";
+        String selectQuery = "select * from " + dbHelper.TABLE_FINVRDET + " WHERE " + dbHelper.FINVRDET_IS_ACTIVE + "='" + "1" + "'" + " AND " + dbHelper.REFNO + "='" + RefNo + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
