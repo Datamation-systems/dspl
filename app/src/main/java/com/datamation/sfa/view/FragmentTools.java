@@ -37,6 +37,7 @@ import com.datamation.sfa.controller.FreeHedController;
 import com.datamation.sfa.controller.FreeItemController;
 import com.datamation.sfa.controller.FreeMslabController;
 import com.datamation.sfa.controller.FreeSlabController;
+import com.datamation.sfa.controller.InvHedController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.ItemPriceController;
@@ -44,6 +45,7 @@ import com.datamation.sfa.controller.LocationsController;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OutstandingController;
 import com.datamation.sfa.controller.ReasonController;
+import com.datamation.sfa.controller.ReceiptController;
 import com.datamation.sfa.controller.ReferenceDetailDownloader;
 import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.controller.RouteController;
@@ -75,12 +77,14 @@ import com.datamation.sfa.model.FreeHed;
 import com.datamation.sfa.model.FreeItem;
 import com.datamation.sfa.model.FreeMslab;
 import com.datamation.sfa.model.FreeSlab;
+import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.model.Item;
 import com.datamation.sfa.model.ItemLoc;
 import com.datamation.sfa.model.ItemPri;
 import com.datamation.sfa.model.Locations;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.Reason;
+import com.datamation.sfa.model.ReceiptHed;
 import com.datamation.sfa.model.Route;
 import com.datamation.sfa.model.RouteDet;
 import com.datamation.sfa.model.StkIn;
@@ -259,10 +263,14 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
     private boolean isAllUploaded() {
         Boolean allUpload = false;
         OrderController hedDS = new OrderController(getActivity());
+        InvHedController invs = new InvHedController(getActivity());
+        ReceiptController receipts = new ReceiptController(getActivity());
 
         ArrayList<Order> ordHedList = hedDS.getAllUnSyncOrdHed();
+        ArrayList<InvHed> invHedList = invs.getAllUnsyncedInvHed();
+       // ArrayList<ReceiptHed> rcptHedList = receipts.getAllCompletedRecHed();
 
-        if (ordHedList.isEmpty()) {
+        if (ordHedList.isEmpty() || invHedList.isEmpty()) {
             allUpload = true;
         } else {
             allUpload = false;

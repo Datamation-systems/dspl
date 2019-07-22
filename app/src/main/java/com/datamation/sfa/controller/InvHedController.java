@@ -178,6 +178,7 @@ public class InvHedController {
         return null;
     }
 
+
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 //
 //    public ArrayList<VanSalesMapper> getAllUnsynced() {
@@ -444,6 +445,76 @@ public class InvHedController {
                 selectQuery = "select * from finvHed sa, fdebtor cu where sa.isActive='0' AND sa.isSynced ='1' and sa.DebCode=cu.DebCode and sa.RefNo || sa.AddDate || cu.DebName  like '%" + newText + "%'";
             else
                 selectQuery = "select * from finvHed sa, fdebtor cu where sa.isActive='0'AND sa.isSynced ='0' and sa.DebCode=cu.DebCode and sa.RefNo || sa.AddDate || cu.DebName  like '%" + newText + "%'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                InvHed invHed = new InvHed();
+
+                invHed.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ID)));
+                invHed.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                invHed.setFINVHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDDATE)));
+                invHed.setFINVHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDMACH)));
+                invHed.setFINVHED_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDUSER)));
+                invHed.setFINVHED_COSTCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_COSTCODE)));
+                invHed.setFINVHED_CURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CURCODE)));
+                invHed.setFINVHED_CURRATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CURRATE)));
+                invHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_DEBCODE)));
+                invHed.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_START_TIME_SO)));
+                invHed.setFINVHED_END_TIME_SO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_END_TIME_SO)));
+                invHed.setFINVHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_LONGITUDE)));
+                invHed.setFINVHED_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_LATITUDE)));
+                invHed.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_LOCCODE)));
+                invHed.setFINVHED_MANUREF(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_MANUREF)));
+                invHed.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REMARKS)));
+                invHed.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REPCODE)));
+                invHed.setFINVHED_TAXREG(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TAXREG)));
+                invHed.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALAMT)));
+                invHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALDIS)));
+                invHed.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALTAX)));
+                invHed.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TXNTYPE)));
+                invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invHed.setFINVHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDRESS)));
+                invHed.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_IS_SYNCED)));
+                invHed.setFINVHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_IS_ACTIVE)));
+                invHed.setFINVHED_CONTACT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CONTACT)));
+                invHed.setFINVHED_CUSADD1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD1)));
+                invHed.setFINVHED_CUSADD2(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD2)));
+                invHed.setFINVHED_CUSADD3(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD3)));
+                invHed.setFINVHED_CUSTELE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSTELE)));
+                invHed.setFINVHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_PAYTYPE)));
+
+                list.add(invHed);
+
+            }
+
+        } catch (Exception e) {
+            Log.v("Erorr :- ", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return list;
+    }
+    public ArrayList<InvHed> getAllUnsyncedInvHed() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<InvHed> list = new ArrayList<InvHed>();
+        Cursor cursor = null;
+        try {
+
+            String selectQuery;
+
+                selectQuery = "select * from finvHed sa where sa.isActive='0' AND sa.isSynced ='0'";
 
             cursor = dB.rawQuery(selectQuery, null);
 

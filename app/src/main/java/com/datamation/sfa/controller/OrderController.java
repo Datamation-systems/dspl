@@ -407,13 +407,7 @@ public class OrderController {
 //            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
 //
 //            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
-//            order.setORDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-//            order.setORDHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ADDDATE)));
-//
-//            order.setORDHED_CUS_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE)));
-//
-//            order.setORDHED_START_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_START_TIME)));
-//            order.setORDHED_END_TIME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_END_TIME)));
+            order.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
 //            order.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
 //            order.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
 //            order.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
