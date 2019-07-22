@@ -38,8 +38,7 @@
             android:gravity="center"
             android:text="TYPE"
             android:textColor="#040d19"
-            android:textStyle="bold"
-            android:visibility="gone"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/printPreMRP"

@@ -1,84 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="2"
-    android:background="@color/colorPrimaryDark"
-    tools:context="com.datamation.sfa.view.ActivitySplash">
+    android:background="@drawable/round_edges_splash"
+    android:nextFocusForward="@+id/editText1"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editText1"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="50dp"
+        android:padding="30dp"
+        android:background="@drawable/dm_logo"
+        android:scaleType="centerCrop" />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_weight="0.5"
-        android:background="#Fff"
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editText2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@drawable/custom_textbox"
+        android:drawableLeft="@drawable/user"
+        android:hint="@string/login_et_username_hint"
+        android:inputType="textNoSuggestions"
+        android:padding="10dp">
 
+    </EditText>
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="match_parent"
-            android:contentDescription="@string/app_name"
-            android:layout_height="wrap_content"
-            android:layout_margin="40dp"
-            app:srcCompat="@drawable/dm_logo" />
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/custom_textbox"
+        android:drawableLeft="@drawable/password"
+        android:gravity="center"
+        android:hint="@string/login_et_password_hint"
+        android:inputType="textPassword"
+        android:padding="10dp">
 
-        <com.datamation.sfa.utils.CustomFont
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/textColor"
-            android:textStyle="bold"
-            android:text="@string/developed_by_rashmi"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:typeface="monospace" />
+    </EditText>
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_weight="1.5"
-        android:layout_height="match_parent">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:weightSum="2"
-            android:layout_margin="10dp"
-            android:layout_height="wrap_content" >
-
-
-            <com.datamation.sfa.utils.CustomFont
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:gravity="center"
-                android:textSize="25sp"
-                android:layout_gravity="center"
-                android:textColor="#FFF"
-                android:layout_height="wrap_content"
-                android:text="@string/developed_by_rashmi" />
-        </TableRow>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tryAgain"
+    <Button
+        android:id="@+id/btnlogin"
+        style="@style/btnStyleBeige"
         android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|right"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:visibility="invisible"
-        android:clickable="true"
-        android:text="TRY AGAIN"
-        android:textColor="#FFF"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="26dp"
-        android:textSize="20sp"/>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textSize="18sp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="@string/login_btn_sign_in_txt"
+        />
+
+    <com.datamation.sfa.utils.CustomFont
+        android:id="@+id/textVer"
+        android:layout_below="@+id/btnlogin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:text="Version 1.0"
+        android:textSize="@dimen/font_for_all"
+        android:textColor="@android:color/white"
+        />
+
+</RelativeLayout>
