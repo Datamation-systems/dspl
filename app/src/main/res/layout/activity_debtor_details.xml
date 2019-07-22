@@ -51,7 +51,7 @@
         android:textStyle="bold"
         android:text="START CALL"
         android:gravity="center"
-        android:visibility="gone"/>
+     />
     <at.markushi.ui.CircleButton
         android:id="@+id/outlet_details_fab_van_sale"
         android:layout_width="70dp"
@@ -160,6 +160,28 @@
         android:layout_marginRight="21dp"
         android:layout_marginBottom="25dp"
         android:text="RECEIPT"
+        android:gravity="center"
+        android:visibility="gone"/>
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_fab_endcall"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/outlet_details_fab_receipt"
+        android:visibility="gone"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/label_outlet_details_endcl"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_above="@+id/outlet_details_fab_receipt"
+        android:layout_toLeftOf="@+id/outlet_details_fab_endcall"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="25dp"
+        android:text="END CALL"
+        android:textColor="@color/material_alert_negative_button"
         android:gravity="center"
         android:visibility="gone"/>
 

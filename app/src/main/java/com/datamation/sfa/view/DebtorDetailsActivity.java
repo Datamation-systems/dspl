@@ -26,6 +26,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.controller.DayNPrdDetController;
 import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.OrderDetailController;
+import com.datamation.sfa.controller.OutstandingController;
 import com.datamation.sfa.controller.ReceiptDetController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
@@ -41,8 +42,8 @@ import com.datamation.sfa.model.User;
 public class DebtorDetailsActivity extends AppCompatActivity {
 
     private CircleButton floatingActionsMenu;
-    private CircleButton fabInvoice, fabUnproductive, fabReturnNote, fabSalesOrder, fabVansale;
-    private TextView labelInvoice, labelUnproductive, labelReturnNote, labelSalesOrder, labelVanSale, labelMenu;
+    private CircleButton fabInvoice, fabUnproductive, fabReturnNote, fabSalesOrder, fabVansale, fabendcall;
+    private TextView labelInvoice, labelUnproductive, labelReturnNote, labelSalesOrder, labelVanSale, labelMenu, lblend;
 
     private Customer outlet;
     private Context context;
@@ -96,7 +97,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         }
         locManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
        // outlet = new Customer();
-        outlet.setCusName(SharedPref.getInstance(getApplicationContext()).getSelectedDebName());
+       // outlet.setCusName(SharedPref.getInstance(getApplicationContext()).getSelectedDebName());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.outlet_details_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
@@ -116,10 +117,12 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         fabUnproductive = (CircleButton)findViewById(R.id.outlet_details_fab_non_productive);
         fabReturnNote = (CircleButton)findViewById(R.id.outlet_details_fab_sales_return);
         fabSalesOrder = (CircleButton) findViewById(R.id.outlet_details_fab_pre_sale);
+        fabendcall = (CircleButton) findViewById(R.id.outlet_details_fab_endcall);
         floatingActionsMenu = (CircleButton)findViewById(R.id.outlet_details_floating_action_menu);
         floatingActionsMenu.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.startnsc));
 
         labelInvoice = (TextView)findViewById(R.id.label_outlet_details_receipt);
+        lblend = (TextView)findViewById(R.id.label_outlet_details_endcl);
         labelUnproductive = (TextView)findViewById(R.id.outlet_details_label_non_productive);
         labelReturnNote = (TextView)findViewById(R.id.labelReturn);
         labelVanSale = (TextView)findViewById(R.id.outlet_details_label_van_sale);
@@ -164,7 +167,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 //        {
             fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_nonprod));
         //}
-
+        fabendcall.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this,R.drawable.endtnsc));
         if(isAnyActiveReceipt)
         fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.receipt_active));
         else
@@ -217,7 +220,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 // Only proceed if location service is available
                 if (locationServiceEnabled()) {
                     Intent intent = new Intent(DebtorDetailsActivity.this, NonProductiveActivity.class);
-                    intent.putExtra("outlet", "");
+                    intent.putExtra("outlet", outlet);
                     startActivity(intent);
                     finish();
                 } else {
@@ -235,12 +238,18 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 // Only proceed if location service is available
                 if(locationServiceEnabled())
                 {
+
                     Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(DebtorDetailsActivity.this, ReceiptActivity.class);
-                    intent.putExtra("outlet", "");
-                    intent.putExtra("sales_order", false);
-                    startActivity(intent);
-                    finish();
+                    if(new OutstandingController(getApplicationContext()).getDebtorBalance(SharedPref.getInstance(getApplicationContext()).getSelectedDebCode()) > 0) {
+                        Intent intent = new Intent(DebtorDetailsActivity.this, ReceiptActivity.class);
+                        intent.putExtra("outlet", outlet);
+                        intent.putExtra("sales_order", false);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Toast.makeText(DebtorDetailsActivity.this, "No outstandings for this customer", Toast.LENGTH_SHORT).show();
+
+                    }
                 }
                 else
                 {
@@ -260,7 +269,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 {
                     Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(DebtorDetailsActivity.this, VanSalesActivity.class);
-                    intent.putExtra("outlet", "");
+                    intent.putExtra("outlet", outlet);
                     intent.putExtra("sales_order", false);
                     startActivity(intent);
                     finish();
@@ -281,7 +290,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 if(locationServiceEnabled()){
                     Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(DebtorDetailsActivity.this, SalesReturnActivity.class);
-                    intent.putExtra("outlet", "");
+                    intent.putExtra("outlet", outlet);
                     intent.putExtra("sales_return", false);
                     startActivity(intent);
                     finish();
@@ -300,7 +309,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 {
                     Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(DebtorDetailsActivity.this, PreSalesActivity.class);
-                    intent.putExtra("outlet", "");
+                    intent.putExtra("outlet", outlet);
                     intent.putExtra("sales_order", false);
                     startActivity(intent);
                     finish();
@@ -350,6 +359,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 fabUnproductive.setVisibility(View.VISIBLE);
                 fabVansale.setVisibility(View.VISIBLE);
                 floatingActionsMenu.setVisibility(View.VISIBLE);
+                fabendcall.setVisibility(View.VISIBLE);
 
                 labelUnproductive.setVisibility(View.VISIBLE);
                 labelSalesOrder.setVisibility(View.VISIBLE);
@@ -357,6 +367,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 labelReturnNote.setVisibility(View.VISIBLE);
                 labelVanSale.setVisibility(View.VISIBLE);
                 labelMenu.setVisibility(View.VISIBLE);
+                lblend.setVisibility(View.VISIBLE);
 
                 overlay.setVisibility(View.VISIBLE);
             }
@@ -406,12 +417,14 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 labelUnproductive.setVisibility(View.GONE);
                 labelReturnNote.setVisibility(View.GONE);
                 labelVanSale.setVisibility(View.GONE);
+                lblend.setVisibility(View.GONE);
 
                 fabSalesOrder.setVisibility(View.GONE);
                 fabInvoice.setVisibility(View.GONE);
                 fabUnproductive.setVisibility(View.GONE);
                 fabReturnNote.setVisibility(View.GONE);
                 fabVansale.setVisibility(View.GONE);
+                fabendcall.setVisibility(View.GONE);
                 labelMenu.setVisibility(View.GONE);
             }
 
