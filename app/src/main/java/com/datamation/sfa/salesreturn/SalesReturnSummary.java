@@ -73,10 +73,10 @@ public class SalesReturnSummary extends Fragment {
         activity = (SalesReturnActivity)getActivity();
         thisActivity = getActivity();
 
-        if (activity.selectedReturnHed == null && new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
-        {
-            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
-        }
+//        if (activity.selectedReturnHed == null && new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
+//        {
+//            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
+//        }
 
         fam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +127,7 @@ public class SalesReturnSummary extends Fragment {
 
         if (activity.selectedReturnHed != null )
         {
-            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+            RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
             returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
 
@@ -156,7 +156,7 @@ public class SalesReturnSummary extends Fragment {
         {
             activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
 
-            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+            RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
             returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
 
@@ -186,15 +186,17 @@ public class SalesReturnSummary extends Fragment {
 
     public void undoEditingData() {
 
-        if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
-        {
-            RefNo = new SalesReturnDetController(getActivity()).getActiveReturnRefNo().getFINVRDET_REFNO();
-            //RefNo = "/001";
-        }
-        else
-        {
-            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
-        }
+//        if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
+//        {
+//            RefNo = new SalesReturnDetController(getActivity()).getActiveReturnRefNo().getFINVRDET_REFNO();
+//            //RefNo = "/001";
+//        }
+//        else
+//        {
+//            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+//        }
+
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage("Do you want to discard the return?");
@@ -231,7 +233,7 @@ public class SalesReturnSummary extends Fragment {
     {
         gpsTracker = new GPSTracker(getActivity());
 
-        RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 
         Log.d("SALES_RETRUN", "SUMMARY_IS:" + activity.selectedReturnHed);
 
@@ -303,12 +305,8 @@ public class SalesReturnSummary extends Fragment {
                         new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
                         Toast.makeText(getActivity(), "Return saved successfully !", Toast.LENGTH_LONG).show();
                         UtilityContainer.ClearReturnSharedPref(getActivity());
-                        //UtilityContainer.mLoadFragment();
                         new PrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(),"SALES RETURN", RefNo);
-//                        Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-//                        startActivity(intent);
-
-                        //new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Sales return", RefNo, true);
+//
                     } else {
                         Toast.makeText(getActivity(), "Return failed !", Toast.LENGTH_LONG)
                                 .show();

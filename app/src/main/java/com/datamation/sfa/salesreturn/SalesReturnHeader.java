@@ -14,28 +14,39 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
+import com.datamation.sfa.adapter.ReturnReasonAdapter;
+import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
+import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.helpers.SalesReturnResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.presale.OrderHeaderFragment;
+import com.datamation.sfa.presale.OrderReturnFragment;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.LocationProvider;
 import com.datamation.sfa.view.ActivityHome;
@@ -47,20 +58,23 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class SalesReturnHeader extends Fragment {
+public class SalesReturnHeader extends Fragment implements View.OnClickListener{
 
     View view;
     private FloatingActionButton next;
-    public static EditText ordno, date, mNo, deldate, remarks;
+    public static EditText ordno, date, mNo, deldate, remarks, lblReason;
     public String LOG_TAG = "OrderHeaderFragment";
     public TextView route, costcenter, cusName;
     private LocationProvider locationProvider;
     private Location finalLocation;
+    private Button reasonSearch;
     SharedPref pref;
     SalesReturnResponseListener salesReturnResponseListener;
     MyReceiver r;
-    private Spinner spnReason;
+    //private Spinner spnReason;
     SalesReturnActivity activity;
+    ArrayList<Reason> reasonList = null;
+    Reason selectedReason = null;
     //SharedPreferencesClass localSP;
 
     public SalesReturnHeader()
@@ -88,19 +102,32 @@ public class SalesReturnHeader extends Fragment {
         remarks    = (EditText) view.findViewById(R.id.editTextRtnRemarks);
         route = (TextView) view.findViewById(R.id.editTextRtnRoute);
         cusName = (TextView) view.findViewById(R.id.textViewrRtnCustomer);
-        spnReason = (Spinner)view.findViewById(R.id.spinnerRtnReason);
+        reasonSearch = (Button)view.findViewById(R.id.btn_reason_search);
+        lblReason = (EditText) view.findViewById(R.id.editTextReason);
+
+        reasonSearch.setOnClickListener(this);
+        //spnReason = (Spinner)view.findViewById(R.id.spinnerRtnReason);
 
         cusName.setText(pref.getSelectedDebName());
         route.setText(new RouteController(getActivity()).getRouteNameByCode(pref.getSelectedDebRouteCode()));
         date.setText(formattedDate);
         ordno.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
 
+        if (new SalesReturnController(getActivity()).isAnyActive())
+        {
+            FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed();
+
+            mNo.setText(hed.getFINVRHED_MANUREF());
+            remarks.setText(hed.getFINVRHED_REMARKS());
+            lblReason.setText(new ReasonController(getActivity()).getReasonByReaCode(hed.getFINVRHED_REASON_CODE()));
+        }
+
         ArrayList<String> reasonList = new ArrayList<String>();
         reasonList = new ReasonController(getActivity()).getReasonName();
 
         final ArrayAdapter<String> reasonAdapter = new ArrayAdapter<String>(getActivity(),R.layout.reason_spinner_item, reasonList);
         reasonAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnReason.setAdapter(reasonAdapter);
+        //spnReason.setAdapter(reasonAdapter);
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,7 +237,8 @@ public class SalesReturnHeader extends Fragment {
 
     public void SaveReturnHeader() {
 
-        if (ordno.getText().length() > 0 && !spnReason.getSelectedItem().toString().equals("Tap to select a Reason"))
+        if (ordno.getText().length() > 0 && !lblReason.getText().toString().equals(""))
+//        if (ordno.getText().length() > 0 )
         {
             FInvRHed hed =new FInvRHed();
 
@@ -221,12 +249,13 @@ public class SalesReturnHeader extends Fragment {
             hed.setFINVRHED_MANUREF(mNo.getText().toString());
             hed.setFINVRHED_REMARKS(remarks.getText().toString());
             hed.setFINVRHED_IS_ACTIVE("1");
+            hed.setFINVRHED_IS_SYNCED("0");
             hed.setFINVRHED_ADD_DATE(date.getText().toString());
             hed.setFINVRHED_REP_CODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
             hed.setFINVRHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
             hed.setFINVRHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));
             hed.setFINVRHED_START_TIME(currentTime());
-            hed.setFINVRHED_REASON_CODE(new ReasonController(getActivity()).getReaCodeByName(spnReason.getSelectedItem().toString()));
+            hed.setFINVRHED_REASON_CODE(new ReasonController(getActivity()).getReaCodeByName(lblReason.getText().toString()));
 
             activity.selectedReturnHed = hed;
             ArrayList<FInvRHed> ordHedList=new ArrayList<FInvRHed>();
@@ -253,86 +282,9 @@ public class SalesReturnHeader extends Fragment {
 
     public void mRefreshHeader() {
 
+        Log.d("SALES_RETRUN", "HEADER_FROM_FETCH_DATA");
+
         if (SharedPref.getInstance(getActivity()).getGlobalVal("PrekeyCustomer").equals("Y")) {
-            ActivityHome home = new ActivityHome();
-            locationProvider = new LocationProvider((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE),
-                    new LocationProvider.ICustomLocationListener() {
-
-                        @Override
-                        public void onProviderEnabled(String provider) {
-                            Log.d(LOG_TAG, "Provider enabled");
-                            locationProvider.startLocating();
-                        }
-
-                        @Override
-                        public void onProviderDisabled(String provider) {
-                            Log.d(LOG_TAG, "Provider disabled");
-                            locationProvider.stopLocating();
-                        }
-
-                        @Override
-                        public void onUnableToGetLocation() {
-                            Toast.makeText(getActivity(), "Unable to get location", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onGotLocation(Location location, int locationType) {
-                            if (location != null) {
-                                finalLocation = location;
-
-                                SharedPref.getInstance(getActivity()).setGlobalVal("startLongitude", String.valueOf(finalLocation.getLongitude()));
-                                SharedPref.getInstance(getActivity()).setGlobalVal("startLatitude", String.valueOf(finalLocation.getLatitude()));
-                                System.currentTimeMillis();
-                                SaveReturnHeader();
-
-                            }
-                        }
-
-                        @Override
-                        public void onProgress(int type) {
-                            if (type == LocationProvider.LOCATION_TYPE_GPS) {
-                                Toast.makeText(getActivity(),"Getting location (GPS)",Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getActivity(),"Getting location (Network)",Toast.LENGTH_LONG).show();
-
-                            }
-                        }
-                    });
-            try {
-                locationProvider.setOnGPSTimeoutListener(new LocationProvider.OnGPSTimeoutListener() {
-                    @Override
-                    public void onGPSTimeOut() {
-
-                        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-                                .content("Please move to a more clear location to get GPS")
-                                .positiveText("Try Again")
-                                .positiveColor(getResources().getColor(R.color.material_alert_neutral_button))
-                                .callback(new MaterialDialog.ButtonCallback() {
-                                    @Override
-                                    public void onPositive(MaterialDialog dialog) {
-                                        super.onPositive(dialog);
-                                        locationProvider.startLocating();
-                                    }
-
-                                    @Override
-                                    public void onNegative(MaterialDialog dialog) {
-                                        super.onNegative(dialog);
-                                    }
-
-                                    @Override
-                                    public void onNeutral(MaterialDialog dialog) {
-                                        super.onNeutral(dialog);
-                                    }
-                                })
-                                .build();
-                        materialDialog.setCancelable(false);
-                        materialDialog.setCanceledOnTouchOutside(false);
-                        materialDialog.show();
-                    }
-                }, 0);
-            } catch (UnsupportedOperationException e) {
-                e.printStackTrace();
-            }
 
             date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
             //  route.setText(SharedPref.getInstance(getActivity()).getLoginUser().getRoute()+" - "+new RouteController(getActivity()).getRouteNameByCode(SharedPref.getInstance(getActivity()).getLoginUser().getRoute()));
@@ -341,24 +293,23 @@ public class SalesReturnHeader extends Fragment {
             mNo.setEnabled(true);
             cusName.setText(SharedPref.getInstance(getActivity()).getGlobalVal("PrekeyCusName"));
             ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet)));
-            // String debCode= new SharedPref(getActivity()).getGlobalVal("PrekeyCusCode");
 
-            if (home.selectedOrdHed != null) {
-                //if (home.selectedDebtor == null)
-                // home.selectedDebtor = new FmDebtorDS(getActivity()).getSelectedCustomerByCode(home.selectedOrdHed.getFORDHED_DEB_CODE());
-
-//                cusName.setText(home.selectedDebtor.getCusName());
-//                ordno.setText(home.selectedOrdHed.getORDHED_REFNO());
-//                deldate.setText(home.selectedOrdHed.getORDHED_DELV_DATE());
-//                mNo.setText(home.selectedOrdHed.getORDHED_MANU_REF());
-//                remarks.setText(home.selectedOrdHed.getORDHED_REMARKS());
-
-            } else {
-
-                ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet)));
-                deldate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                SaveReturnHeader();
-            }
+//            if (home.selectedOrdHed != null) {
+//                //if (home.selectedDebtor == null)
+//                // home.selectedDebtor = new FmDebtorDS(getActivity()).getSelectedCustomerByCode(home.selectedOrdHed.getFORDHED_DEB_CODE());
+//
+////                cusName.setText(home.selectedDebtor.getCusName());
+////                ordno.setText(home.selectedOrdHed.getORDHED_REFNO());
+////                deldate.setText(home.selectedOrdHed.getORDHED_DELV_DATE());
+////                mNo.setText(home.selectedOrdHed.getORDHED_MANU_REF());
+////                remarks.setText(home.selectedOrdHed.getORDHED_REMARKS());
+//
+//            } else {
+//
+//                ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet)));
+//                deldate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//                SaveReturnHeader();
+//            }
 
         } else {
             Toast.makeText(getActivity(), "Select a customer to continue...", Toast.LENGTH_SHORT).show();
@@ -378,6 +329,47 @@ public class SalesReturnHeader extends Fragment {
         super.onResume();
         r = new MyReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_HEADER"));
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.btn_reason_search:
+                reasonsDialogbox();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void reasonsDialogbox() {
+
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.return_reason_item);
+        final ListView reasonListView = (ListView) dialog.findViewById(R.id.lv_reason_list);
+        dialog.setCancelable(true);
+        reasonListView.clearTextFilter();
+
+        reasonList = new ReasonController(getActivity()).getAllReasons();
+
+        reasonListView.setAdapter(new ReturnReasonAdapter(getActivity(), reasonList));
+
+        reasonListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                selectedReason = reasonList.get(position);
+                lblReason.setText(selectedReason.getFREASON_NAME());
+                dialog.dismiss();
+
+            }
+        });
+
+        dialog.show();
+
     }
 
     private class MyReceiver extends BroadcastReceiver {

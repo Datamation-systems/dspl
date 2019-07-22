@@ -189,10 +189,10 @@ public class OrderSummaryFragment extends Fragment {
                 }
 
                 //    activity.cusPosition = 0;
-                mainActivity.selectedDebtor = null;
-                mainActivity.selectedRetDebtor = null;
-                mainActivity.selectedPreHed = null;
-                mainActivity.selectedReturnHed = null;
+//                mainActivity.selectedDebtor = null;
+//                mainActivity.selectedRetDebtor = null;
+//                mainActivity.selectedPreHed = null;
+//                mainActivity.selectedReturnHed = null;
                 Toast.makeText(getActivity(), "Order and return details discarded successfully..!", Toast.LENGTH_SHORT).show();
                 // UtilityContainer.ClearVanSharedPref(getActivity());
                 UtilityContainer.ClearReturnSharedPref(getActivity());
@@ -408,7 +408,7 @@ public class OrderSummaryFragment extends Fragment {
                             new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(),"PRINT PREVIEW", RefNo, ReturnRefNo,true);
 
                             Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
-                            activity.selectedRetDebtor = null;
+                            //activity.selectedRetDebtor = null;
                             activity.selectedReturnHed = null;
                             activity.selectedPreHed = null;
 
@@ -517,8 +517,8 @@ public class OrderSummaryFragment extends Fragment {
                             Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
                             //  UtilityContainer.ClearVanSharedPref(getActivity());
                             //   activity.cusPosition = 0;
-                            activity.selectedDebtor = null;
-                            activity.selectedRetDebtor = null;
+                            //activity.selectedDebtor = null;
+                            //activity.selectedRetDebtor = null;
                             // activity.selectedRecHed = null;
                             activity.selectedPreHed = null;
 //                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);

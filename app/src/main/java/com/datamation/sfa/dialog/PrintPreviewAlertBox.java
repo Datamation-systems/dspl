@@ -222,7 +222,7 @@ public class PrintPreviewAlertBox {
 
         AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
-        ListExpandHelper.getListViewSize(lvItemDetails);
+        ListExpandHelper.getListViewSize(lvReturnDetails);
 
         return 1;
 

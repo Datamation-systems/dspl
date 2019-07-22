@@ -150,7 +150,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 //            }
 
 
-        //FetchData();
+        FetchData();
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -376,30 +376,13 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
     }
 
-    public void FetchData() {
-
-//        if (activity.selectedReturnHed == null)
-//        {
-//            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
-//            Log.d("SALES_RETRUN", "DETAIL_IS:" + activity.selectedReturnHed.getFINVRHED_REFNO());
-//        }
-
-        //Log.d("SALES_RETRUN", "DETAIL_IS:" + activity.selectedReturnHed.getFINVRHED_REFNO());
-
+    public void FetchData()
+    {
+        Log.d("SALES_RETRUN", "DETAILS_FROM_FETCH_DATA");
         try {
-
-//            if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
-//            {
-//                lv_return_det.setAdapter(null);
-//                returnList = new SalesReturnDetController(getActivity()).getAllActiveNPs();
-//                lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
-//            }
-//            else
-//            {
                 lv_return_det.setAdapter(null);
-                returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(activity.selectedReturnHed.getFINVRHED_REFNO());
+                returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
                 lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
-//            }
 
         } catch (NullPointerException e) {
             Log.v(" Error", e.toString());
@@ -537,7 +520,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mRefreshData();
+            SalesReturnDetails.this.mRefreshData();
         }
     }
 
@@ -556,12 +539,9 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
     public void mRefreshData()
     {
-        if (activity.selectedReturnHed == null)
-        {
-            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
-        }
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 
-        Log.d("SALES_RETRUN", "DETAIL_IS:" + activity.selectedReturnHed.getFINVRHED_REFNO());
+        Log.d("SALES_RETRUN", "DETAILS_FROM_FETCH_DATA" + RefNo);
 
         FetchData();
     }
