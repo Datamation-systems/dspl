@@ -1,6 +1,8 @@
 package com.datamation.sfa.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.support.v4.app.Fragment;
@@ -39,6 +41,7 @@ import com.datamation.sfa.fragment.debtordetails.PersonalDetailsFragment;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.User;
 import com.datamation.sfa.settings.ReferenceNum;
+import com.datamation.sfa.utils.UtilityContainer;
 
 public class DebtorDetailsActivity extends AppCompatActivity {
 
@@ -131,20 +134,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         labelVanSale = (TextView)findViewById(R.id.outlet_details_label_van_sale);
         labelSalesOrder = (TextView)findViewById(R.id.outlet_details_label_pre_sale);
         labelMenu = (TextView)findViewById(R.id.outlet_details_label_menu);
-        //        fabSalesOrder.setScaleX(0);
-//        fabSalesOrder.setScaleY(0);
-//
-//        fabInvoice.setScaleX(0);
-//        fabInvoice.setScaleY(0);
-//
-//        fabUnproductive.setScaleX(0);
-//        fabUnproductive.setScaleY(0);
-//
-//        fabReturnNote.setScaleX(0);
-//        fabReturnNote.setScaleY(0);
-//
-//        fabVansale.setScaleX(0);
-//        fabVansale.setScaleY(0);
+
         // Setting the expanded options button drawables
         if (isAnyActiveOrders)
         {
@@ -323,7 +313,56 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        fabendcall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Only proceed if location service is available
+                if(locationServiceEnabled())
+                {
+                    mEndCallDialog();
+                }
+                else
+                {
+                    Toast.makeText(DebtorDetailsActivity.this, "Please enable location service", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
+    public void mEndCallDialog()
+    {
+        if (isAnyActiveNonProds || isAnyActiveReturns || isAnyActiveOrders || isAnyActiveInvoices || isAnyActiveReceipt)
+        {
+            String message = "Please complete or discard active transaction/s.";
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+            alertDialogBuilder.setTitle("End Call");
+            alertDialogBuilder.setMessage(message);
+            alertDialogBuilder.setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    dialog.cancel();
+
+                }
+            }).setNegativeButton("", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+
+                }
+            });
+
+            AlertDialog alertD = alertDialogBuilder.create();
+            alertD.show();
+        }
+        else
+        {
+            UtilityContainer.ClearReturnSharedPref(getApplicationContext());
+            Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
+//            intent.putExtra("outlet","");
+            startActivity(intent);
+        }
+    }
+
 
     private boolean locationServiceEnabled() {
         boolean gpsActive;
