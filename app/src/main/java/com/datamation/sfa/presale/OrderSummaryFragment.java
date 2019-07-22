@@ -1,6 +1,5 @@
 package com.datamation.sfa.presale;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -9,13 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,18 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.adapter.InvDetAdapter;
 import com.datamation.sfa.adapter.OrderDetailsAdapter;
 import com.datamation.sfa.adapter.ReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.DebItemPriController;
-import com.datamation.sfa.controller.DispDetController;
-import com.datamation.sfa.controller.DispHedController;
-import com.datamation.sfa.controller.DispIssController;
 import com.datamation.sfa.controller.InvDetController;
-import com.datamation.sfa.controller.InvHedController;
-import com.datamation.sfa.controller.InvTaxDTController;
-import com.datamation.sfa.controller.InvTaxRGController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.OrderController;
@@ -46,7 +34,6 @@ import com.datamation.sfa.controller.STKInController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
-import com.datamation.sfa.controller.StkIssController;
 import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.sfa.helpers.SharedPref;
@@ -54,15 +41,12 @@ import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.InvDet;
-import com.datamation.sfa.model.InvHed;
-import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.OrderDetail;
-import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.Product;
 import com.datamation.sfa.model.StkIn;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.UtilityContainer;
-import com.datamation.sfa.vansale.VanSalesSummary;
 import com.datamation.sfa.view.DebtorDetailsActivity;
 import com.datamation.sfa.view.PreSalesActivity;
 import com.datamation.sfa.view.VanSalesActivity;
@@ -174,7 +158,7 @@ public class OrderSummaryFragment extends Fragment {
 
     public void undoEditingData() {
 
-        PRESALE hed = new OrderController(getActivity()).getAllActiveOrdHed();
+        Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
         outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -300,10 +284,10 @@ public class OrderSummaryFragment extends Fragment {
 
                     public void onClick(final DialogInterface dialog, int id) {
 
-                        PRESALE ordHed = new PRESALE();
-                        ArrayList<PRESALE> ordHedList = new ArrayList<PRESALE>();
+                        Order ordHed = new Order();
+                        ArrayList<Order> ordHedList = new ArrayList<Order>();
 
-                        PRESALE presale = new OrderController(getActivity()).getAllActiveOrdHed();
+                        Order presale = new OrderController(getActivity()).getAllActiveOrdHed();
 
                         ordHed.setORDER_REFNO(RefNo);
                         ordHed.setORDER_DEBCODE(presale.getORDER_DEBCODE());
@@ -455,9 +439,9 @@ public class OrderSummaryFragment extends Fragment {
 
                     public void onClick(final DialogInterface dialog, int id) {
 
-                        PRESALE ordHed = new PRESALE();
-                        ArrayList<PRESALE> ordHedList = new ArrayList<PRESALE>();
-                        PRESALE presale = new OrderController(getActivity()).getAllActiveOrdHed();
+                        Order ordHed = new Order();
+                        ArrayList<Order> ordHedList = new ArrayList<Order>();
+                        Order presale = new OrderController(getActivity()).getAllActiveOrdHed();
 
                         ordHed.setORDER_REFNO(RefNo);
                         ordHed.setORDER_DEBCODE(presale.getORDER_DEBCODE());
@@ -625,7 +609,7 @@ public class OrderSummaryFragment extends Fragment {
 
         if (new OrderDetailController(getActivity()).getItemCount(RefNo) > 0) {
 
-            PRESALE hed = new OrderController(getActivity()).getAllActiveOrdHed();
+            Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
             outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());
 
             Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);

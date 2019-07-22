@@ -55,8 +55,6 @@ import com.datamation.sfa.controller.TaxHedController;
 import com.datamation.sfa.controller.TourController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.dialog.StockInquiryDialog;
-import com.datamation.sfa.expense.ExpenseDetail;
-import com.datamation.sfa.expense.ExpenseMain;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Bank;

@@ -9,10 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.sfa.helpers.SharedPref;
-import com.datamation.sfa.model.InvHed;
-import com.datamation.sfa.model.Order;
 import com.datamation.sfa.helpers.DatabaseHelper;
-import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.Order;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public class OrderController {
     }
 
     @SuppressWarnings("static-access")
-    public int createOrUpdateOrdHed(ArrayList<PRESALE> list) {
+    public int createOrUpdateOrdHed(ArrayList<Order> list) {
 
         int count = 0;
 
@@ -52,7 +50,7 @@ public class OrderController {
 
         try {
 
-            for (PRESALE ordHed : list) {
+            for (Order ordHed : list) {
 
                 String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDHED + " WHERE " + dbHelper.REFNO
                         + " = '" + ordHed.getORDER_REFNO() + "'";
@@ -160,7 +158,7 @@ public class OrderController {
 //    }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-    public ArrayList<PRESALE> getTodayOrders() {
+    public ArrayList<Order> getTodayOrders() {
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
         int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
@@ -170,7 +168,7 @@ public class OrderController {
             open();
         }
         Cursor cursor = null;
-        ArrayList<PRESALE> list = new ArrayList<PRESALE>();
+        ArrayList<Order> list = new ArrayList<Order>();
 
         try {
             //String selectQuery = "select DebCode, RefNo from fordHed " +
@@ -182,7 +180,7 @@ public class OrderController {
 
             while (cursor.moveToNext()) {
 
-                PRESALE recDet = new PRESALE();
+                Order recDet = new Order();
 
 //
                 recDet.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
@@ -497,7 +495,7 @@ public class OrderController {
 
         return list;
     }
-    public PRESALE getAllActiveOrdHed() {
+    public Order getAllActiveOrdHed() {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -512,7 +510,7 @@ public class OrderController {
 
         localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
 
-        PRESALE presale = new PRESALE();
+        Order presale = new Order();
 
         while (cursor.moveToNext()) {
 
@@ -669,7 +667,7 @@ public class OrderController {
 
     }
 
-    public PRESALE getDetailsForPrint(String Refno) {
+    public Order getDetailsForPrint(String Refno) {
 
         if (dB == null) {
             open();
@@ -677,7 +675,7 @@ public class OrderController {
             open();
         }
 
-        PRESALE SOHed = new PRESALE();
+        Order SOHed = new Order();
 
         try {
             String selectQuery = "SELECT TxnDate,DebCode,Remarks,RouteCode,TotalAmt FROM " + DatabaseHelper.TABLE_FORDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";

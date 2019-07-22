@@ -19,9 +19,6 @@ import android.widget.TextView;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.PrintReturnItemAdapter;
-import com.datamation.sfa.adapter.PrintVanSaleItemAdapter;
-import com.datamation.sfa.adapter.PrintVanSaleReturnAdapter;
-import com.datamation.sfa.adapter.SalesReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.SalRepController;

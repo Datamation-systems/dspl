@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.TextView;
 
@@ -21,9 +20,8 @@ import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
-import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.model.OrderDetail;
-import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.Order;
 import com.datamation.sfa.presale.OrderDetailFragment;
 import com.datamation.sfa.presale.OrderHeaderFragment;
 import com.datamation.sfa.presale.OrderReturnFragment;
@@ -38,7 +36,7 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
     private ViewPager viewPager;
     public Customer selectedDebtor = null;
     public Customer selectedRetDebtor = null;
-    public PRESALE selectedPreHed = null;
+    public Order selectedPreHed = null;
     public FInvRHed selectedReturnHed = null;
     public FInvRDet selectedReturnDet = null;
     public OrderDetail selectedOrderDet = null;

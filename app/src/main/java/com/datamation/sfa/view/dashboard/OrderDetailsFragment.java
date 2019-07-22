@@ -1,53 +1,32 @@
 package com.datamation.sfa.view.dashboard;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.FreeDebController;
-import com.datamation.sfa.controller.FreeHedController;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OrderDetailController;
-import com.datamation.sfa.model.FreeDeb;
-import com.datamation.sfa.model.FreeHed;
-import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.OrderDetail;
-import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.Order;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by TaZ on 4/7/15.
@@ -59,8 +38,8 @@ public class OrderDetailsFragment extends Fragment {
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    List<PRESALE> listDataHeader;
-    HashMap<PRESALE, List<OrderDetail>> listDataChild;
+    List<Order> listDataHeader;
+    HashMap<Order, List<OrderDetail>> listDataChild;
     //    private DatabaseHandler dbHandler;
 //    private CalendarDatePickerDialog calendarDatePickerDialog;
     private int mYear, mMonth, mDay;
@@ -148,9 +127,9 @@ public class OrderDetailsFragment extends Fragment {
     //https://github.com/Rishijay/Dynamic-Expandable-ListView
     private void prepareListData() {
         listDataHeader = new OrderController(getActivity()).getTodayOrders();
-        listDataChild = new HashMap<PRESALE, List<OrderDetail>>();
+        listDataChild = new HashMap<Order, List<OrderDetail>>();
 
-        for(PRESALE free : listDataHeader){
+        for(Order free : listDataHeader){
             listDataChild.put(free,new OrderDetailController(getActivity()).getTodayOrderDets(free.getORDER_REFNO()));
         }
 
@@ -177,12 +156,12 @@ public class OrderDetailsFragment extends Fragment {
     public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         private Context _context;
-        private List<PRESALE> _listDataHeader; // header titles
+        private List<Order> _listDataHeader; // header titles
         // child data in format of header title, child title
-        private HashMap<PRESALE, List<OrderDetail>> _listDataChild;
+        private HashMap<Order, List<OrderDetail>> _listDataChild;
 
-        public ExpandableListAdapter(Context context, List<PRESALE> listDataHeader,
-                                     HashMap<PRESALE, List<OrderDetail>> listChildData) {
+        public ExpandableListAdapter(Context context, List<Order> listDataHeader,
+                                     HashMap<Order, List<OrderDetail>> listChildData) {
             this._context = context;
             this._listDataHeader = listDataHeader;
             this._listDataChild = listChildData;
@@ -242,7 +221,7 @@ public class OrderDetailsFragment extends Fragment {
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded,
                                  View convertView, ViewGroup parent) {
-            PRESALE headerTitle = (PRESALE) getGroup(groupPosition);
+            Order headerTitle = (Order) getGroup(groupPosition);
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this._context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

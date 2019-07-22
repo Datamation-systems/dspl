@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.sfa.model.FInvRDet;
-import com.datamation.sfa.model.FInvRHed;
-import com.datamation.sfa.model.InvDet;
-import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.helpers.DatabaseHelper;
 

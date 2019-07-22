@@ -41,7 +41,7 @@ import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.InvDet;
 import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.model.OrderDetail;
-import com.datamation.sfa.model.PRESALE;
+import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.SalRep;
 import com.datamation.sfa.model.StkIss;
 import com.datamation.sfa.model.VanSalPrintPre;
@@ -271,7 +271,7 @@ public class VanSalePrintPreviewAlertBox {
             }
             else // if pre sale
             {
-                PRESALE presale = new OrderController(context).getDetailsForPrint(refno);
+                Order presale = new OrderController(context).getDetailsForPrint(refno);
 
                 ArrayList<OrderDetail> list = new OrderDetailController(context).getAllItemsForPrint(refno);
                 ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(retRef);
