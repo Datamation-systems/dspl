@@ -443,10 +443,12 @@ public class VanSalesSummary extends Fragment {
                                         @Override
                                         public void onNegative(MaterialDialog dialog) {
                                             super.onNegative(dialog);
+                                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+                                            startActivity(intent);
+                                            getActivity().finish();
                                             dialog.dismiss();
-//                                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
-//                                            startActivity(intent);
-//                                            getActivity().finish();
+
+
                                         }
                                     })
                                     .build();
@@ -616,6 +618,9 @@ public class VanSalesSummary extends Fragment {
                                     @Override
                                     public void onNegative(MaterialDialog dialog) {
                                         super.onNegative(dialog);
+                                        Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
                                         dialog.dismiss();
                                     }
                                 })
