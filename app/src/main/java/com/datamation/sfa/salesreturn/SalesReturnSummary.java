@@ -19,12 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
 import com.datamation.sfa.dialog.PrintPreviewAlertBox;
 import com.datamation.sfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.sfa.helpers.SalesReturnResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.settings.GPSTracker;
@@ -54,6 +56,7 @@ public class SalesReturnSummary extends Fragment {
     SharedPref mSharedPref;
     Activity thisActivity;
     SalesReturnResponseListener salesReturnResponseListener;
+    private Customer outlet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,6 +127,7 @@ public class SalesReturnSummary extends Fragment {
 
     public void mRefreshData() {
         String itemCode = "";
+        ReferenceNum referenceNum = new ReferenceNum(getActivity());
 
         if (activity.selectedReturnHed != null )
         {
@@ -152,7 +156,7 @@ public class SalesReturnSummary extends Fragment {
             totReturnDiscount = 0;
             fTotQty = 0;
         }
-        else if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
+        else if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet))))
         {
             activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
 
@@ -197,6 +201,8 @@ public class SalesReturnSummary extends Fragment {
 //        }
 
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed();
+        outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getFINVRHED_DEBCODE());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage("Do you want to discard the return?");
@@ -213,6 +219,7 @@ public class SalesReturnSummary extends Fragment {
                 activity.selectedReturnHed = null;
                 Toast.makeText(getActivity(), "Return discarded successfully..!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                intent.putExtra("outlet", outlet);
                 startActivity(intent);
 
 
@@ -333,11 +340,12 @@ public class SalesReturnSummary extends Fragment {
 
     public void mPauseinvoice() {
 
-        //RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
-
         if (new SalesReturnDetController(getActivity()).getItemCount(RefNo) > 0)
         {
+            FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed();
+            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getFINVRHED_DEBCODE());
             Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+            intent.putExtra("outlet", outlet);
             startActivity(intent);
         }
         else

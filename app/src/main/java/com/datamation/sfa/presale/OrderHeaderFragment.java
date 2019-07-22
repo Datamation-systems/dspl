@@ -31,10 +31,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.adapter.CustomerDebtAdapter;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OutstandingController;
+import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.SalRepController;
+import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.helpers.PreSalesResponseListener;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.FddbNote;
 import com.datamation.sfa.model.PRESALE;
 import com.datamation.sfa.utils.LocationProvider;
@@ -113,6 +116,14 @@ public class OrderHeaderFragment extends Fragment{
 
             lblPreRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal)));
             //lblPreRefno.setText("/0001");
+        }
+
+        if (new OrderController(getActivity()).isAnyActiveOrderHed())
+        {
+            PRESALE hed = new OrderController(getActivity()).getAllActiveOrdHed();
+
+            txtManual.setText(hed.getORDER_MANUREF());
+            txtRemakrs.setText(hed.getORDER_REMARKS());
         }
 
         outStandingAmt.setOnClickListener(new View.OnClickListener() {

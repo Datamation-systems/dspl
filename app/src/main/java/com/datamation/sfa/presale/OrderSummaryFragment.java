@@ -27,6 +27,7 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.InvDetAdapter;
 import com.datamation.sfa.adapter.OrderDetailsAdapter;
 import com.datamation.sfa.adapter.ReturnDetailsAdapter;
+import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.DebItemPriController;
 import com.datamation.sfa.controller.DispDetController;
 import com.datamation.sfa.controller.DispHedController;
@@ -49,6 +50,7 @@ import com.datamation.sfa.controller.StkIssController;
 import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.sfa.helpers.SharedPref;
+import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.InvDet;
@@ -92,6 +94,7 @@ public class OrderSummaryFragment extends Fragment {
     int iTotFreeQty = 0;
     private  SweetAlertDialog pDialog;
     PreSalesActivity mainActivity;
+    private Customer outlet;
 
     public static boolean setBluetooth(boolean enable) {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -171,6 +174,9 @@ public class OrderSummaryFragment extends Fragment {
 
     public void undoEditingData() {
 
+        PRESALE hed = new OrderController(getActivity()).getAllActiveOrdHed();
+        outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage("Do you want to discard the order with return ?");
         alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -198,6 +204,7 @@ public class OrderSummaryFragment extends Fragment {
                 UtilityContainer.ClearReturnSharedPref(getActivity());
 
                 Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+                intnt.putExtra("outlet", outlet);
                 startActivity(intnt);
                 getActivity().finish();
 
@@ -617,7 +624,12 @@ public class OrderSummaryFragment extends Fragment {
     public void mPauseinvoice() {
 
         if (new OrderDetailController(getActivity()).getItemCount(RefNo) > 0) {
+
+            PRESALE hed = new OrderController(getActivity()).getAllActiveOrdHed();
+            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());
+
             Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+            intnt.putExtra("outlet", outlet);
             startActivity(intnt);
             getActivity().finish();
         } else

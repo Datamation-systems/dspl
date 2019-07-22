@@ -22,6 +22,7 @@ import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.salesreturn.SalesReturnHeader;
 import com.datamation.sfa.salesreturn.SalesReturnDetails;
 import com.datamation.sfa.salesreturn.SalesReturnSummary;
+import com.datamation.sfa.settings.ReferenceNum;
 
 public class SalesReturnActivity extends AppCompatActivity implements SalesReturnResponseListener{
 
@@ -56,8 +57,9 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
         viewPager.setPageMargin(pageMargin);
         slidingTabStrip.setViewPager(viewPager);
+        ReferenceNum referenceNum = new ReferenceNum(getApplicationContext());
 
-        status = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens();
+        status = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
