@@ -27,23 +27,50 @@
         android:clickable="true"
         android:visibility="gone"/>
 
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_floating_action_menu"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/startcl"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="25dp"
+        app:cb_color="@color/theme_color"
 
+        app:cb_pressedRingWidth="16dip"/>
+    <TextView
+        android:id="@+id/outlet_details_label_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_toLeftOf="@+id/outlet_details_floating_action_menu"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="21dp"
+        android:textColor="@color/material_alert_positive_button"
+        android:layout_marginBottom="25dp"
+        android:textStyle="bold"
+        android:text="START CALL"
+        android:gravity="center"
+        android:visibility="gone"/>
     <at.markushi.ui.CircleButton
         android:id="@+id/outlet_details_fab_van_sale"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:layout_above="@+id/outlet_details_floating_action_menu"
         android:layout_alignParentRight="true"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
+        android:layout_marginBottom="25dp"/>
+
 
     <TextView
+        android:id="@+id/outlet_details_label_van_sale"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:layout_toLeftOf="@+id/outlet_details_fab_van_sale"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/outlet_details_floating_action_menu"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:layout_marginBottom="25dp"
         android:text="VAN SALE"
         android:gravity="center"
         android:visibility="gone"/>
@@ -52,10 +79,11 @@
         android:id="@+id/outlet_details_fab_pre_sale"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:visibility="gone"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/outlet_details_fab_van_sale"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
+        android:layout_marginBottom="25dp"/>
 
     <TextView
         android:id="@+id/outlet_details_label_pre_sale"
@@ -64,7 +92,7 @@
         android:layout_above="@+id/outlet_details_fab_van_sale"
         android:layout_toLeftOf="@+id/outlet_details_fab_pre_sale"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:layout_marginBottom="25dp"
         android:text="PRE SALE"
         android:gravity="center"
         android:visibility="gone"/>
@@ -74,17 +102,19 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         android:layout_above="@+id/outlet_details_fab_pre_sale"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
+        android:layout_marginBottom="25dp"/>
 
     <TextView
+        android:id="@+id/labelReturn"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:layout_above="@+id/outlet_details_label_pre_sale"
         android:layout_toLeftOf="@+id/outlet_details_fab_sales_return"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:layout_marginBottom="25dp"
         android:text="SALES RETURN"
         android:gravity="center"
         android:visibility="gone"/>
@@ -96,7 +126,8 @@
         android:layout_alignParentRight="true"
         android:layout_above="@+id/outlet_details_fab_sales_return"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
+        android:layout_marginBottom="25dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/outlet_details_label_non_productive"
@@ -105,7 +136,7 @@
         android:layout_above="@+id/outlet_details_fab_sales_return"
         android:layout_toLeftOf="@+id/outlet_details_fab_non_productive"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:layout_marginBottom="25dp"
         android:text="NON PRODUCTIVE"
         android:gravity="center"
         android:visibility="gone"/>
@@ -116,16 +147,18 @@
         android:layout_height="70dp"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/outlet_details_fab_non_productive"
+        android:visibility="gone"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
+        android:layout_marginBottom="25dp"/>
 
     <TextView
+        android:id="@+id/label_outlet_details_receipt"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:layout_above="@+id/outlet_details_label_non_productive"
         android:layout_toLeftOf="@+id/outlet_details_fab_receipt"
         android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"
+        android:layout_marginBottom="25dp"
         android:text="RECEIPT"
         android:gravity="center"
         android:visibility="gone"/>

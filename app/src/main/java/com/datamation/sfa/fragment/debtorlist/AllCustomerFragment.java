@@ -74,6 +74,7 @@ public class AllCustomerFragment extends Fragment {
                     if (isValidateCustomer(debtor))
                     {
                         Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                        intent.putExtra("outlet",debtor);
                         mSharedPref.setSelectedDebCode(debtor.getCusCode());
                         mSharedPref.setSelectedDebName(debtor.getCusName());
                         mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));

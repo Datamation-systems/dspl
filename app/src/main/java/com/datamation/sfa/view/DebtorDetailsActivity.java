@@ -40,9 +40,9 @@ import com.datamation.sfa.model.User;
 
 public class DebtorDetailsActivity extends AppCompatActivity {
 
-    //private CircleButton floatingActionsMenu;
+    private CircleButton floatingActionsMenu;
     private CircleButton fabInvoice, fabUnproductive, fabReturnNote, fabSalesOrder, fabVansale;
-    //private TextView labelInvoice, labelUnproductive, labelReturnNote, labelSalesOrder, labelVanSale;
+    private TextView labelInvoice, labelUnproductive, labelReturnNote, labelSalesOrder, labelVanSale, labelMenu;
 
     private Customer outlet;
     private Context context;
@@ -82,9 +82,20 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
         user = sharedPref.getLoginUser();
         context = this;
+        Intent dataIntent = getIntent();
+        if(dataIntent.hasExtra("outlet")){
+            outlet = (Customer) dataIntent.getExtras().get("outlet");
+            if(outlet == null) {
+                Toast.makeText(DebtorDetailsActivity.this, "Error receiving the outlet. Please try again.", Toast.LENGTH_SHORT).show();
+                onBackPressed();
 
+            }
+        } else {
+            Toast.makeText(DebtorDetailsActivity.this, "Error receiving the outlet. Please try again.", Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        }
         locManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        outlet = new Customer();
+       // outlet = new Customer();
         outlet.setCusName(SharedPref.getInstance(getApplicationContext()).getSelectedDebName());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.outlet_details_toolbar);
@@ -105,7 +116,29 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         fabUnproductive = (CircleButton)findViewById(R.id.outlet_details_fab_non_productive);
         fabReturnNote = (CircleButton)findViewById(R.id.outlet_details_fab_sales_return);
         fabSalesOrder = (CircleButton) findViewById(R.id.outlet_details_fab_pre_sale);
+        floatingActionsMenu = (CircleButton)findViewById(R.id.outlet_details_floating_action_menu);
+        floatingActionsMenu.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.startnsc));
 
+        labelInvoice = (TextView)findViewById(R.id.label_outlet_details_receipt);
+        labelUnproductive = (TextView)findViewById(R.id.outlet_details_label_non_productive);
+        labelReturnNote = (TextView)findViewById(R.id.labelReturn);
+        labelVanSale = (TextView)findViewById(R.id.outlet_details_label_van_sale);
+        labelSalesOrder = (TextView)findViewById(R.id.outlet_details_label_pre_sale);
+        labelMenu = (TextView)findViewById(R.id.outlet_details_label_menu);
+        //        fabSalesOrder.setScaleX(0);
+//        fabSalesOrder.setScaleY(0);
+//
+//        fabInvoice.setScaleX(0);
+//        fabInvoice.setScaleY(0);
+//
+//        fabUnproductive.setScaleX(0);
+//        fabUnproductive.setScaleY(0);
+//
+//        fabReturnNote.setScaleX(0);
+//        fabReturnNote.setScaleY(0);
+//
+//        fabVansale.setScaleX(0);
+//        fabVansale.setScaleY(0);
         // Setting the expanded options button drawables
         if (isAnyActiveOrders)
         {
@@ -144,10 +177,19 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
         // The overlay when showing expanding the menu
         overlay = findViewById(R.id.outlet_details_view_overlay);
-        overlay.setAlpha(1);
+        overlay.setAlpha(0);
 
-        openFAM();
-
+        //openFAM();
+        floatingActionsMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(famOpen) {
+                    closeFAM();
+                } else {
+                    openFAM();
+                }
+            }
+        });
         // Collapsing the FAM when pressed on the overlay
         overlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,12 +349,14 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 fabReturnNote.setVisibility(View.VISIBLE);
                 fabUnproductive.setVisibility(View.VISIBLE);
                 fabVansale.setVisibility(View.VISIBLE);
+                floatingActionsMenu.setVisibility(View.VISIBLE);
 
-//                labelUnproductive.setVisibility(View.VISIBLE);
-//                labelSalesOrder.setVisibility(View.VISIBLE);
-//                labelInvoice.setVisibility(View.VISIBLE);
-//                labelReturnNote.setVisibility(View.VISIBLE);
-//                labelVanSale.setVisibility(View.VISIBLE);
+                labelUnproductive.setVisibility(View.VISIBLE);
+                labelSalesOrder.setVisibility(View.VISIBLE);
+                labelInvoice.setVisibility(View.VISIBLE);
+                labelReturnNote.setVisibility(View.VISIBLE);
+                labelVanSale.setVisibility(View.VISIBLE);
+                labelMenu.setVisibility(View.VISIBLE);
 
                 overlay.setVisibility(View.VISIBLE);
             }
@@ -330,8 +374,8 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
         int index = 0;
 
-        if(!invoiced) {
-        }
+//        if(!invoiced) {
+//        }
 
         famOpen = true;
     }
@@ -355,6 +399,20 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(View view) {
                 overlay.setVisibility(View.GONE);
+              //  overlay.setVisibility(View.GONE);
+                // Set the visibility to visible to the animation will show
+                labelSalesOrder.setVisibility(View.GONE);
+                labelInvoice.setVisibility(View.GONE);
+                labelUnproductive.setVisibility(View.GONE);
+                labelReturnNote.setVisibility(View.GONE);
+                labelVanSale.setVisibility(View.GONE);
+
+                fabSalesOrder.setVisibility(View.GONE);
+                fabInvoice.setVisibility(View.GONE);
+                fabUnproductive.setVisibility(View.GONE);
+                fabReturnNote.setVisibility(View.GONE);
+                fabVansale.setVisibility(View.GONE);
+                labelMenu.setVisibility(View.GONE);
             }
 
             @Override
