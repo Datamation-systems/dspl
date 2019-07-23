@@ -1,7 +1,15 @@
 package com.datamation.sfa.model;
 
+import android.content.Context;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class InvHed implements Serializable {
 
@@ -597,5 +605,133 @@ public class InvHed implements Serializable {
         FINVHED_AREACODE = fINVHED_AREACODE;
     }
 
+    public JSONObject getInvoiceAsJSON(Context context) throws JSONException {
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+        HashMap<String, Object> finalJSONParams = new HashMap<>();
+
+        HashMap<String, Object> invoiceParams = new HashMap<>();
+        invoiceParams.put("ConsoleDB", ConsoleDB);
+        invoiceParams.put("DistDB", "");
+        invoiceParams.put("FINVHED_ADDDATE", FINVHED_ADDDATE);
+        invoiceParams.put("FINVHED_ADDMACH", FINVHED_ADDMACH);
+        invoiceParams.put("FINVHED_ADDRESS", FINVHED_ADDRESS);
+        invoiceParams.put("FINVHED_ADDUSER", FINVHED_ADDUSER);
+        invoiceParams.put("FINVHED_AREACODE", FINVHED_AREACODE);
+        invoiceParams.put("FINVHED_CONTACT", FINVHED_CONTACT);
+        invoiceParams.put("FINVHED_COSTCODE", FINVHED_COSTCODE);
+        invoiceParams.put("FINVHED_CURCODE", FINVHED_CURCODE);
+        invoiceParams.put("FINVHED_CURRATE", FINVHED_CURRATE);
+        invoiceParams.put("FINVHED_CUSADD1", FINVHED_CUSADD1);
+        invoiceParams.put("FINVHED_CUSADD2", FINVHED_CUSADD2);
+        invoiceParams.put("FINVHED_CUSADD3", FINVHED_CUSADD3);
+        invoiceParams.put("FINVHED_CUSTELE", FINVHED_CUSTELE);
+        invoiceParams.put("FINVHED_DEBCODE", FINVHED_DEBCODE);
+        invoiceParams.put("FINVHED_END_TIME_SO", FINVHED_END_TIME_SO);
+        invoiceParams.put("FINVHED_ID", FINVHED_ID);
+        invoiceParams.put("FINVHED_IS_ACTIVE", FINVHED_IS_ACTIVE);
+        invoiceParams.put("FINVHED_IS_SYNCED", FINVHED_IS_SYNCED);
+        invoiceParams.put("FINVHED_LATITUDE", FINVHED_LATITUDE);
+        invoiceParams.put("FINVHED_LOCCODE", FINVHED_LOCCODE);
+        invoiceParams.put("FINVHED_LONGITUDE",FINVHED_LONGITUDE);
+        invoiceParams.put("FINVHED_MANUREF",FINVHED_MANUREF);
+        invoiceParams.put("FINVHED_REFNO",FINVHED_REFNO);
+        invoiceParams.put("FINVHED_REMARKS",FINVHED_REMARKS);
+        invoiceParams.put("FINVHED_REPCODE",FINVHED_REPCODE);
+        invoiceParams.put("FINVHED_ROUTECODE",FINVHED_ROUTECODE);
+        invoiceParams.put("FINVHED_SETTING_CODE",FINVHED_SETTING_CODE);
+        invoiceParams.put("FINVHED_START_TIME_SO",FINVHED_START_TIME_SO);
+        invoiceParams.put("FINVHED_TAXREG",FINVHED_TAXREG);
+        invoiceParams.put("FINVHED_TOTALAMT",FINVHED_TOTALAMT);
+        invoiceParams.put("FINVHED_TOTALDIS",FINVHED_TOTALDIS);
+        invoiceParams.put("FINVHED_TOTALTAX",FINVHED_TOTALTAX);
+        invoiceParams.put("FINVHED_TOURCODE",FINVHED_TOURCODE);
+        invoiceParams.put("FINVHED_TXNDATE",FINVHED_TXNDATE);
+        invoiceParams.put("FINVHED_TXNTYPE",FINVHED_TXNTYPE);
+//        try {
+//            invoiceParams.put("app_version",context.getPackageManager().getPackageInfo(context.getPackageName(),0).versionName);
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // Add the sales order flag to the outgoing JSON
+//        invoiceParams.put("isSalesOrder", isSalesOrder);
+//
+//        Date date = new Date(orderTime);
+//
+//        String combinedDate = sdf.format(date);
+//
+//        String[] broken = combinedDate.split(" ");
+//
+//        invoiceParams.put("invDate", broken[0]);
+//        invoiceParams.put("invtime", broken[1]);
+//
+//        JSONObject invoiceJSON = new JSONObject(invoiceParams);
+//
+//        finalJSONParams.put("Invoice", invoiceJSON);
+//
+//        finalJSONParams.put("posm", new JSONArray());
+//
+//        JSONArray itemsArray = new JSONArray();
+//
+//        if (orderDetails != null) {
+////            for (int i = 0; i < orderDetails.size(); i++) {
+////                JSONObject tmpItemJSON = orderDetails.get(i).getOrderDetailAsJSON(this);
+////                if (tmpItemJSON != null) {
+////                    itemsArray.put(tmpItemJSON);
+////                }
+////            }
+//        }
+//        finalJSONParams.put("invitems", itemsArray);
+//        JSONArray returnArray = new JSONArray();
+//        if (returnDetails != null) {
+//            for (int i = 0; i < returnDetails.size(); i++) {
+//                JSONObject tmpItemJSON = returnDetails.get(i).getReturnDetailAsJSON();
+//                if (tmpItemJSON != null) {
+//                    returnArray.put(tmpItemJSON);
+//                }
+//            }
+//        }
+//
+//        finalJSONParams.put("returnitems", returnArray);
+//
+//        JSONArray freeArray = new JSONArray();
+//        if (orderDetails != null) {
+//            for (int i = 0; i < orderDetails.size(); i++) {
+////                Log.d("<>","fuck");
+////                ItemPromotion freeIssueDetail = orderDetails.get(i).getItemPromotion();
+////                if (freeIssueDetail != null) {
+//////                    Log.d("<>","fuck fuck");
+////                    freeArray.put(freeIssueDetail.toJSON(freeIssueDetail));
+////                }
+//
+//            }
+//        }
+//        finalJSONParams.put("item_promotions", freeArray);
+//
+//        if (payments!=null&&payments.size()>0) {
+//            HashMap<String,Object> pymnts = new HashMap<>();
+//            JSONArray cashArray = new JSONArray();
+//            JSONArray cheqArray = new JSONArray();
+//
+//            for(Payment payment:payments){
+//                if(payment.isCash()){
+//                    cashArray.put(payment.getPaymentAsJSON());
+//                }
+//                else{
+//                    cheqArray.put(payment.getPaymentAsJSON());
+//                }
+//            }
+//            pymnts.put("cash",cashArray);
+//            pymnts.put("cheq",cheqArray);
+//
+//            finalJSONParams.put("Payment", new JSONObject(pymnts));
+//        }
+//        JSONObject finalObject = new JSONObject(finalJSONParams);
+//
+//        Log.wtf(LOG_TAG, "ORDER JSON\n" + finalObject.toString());
+
+        return new JSONObject(finalJSONParams);
+    }
 }
