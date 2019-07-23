@@ -16,7 +16,6 @@
     <dimen name="finac_medium_edit_text_top_margin">1dp</dimen>
     <dimen name="finac_medium_textview_height">26dp</dimen>
     <dimen name="finac_extra_medium_text_size">11sp</dimen>
-    <dimen name="finac_search_edititext_height">40dp</dimen>
     <dimen name="finac_medium_margin">3dp</dimen>
     <dimen name="finac_small_margin">1dp</dimen>
     <dimen name="finac_medium_dialog_width">320dp</dimen>
