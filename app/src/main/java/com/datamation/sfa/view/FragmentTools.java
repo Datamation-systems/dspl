@@ -223,14 +223,14 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
 
                                 InvHedController hedDS = new InvHedController(getActivity());
 
-                                ArrayList<InvHed> invHedList = hedDS.getAllUnsyncedInvHed();
+                                ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
 //                    /* If records available for upload then */
                                 if (invHedList.size() <= 0)
                                     Toast.makeText(getActivity(), "No Records to upload !", Toast.LENGTH_LONG).show();
                                 else{
-                                    for(InvHed order : invHedList){
-                                        new SyncInvoice(order).execute();
-                                    }
+
+                                        new SyncInvoice(invHedList).execute();
+
                                     Log.v(">>8>>","UploadPreSales execute finish");
                                     new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
 //
@@ -326,7 +326,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
         ReceiptController receipts = new ReceiptController(getActivity());
 
         ArrayList<Order> ordHedList = hedDS.getAllUnSyncOrdHed();
-        ArrayList<InvHed> invHedList = invs.getAllUnsyncedInvHed();
+        ArrayList<InvHed> invHedList = invs.getAllUnsynced();
        // ArrayList<ReceiptHed> rcptHedList = receipts.getAllCompletedRecHed();
 
         if (ordHedList.isEmpty() || invHedList.isEmpty()) {
@@ -1519,10 +1519,10 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
         private CustomProgressDialog pDialog;
         private List<String> errors = new ArrayList<>();
         CustomProgressDialog pdialog;
-        InvHed invoice;
+        List<InvHed> invoices;
 
-        public SyncInvoice(InvHed invoice){
-            this.invoice = invoice;
+        public SyncInvoice(List<InvHed> invoices){
+            this.invoices = invoices;
 
             this.pdialog = new CustomProgressDialog(getActivity());
         }
@@ -1540,7 +1540,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
 
             String syncResponse = null;
             try {
-                syncResponse = networkFunctions.syncInvoice(invoice);
+                syncResponse = networkFunctions.syncInvoice(invoices);
 
 
                 JSONObject responseJSON = new JSONObject(syncResponse);

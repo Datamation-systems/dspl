@@ -111,7 +111,7 @@ public class DispIssController {
 
         ArrayList<DispIss> list = new ArrayList<DispIss>();
 
-        Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FDISPISS + " WHERE FDISPISS_REFNO1='" + Refno + "'", null);
+        Cursor cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FDISPISS + " WHERE RefNo1='" + Refno + "'", null);
 
         while (cursor.moveToNext()) {
 

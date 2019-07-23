@@ -59,6 +59,116 @@ public class InvHed implements Serializable {
     private String FINVHED_PAYTYPE;
     private String FINVHED_SETTING_CODE;
 
+    private String ConsoleDB;
+    private String DistDB;
+
+    private String NextNumVal;
+
+    private ArrayList<InvDet> InvDets;
+    private ArrayList<InvTaxDt> invTaxDTs;
+    private ArrayList<InvTaxRg> invTaxRGs;
+    private ArrayList<OrderDisc> orderDiscs;
+    private ArrayList<OrdFreeIssue> freeIssues;
+    private ArrayList<StkIss> stkIsses;
+    private ArrayList<DispHed> dispHeds;
+    private ArrayList<DispDet> dispDets;
+    private ArrayList<DispIss> dispIsses;
+
+    public ArrayList<InvDet> getInvDets() {
+        return InvDets;
+    }
+
+    public void setInvDets(ArrayList<InvDet> invDets) {
+        InvDets = invDets;
+    }
+
+    public ArrayList<InvTaxDt> getInvTaxDTs() {
+        return invTaxDTs;
+    }
+
+    public void setInvTaxDTs(ArrayList<InvTaxDt> invTaxDTs) {
+        this.invTaxDTs = invTaxDTs;
+    }
+
+    public ArrayList<InvTaxRg> getInvTaxRGs() {
+        return invTaxRGs;
+    }
+
+    public void setInvTaxRGs(ArrayList<InvTaxRg> invTaxRGs) {
+        this.invTaxRGs = invTaxRGs;
+    }
+
+    public ArrayList<OrderDisc> getOrderDiscs() {
+        return orderDiscs;
+    }
+
+    public void setOrderDiscs(ArrayList<OrderDisc> orderDiscs) {
+        this.orderDiscs = orderDiscs;
+    }
+
+    public ArrayList<OrdFreeIssue> getFreeIssues() {
+        return freeIssues;
+    }
+
+    public void setFreeIssues(ArrayList<OrdFreeIssue> freeIssues) {
+        this.freeIssues = freeIssues;
+    }
+
+    public ArrayList<StkIss> getStkIsses() {
+        return stkIsses;
+    }
+
+    public void setStkIsses(ArrayList<StkIss> stkIsses) {
+        this.stkIsses = stkIsses;
+    }
+
+    public ArrayList<DispHed> getDispHeds() {
+        return dispHeds;
+    }
+
+    public void setDispHeds(ArrayList<DispHed> dispHeds) {
+        this.dispHeds = dispHeds;
+    }
+
+    public ArrayList<DispDet> getDispDets() {
+        return dispDets;
+    }
+
+    public void setDispDets(ArrayList<DispDet> dispDets) {
+        this.dispDets = dispDets;
+    }
+
+    public ArrayList<DispIss> getDispIsses() {
+        return dispIsses;
+    }
+
+    public void setDispIsses(ArrayList<DispIss> dispIsses) {
+        this.dispIsses = dispIsses;
+    }
+
+    public String getConsoleDB() {
+        return ConsoleDB;
+    }
+
+    public void setConsoleDB(String consoleDB) {
+        ConsoleDB = consoleDB;
+    }
+
+    public String getDistDB() {
+        return DistDB;
+    }
+
+    public void setDistDB(String distDB) {
+        DistDB = distDB;
+    }
+
+    public String getNextNumVal() {
+        return NextNumVal;
+    }
+
+    public void setNextNumVal(String nextNumVal) {
+        NextNumVal = nextNumVal;
+    }
 
     private ArrayList<InvDet>invDetArrayList;
 

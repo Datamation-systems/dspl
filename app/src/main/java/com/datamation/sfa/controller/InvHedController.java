@@ -8,6 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.InvHed;
 import com.github.mikephil.charting.data.Entry;
@@ -1038,5 +1039,83 @@ public class InvHedController {
 
         return String.valueOf(invSum);
     }
+    public ArrayList<InvHed> getAllUnsynced() {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        ArrayList<InvHed> list = new ArrayList<InvHed>();
+
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_FINVHED + " Where " + DatabaseHelper.FINVHED_IS_ACTIVE + "='0' AND " + DatabaseHelper.FINVHED_IS_SYNCED + "='0'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        localSP = context.getSharedPreferences(SETTINGS, 0);
+
+        while (cursor.moveToNext()) {
+
+            InvHed vanSalesMapper = new InvHed();
+
+            vanSalesMapper.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.VanNumVal)));
+
+            vanSalesMapper.setDistDB(localSP.getString("Dist_DB", "").toString());
+            vanSalesMapper.setConsoleDB(localSP.getString("Console_DB", "").toString());
+
+            vanSalesMapper.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ID)));
+            vanSalesMapper.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            vanSalesMapper.setFINVHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDDATE)));
+            vanSalesMapper.setFINVHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDMACH)));
+            vanSalesMapper.setFINVHED_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDUSER)));
+            vanSalesMapper.setFINVHED_COSTCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_COSTCODE)));
+            vanSalesMapper.setFINVHED_CURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CURCODE)));
+            vanSalesMapper.setFINVHED_CURRATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CURRATE)));
+            vanSalesMapper.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_DEBCODE)));
+            vanSalesMapper.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_START_TIME_SO)));
+            vanSalesMapper.setFINVHED_END_TIME_SO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_END_TIME_SO)));
+            vanSalesMapper.setFINVHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_LONGITUDE)));
+            vanSalesMapper.setFINVHED_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_LATITUDE)));
+            vanSalesMapper.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_LOCCODE)));
+            vanSalesMapper.setFINVHED_MANUREF(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_MANUREF)));
+            vanSalesMapper.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REMARKS)));
+            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REPCODE)));
+            vanSalesMapper.setFINVHED_TAXREG(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TAXREG)));
+            vanSalesMapper.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALAMT)));
+            vanSalesMapper.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALDIS)));
+            vanSalesMapper.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALTAX)));
+            vanSalesMapper.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TXNTYPE)));
+            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            vanSalesMapper.setFINVHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDRESS)));
+            vanSalesMapper.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_IS_SYNCED)));
+            vanSalesMapper.setFINVHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_IS_ACTIVE)));
+            vanSalesMapper.setFINVHED_CONTACT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CONTACT)));
+            vanSalesMapper.setFINVHED_CUSADD1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD1)));
+            vanSalesMapper.setFINVHED_CUSADD2(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD2)));
+            vanSalesMapper.setFINVHED_CUSADD3(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD3)));
+            vanSalesMapper.setFINVHED_CUSTELE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSTELE)));
+            vanSalesMapper.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOURCODE)));
+            vanSalesMapper.setFINVHED_ROUTECODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ROUTECODE)));
+            vanSalesMapper.setFINVHED_AREACODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_AREACODE)));
+            vanSalesMapper.setFINVHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_PAYTYPE)));
+            vanSalesMapper.setFINVHED_SETTING_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_SETTING_CODE)));
+
+            String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+
+            vanSalesMapper.setInvDets(new InvDetController(context).getAllInvDet(RefNo));
+            vanSalesMapper.setInvTaxDTs(new InvTaxDTController(context).getAllTaxDT(RefNo));
+            vanSalesMapper.setInvTaxRGs(new InvTaxRGController(context).getAllTaxRG(RefNo));
+            vanSalesMapper.setOrderDiscs(new OrderDiscController(context).getAllOrderDiscs(RefNo));
+            vanSalesMapper.setFreeIssues(new OrdFreeIssueController(context).getAllFreeIssues(RefNo));
+            vanSalesMapper.setStkIsses(new StkIssController(context).getUploadData(RefNo));
+            vanSalesMapper.setDispHeds(new DispHedController(context).getUploadData(RefNo));
+            vanSalesMapper.setDispDets(new DispDetController(context).getUploadData(RefNo));
+            vanSalesMapper.setDispIsses(new DispIssController(context).getUploadData(RefNo));
+
+
+            list.add(vanSalesMapper);
+
+        }
+
+        return list;
+    }
 }

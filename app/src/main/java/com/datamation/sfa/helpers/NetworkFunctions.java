@@ -395,7 +395,7 @@ public class NetworkFunctions {
 //        return postToServer(baseURL + "get_monthly_statement", params);
 //    }
 //
-    public String syncInvoice(InvHed invoice) throws IOException, JSONException {
+    public String syncInvoice(List<InvHed> invoices) throws IOException, JSONException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
