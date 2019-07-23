@@ -700,7 +700,7 @@ public class OrderController {
 
     }
 
-    public boolean isAnyActiveOrderHed() {
+    public boolean isAnyActiveOrderHed(String RefNo) {
 
         if (dB == null) {
             open();
@@ -712,7 +712,7 @@ public class OrderController {
 
         Cursor cursor = null;
         try {
-            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FORDHED + " WHERE " + DatabaseHelper.FORDHED_IS_ACTIVE + "='1'";
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FORDHED + " WHERE " + DatabaseHelper.FORDHED_IS_ACTIVE + "='1'" + " AND " + DatabaseHelper.REFNO + " = '" + RefNo + "'";
             cursor = dB.rawQuery(selectQuery, null);
 
             if (cursor.getCount() > 0)

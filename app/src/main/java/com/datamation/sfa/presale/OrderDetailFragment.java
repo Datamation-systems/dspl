@@ -246,6 +246,7 @@ public class OrderDetailFragment extends Fragment{
         final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
 
         lvProducts.clearTextFilter();
+        productList.clear();
         productList = new PreProductController(getActivity()).getAllItems("");
         lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
 
