@@ -362,6 +362,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             UtilityContainer.ClearReturnSharedPref(getApplicationContext());
             Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 

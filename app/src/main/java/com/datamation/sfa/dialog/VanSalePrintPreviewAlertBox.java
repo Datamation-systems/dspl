@@ -191,7 +191,7 @@ public class VanSalePrintPreviewAlertBox {
             Companyemail.setText("info@datamation.lk");
 
             String repCode = new SalRepController(context).getCurrentRepCode();
-            SalRep salRep = new SalRepController(context).getSaleRep(repCode);
+            SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
 
 //        User salrep = SharedPref.getInstance(context).getLoginUser();
             SalesRepname.setText(salRep.getREPCODE() + "/ " + salRep.getNAME());

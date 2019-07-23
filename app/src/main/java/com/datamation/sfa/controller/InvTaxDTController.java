@@ -89,6 +89,64 @@ public class InvTaxDTController {
 
     }
 
+    public int UpdatePreTaxDT(ArrayList<InvDet> list) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+
+            for (InvDet invDet : list) {
+
+                if (invDet.getFINVDET_TYPE().equals("SA")) {
+
+                    BigDecimal amt = new BigDecimal(invDet.getFINVDET_AMT());
+
+                    ArrayList<TaxDet> taxcodelist = new TaxDetController(context).getTaxInfoByComCode(invDet.getFINVDET_TAX_COM_CODE());
+
+                    for (int i = taxcodelist.size() - 1; i > -1; i--) {
+
+                        BigDecimal tax = new BigDecimal("0");
+
+                        ContentValues values = new ContentValues();
+
+                        values.put(DatabaseHelper.INVTAXDT_ITEMCODE, invDet.getFINVDET_ITEM_CODE());
+                        values.put(DatabaseHelper.INVTAXDT_RATE, taxcodelist.get(i).getRATE());
+                        values.put(DatabaseHelper.REFNO, invDet.getFINVDET_REFNO());
+                        values.put(DatabaseHelper.INVTAXDT_SEQ, taxcodelist.get(i).getSEQ());
+                        values.put(DatabaseHelper.INVTAXDT_TAXCODE, taxcodelist.get(i).getTAXCODE());
+                        values.put(DatabaseHelper.INVTAXDT_TAXCOMCODE, taxcodelist.get(i).getTAXCOMCODE());
+                        values.put(DatabaseHelper.INVTAXDT_TAXPER, taxcodelist.get(i).getTAXVAL());
+                        values.put(DatabaseHelper.INVTAXDT_TAXTYPE, taxcodelist.get(i).getTAXTYPE());
+
+                        tax = new BigDecimal(taxcodelist.get(i).getTAXVAL()).multiply(amt.divide(new BigDecimal("100"), 3, BigDecimal.ROUND_HALF_EVEN));
+                        amt = new BigDecimal(taxcodelist.get(i).getTAXVAL()).add(new BigDecimal("100")).multiply((amt.divide(new BigDecimal("100"), 3, BigDecimal.ROUND_HALF_EVEN)));
+
+                        values.put(DatabaseHelper.INVTAXDT_BDETAMT, String.format("%.2f", tax));
+                        values.put(DatabaseHelper.INVTAXDT_DETAMT, String.format("%.2f", tax));
+
+                        count = (int) dB.insert(DatabaseHelper.TABLE_INVTAXDT, null, values);
+
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+        return count;
+
+    }
+
     public ArrayList<InvTaxDt> getAllTaxDT(String RefNo) {
 
         if (dB == null) {

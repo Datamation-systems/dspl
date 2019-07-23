@@ -24,11 +24,15 @@ import com.datamation.sfa.adapter.ReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.DebItemPriController;
 import com.datamation.sfa.controller.InvDetController;
+import com.datamation.sfa.controller.InvTaxDTController;
+import com.datamation.sfa.controller.InvTaxRGController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.PreProductController;
+import com.datamation.sfa.controller.PreSaleTaxDTDS;
+import com.datamation.sfa.controller.PreSaleTaxRGDS;
 import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.STKInController;
 import com.datamation.sfa.controller.SalRepController;
@@ -391,7 +395,6 @@ public class OrderSummaryFragment extends Fragment {
                                 activity.selectedReturnHed = null;
                                 new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.PreReturnNumVal));
                                 Toast.makeText(getActivity(), "Order Return saved successfully !", Toast.LENGTH_LONG).show();
-                                UtilityContainer.ClearReturnSharedPref(getActivity());
 
                             } else {
                                 Toast.makeText(getActivity(), "Order Return failed !", Toast.LENGTH_LONG).show();
@@ -408,6 +411,7 @@ public class OrderSummaryFragment extends Fragment {
                             //activity.selectedRetDebtor = null;
                             activity.selectedReturnHed = null;
                             activity.selectedPreHed = null;
+                            UtilityContainer.ClearReturnSharedPref(getActivity());
 
 //                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
 //                            startActivity(intent);
@@ -538,6 +542,7 @@ public class OrderSummaryFragment extends Fragment {
                             //activity.selectedRetDebtor = null;
                             activity.selectedReturnHed = null;
                             activity.selectedPreHed = null;
+                            UtilityContainer.ClearReturnSharedPref(getActivity());
 
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
@@ -564,14 +569,16 @@ public class OrderSummaryFragment extends Fragment {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void UpdateTaxDetails(String refNo) {
-//        ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(refNo);
-//        new InvDetController(getActivity()).UpdateItemTaxInfo(list);
-//        new InvTaxRGController(getActivity()).UpdateInvTaxRG(list);
-//        new InvTaxDTController(getActivity()).UpdateInvTaxDT(list);
+
+        ArrayList<OrderDetail> list = new OrderDetailController(getActivity()).getAllOrderDetails(refNo);
+        new OrderDetailController(getActivity()).UpdateItemTaxInfoWithDiscount(list, mSharedPref.getSelectedDebCode());
+        new PreSaleTaxRGDS(getActivity()).UpdateSalesTaxRG(list, mSharedPref.getSelectedDebCode());
+        new PreSaleTaxDTDS(getActivity()).UpdateSalesTaxDT(list);
     }
+
     public void UpdateReturnTotal(String refNo) {
-//        ArrayList<FInvRDet> list = new SalesReturnDetController(getActivity()).getAllInvRDet(refNo);
-//        new SalesReturnDetController(getActivity()).UpdateReturnTot(list);
+        ArrayList<FInvRDet> list = new SalesReturnDetController(getActivity()).getAllInvRDet(refNo);
+        new SalesReturnDetController(getActivity()).UpdateReturnTot(list);
 
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
