@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.sfa.model.FInvRDet;
+import com.datamation.sfa.model.InvDet;
 import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.helpers.DatabaseHelper;
 
@@ -1180,5 +1181,54 @@ public class OrderDetailController {
         }
 
         return invrDet;
+    }
+
+    public void UpdateItemTaxInfoWithDiscount(ArrayList<OrderDetail> list, String debtorCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        double totTax = 0, totalAmt = 0, sellPrice = 0, tSellPrice = 0, totDisc=0, disR=0;
+
+        try {
+
+            for (OrderDetail soDet : list) {
+
+                /* Calculate only for MR or UR */
+                if (soDet.getFORDERDET_TYPE().equals("SA")) {
+
+                    String sArray[] = new TaxDetController(context).calculateTaxForwardFromDebTax(debtorCode, soDet.getFORDERDET_ITEMCODE(), Double.parseDouble(soDet.getFORDERDET_AMT()));
+
+                    sellPrice = Double.parseDouble(sArray[0])/Double.parseDouble(soDet.getFORDERDET_QTY());
+                    if (Double.parseDouble(soDet.getFORDERDET_SCHDISC())>0.0)
+                    {
+                        tSellPrice = (Double.parseDouble(sArray[0])+ Double.parseDouble(soDet.getFORDERDET_SCHDISC()))/Double.parseDouble(soDet.getFORDERDET_QTY());
+                        disR = ((Double.parseDouble(soDet.getFORDERDET_SCHDISC()))/(Double.parseDouble(sArray[0])+ Double.parseDouble(soDet.getFORDERDET_SCHDISC())))* 100;
+                        totDisc += Double.parseDouble(soDet.getFORDERDET_SCHDISC());
+                    }
+                    else
+                    {
+                        tSellPrice = Double.parseDouble(sArray[0])/Double.parseDouble(soDet.getFORDERDET_QTY());
+                    }
+
+                    totTax += Double.parseDouble(sArray[1]);
+                    totalAmt += Double.parseDouble(sArray[0]);
+
+                    String updateQuery = "UPDATE FOrddet SET TaxAmt='" + sArray[1] + "', Amt='" + sArray[0] + "', BAmt='" + sArray[0] + "', DisAmt='" + String.valueOf(disR) + "', TSellPrice='" + tSellPrice + "', BTSellPrice ='" + tSellPrice + "' where ItemCode ='" + soDet.getFORDERDET_ITEMCODE() + "' AND refno='" + soDet.getFORDERDET_REFNO() + "' AND Type!='FI'";
+                    dB.execSQL(updateQuery);
+                }
+            }
+            /* Update sales return Header TotalTax */
+            dB.execSQL("UPDATE FOrdHed SET TotalTax='" + totTax + "',TotalDis='" + totDisc + "',TotalAmt='" + totalAmt + "' WHERE refno='" + list.get(0).getFORDERDET_REFNO() + "'");
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
     }
 }

@@ -202,7 +202,7 @@ public class SalesReturnController
         return list;
     }
 
-    public FInvRHed getActiveReturnHed() {
+    public FInvRHed getActiveReturnHed(String RefNo) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -212,8 +212,7 @@ public class SalesReturnController
         FInvRHed invrHed = new FInvRHed();
 
         @SuppressWarnings("static-access")
-        String selectQuery = "select * from " + dbHelper.TABLE_FINVRHED + " Where " + dbHelper.FINVRHED_IS_ACTIVE
-                + "='1' and " + dbHelper.FINVRHED_IS_SYNCED + "='0'";
+        String selectQuery = "select * from " + dbHelper.TABLE_FINVRHED + " Where " + dbHelper.FINVRHED_IS_ACTIVE + "='1' and " + dbHelper.FINVRHED_IS_SYNCED + "='0'" + " AND " + DatabaseHelper.REFNO + " = '" + RefNo + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 

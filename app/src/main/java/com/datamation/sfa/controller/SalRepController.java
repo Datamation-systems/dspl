@@ -64,6 +64,9 @@ public class SalRepController {
                 values.put(DatabaseHelper.FSALREP_STATUS, rep.getSTATUS());
                 values.put(DatabaseHelper.FSALREP_TELE, rep.getTELE());
                 values.put(DatabaseHelper.FSALREP_LOCCODE, rep.getLOCCODE());
+                values.put(DatabaseHelper.FSALREP_AREA_CODE, rep.getAREACODE());
+                values.put(DatabaseHelper.FSALREP_DEAL_CODE, rep.getDEALCODE());
+
 
 
                 if (cursor.getCount() > 0) {
@@ -129,44 +132,83 @@ public class SalRepController {
             open();
         }
 
-        SalRep newRep = new SalRep();
+        Cursor cursor = null;
+        SalRep newRep = null;
+
+        String selectRep = "SELECT * FROM " + DatabaseHelper.TABLE_FSALREP + " WHERE " + DatabaseHelper.FSALREP_REP_CODE + " = '" + Repcode + "'";
 
         try {
 
-            //String selectRep = "SELECT * FROM fSalRep WHERE RepCode='" + Repcode + "'";
+            cursor = dB.rawQuery(selectRep, null);
 
-            String selectRep = "SELECT * FROM " + DatabaseHelper.TABLE_FSALREP + " WHERE " + DatabaseHelper.FSALREP_REP_CODE + " = '" + Repcode + "'";
+            while (cursor.moveToNext()) {
 
-            Cursor curRep = dB.rawQuery(selectRep, null);
+                newRep = new SalRep();
 
-            while (curRep.moveToNext()) {
+                newRep.setMOBILE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_REP_MOB)));
+                newRep.setNAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_REP_NAME)));
+                newRep.setPASSWORD(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_PASSWORD)));
+                newRep.setPREFIX(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_REP_PREFIX)));
+                newRep.setRECORDID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_RECORD_ID)));
+                newRep.setREPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_REP_CODE)));
+                newRep.setLOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_LOCCODE)));
+                newRep.setEMAIL(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_REP_EMAIL)));
+                newRep.setTELE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_REP_PHONE_NO)));
+                newRep.setDEALCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_DEAL_CODE)));
+                newRep.setAREACODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FSALREP_AREA_CODE)));
 
-
-                newRep.setMOBILE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_MOB)));
-                newRep.setNAME(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_NAME)));
-                newRep.setPASSWORD(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_PASSWORD)));
-                newRep.setPREFIX(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_PREFIX)));
-                newRep.setRECORDID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_RECORD_ID)));
-                newRep.setREPCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_CODE)));
-                newRep.setLOCCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_LOCCODE)));
-                newRep.setEMAIL(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_EMAIL)));
-                newRep.setTELE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REP_PHONE_NO)));
-                newRep.setDEALCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_DEAL_CODE)));
-                newRep.setAREACODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_AREA_CODE)));
-
-//                newRep.setSTATUS(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_STATUS)));
-//                newRep.setADDMACH(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ADDMACH)));
-//                newRep.setADDUSER(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ADDUSER)));
-//                newRep.setId(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ID)));
-//                newRep.setMACID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_MACID)));
             }
-
-            curRep.close();
 
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
         } finally {
 
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return newRep;
+    }
+
+    public SalRep getSaleRepDet(String Repcode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectRep = "SELECT * FROM fSalRep WHERE RepCode='" + Repcode + "'";
+        Cursor curRep = null;
+        curRep = dB.rawQuery(selectRep, null);
+        SalRep newRep = new SalRep();
+
+        try {
+            while (curRep.moveToNext()) {
+
+                newRep.setADDMACH(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ADDMACH)));
+                newRep.setADDUSER(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ADDUSER)));
+                newRep.setEMAIL(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_EMAIL)));
+                newRep.setId(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_ID)));
+                newRep.setMACID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_MACID)));
+                newRep.setMOBILE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_MOBILE)));
+                newRep.setNAME(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_NAME)));
+                newRep.setPASSWORD(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_PASSWORD)));
+                newRep.setPREFIX(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_PREFIX)));
+                newRep.setRECORDID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_RECORDID)));
+                newRep.setREPCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REPCODE)));
+                newRep.setREPID(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_REPID)));
+                newRep.setSTATUS(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_STATUS)));
+                newRep.setTELE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_TELE)));
+                newRep.setLOCCODE(curRep.getString(curRep.getColumnIndex(DatabaseHelper.FSALREP_LOCCODE)));
+
+            }
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            curRep.close();
             dB.close();
         }
 

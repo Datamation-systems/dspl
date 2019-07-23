@@ -172,7 +172,7 @@ public class UtilityContainer {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("Sales Executive");
         alertDialogBuilder.setView(promptView);
-        SalRep Vre = new SalRepController(context).getSaleRep(new SalRepController(context).getCurrentRepCode());
+        SalRep Vre = new SalRepController(context).getSaleRepDet(new SalRepController(context).getCurrentRepCode());
 
         //for (SalRep salRep : Vre) {
             etUserName.setText(Vre.getNAME());

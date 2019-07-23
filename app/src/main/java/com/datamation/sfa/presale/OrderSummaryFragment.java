@@ -24,11 +24,15 @@ import com.datamation.sfa.adapter.ReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.DebItemPriController;
 import com.datamation.sfa.controller.InvDetController;
+import com.datamation.sfa.controller.InvTaxDTController;
+import com.datamation.sfa.controller.InvTaxRGController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemLocController;
 import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.PreProductController;
+import com.datamation.sfa.controller.PreSaleTaxDTDS;
+import com.datamation.sfa.controller.PreSaleTaxRGDS;
 import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.STKInController;
 import com.datamation.sfa.controller.SalRepController;
@@ -212,6 +216,7 @@ public class OrderSummaryFragment extends Fragment {
 
         int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
+        String itemCode = "";
 
         locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
 
@@ -220,6 +225,7 @@ public class OrderSummaryFragment extends Fragment {
 
         for (OrderDetail ordDet : list) {
             ftotAmt += Double.parseDouble(ordDet.getFORDERDET_AMT());
+            itemCode = ordDet.getFORDERDET_ITEMCODE();
 
 //            if (ordDet.getFORDERDET_TYPE().equals("SA"))
                 ftotQty += Integer.parseInt(ordDet.getFORDERDET_QTY());
@@ -244,9 +250,13 @@ public class OrderSummaryFragment extends Fragment {
 //        lblReturn.setText(String.format("%.2f", totalReturn));
 //        lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));
 
-        lblGross.setText(String.format("%.2f", ftotAmt));
+        String sArray[] = new TaxDetController(getActivity()).calculateTaxForwardFromDebTax(mSharedPref.getSelectedDebCode(), itemCode, ftotAmt);
+        String amt = String.format("%.2f",Double.parseDouble(sArray[0]));
+
+
+        lblGross.setText(String.format("%.2f", Double.parseDouble(amt)));
         lblReturn.setText(String.format("%.2f", totalReturn));
-        lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));
+        lblNetVal.setText(String.format("%.2f", (Double.parseDouble(amt)-totalReturn)));
 
         lblReturnQty.setText(String.valueOf(returnQty));
         lblReplacements.setText(String.valueOf(replacements));
@@ -277,7 +287,7 @@ public class OrderSummaryFragment extends Fragment {
 
                 orderItemList = new OrderDetailController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
                 returnItemList = new SalesReturnDetController(getActivity()).getAllItemsAddedInCurrentReturn(ReturnRefNo);
-                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList));
+                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList, mSharedPref.getSelectedDebCode()));
                 lvProducts_Return.setAdapter(new ReturnDetailsAdapter(getActivity(), returnItemList));
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -385,7 +395,6 @@ public class OrderSummaryFragment extends Fragment {
                                 activity.selectedReturnHed = null;
                                 new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.PreReturnNumVal));
                                 Toast.makeText(getActivity(), "Order Return saved successfully !", Toast.LENGTH_LONG).show();
-                                UtilityContainer.ClearReturnSharedPref(getActivity());
 
                             } else {
                                 Toast.makeText(getActivity(), "Order Return failed !", Toast.LENGTH_LONG).show();
@@ -402,6 +411,7 @@ public class OrderSummaryFragment extends Fragment {
                             //activity.selectedRetDebtor = null;
                             activity.selectedReturnHed = null;
                             activity.selectedPreHed = null;
+                            UtilityContainer.ClearReturnSharedPref(getActivity());
 
 //                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
 //                            startActivity(intent);
@@ -433,7 +443,7 @@ public class OrderSummaryFragment extends Fragment {
                 final ListView lvProducts_Invoice = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Inv);
                 ArrayList<OrderDetail> orderItemList = null;
                 orderItemList = new OrderDetailController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
-                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList));
+                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList, mSharedPref.getSelectedDebCode()));
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
@@ -487,7 +497,7 @@ public class OrderSummaryFragment extends Fragment {
                         ordHedList.add(ordHed);
 
                         if (new OrderController(getActivity()).createOrUpdateOrdHed(ordHedList) > 0) {
-                            new ProductController(getActivity()).mClearTables();
+                            new PreProductController(getActivity()).mClearTables();
                             new OrderController(getActivity()).InactiveStatusUpdate(RefNo);
                             new OrderDetailController(getActivity()).InactiveStatusUpdate(RefNo);
 
@@ -532,6 +542,7 @@ public class OrderSummaryFragment extends Fragment {
                             //activity.selectedRetDebtor = null;
                             activity.selectedReturnHed = null;
                             activity.selectedPreHed = null;
+                            UtilityContainer.ClearReturnSharedPref(getActivity());
 
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
@@ -558,14 +569,16 @@ public class OrderSummaryFragment extends Fragment {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void UpdateTaxDetails(String refNo) {
-//        ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(refNo);
-//        new InvDetController(getActivity()).UpdateItemTaxInfo(list);
-//        new InvTaxRGController(getActivity()).UpdateInvTaxRG(list);
-//        new InvTaxDTController(getActivity()).UpdateInvTaxDT(list);
+
+        ArrayList<OrderDetail> list = new OrderDetailController(getActivity()).getAllOrderDetails(refNo);
+        new OrderDetailController(getActivity()).UpdateItemTaxInfoWithDiscount(list, mSharedPref.getSelectedDebCode());
+        new PreSaleTaxRGDS(getActivity()).UpdateSalesTaxRG(list, mSharedPref.getSelectedDebCode());
+        new PreSaleTaxDTDS(getActivity()).UpdateSalesTaxDT(list);
     }
+
     public void UpdateReturnTotal(String refNo) {
-//        ArrayList<FInvRDet> list = new SalesReturnDetController(getActivity()).getAllInvRDet(refNo);
-//        new SalesReturnDetController(getActivity()).UpdateReturnTot(list);
+        ArrayList<FInvRDet> list = new SalesReturnDetController(getActivity()).getAllInvRDet(refNo);
+        new SalesReturnDetController(getActivity()).UpdateReturnTot(list);
 
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.R;
 
@@ -18,12 +19,13 @@ public class OrderDetailsAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     ArrayList<OrderDetail> list;
     Context context;
+    String debCode;
 
-    public OrderDetailsAdapter(Context context, ArrayList<OrderDetail> list){
+    public OrderDetailsAdapter(Context context, ArrayList<OrderDetail> list, String debCode){
         this.inflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
-
+        this.debCode = debCode;
     }
     @Override
     public int getCount() {
@@ -59,7 +61,9 @@ public class OrderDetailsAdapter extends BaseAdapter {
 
         viewHolder.lblItem.setText(list.get(position).getFORDERDET_ITEMCODE()+ " - " +new ItemController(convertView.getContext()).getItemNameByCode(list.get(position).getFORDERDET_ITEMCODE()));
         viewHolder.lblQty.setText(list.get(position).getFORDERDET_QTY());
-        viewHolder.lblAMt.setText(list.get(position).getFORDERDET_AMT());
+        String sArray[] = new TaxDetController(context).calculateTaxForwardFromDebTax(debCode, list.get(position).getFORDERDET_ITEMCODE(), Double.parseDouble(list.get(position).getFORDERDET_AMT()));
+        String amt = String.format("%.2f",Double.parseDouble(sArray[0]));
+        viewHolder.lblAMt.setText(amt);
 
         return convertView;
     }

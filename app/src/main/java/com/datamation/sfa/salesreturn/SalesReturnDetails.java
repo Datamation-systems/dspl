@@ -108,7 +108,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
         if (activity.selectedReturnHed == null)
         {
-            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
+            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed(RefNo);
         }
 
         ArrayList<String> strList = new ArrayList<String>();

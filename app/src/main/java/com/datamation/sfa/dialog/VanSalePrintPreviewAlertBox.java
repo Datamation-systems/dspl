@@ -33,6 +33,7 @@ import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
+import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.helpers.ListExpandHelper;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.Control;
@@ -190,7 +191,7 @@ public class VanSalePrintPreviewAlertBox {
             Companyemail.setText("info@datamation.lk");
 
             String repCode = new SalRepController(context).getCurrentRepCode();
-            SalRep salRep = new SalRepController(context).getSaleRep(repCode);
+            SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
 
 //        User salrep = SharedPref.getInstance(context).getLoginUser();
             SalesRepname.setText(salRep.getREPCODE() + "/ " + salRep.getNAME());
@@ -291,12 +292,14 @@ public class VanSalePrintPreviewAlertBox {
 
                 int qty = 0, fiQty = 0, returnQty = 0;
                 double dDisc = 0, dTotAmt = 0, returnTot = 0;
+                String itemCode = "";
 
                 for (OrderDetail det : list) {
-
+                    itemCode = det.getFORDERDET_ITEMCODE();
                     if (det.getFORDERDET_TYPE().equals("SA"))
                     {
                         qty += Integer.parseInt(det.getFORDERDET_QTY());
+
                     }
                     else
                     {
@@ -326,17 +329,18 @@ public class VanSalePrintPreviewAlertBox {
 
 
                 lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
-                //lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
-                lvItemDetails.setAdapter(new PrintPreSaleItemAdapter(context, list));
-                //lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, Rlist));
+                lvItemDetails.setAdapter(new PrintPreSaleItemAdapter(context, list, outlet.getCusCode()));
 
                 /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
+                String sArray[] = new TaxDetController(context).calculateTaxForwardFromDebTax(outlet.getCusCode(), itemCode, dTotAmt);
+                String amt = String.format("%.2f",Double.parseDouble(sArray[0]));
+
                 TotalPieceQty.setText(String.valueOf(qty));
-                TotalNetValue.setText(String.format("%,.2f", (dTotAmt-returnTot)));
+                TotalNetValue.setText(String.format("%,.2f", (Double.parseDouble(amt)-returnTot)));
                 TotalDiscount.setText(String.format("%,.2f", returnTot));
                 txtfiQty.setText(String.valueOf(returnQty));
-                txtTotVal.setText(String.format("%,.2f", dTotAmt));
+                txtTotVal.setText(String.format("%,.2f", Double.parseDouble(amt)));
 
                 localSP = context.getSharedPreferences(SETTINGS, 0);
                 PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();

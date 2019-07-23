@@ -76,18 +76,48 @@ public class RouteCustomerFragment extends Fragment {
                 int i = android.provider.Settings.Global.getInt(getActivity().getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0);
                 /* If option is selected */
                 if (i > 0) {
-                    debtor = customerList.get(position);
 
-                    if (isValidateCustomer(debtor))
+                    if (mSharedPref.isSelectedDebtorStart())
                     {
-                        Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                        intent.putExtra("outlet",debtor);
-                        mSharedPref.setSelectedDebCode(debtor.getCusCode());
-                        mSharedPref.setSelectedDebName(debtor.getCusName());
-                        mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
-                        mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
-                        startActivity(intent);
+                        if (mSharedPref.isSelectedDebtorEnd())
+                        {
+                            debtor = customerList.get(position);
 
+                            if (isValidateCustomer(debtor))
+                            {
+                                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                                intent.putExtra("outlet",debtor);
+                                mSharedPref.setSelectedDebCode(debtor.getCusCode());
+                                mSharedPref.setSelectedDebName(debtor.getCusName());
+                                mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
+                                mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
+                                mSharedPref.setSelectedDebtorEnd(false);
+                                mSharedPref.setSelectedDebtorStart(true);
+                                startActivity(intent);
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Please end call to previously selected debtor..", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else
+                    {
+                        debtor = customerList.get(position);
+
+                        if (isValidateCustomer(debtor))
+                        {
+                            Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                            intent.putExtra("outlet",debtor);
+                            mSharedPref.setSelectedDebCode(debtor.getCusCode());
+                            mSharedPref.setSelectedDebName(debtor.getCusName());
+                            mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
+                            mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
+                            mSharedPref.setSelectedDebtorEnd(false);
+                            mSharedPref.setSelectedDebtorStart(true);
+                            startActivity(intent);
+
+                        }
                     }
                 }
                 else {

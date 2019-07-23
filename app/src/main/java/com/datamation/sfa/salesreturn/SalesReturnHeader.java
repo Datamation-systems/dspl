@@ -103,7 +103,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
 
         if (new SalesReturnController(getActivity()).isAnyActive())
         {
-            FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed();
+            FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
 
             mNo.setText(hed.getFINVRHED_MANUREF());
             remarks.setText(hed.getFINVRHED_REMARKS());

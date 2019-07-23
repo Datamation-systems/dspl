@@ -1250,6 +1250,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FSALREP_ADDMACH + " TEXT, " + FSALREP_ADDUSER + " TEXT, " + FSALREP_PASSWORD + " TEXT, " + FSALREP_RECORDID + " TEXT, " + FSALREP_REPCODE + " TEXT, " + FSALREP_EMAIL + " TEXT, " + FSALREP_REPID + " TEXT, " + FSALREP_MOBILE + " TEXT, " + FSALREP_NAME + " TEXT, " + FSALREP_PREFIX + " TEXT, " + FSALREP_TELE + " TEXT, "
             + FSALREP_STATUS + " TEXT, "
             + FSALREP_LOCCODE + " TEXT, "
+            + FSALREP_AREA_CODE + " TEXT, "
+            + FSALREP_DEAL_CODE + " TEXT, "
             + FSALREP_MACID + " TEXT); ";
     /**
      * ############################ FDDbNote table Details
@@ -2475,6 +2477,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_FDEBTAX_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDEBTAX + " (" + FDEBTAX_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDEBTAX_DEBCODE + " TEXT, " + FDEBTAX_TAXCODE + " TEXT, " + FDEBTAX_TAXREGNO + " TEXT, " + FDEBTAX_RECORDID + " TEXT); ";
 
+    public static final String TABLE_PRETAXRG = "fPreTaxRg";
+    public static final String PRETAXRG_ID = "Id";
+    public static final String PRETAXRG_REFNO = "RefNo";
+    public static final String PRETAXRG_TAXCODE = "TaxCode";
+    public static final String PRETAXRG_RGNO = "RGNo";
+
+    public static final String CREATE_FPRETAXRG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PRETAXRG + " (" + PRETAXRG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PRETAXRG_REFNO + " TEXT, " + PRETAXRG_TAXCODE + " TEXT, " + PRETAXRG_RGNO + " TEXT ); ";
+
+    public static final String TABLE_PRETAXDT = "fPreTaxDT";
+    public static final String PRETAXDT_ID = "Id";
+    public static final String PRETAXDT_REFNO = "RefNo";
+    public static final String PRETAXDT_ITEMCODE = "ItemCode";
+    public static final String PRETAXDT_TAXCOMCODE = "TaxComCode";
+    public static final String PRETAXDT_TAXCODE = "TaxCode";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-PRETaxRG-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public static final String PRETAXDT_TAXPER = "TaxPer";
+    public static final String PRETAXDT_RATE = "TaxRate";
+    public static final String PRETAXDT_SEQ = "TaxSeq";
+    public static final String PRETAXDT_DETAMT = "TaxDetAmt";
+    public static final String PRETAXDT_BDETAMT = "BTaxDetAmt";
+    public static final String PRETAXDT_TAXTYPE = "TaxType";
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-pre TAX DT-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*/
+    public static final String CREATE_FPRETAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PRETAXDT + " (" + PRETAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PRETAXDT_REFNO + " TEXT, " + PRETAXDT_ITEMCODE + " TEXT, " + PRETAXDT_TAXCOMCODE + " TEXT, " + PRETAXDT_TAXCODE + " TEXT, " + PRETAXDT_TAXPER + " TEXT, " + PRETAXDT_RATE + " TEXT, " + PRETAXDT_SEQ + " TEXT, " + PRETAXDT_DETAMT + " TEXT, " + PRETAXDT_TAXTYPE + " TEXT, " + PRETAXDT_BDETAMT + " TEXT ); ";
+
+
 
     @Override
     public void onCreate(SQLiteDatabase arg0) {
@@ -2589,6 +2618,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_DAYEXPDET_TABLE);
         arg0.execSQL(CREATE_DAYEXPHED_TABLE);
         arg0.execSQL(CREATE_NEW_CUSTOMER);
+        arg0.execSQL(CREATE_FPRETAXRG_TABLE);
+        arg0.execSQL(CREATE_FPRETAXDT_TABLE);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -2624,6 +2655,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_DAYEXPDET_TABLE);
             arg0.execSQL(CREATE_DAYEXPHED_TABLE);
             arg0.execSQL(CREATE_NEW_CUSTOMER);
+            arg0.execSQL(CREATE_FPRETAXRG_TABLE);
+            arg0.execSQL(CREATE_FPRETAXDT_TABLE);
 
 
         } catch (SQLiteException e) {

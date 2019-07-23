@@ -158,7 +158,7 @@ public class SalesReturnSummary extends Fragment {
         }
         else if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet))))
         {
-            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed();
+            activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
 
             RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
@@ -201,7 +201,7 @@ public class SalesReturnSummary extends Fragment {
 //        }
 
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
-        FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed();
+        FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed(RefNo);
         outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getFINVRHED_DEBCODE());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -342,7 +342,7 @@ public class SalesReturnSummary extends Fragment {
 
         if (new SalesReturnDetController(getActivity()).getItemCount(RefNo) > 0)
         {
-            FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed();
+            FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed(RefNo);
             outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getFINVRHED_DEBCODE());
             Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
             intent.putExtra("outlet", outlet);

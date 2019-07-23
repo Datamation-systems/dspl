@@ -11,6 +11,7 @@ import android.util.Log;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.InvDet;
 import com.datamation.sfa.model.InvTaxRg;
+import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.model.TaxDet;
 
 import java.util.ArrayList;
@@ -58,6 +59,54 @@ public class InvTaxRGController {
 
                         ContentValues values = new ContentValues();
                         values.put(DatabaseHelper.REFNO, invDet.getFINVDET_REFNO());
+                        values.put(DatabaseHelper.INVTAXRG_RGNO, new TaxController(context).getTaxRGNo(taxDet.getTAXCODE()));
+                        values.put(DatabaseHelper.INVTAXRG_TAXCODE, taxDet.getTAXCODE());
+
+                        if (cursor.getCount() <= 0)
+                            count = (int) dB.insert(DatabaseHelper.TABLE_INVTAXRG, null, values);
+
+                    }
+                }
+            }
+            cursor.close();
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+        return count;
+
+    }
+
+    public int UpdatePreTaxRG(ArrayList<OrderDetail> list) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+
+            Cursor cursor = null;
+            for (OrderDetail invDet : list) {
+
+                if (invDet.getFORDERDET_TYPE().equals("SA")) {
+
+                    ArrayList<TaxDet> taxcodelist = new TaxDetController(context).getTaxInfoByComCode(invDet.getFORDERDET_TAXCOMCODE());
+
+                    for (TaxDet taxDet : taxcodelist) {
+
+                        String s = "SELECT * FROM " + DatabaseHelper.TABLE_INVTAXRG + " WHERE " + DatabaseHelper.REFNO + "='" + invDet.getFORDERDET_REFNO() + "' AND " + DatabaseHelper.INVTAXRG_TAXCODE + "='" + taxDet.getTAXCODE() + "'";
+
+                        cursor = dB.rawQuery(s, null);
+
+                        ContentValues values = new ContentValues();
+                        values.put(DatabaseHelper.REFNO, invDet.getFORDERDET_REFNO());
                         values.put(DatabaseHelper.INVTAXRG_RGNO, new TaxController(context).getTaxRGNo(taxDet.getTAXCODE()));
                         values.put(DatabaseHelper.INVTAXRG_TAXCODE, taxDet.getTAXCODE());
 

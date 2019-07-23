@@ -226,7 +226,7 @@ public class OrderDetailFragment extends Fragment{
                 lv_order_det.setAdapter(null);
                 orderList = new OrderDetailController(getActivity()).getAllOrderDetails(RefNo);
                 //ArrayList<OrderDetail> freeList = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(mainActivity.selectedPreHed.getORDER_REFNO());
-                lv_order_det.setAdapter(new OrderDetailsAdapter(getActivity(), orderList));//2019-07-07 till error free
+                lv_order_det.setAdapter(new OrderDetailsAdapter(getActivity(), orderList, mSharedPref.getSelectedDebCode()));//2019-07-07 till error free
                 //lvFree.setAdapter(new PreSalesFreeItemAdapter(getActivity(), freeList));
             //}
 
