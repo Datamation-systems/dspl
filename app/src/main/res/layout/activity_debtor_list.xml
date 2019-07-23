@@ -30,11 +30,12 @@
 
     <at.markushi.ui.CircleButton
         android:id="@+id/outlet_details_fab_add_new_cus"
+        android:layout_below="@+id/debtor_list_tab_strip"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="21dp"
-        android:layout_marginBottom="@dimen/finac_search_edititext_height"/>
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="150dp"/>
 
 </RelativeLayout>

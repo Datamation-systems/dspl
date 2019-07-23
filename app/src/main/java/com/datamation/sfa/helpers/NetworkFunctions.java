@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.datamation.sfa.model.CustomNameValuePair;
+import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.User;
 
@@ -394,17 +395,18 @@ public class NetworkFunctions {
 //        return postToServer(baseURL + "get_monthly_statement", params);
 //    }
 //
-    public String syncOrder(Order order) throws IOException, JSONException {
+    public String syncInvoice(List<InvHed> invoices) throws IOException, JSONException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        String jsonString = order.getOrderAsJSON(context).toString();
-        params.add(new CustomNameValuePair("jsonString", jsonString));
-        params.add(new CustomNameValuePair("repcode", pref.getLoginUser().getCode()));
+        String jsonString = "";
+       // String jsonString = invoice.getOrderAsJSON(context).toString();
+        params.add(new CustomNameValuePair("", jsonString));
+    //    params.add(new CustomNameValuePair("repcode", pref.getLoginUser().getCode()));
 
         Log.d(LOG_TAG, "Syncing order JSON : " + jsonString);
 
-        return postToServer(baseURL + "insert_order.php", params);
+        return postToServer(baseURL + "insertFInvHed", params);
     }
 //
 //    public String syncPayments(List<CashPayment> cashPayments, List<Cheque> cheques) throws IOException, JSONException {

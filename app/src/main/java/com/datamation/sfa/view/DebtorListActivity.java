@@ -40,8 +40,8 @@ public class DebtorListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_debtor_list);
 
         fabNewCust = (CircleButton)findViewById(R.id.outlet_details_fab_add_new_cus);
-        fabNewCust.setColor(ContextCompat.getColor(this, R.color.main_green_color));
-        fabNewCust.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.fab_add));
+        fabNewCust.setColor(ContextCompat.getColor(this, R.color.theme_color));
+        fabNewCust.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.addusr));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.debtor_list_toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);

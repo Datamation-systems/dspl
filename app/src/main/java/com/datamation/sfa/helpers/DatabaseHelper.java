@@ -2478,7 +2478,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase arg0) {
-
+        arg0.execSQL(CREATE_FINVTAXDT_TABLE);
+        arg0.execSQL(CREATE_FINVTAXRG_TABLE);
         arg0.execSQL(CREATE_FSIZEIN_TABLE);
         arg0.execSQL(CREATE_FSTKISS_TABLE);
         arg0.execSQL(CREATE_FDISPDET_TABLE);
@@ -2596,6 +2597,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         this.onCreate(arg0);
         try {
+
+            arg0.execSQL(CREATE_FINVTAXDT_TABLE);
+            arg0.execSQL(CREATE_FINVTAXRG_TABLE);
+
             arg0.execSQL(CREATE_FSIZEIN_TABLE);
             arg0.execSQL(CREATE_FSTKISS_TABLE);
             arg0.execSQL(CREATE_FDISPDET_TABLE);
@@ -2659,7 +2664,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //            Log.v("SQLiteException", e.toString());
 //        }
 //        try {
-//            arg0.execSQL("ALTER TABLE "+TABLE_FINVHED+" ADD COLUMN tourcode TEXT ");
+//            arg0.execSQL("ALTER TABLE "+TABLE_FDISPISS+" ADD COLUMN RefNo1 TEXT ");
 //        } catch (SQLiteException e) {
 //            Log.v("SQLiteException", e.toString());
 //        }

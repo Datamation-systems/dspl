@@ -210,7 +210,6 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
             @Override
             public void onClick(View view) {
 
-                syncDialog(context);
             }
         });
 
@@ -245,59 +244,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
     }
 
-    private void syncDialog(final Context context) {
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        // alertDialogBuilder.setTitle(title);
-        alertDialogBuilder.setMessage("Are you sure, Do you want to upload data?");
-
-        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @SuppressWarnings("unchecked")
-            public void onClick(DialogInterface dialog, int id) {
-
-                boolean connectionStatus = NetworkUtil.isNetworkAvailable(context);
-                if (connectionStatus == true) {
-
-                    NewCustomerController customerDS = new NewCustomerController(context);
-                   // ArrayList<NewCustomer> newCustomers = customerDS.getUnsyncRecord();
-                    //Toast.makeText(context,"Ongoing Development",Toast.LENGTH_LONG).show();
-                    //new UploadNewCustomer(context, ActivityHome.this, UPLOAD_NEW_CUSTOMER, newCustomers).execute();
-                    try {
-
-                            OrderController hedDS = new OrderController(ActivityHome.this);
-
-                            ArrayList<Order> ordHedList = hedDS.getAllUnSyncOrdHed();
-//                    /* If records available for upload then */
-                            if (ordHedList.size() <= 0)
-                                Toast.makeText(ActivityHome.this, "No Records to upload !", Toast.LENGTH_LONG).show();
-                            else{
-                                for(Order order : ordHedList){
-                                    new SyncOrder(order).execute();
-                                }
-                                Log.v(">>8>>","UploadPreSales execute finish");
-                                new ReferenceNum(ActivityHome.this).NumValueUpdate(getResources().getString(R.string.NumVal));
-//
-                            }
-
-                    }catch(Exception e){
-                        Log.v("Exception in sync order",e.toString());
-                    }
-
-                } else
-                    Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show();
-
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alertD = alertDialogBuilder.create();
-
-        alertD.show();
-    }
 
     private void syncMasterDataDialog(final Context context) {
        // final String sp_url = localSP.getString("URL", "").toString();
@@ -362,87 +309,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
         return allUpload;
     }
 
-    public void salesMenu() {
 
-        final Dialog dialog = new Dialog(ActivityHome.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.sales_menu);
-
-        final Button psale, dayinfo, new_cus, expense, nonprd;
-        psale = (Button) dialog.findViewById(R.id.presale);
-        new_cus = (Button) dialog.findViewById(R.id.new_cus);
-        expense = (Button) dialog.findViewById(R.id.expense);
-        dayinfo = (Button) dialog.findViewById(R.id.dinfo);
-        nonprd = (Button) dialog.findViewById(R.id.nonproductive);
-
-        psale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (pref.getGlobalVal("dayStart").equalsIgnoreCase("Y")) {
-                    changeFragment(1);
-                    Log.d("Presale clicked", "position1");
-                } else {
-                    Toast.makeText(context, "Please add the Day start entry first", Toast.LENGTH_SHORT).show();
-                }
-
-
-                dialog.dismiss();
-            }
-        });
-
-        new_cus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPref sharedPref = SharedPref.getInstance(context);
-                if (sharedPref.getGlobalVal("dayStart").equalsIgnoreCase("Y")) {
-                    changeFragment(2);
-                    Log.d("newcus clicked", "position2");
-                } else {
-                    Toast.makeText(context, "Please add the Day start entry first", Toast.LENGTH_SHORT).show();
-                }
-
-
-                dialog.dismiss();
-            }
-        });
-
-
-        dayinfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeFragment(4);
-                Log.d("dayinfo clicked", "position4");
-                dialog.dismiss();
-            }
-        });
-
-        expense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeFragment(5);
-                Log.d("expense clicked", "position5");
-                dialog.dismiss();
-            }
-        });
-        nonprd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPref sharedPref = SharedPref.getInstance(context);
-                if (sharedPref.getGlobalVal("dayStart").equalsIgnoreCase("Y")) {
-                    changeFragment(3);
-                    Log.d("nonprd clicked", "position3");
-                    dialog.dismiss();
-                } else {
-                    Toast.makeText(context, "Please add the Day start entry first", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        dialog.show();
-
-    }
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
@@ -463,81 +330,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 //        }
 //    }
 
-    public void settingsMenu() {
 
-        final Dialog dialog = new Dialog(ActivityHome.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.sett_menu);
-
-
-       // SharedPreferencesClass preferencesClass = new SharedPreferencesClass();
-
-
-        TypedArray icons = getResources().obtainTypedArray(R.array.listView_icons_for_settingd);
-
-        final ArrayList<ContentItem> objects = new ArrayList<ContentItem>();
-
-       // objects.add(new ContentItem("Sync Configuration", "config url, server database and header database configuration", icons.getResourceId(0, -1)));
-//        objects.add(new ContentItem("Printer Configuration", "Enter your MAC address to connect", icons.getResourceId(1, -1)));
-//        objects.add(new ContentItem("SQLite Database", "DB backups and restore", icons.getResourceId(3, -1)));
-//        objects.add(new ContentItem("Sales Representative Details", "Reps informations", icons.getResourceId(4, -1)));
-//        objects.add(new ContentItem("Sales Rep Route", "Route area and code", icons.getResourceId(5, -1)));
-
-        ListViewDataAdapter adapter = new ListViewDataAdapter(getApplicationContext(), objects);
-
-        ListView lv = (ListView) dialog.findViewById(R.id.settings_list_view);
-
-        lv.setAdapter(adapter);
-
-        dialog.findViewById(R.id.Closebtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view2, int position, long id) {
-
-                String title = objects.get(position).getName().toString();
-                Context context = ActivityHome.this;
-
-                switch (position) {
-                    case 0: // Print Configuration
-                        PrinterDialogbox(context);
-
-
-                    break;
-                    case 1: // DB
-                    {
-                            sqliteDatabaseDialogbox(context, title);
-                    }
-                    break;
-
-                    case 2: // Sales Representative Details
-                    {
-                        ViewRepProfile();
-                    }
-                    break;
-
-                    case 3: // Sales Rep Route
-                    {
-                        viewRouteInfo();
-                    }
-
-                    break;
-                }
-
-            }
-        });
-
-        dialog.show();
-
-    }
 
     public void ViewRepProfile() {
         final Dialog repDialog = new Dialog(context);
@@ -689,98 +482,6 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
         alertD.show();
     }
 
-    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-    private class SyncOrder extends AsyncTask<Void, Void, Boolean> {
-
-        private CustomProgressDialog pDialog;
-        private List<String> errors = new ArrayList<>();
-        CustomProgressDialog pdialog;
-        Order order;
-
-        public SyncOrder(Order order){
-            this.order = order;
-
-            this.pdialog = new CustomProgressDialog(ActivityHome.this);
-        }
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new CustomProgressDialog(ActivityHome.this);
-            pDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            pDialog.show();
-            pDialog.setMessage("Synchronizing Order...");
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            String syncResponse = null;
-            try {
-                syncResponse = networkFunctions.syncOrder(order);
-
-
-                JSONObject responseJSON = new JSONObject(syncResponse);
-
-                boolean isSynced = responseJSON.getBoolean("result");
-                if (!isSynced) {
-                    errors.add("Server refused the order");
-
-                }
-                return isSynced;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                errors.add("Cannot reach the server");
-
-                return false;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                if (syncResponse != null && syncResponse.contains("{\"result\":true}")) {
-
-                    return true;
-                } else {
-                    errors.add("Invalid response received from the server");
-                    return false;
-                }
-                //errors.add("Invalid response received from the server");
-                // return false;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (pDialog.isShowing()) pDialog.dismiss();
-
-
-
-
-            if (aBoolean) {
-                // Success
-                //new OrderController(ActivityHome.this).updateIsSynced(true,order.getORDHED_REFNO());
-                Toast.makeText(ActivityHome.this, "Order synced with the server successfully", Toast.LENGTH_SHORT).show();
-
-                //UtilityContainer.mLoadFragment(new SalesManagementFragment(), ActivityHome.this);
-
-            } else {
-                // Failure
-                StringBuilder builder = new StringBuilder();
-                if (errors.size() == 1) {
-                    builder.append(errors.get(0));
-                } else {
-                    builder.append("Following errors occurred");
-                    for (String error : errors) {
-                        builder.append("\n -").append(error);
-                    }
-                }
-
-                builder.append("\nOrder saved in local database");
-
-
-            }
-
-        }
-    }
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 

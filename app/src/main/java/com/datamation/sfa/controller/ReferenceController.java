@@ -66,6 +66,28 @@ public class ReferenceController {
 	}
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+	public String getCurrentNextNumVal(String cSettingsCode) {
+
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		Calendar c = Calendar.getInstance();
+
+		String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FCOMPANYBRANCH + " WHERE " + dbHelper.FCOMPANYBRANCH_BRANCH_CODE + "='" + new SalRepController(context).getCurrentRepCode() + "' AND " + dbHelper.FCOMPANYBRANCH_CSETTINGS_CODE + "='" + cSettingsCode + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'";
+
+		Cursor cursor = dB.rawQuery(selectQuery, null);
+
+		while (cursor.moveToNext()) {
+
+			return cursor.getString(cursor.getColumnIndex(DatabaseHelper.FCOMPANYBRANCH_NNUM_VAL));
+
+		}
+
+		return "0";
+	}
 
 	public String getNextNumVal(String cSettingsCode,String repcode) {
 
