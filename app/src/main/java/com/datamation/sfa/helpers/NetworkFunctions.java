@@ -466,6 +466,8 @@ public class NetworkFunctions {
 
         return postToServer(baseURL + "get_invoice_details", params);
     }
+
+
 //
 //    public String syncDayRouteAmountPlans(List<DayPlanHolder> planHolders) throws IOException {
 //

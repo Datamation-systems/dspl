@@ -865,7 +865,7 @@ public class OrderDetailController {
 
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO
+        String selectQuery = "select * from " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.REFNO
                 + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);

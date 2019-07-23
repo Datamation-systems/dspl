@@ -1039,6 +1039,7 @@ public class InvHedController {
 
         return String.valueOf(invSum);
     }
+
     public ArrayList<InvHed> getAllUnsynced() {
         if (dB == null) {
             open();

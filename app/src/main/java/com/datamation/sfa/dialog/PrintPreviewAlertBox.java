@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.PrintReturnItemAdapter;
@@ -205,11 +206,13 @@ public class PrintPreviewAlertBox {
         TotalNetValue.setText(String.format("%,.2f", (dTotAmt)));
         txtTotVal.setText(String.format("%,.2f", dTotAmt));
 
-        //PRINTER_MAC_ID =  SharedPref.getInstance(context).getGlobalVal("printer_mac_address").toString();
+        PRINTER_MAC_ID =  SharedPref.getInstance(context).getGlobalVal("printer_mac_address").toString();
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 //PrintCurrentview();
+                checkPrinter();
+                onCancelClick(dialog, id);
             }
         });
 
@@ -774,6 +777,12 @@ public class PrintPreviewAlertBox {
         } else {
             PRINTER_MAC_ID = PRINTER_MAC_ID;
         }
+
+        if (PRINTER_MAC_ID.equals("404")) {
+            Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
+            Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
+        }
+
     }
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/

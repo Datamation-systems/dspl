@@ -392,8 +392,8 @@ public class OrderController {
         ArrayList<Order> list = new ArrayList<Order>();
 
         @SuppressWarnings("static-access")
-        String selectQuery = "select * from " + dbHelper.TABLE_ORDER + " Where " + dbHelper.ORDER_IS_ACTIVE
-                + "='0' and " + dbHelper.ORDER_IS_SYNCED + "='0'";
+        String selectQuery = "select * from " + dbHelper.TABLE_FORDHED + " Where " + dbHelper.FORDHED_IS_ACTIVE
+                + "='0' and " + dbHelper.FORDHED_IS_SYNCED + "='0'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -404,24 +404,21 @@ public class OrderController {
             Order order = new Order();
             OrderDetailController detDS = new OrderDetailController(context);
             ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
-//            order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
-//
-//            order.setORDHED_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ID)));
+            //order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
+
+            order.setORDER_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_ID)));
             order.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-//            order.setORDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LONGITUDE)));
-//            order.setORDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_LATITUDE)));
-//            order.setORDHED_MANU_REF(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_MANU_REF)));
-//            order.setORDHED_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REMARKS)));
-//            order.setORDHED_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_REPCODE)));
-//
-//            order.setORDHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_TOTAL_AMT)));
-//            order.setORDHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
-//
-//            order.setORDHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_IS_ACTIVE)));
-//            order.setORDHED_DELV_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_DELIV_DATE)));
-//            order.setORDHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_ROUTE_CODE)));
-//
-//            order.setSoDetArrayList(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
+            order.setORDER_LONGITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_LONGITUDE)));
+            order.setORDER_LATITUDE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_LATITUDE)));
+            order.setORDER_MANUREF(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_MANU_REF)));
+            order.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_REMARKS)));
+            order.setORDER_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_REPCODE)));
+            order.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_TOTAL_AMT)));
+            order.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
+            order.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_IS_ACTIVE)));
+            //order.setD(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_DELV_DATE)));
+            order.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_ROUTE_CODE)));
+            order.setSoDetArrayList(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
 ////            preSalesMapper.setIssuList(
 ////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
@@ -431,6 +428,7 @@ public class OrderController {
 
         return list;
     }
+
     public ArrayList<Order> getAllOrders() {
         if (dB == null) {
             open();
