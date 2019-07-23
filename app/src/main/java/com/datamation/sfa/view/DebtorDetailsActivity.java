@@ -222,6 +222,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
             }
         });
+
         fabInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -332,10 +333,10 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
     public void mEndCallDialog()
     {
-        if (isAnyActiveNonProds || isAnyActiveReturns || isAnyActiveOrders || isAnyActiveInvoices || isAnyActiveReceipt)
+        if (isAnyActiveReturns || isAnyActiveOrders || isAnyActiveInvoices || isAnyActiveReceipt)
         {
             String message = "Please complete or discard active transaction/s.";
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
             alertDialogBuilder.setTitle("End Call");
             alertDialogBuilder.setMessage(message);
             alertDialogBuilder.setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -356,9 +357,10 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         }
         else
         {
+            sharedPref.setSelectedDebtorEnd(true);
+            sharedPref.setSelectedDebtorStart(false);
             UtilityContainer.ClearReturnSharedPref(getApplicationContext());
             Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
-//            intent.putExtra("outlet","");
             startActivity(intent);
         }
     }
@@ -523,11 +525,11 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(famOpen) {
-            closeFAM();
-        } else {
-            finish();
-        }
+//        if(famOpen) {
+//            closeFAM();
+//        } else {
+//            finish();
+//        }
     }
 
     @Override

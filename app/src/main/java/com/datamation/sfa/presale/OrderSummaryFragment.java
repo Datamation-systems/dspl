@@ -212,6 +212,7 @@ public class OrderSummaryFragment extends Fragment {
 
         int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
+        String itemCode = "";
 
         locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
 
@@ -220,6 +221,7 @@ public class OrderSummaryFragment extends Fragment {
 
         for (OrderDetail ordDet : list) {
             ftotAmt += Double.parseDouble(ordDet.getFORDERDET_AMT());
+            itemCode = ordDet.getFORDERDET_ITEMCODE();
 
 //            if (ordDet.getFORDERDET_TYPE().equals("SA"))
                 ftotQty += Integer.parseInt(ordDet.getFORDERDET_QTY());
@@ -244,9 +246,13 @@ public class OrderSummaryFragment extends Fragment {
 //        lblReturn.setText(String.format("%.2f", totalReturn));
 //        lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));
 
-        lblGross.setText(String.format("%.2f", ftotAmt));
+        String sArray[] = new TaxDetController(getActivity()).calculateTaxForwardFromDebTax(mSharedPref.getSelectedDebCode(), itemCode, ftotAmt);
+        String amt = String.format("%.2f",Double.parseDouble(sArray[0]));
+
+
+        lblGross.setText(String.format("%.2f", Double.parseDouble(amt)));
         lblReturn.setText(String.format("%.2f", totalReturn));
-        lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));
+        lblNetVal.setText(String.format("%.2f", (Double.parseDouble(amt)-totalReturn)));
 
         lblReturnQty.setText(String.valueOf(returnQty));
         lblReplacements.setText(String.valueOf(replacements));
@@ -277,7 +283,7 @@ public class OrderSummaryFragment extends Fragment {
 
                 orderItemList = new OrderDetailController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
                 returnItemList = new SalesReturnDetController(getActivity()).getAllItemsAddedInCurrentReturn(ReturnRefNo);
-                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList));
+                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList, mSharedPref.getSelectedDebCode()));
                 lvProducts_Return.setAdapter(new ReturnDetailsAdapter(getActivity(), returnItemList));
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -433,7 +439,7 @@ public class OrderSummaryFragment extends Fragment {
                 final ListView lvProducts_Invoice = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Inv);
                 ArrayList<OrderDetail> orderItemList = null;
                 orderItemList = new OrderDetailController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
-                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList));
+                lvProducts_Invoice.setAdapter(new OrderDetailsAdapter(getActivity(), orderItemList, mSharedPref.getSelectedDebCode()));
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
@@ -487,7 +493,7 @@ public class OrderSummaryFragment extends Fragment {
                         ordHedList.add(ordHed);
 
                         if (new OrderController(getActivity()).createOrUpdateOrdHed(ordHedList) > 0) {
-                            new ProductController(getActivity()).mClearTables();
+                            new PreProductController(getActivity()).mClearTables();
                             new OrderController(getActivity()).InactiveStatusUpdate(RefNo);
                             new OrderDetailController(getActivity()).InactiveStatusUpdate(RefNo);
 

@@ -220,4 +220,24 @@ public class TaxDetController {
         return String.valueOf(amt);
         //return String.format("%.2f", amt);
     }
+
+    public String[] calculateTaxForwardFromDebTax(String debtorCode, String itemCode, double amt) {
+
+        String comCode = new ItemController(context).getTaxComCodeByItemCodeBeforeDebTax(itemCode, debtorCode);
+        ArrayList<TaxDet> list = new TaxDetController(context).getTaxInfoByComCode(comCode);
+        double tax = 0;
+        String sArray[] = new String[2];
+
+        if (list.size() > 0) {
+
+            for (int i = list.size() - 1; i > -1; i--) {
+                tax += Double.parseDouble(list.get(i).getTAXVAL()) * (amt / 100);
+                amt = (Double.parseDouble(list.get(i).getTAXVAL()) + 100) * (amt / 100);
+            }
+        }
+
+        sArray[0] = String.format("%.2f", amt);
+        sArray[1] = String.format("%.2f", tax);
+        return sArray;
+    }
 }
