@@ -107,7 +107,7 @@ public class OrderHeaderFragment extends Fragment{
             //lblPreRefno.setText("/0001");
         }
 
-        if (new OrderController(getActivity()).isAnyActiveOrderHed())
+        if (new OrderController(getActivity()).isAnyActiveOrderHed(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal))))
         {
             Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
 

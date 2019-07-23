@@ -496,28 +496,42 @@ public class OrderSummaryFragment extends Fragment {
 
                             /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
 
+                            new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+
+//                            UpdateTaxDetails(RefNo);
+//                            //UpdateQOH_FIFO();
+//                            new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
+//                            //updateDispTables(sHed);
+//                            //new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
+//
+//                            //if(a == 1)
+//                            //{
+//                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,"",true);
+//                            Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
+//                            //  UtilityContainer.ClearVanSharedPref(getActivity());
+//                            //   activity.cusPosition = 0;
+//                            //activity.selectedDebtor = null;
+//                            //activity.selectedRetDebtor = null;
+//                            // activity.selectedRecHed = null;
+//                            //activity.selectedPreHed = null;
+////                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+////                            startActivity(intent);
+////                            getActivity().finish();
+//                            //}
+//
+//                            //new LoardingPrintView();
+
                             UpdateTaxDetails(RefNo);
                             //UpdateQOH_FIFO();
                             new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
-                            //updateDispTables(sHed);
-                            //new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,false);
+                            //new ItemLocController(getActivity()).UpdateOrderQOHInReturn(RefNo, "+", locCode);
+//                            updateDispTables(sHed);
+                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(),"PRINT PREVIEW", RefNo, "",true);
 
-                            //if(a == 1)
-                            //{
-                            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,"",true);
                             Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
-                            //  UtilityContainer.ClearVanSharedPref(getActivity());
-                            //   activity.cusPosition = 0;
-                            //activity.selectedDebtor = null;
                             //activity.selectedRetDebtor = null;
-                            // activity.selectedRecHed = null;
+                            activity.selectedReturnHed = null;
                             activity.selectedPreHed = null;
-//                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
-//                            startActivity(intent);
-//                            getActivity().finish();
-                            //}
-
-                            //new LoardingPrintView();
 
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();

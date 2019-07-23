@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.PrintPreSaleItemAdapter;
@@ -274,7 +275,6 @@ public class VanSalePrintPreviewAlertBox {
                 Order presale = new OrderController(context).getDetailsForPrint(refno);
 
                 ArrayList<OrderDetail> list = new OrderDetailController(context).getAllItemsForPrint(refno);
-                ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(retRef);
 
                 Customer debtor = new CustomerController(context).getSelectedCustomerByCode(presale.getORDER_DEBCODE());
                 outlet = debtor;
@@ -306,15 +306,29 @@ public class VanSalePrintPreviewAlertBox {
                     // dDisc += Double.parseDouble(det.getFINVDET_DISVALAMT());
                     dTotAmt += Double.parseDouble(det.getFORDERDET_AMT());
                 }
-                for (FInvRDet retrnDet :Rlist){
-                    returnQty += Integer.parseInt(retrnDet.getFINVRDET_QTY());
-                    returnTot += Double.parseDouble(retrnDet.getFINVRDET_AMT());
+
+                if (!retRef.equals(""))
+                {
+                    ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(retRef);
+
+                    for (FInvRDet retrnDet :Rlist){
+                        returnQty += Integer.parseInt(retrnDet.getFINVRDET_QTY());
+                        returnTot += Double.parseDouble(retrnDet.getFINVRDET_AMT());
+                    }
+                    lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
+                    lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, Rlist));
+                }
+                else
+                {
+                    lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
+                    lvReturnDetails.setAdapter(null);
                 }
 
+
                 lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
-                lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
+                //lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
                 lvItemDetails.setAdapter(new PrintPreSaleItemAdapter(context, list));
-                lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, Rlist));
+                //lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, Rlist));
 
                 /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -324,12 +338,14 @@ public class VanSalePrintPreviewAlertBox {
                 txtfiQty.setText(String.valueOf(returnQty));
                 txtTotVal.setText(String.format("%,.2f", dTotAmt));
 
-                //localSP = context.getSharedPreferences(SETTINGS, 0);
-                //PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
+                localSP = context.getSharedPreferences(SETTINGS, 0);
+                PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        PrintCurrentview();
+                        //PrintCurrentview();
+                        checkPrinter();
+                        onCancelClick(dialog,id);
                     }
                 });
 
@@ -897,13 +913,13 @@ public class VanSalePrintPreviewAlertBox {
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/
 
     public void PrintCurrentview() {
-        // checkPrinter();
-        // if (PRINTER_MAC_ID.equals("404")) {
-        // Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
-        // android.widget.Toast.makeText(context, "No MAC Address Found.Enter
-        // Printer MAC Address.", android.widget.Toast.LENGTH_LONG).show();
-        // } else {
-        printItems();
+         checkPrinter();
+//        if (PRINTER_MAC_ID.equals("404")) {
+//        Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
+//        Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
+//        }
+//        else {
+        //printItems();
         // }
     }
 
@@ -915,6 +931,11 @@ public class VanSalePrintPreviewAlertBox {
             PRINTER_MAC_ID = "404";
         } else {
             PRINTER_MAC_ID = PRINTER_MAC_ID;
+        }
+
+        if (PRINTER_MAC_ID.equals("404")) {
+            Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
+            Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
         }
     }
 

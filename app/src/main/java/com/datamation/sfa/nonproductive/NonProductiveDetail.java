@@ -77,6 +77,7 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
     SharedPref mSharedPref;
     Activity thisActivity;
     NonProductiveActivity mainActivity;
+    private Customer outlet;
 
     MyReceiver r;
     @Override
@@ -336,13 +337,18 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
                     //nonhed.setNONPRDHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
                     NONHedList.add(nonhed);
 
+
+
                     if (nonHedDS.createOrUpdateNonPrdHed(NONHedList) > 0) {
-                        new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.nonprdVal));
+                        new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.nonprdVal));
+
+                        outlet = new CustomerController(context).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
 //                        activity.cusPosition = 0;
 //                        activity.selectedDebtor = null;
                        // UtilityContainer.ClearNonSharedPref(getActivity());
                         Toast.makeText(getActivity(), "Non Productive saved successfully !", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                        intent.putExtra("outlet",outlet);
                         startActivity(intent);
                     }
 
