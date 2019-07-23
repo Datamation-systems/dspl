@@ -92,6 +92,7 @@ import com.datamation.sfa.model.Tax;
 import com.datamation.sfa.model.TaxDet;
 import com.datamation.sfa.model.TaxHed;
 import com.datamation.sfa.model.TourHed;
+import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.NetworkUtil;
 import com.datamation.sfa.utils.UtilityContainer;
 
@@ -101,6 +102,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class FragmentTools extends Fragment implements View.OnClickListener{
@@ -162,7 +164,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
             case R.id.imgUpload:
                 imgUpload.startAnimation(animScale);
                 //removeActives();
-                //mUploadDialog();
+                syncDialog(getActivity());
+               // mUploadDialog();
                 break;
 
             case R.id.imgDownload:
@@ -195,7 +198,63 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
 
         }
     }
+    private void syncDialog(final Context context) {
 
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Are you sure, Do you want to Upload Data?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
+
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        boolean connectionStatus = NetworkUtil.isNetworkAvailable(context);
+                        if (connectionStatus == true) {
+
+                            //NewCustomerController customerDS = new NewCustomerController(context);
+                            // ArrayList<NewCustomer> newCustomers = customerDS.getUnsyncRecord();
+                            //Toast.makeText(context,"Ongoing Development",Toast.LENGTH_LONG).show();
+                            //new UploadNewCustomer(context, ActivityHome.this, UPLOAD_NEW_CUSTOMER, newCustomers).execute();
+                            try {
+
+                                InvHedController hedDS = new InvHedController(getActivity());
+
+                                ArrayList<InvHed> invHedList = hedDS.getAllUnsyncedInvHed();
+//                    /* If records available for upload then */
+                                if (invHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No Records to upload !", Toast.LENGTH_LONG).show();
+                                else{
+                                    for(InvHed order : invHedList){
+                                        new SyncInvoice(order).execute();
+                                    }
+                                    Log.v(">>8>>","UploadPreSales execute finish");
+                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+//
+                                }
+
+                            }catch(Exception e){
+                                Log.v("Exception in sync order",e.toString());
+                            }
+
+                        } else
+                            Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
+    }
     public void mDevelopingMessage(String message, String title) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -278,6 +337,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
 
         return allUpload;
     }
+    //**********************secondary sysnc start***********************************************/
     private class secondarySync extends AsyncTask<String, Integer, Boolean> {
         int totalRecords=0;
         CustomProgressDialog pdialog;
@@ -1450,4 +1510,102 @@ public class FragmentTools extends Fragment implements View.OnClickListener{
             }
         }
     }
+    /////////////***********************secondory sync finish***********************************/
+
+    //****************sync invoice start************************************//
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    private class SyncInvoice extends AsyncTask<Void, Void, Boolean> {
+
+        private CustomProgressDialog pDialog;
+        private List<String> errors = new ArrayList<>();
+        CustomProgressDialog pdialog;
+        InvHed invoice;
+
+        public SyncInvoice(InvHed invoice){
+            this.invoice = invoice;
+
+            this.pdialog = new CustomProgressDialog(getActivity());
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new CustomProgressDialog(getActivity());
+            pDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pDialog.show();
+            pDialog.setMessage("Synchronizing Invoice...");
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            String syncResponse = null;
+            try {
+                syncResponse = networkFunctions.syncInvoice(invoice);
+
+
+                JSONObject responseJSON = new JSONObject(syncResponse);
+
+                boolean isSynced = responseJSON.getBoolean("result");
+                if (!isSynced) {
+                    errors.add("Server refused the order");
+
+                }
+                return isSynced;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                errors.add("Cannot reach the server");
+
+                return false;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                if (syncResponse != null && syncResponse.contains("{\"result\":true}")) {
+
+                    return true;
+                } else {
+                    errors.add("Invalid response received from the server");
+                    return false;
+                }
+                //errors.add("Invalid response received from the server");
+                // return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (pDialog.isShowing()) pDialog.dismiss();
+
+
+
+
+            if (aBoolean) {
+                // Success
+                //new OrderController(ActivityHome.this).updateIsSynced(true,order.getORDHED_REFNO());
+                Toast.makeText(getActivity(), "Invoice synced with the server successfully", Toast.LENGTH_SHORT).show();
+
+                //UtilityContainer.mLoadFragment(new SalesManagementFragment(), ActivityHome.this);
+
+            } else {
+                // Failure
+                StringBuilder builder = new StringBuilder();
+                if (errors.size() == 1) {
+                    builder.append(errors.get(0));
+                } else {
+                    builder.append("Following errors occurred");
+                    for (String error : errors) {
+                        builder.append("\n -").append(error);
+                    }
+                }
+
+                builder.append("\nInvoice saved in local database");
+
+
+            }
+
+        }
+    }
+
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
 }

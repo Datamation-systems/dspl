@@ -210,7 +210,6 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
             @Override
             public void onClick(View view) {
 
-                syncDialog(context);
             }
         });
 
@@ -245,59 +244,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
     }
 
-    private void syncDialog(final Context context) {
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        // alertDialogBuilder.setTitle(title);
-        alertDialogBuilder.setMessage("Are you sure, Do you want to upload data?");
-
-        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @SuppressWarnings("unchecked")
-            public void onClick(DialogInterface dialog, int id) {
-
-                boolean connectionStatus = NetworkUtil.isNetworkAvailable(context);
-                if (connectionStatus == true) {
-
-                    NewCustomerController customerDS = new NewCustomerController(context);
-                   // ArrayList<NewCustomer> newCustomers = customerDS.getUnsyncRecord();
-                    //Toast.makeText(context,"Ongoing Development",Toast.LENGTH_LONG).show();
-                    //new UploadNewCustomer(context, ActivityHome.this, UPLOAD_NEW_CUSTOMER, newCustomers).execute();
-                    try {
-
-                            OrderController hedDS = new OrderController(ActivityHome.this);
-
-                            ArrayList<Order> ordHedList = hedDS.getAllUnSyncOrdHed();
-//                    /* If records available for upload then */
-                            if (ordHedList.size() <= 0)
-                                Toast.makeText(ActivityHome.this, "No Records to upload !", Toast.LENGTH_LONG).show();
-                            else{
-                                for(Order order : ordHedList){
-                                    new SyncOrder(order).execute();
-                                }
-                                Log.v(">>8>>","UploadPreSales execute finish");
-                                new ReferenceNum(ActivityHome.this).NumValueUpdate(getResources().getString(R.string.NumVal));
-//
-                            }
-
-                    }catch(Exception e){
-                        Log.v("Exception in sync order",e.toString());
-                    }
-
-                } else
-                    Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show();
-
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alertD = alertDialogBuilder.create();
-
-        alertD.show();
-    }
 
     private void syncMasterDataDialog(final Context context) {
        // final String sp_url = localSP.getString("URL", "").toString();
@@ -689,98 +636,6 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
         alertD.show();
     }
 
-    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-    private class SyncOrder extends AsyncTask<Void, Void, Boolean> {
-
-        private CustomProgressDialog pDialog;
-        private List<String> errors = new ArrayList<>();
-        CustomProgressDialog pdialog;
-        Order order;
-
-        public SyncOrder(Order order){
-            this.order = order;
-
-            this.pdialog = new CustomProgressDialog(ActivityHome.this);
-        }
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new CustomProgressDialog(ActivityHome.this);
-            pDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            pDialog.show();
-            pDialog.setMessage("Synchronizing Order...");
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            String syncResponse = null;
-            try {
-                syncResponse = networkFunctions.syncOrder(order);
-
-
-                JSONObject responseJSON = new JSONObject(syncResponse);
-
-                boolean isSynced = responseJSON.getBoolean("result");
-                if (!isSynced) {
-                    errors.add("Server refused the order");
-
-                }
-                return isSynced;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                errors.add("Cannot reach the server");
-
-                return false;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                if (syncResponse != null && syncResponse.contains("{\"result\":true}")) {
-
-                    return true;
-                } else {
-                    errors.add("Invalid response received from the server");
-                    return false;
-                }
-                //errors.add("Invalid response received from the server");
-                // return false;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (pDialog.isShowing()) pDialog.dismiss();
-
-
-
-
-            if (aBoolean) {
-                // Success
-                //new OrderController(ActivityHome.this).updateIsSynced(true,order.getORDHED_REFNO());
-                Toast.makeText(ActivityHome.this, "Order synced with the server successfully", Toast.LENGTH_SHORT).show();
-
-                //UtilityContainer.mLoadFragment(new SalesManagementFragment(), ActivityHome.this);
-
-            } else {
-                // Failure
-                StringBuilder builder = new StringBuilder();
-                if (errors.size() == 1) {
-                    builder.append(errors.get(0));
-                } else {
-                    builder.append("Following errors occurred");
-                    for (String error : errors) {
-                        builder.append("\n -").append(error);
-                    }
-                }
-
-                builder.append("\nOrder saved in local database");
-
-
-            }
-
-        }
-    }
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
