@@ -265,39 +265,39 @@ public class InvHedController {
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 //
-//    public int updateIsSynced(VanSalesMapper mapper) {
-//
-//        int count = 0;
-//
-//        if (dB == null) {
-//            open();
-//        } else if (!dB.isOpen()) {
-//            open();
-//        }
-//        Cursor cursor = null;
-//
-//        try {
-//            ContentValues values = new ContentValues();
-//
-//            values.put(DatabaseHelper.FINVHED_IS_SYNCED, "1");
-//
-//            if (mapper.isIS_SYNCED()) {
-//                count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(mapper.getREFNO())});
-//            }
-//
-//        } catch (Exception e) {
-//
-//            Log.v(TAG + " Exception", e.toString());
-//
-//        } finally {
-//            if (cursor != null) {
-//                cursor.close();
-//            }
-//            dB.close();
-//        }
-//        return count;
-//
-//    }
+    public int updateIsSynced(InvHed mapper) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(DatabaseHelper.FINVHED_IS_SYNCED, "1");
+
+            if (mapper.getFINVHED_IS_SYNCED().equals("1")) {
+                count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(mapper.getFINVHED_REFNO())});
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 

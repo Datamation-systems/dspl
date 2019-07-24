@@ -8,11 +8,19 @@ import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.model.Order;
 import com.datamation.sfa.model.User;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -395,18 +403,8 @@ public class NetworkFunctions {
 //        return postToServer(baseURL + "get_monthly_statement", params);
 //    }
 //
-    public String syncInvoice(List<InvHed> invoices) throws IOException, JSONException {
-
-        List<CustomNameValuePair> params = new ArrayList<>();
-
-        String jsonString = "";
-       // String jsonString = invoice.getOrderAsJSON(context).toString();
-        params.add(new CustomNameValuePair("", jsonString));
-    //    params.add(new CustomNameValuePair("repcode", pref.getLoginUser().getCode()));
-
-        Log.d(LOG_TAG, "Syncing order JSON : " + jsonString);
-
-        return postToServer(baseURL + "insertFInvHed", params);
+    public String syncInvoice(){
+        return baseURL+"insertFInvHed";
     }
 //
 //    public String syncPayments(List<CashPayment> cashPayments, List<Cheque> cheques) throws IOException, JSONException {
@@ -844,32 +842,35 @@ public class NetworkFunctions {
         return result.toString();
     }
 
-/*
-* URL url = new URL(urlStr);
-    HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+public static boolean mHttpManager(String url,String sJsonObject) throws Exception {
+    Log.v("## Json ##", sJsonObject);
+    HttpPost requestfDam = new HttpPost(url);
+    StringEntity entityfDam = new StringEntity(sJsonObject, "UTF-8");
+    entityfDam.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+    entityfDam.setContentType("application/json");
+    requestfDam.setEntity(entityfDam);
+    DefaultHttpClient httpClientfDamRec = new DefaultHttpClient();
 
-    // Create the SSL connection
-    SSLContext sc;
-    sc = SSLContext.getInstance("TLS");
-    sc.init(null, null, new java.security.SecureRandom());
-    conn.setSSLSocketFactory(sc.getSocketFactory());
+    HttpResponse responsefDamRec = httpClientfDamRec.execute(requestfDam);
+    HttpEntity entityfDamEntity = responsefDamRec.getEntity();
+    InputStream is = entityfDamEntity.getContent();
 
-    // Use this if you need SSL authentication
-    String userpass = user + ":" + password;
-    String basicAuth = "Basic " + Base64.encodeToString(userpass.getBytes(), Base64.DEFAULT);
-    conn.setRequestProperty("Authorization", basicAuth);
+    if (is != null) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"), 8);
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line + "\n");
+        }
 
-    // set Timeout and method
-    conn.setReadTimeout(7000);
-    conn.setConnectTimeout(7000);
-    conn.setRequestMethod("POST");
-    conn.setDoInput(true);
-
-    // Add any data you wish to post here
-
-    conn.connect();
-    return conn.getInputStream();
-* */
-
+        is.close();
+        String result = sb.toString();
+        String result_fDamRec = result.replace("\"", "");
+        Log.e("response", "connect:" + result_fDamRec);
+        if (result_fDamRec.trim().equals("200"))
+            return true;
+    }
+    return false;
+}
 
 }
