@@ -350,6 +350,7 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
                         Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
                         intent.putExtra("outlet",outlet);
                         startActivity(intent);
+                        getActivity().finish();
                     }
 
                 } else {

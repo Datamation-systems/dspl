@@ -350,6 +350,7 @@ public class VanSalePrintPreviewAlertBox {
                         //PrintCurrentview();
                         checkPrinter();
                         onCancelClick(dialog,id);
+
                     }
                 });
 
