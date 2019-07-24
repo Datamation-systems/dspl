@@ -55,7 +55,7 @@ public class NetworkFunctions {
         pref = SharedPref.getInstance(context);
         String domain = pref.getBaseURL();
         Log.wtf("baseURL>>>>>>>>>",domain);
-        baseURL = domain +"/LankaHDWebServices/LankaHDWebServicesRest.svc/";
+        baseURL = domain +"/SFAWebServices/SFAWebServicesRest.svc/";
         dbname = "LHD_PDA_TEST";
         restOfURL = "/mobile123/"+dbname;
         Log.d(LOG_TAG, "testing : " + baseURL + "login" + restOfURL);
