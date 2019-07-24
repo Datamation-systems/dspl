@@ -383,12 +383,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_DAYEXPDET = "DayExpDet";
     // table attributes
     public static final String DAYEXPDET_ID = "DayExpDet_id";
-
+    public static final String DAYEXPDET_TXNDATE = "TxnDate";
     public static final String DAYEXPDET_EXPCODE = "ExpCode";
     public static final String DAYEXPDET_AMT = "Amt";
 
     // create String
-    private static final String CREATE_DAYEXPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_DAYEXPDET + " (" + DAYEXPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO +  " TEXT, " + DAYEXPDET_EXPCODE + " TEXT, " + DAYEXPDET_AMT + " TEXT); ";
+    private static final String CREATE_DAYEXPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_DAYEXPDET + " (" + DAYEXPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO +  " TEXT, " + DAYEXPDET_EXPCODE + " TEXT, "+ DAYEXPDET_TXNDATE + " TEXT, " + DAYEXPDET_AMT + " TEXT); ";
 
 
 

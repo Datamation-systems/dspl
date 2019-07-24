@@ -28,6 +28,7 @@ import com.datamation.sfa.view.dashboard.DaySummaryFragment;
 import com.datamation.sfa.view.dashboard.InvoiceDetailsFragment;
 import com.datamation.sfa.view.dashboard.MainDashboardFragment;
 import com.datamation.sfa.view.dashboard.OrderDetailsFragment;
+import com.datamation.sfa.view.dashboard.OtherDetailsFragment;
 import com.datamation.sfa.view.dashboard.PaymentDetailsFragment;
 import com.datamation.sfa.view.dashboard.PromotionDetailsFragment;
 import com.github.mikephil.charting.charts.PieChart;
@@ -45,6 +46,7 @@ public class FragmentHome extends Fragment {
     private PaymentDetailsFragment paymentDetailsFragment;
     private OrderDetailsFragment orderDetailsFragment;
     private PromotionDetailsFragment promoDetailsFragment;
+    private OtherDetailsFragment otherDetailsFragment;
 
 
     private ViewPager viewPager;
@@ -178,7 +180,7 @@ public class FragmentHome extends Fragment {
     private class DashboardPagerAdapter extends FragmentPagerAdapter {
 
       //  private String[] titles = {"Main", "Summary","Promotion","Order", "Invoice", "Payment"};
-        private String[] titles = {"Main", "Summary", "Order", "Invoice", "Promotion", "Payment"};
+        private String[] titles = {"Main", "Summary", "Order", "Invoice", "Promotion", "Payment", "Other"};
 
         public DashboardPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -207,6 +209,9 @@ public class FragmentHome extends Fragment {
                 case 5:
                     if(paymentDetailsFragment == null) paymentDetailsFragment = new PaymentDetailsFragment();
                     return paymentDetailsFragment;
+                case 6:
+                    if(otherDetailsFragment == null) otherDetailsFragment = new OtherDetailsFragment();
+                    return otherDetailsFragment;
 //
 //                case 4:
 //

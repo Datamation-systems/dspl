@@ -245,6 +245,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
                         expdet.setEXPDET_REFNO(RefNo.getText() + "");
                         expdet.setEXPDET_EXPCODE(sExpenseCode);
                         expdet.setEXPDET_AMOUNT(Amount.getText() + "");
+                        expdet.setEXPDET_TXNDATE(dateFormat.format(date));
 
                         ExpDetList.add(expdet);
 

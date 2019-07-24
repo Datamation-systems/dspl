@@ -12,7 +12,9 @@ import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.DayNPrdDet;
 import com.datamation.sfa.model.OrderDetail;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DayNPrdDetController {
     Context context;
@@ -53,6 +55,8 @@ public class DayNPrdDetController {
                 values.put(DatabaseHelper.REFNO, nondet.getNONPRDDET_REFNO());
                 values.put(DatabaseHelper.NONPRDDET_REASON, nondet.getNONPRDDET_REASON());
                 values.put(DatabaseHelper.NONPRDDET_REASON_CODE, nondet.getNONPRDDET_REASON_CODE());
+                values.put(DatabaseHelper.NONPRDDET_TXNDATE, nondet.getNONPRDDET_TXNDATE());
+                values.put(DatabaseHelper.NONPRDDET_REPCODE, nondet.getNONPRDDET_REPCODE());
 
 
                 int count = cursor.getCount();
@@ -76,6 +80,48 @@ public class DayNPrdDetController {
         }
         return serverdbID;
 
+    }
+
+    public ArrayList<DayNPrdDet> getTodayNPDets(String refno) {
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<DayNPrdDet> list = new ArrayList<DayNPrdDet>();
+        String selectQuery = "select * from FOrddet WHERE " + dbHelper.REFNO + "='" + refno + "' and  TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                DayNPrdDet npDet = new DayNPrdDet();
+
+                npDet.setNONPRDDET_REASON(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REASON)));
+                npDet.setNONPRDDET_REASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REASON_CODE)));
+                npDet.setNONPRDDET_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REPCODE)));
+
+                list.add(npDet);
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
     }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*/

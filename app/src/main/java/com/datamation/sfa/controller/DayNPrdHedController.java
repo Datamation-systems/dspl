@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.DayNPrdHed;
+import com.datamation.sfa.model.Order;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,6 +77,52 @@ public class DayNPrdHedController {
         return count;
 
     }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public ArrayList<DayNPrdHed> getTodayNPHeds() {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<DayNPrdHed> list = new ArrayList<DayNPrdHed>();
+
+        try {
+            String selectQuery = "select DebCode, RefNo from FDaynPrdHed " + "  where TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                DayNPrdHed npHed = new DayNPrdHed();
+
+//
+                npHed.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                npHed.setNONPRDHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_DEBCODE)));
+                //TODO :set  discount, free
+
+                list.add(npHed);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+
+    }
+
 //    public boolean validateActiveNonPrd()
 //    {
 //
