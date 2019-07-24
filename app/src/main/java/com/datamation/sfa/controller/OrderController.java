@@ -73,6 +73,7 @@ public class OrderController {
                 values.put(dbHelper.FORDHED_ROUTE_CODE, ordHed.getORDER_ROUTECODE());
                 values.put(dbHelper.FORDHED_IS_SYNCED, "0");
                 values.put(dbHelper.FORDHED_IS_ACTIVE, ordHed.getORDER_IS_ACTIVE());
+                values.put(dbHelper.FORDHED_TOTALDIS, ordHed.getORDER_TOTALDIS());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
@@ -670,7 +671,7 @@ public class OrderController {
         Order SOHed = new Order();
 
         try {
-            String selectQuery = "SELECT TxnDate,DebCode,Remarks,RouteCode,TotalAmt FROM " + DatabaseHelper.TABLE_FORDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+            String selectQuery = "SELECT TxnDate,DebCode,Remarks,RouteCode,TotalAmt,TotalDis FROM " + DatabaseHelper.TABLE_FORDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -682,7 +683,7 @@ public class OrderController {
 //                SOHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOURCODE)));
                 SOHed.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_ROUTE_CODE)));
                 SOHed.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_TOTAL_AMT)));
-                //SOHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOTALDIS)));
+                SOHed.setORDER_TOTALDIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_TOTALDIS)));
             }
             cursor.close();
 
