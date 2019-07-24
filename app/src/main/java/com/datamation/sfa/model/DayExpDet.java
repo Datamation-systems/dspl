@@ -6,6 +6,7 @@ public class DayExpDet {
     private String EXPDET_REFNO;
     private String EXPDET_EXPCODE;
     private String EXPDET_AMOUNT;
+    private String EXPDET_TXNDATE;
 
     public String getEXPDET_REFNO() {
         return EXPDET_REFNO;
@@ -30,5 +31,11 @@ public class DayExpDet {
         EXPDET_AMOUNT = eXPDET_AMOUNT;
     }
 
+    public String getEXPDET_TXNDATE() {
+        return EXPDET_TXNDATE;
+    }
 
+    public void setEXPDET_TXNDATE(String EXPDET_TXNDATE) {
+        this.EXPDET_TXNDATE = EXPDET_TXNDATE;
+    }
 }

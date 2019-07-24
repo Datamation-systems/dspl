@@ -10,8 +10,11 @@ import android.util.Log;
 
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.DayExpDet;
+import com.datamation.sfa.model.DayNPrdDet;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DayExpDetController {
     Context context;
@@ -55,6 +58,7 @@ public class DayExpDetController {
                 values.put(dbHelper.REFNO, expdet.getEXPDET_REFNO());
                 values.put(dbHelper.DAYEXPDET_EXPCODE, expdet.getEXPDET_EXPCODE());
                 values.put(dbHelper.DAYEXPDET_AMT, expdet.getEXPDET_AMOUNT());
+                values.put(dbHelper.DAYEXPDET_TXNDATE, expdet.getEXPDET_TXNDATE());
 
                 int count = cursor.getCount();
                 if (count > 0) {
@@ -345,6 +349,48 @@ public class DayExpDetController {
         }
         return count;
 
+    }
+
+    public ArrayList<DayExpDet> getTodayDEDets(String refno) {
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<DayExpDet> list = new ArrayList<DayExpDet>();
+
+        String selectQuery = "select * from DayExpDet WHERE " + dbHelper.REFNO + "='" + refno + "' and  TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                DayExpDet deDet = new DayExpDet();
+
+                deDet.setEXPDET_EXPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.DAYEXPDET_EXPCODE)));
+                deDet.setEXPDET_AMOUNT(cursor.getString(cursor.getColumnIndex(dbHelper.DAYEXPDET_AMT)));
+
+                list.add(deDet);
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
     }
 
 }

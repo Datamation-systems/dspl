@@ -11,8 +11,11 @@ import android.util.Log;
 
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.DayExpHed;
+import com.datamation.sfa.model.DayNPrdHed;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DayExpHedController {
     public static final String SETTINGS = "SETTINGS";
@@ -248,6 +251,51 @@ public class DayExpHedController {
         cursor.close();
         dB.close();
         return false;
+
+    }
+
+    public ArrayList<DayExpHed> getTodayDEHeds()
+    {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<DayExpHed> list = new ArrayList<DayExpHed>();
+
+        try {
+            String selectQuery = "select RepCode, RefNo from DayExpHed " + "  where TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                DayExpHed deHed = new DayExpHed();
+
+//
+                deHed.setEXPHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                deHed.setEXPHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REPCODE)));
+                //TODO :set  discount, free
+
+                list.add(deHed);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
 
     }
 
