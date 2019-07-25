@@ -102,6 +102,7 @@ public class PreProductController {
         Cursor cursor = null;
         ArrayList<PreProduct> list = new ArrayList<>();
         try {
+            //cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FPRODUCT_PRE + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
             cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FPRODUCT_PRE + " WHERE itemcode_pre || itemname_pre LIKE '%" + newText + "%' group by itemcode_pre", null);
 
             while (cursor.moveToNext()) {
@@ -112,6 +113,7 @@ public class PreProductController {
                 product.setPREPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_PRICE_PRE)));
                 product.setPREPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_QOH_PRE)));
                 product.setPREPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_QTY_PRE)));
+//                product.setPREPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_TXNTYPE)));
                 list.add(product);
             }
         } catch (Exception e) {

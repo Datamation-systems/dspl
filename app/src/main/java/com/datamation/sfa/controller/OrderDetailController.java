@@ -337,8 +337,9 @@ public class OrderDetailController {
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
         String selectQuery = "select * from " + dbHelper.TABLE_FORDDET + " WHERE "
-                +
-                dbHelper.REFNO + "='" + refno + "' and "+dbHelper.FORDDET_IS_ACTIVE +" = '1'";
+                + dbHelper.REFNO + "='" + refno + "' and "
+                + dbHelper.FORDDET_TYPE + "='" + "SA" + "' and "
+                + dbHelper.FORDDET_IS_ACTIVE +" = '1'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -626,10 +627,10 @@ public class OrderDetailController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + "='" + Refno + "' AND "+dbHelper.ORDDET_ITEM_CODE + "='"+itemcode+"'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.REFNO + "='" + Refno + "' AND "+dbHelper.ORDDET_ITEM_CODE + "='"+itemcode+"'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(dbHelper.TABLE_ORDER_DETAIL, dbHelper.REFNO + "='" + Refno + "' AND "+dbHelper.ORDDET_ITEM_CODE + "='"+itemcode+"'", null);
+                int success = dB.delete(dbHelper.TABLE_FORDDET, dbHelper.REFNO + "='" + Refno + "' AND "+dbHelper.ORDDET_ITEM_CODE + "='"+itemcode+"'", null);
                 Log.v("OrdDet Deleted ", success + "");
             }
         } catch (Exception e) {

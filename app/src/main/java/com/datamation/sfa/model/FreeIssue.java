@@ -3303,4 +3303,365 @@ public class FreeIssue {
         return newOrderList;
 
     }
+
+    public ArrayList<FreeItemDetails> getEligibleFreeItemsBySalesItem(OrderDetail det, String costCode) {
+
+        ArrayList<FreeItemDetails> freeList = new ArrayList<FreeItemDetails>();
+        int slabassorted = 0, flatAssort = 0, mixAssort = 0;
+        FreeHedController freeHedDS = new FreeHedController(context);
+
+        //    ArrayList<TranSODet> dets = sortAssortItems(newOrderList);
+
+        // for (TranSODet det : dets) {// ---------------------- order
+        // list----------------------
+
+        // crpb00001
+        Log.v("fTranSODet", det.getFORDERDET_ITEMCODE());
+        // get record from freeHed about valid scheme
+        ArrayList<FreeHed> arrayList = freeHedDS.getFreeIssueItemDetailByRefno(det.getFORDERDET_ITEMCODE(), costCode);
+        // selected item qty
+        int entedTotQty = Integer.parseInt(det.getFORDERDET_QTY());
+
+        if (entedTotQty > 0) {
+
+            for (FreeHed freeHed : arrayList) {// --------Related free issue
+                // list------
+
+                if (freeHed.getFFREEHED_PRIORITY().equals("1")) {
+                    // flat
+                    if (freeHed.getFFREEHED_FTYPE().equals("Flat")) {// -------Flat
+                        // only-----
+                        // flat scheme item qty => 12:1
+                        int itemQty = (int) Float.parseFloat(freeHed.getFFREEHED_ITEM_QTY());
+                        // Debtor code from order header ref no ORASA/00006
+                        String debCode = new OrderController(context).getRefnoByDebcode(det.getFORDERDET_REFNO());
+                        // get debtor count from FIS/098 no
+                        int debCount = new FreeDebController(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
+                        // select debtor from FIS no & R0001929
+                        int IsValidDeb = new FreeDebController(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
+                        // get assort count from FIS no
+                        int assortCount = new FreeDetController(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
+
+                        // if its assorted
+                        if (assortCount > 1) {
+
+                            flatAssort = flatAssort + entedTotQty;
+
+                            int index = 0;
+                            boolean assortUpdate = false;
+
+                            for (FreeItemDetails freeItemDetails : freeList) {
+
+                                if (freeItemDetails.getRefno().equals(freeHed.getFFREEHED_REFNO())) {
+
+                                    freeList.get(index).setRefno(freeHed.getFFREEHED_REFNO());
+                                    freeList.get(index).setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                    freeList.get(index).setFreeQty((int) Math.round(flatAssort / itemQty) * (int) Float.parseFloat(freeHed.getFFREEHED_FREE_IT_QTY()));
+                                    assortUpdate = true;
+                                }
+
+                                index++;
+                            }
+
+                            if (!assortUpdate) {// When 1st time running
+
+                                // if ref no is in FreeDeb
+                                if (debCount > 0) {
+
+                                    // if debtor eligible for free issues
+                                    if (IsValidDeb == 1) {
+
+                                        if ((int) Math.round(entedTotQty / itemQty) > 0) {
+
+                                            FreeItemDetails details = new FreeItemDetails();
+                                            // details.setFreeItem(new
+                                            // FreeItemDS(context).getFreeItemsByRefno(freeHed.getFFREEHED_REFNO()));
+                                            details.setRefno(freeHed.getFFREEHED_REFNO());
+                                            details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                            details.setFreeQty((int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeHed.getFFREEHED_FREE_IT_QTY()));
+                                            freeList.add(details);
+                                            Log.v("Free Issues ", (int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeHed.getFFREEHED_FREE_IT_QTY()) + "");
+                                            entedTotQty = (int) Math.round(entedTotQty % itemQty);
+
+                                        }
+                                    }
+
+                                    // if ref no is NOT in FreeDeb =>
+                                    // available for everyone
+                                } else {
+
+                                    // IF entered qty/scheme qty is more
+                                    // than 0
+                                    if ((int) Math.round(entedTotQty / itemQty) > 0) {
+
+                                        FreeItemDetails details = new FreeItemDetails();
+                                        // details.setFreeItem(new
+                                        // FreeItemDS(context).getFreeItemsByRefno(freeHed.getFFREEHED_REFNO()));
+                                        details.setRefno(freeHed.getFFREEHED_REFNO());
+                                        details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                        details.setFreeQty((int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeHed.getFFREEHED_FREE_IT_QTY()));
+                                        freeList.add(details);
+
+                                        Log.v("Free Issues ", (int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeHed.getFFREEHED_FREE_IT_QTY()) + "");
+                                        entedTotQty = (int) Math.round(entedTotQty % itemQty);
+                                    }
+
+                                }
+                            }
+
+                            // if not assorted
+                        } else {
+
+                            // if ref no is in FreeDeb
+                            if (debCount > 0) {
+
+                                // if debtor eligible for free issues
+                                if (IsValidDeb == 1) {
+
+                                    if ((int) Math.round(entedTotQty / itemQty) > 0) {
+
+                                        FreeItemDetails details = new FreeItemDetails();
+                                        // details.setFreeItem(new
+                                        // FreeItemDS(context).getFreeItemsByRefno(freeHed.getFFREEHED_REFNO()));
+                                        details.setRefno(freeHed.getFFREEHED_REFNO());
+                                        details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                        details.setFreeQty((int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeHed.getFFREEHED_FREE_IT_QTY()));
+                                        freeList.add(details);
+
+                                        Log.v("Free Issues ", (int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeHed.getFFREEHED_FREE_IT_QTY()) + "");
+                                        entedTotQty = (int) Math.round(entedTotQty % itemQty);
+                                    }
+                                }
+
+                                // if ref no is NOT in FreeDeb
+                            } else {
+
+                                if ((int) Math.round(entedTotQty / itemQty) > 0) {
+
+                                    FreeItemDetails details = new FreeItemDetails();
+                                    // details.setFreeItem(new
+                                    // FreeItemDS(context).getFreeItemsByRefno(freeHed.getFFREEHED_REFNO()));
+                                    details.setRefno(freeHed.getFFREEHED_REFNO());
+                                    details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                    details.setFreeQty((int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeHed.getFFREEHED_FREE_IT_QTY()));
+                                    freeList.add(details);
+
+                                    Log.v("Free Issues ", (int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeHed.getFFREEHED_FREE_IT_QTY()) + "");
+                                    entedTotQty = (int) Math.round(entedTotQty % itemQty);
+                                }
+                            }
+                        }
+
+                    } else if (freeHed.getFFREEHED_FTYPE().equals("Slab")) {// -------Slab
+                        // only-----
+
+                        FreeSlabController freeSlabDS = new FreeSlabController(context);
+                        final ArrayList<FreeSlab> slabList;
+                        int assortCount = new FreeDetController(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
+                        if (assortCount > 1) {
+
+                            slabassorted = slabassorted + entedTotQty;
+                            slabList = freeSlabDS.getSlabdetails(freeHed.getFFREEHED_REFNO(), slabassorted);
+
+                        } else {
+
+                            slabList = freeSlabDS.getSlabdetails(freeHed.getFFREEHED_REFNO(), entedTotQty);
+
+                        }
+
+                        for (FreeSlab freeSlab : slabList) {
+
+                            String debCode = new OrderController(context).getRefnoByDebcode(det.getFORDERDET_REFNO());
+                            int debCount = new FreeDebController(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
+                            int IsValidDeb = new FreeDebController(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
+
+                            if (debCount > 0) {// selected debtors
+
+                                if (IsValidDeb == 1) {
+
+                                    if (assortCount > 1) {
+
+                                        int index = 0;
+                                        boolean assortUpdate = false;
+
+                                        for (FreeItemDetails freeItemDetails : freeList) {
+                                            if (freeItemDetails.getRefno().equals(freeHed.getFFREEHED_REFNO())) {
+                                                // details=freeItemDetails;
+                                                freeList.get(index).setFreeQty((int) (Float.parseFloat(freeSlab.getFFREESLAB_FREE_QTY())));
+                                                freeList.get(index).setRefno(freeHed.getFFREEHED_REFNO());
+                                                freeList.get(index).setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                                assortUpdate = true;
+                                            }
+
+                                            index++;
+                                        }
+
+                                        if (!assortUpdate) {
+
+                                            Log.v("Stab", freeSlab.getFFREESLAB_FREE_QTY());
+                                            FreeItemDetails details = new FreeItemDetails();
+                                            details.setRefno(freeHed.getFFREEHED_REFNO());
+                                            details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                            details.setFreeQty((int) (Float.parseFloat(freeSlab.getFFREESLAB_FREE_QTY())));
+                                            freeList.add(details);
+                                        }
+
+                                    } else {
+                                        Log.v("Stab", freeSlab.getFFREESLAB_FREE_QTY());
+                                        FreeItemDetails details = new FreeItemDetails();
+                                        details.setRefno(freeHed.getFFREEHED_REFNO());
+                                        details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                        details.setFreeQty((int) (Float.parseFloat(freeSlab.getFFREESLAB_FREE_QTY())));
+                                        freeList.add(details);
+                                    }
+                                }
+
+                            } else {// all debtor for freeissues
+
+                                if (assortCount > 1) {
+                                    int index = 0;
+                                    boolean assortUpdate = false;
+                                    for (FreeItemDetails freeItemDetails : freeList) {
+                                        if (freeItemDetails.getRefno().equals(freeHed.getFFREEHED_REFNO())) {
+                                            // details=freeItemDetails;
+                                            freeList.get(index).setFreeQty((int) (Float.parseFloat(freeSlab.getFFREESLAB_FREE_QTY())));
+                                            freeList.get(index).setRefno(freeHed.getFFREEHED_REFNO());
+                                            freeList.get(index).setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                            assortUpdate = true;
+                                        }
+
+                                        index++;
+                                    }
+
+                                    if (!assortUpdate) {
+
+                                        Log.v("Stab", freeSlab.getFFREESLAB_FREE_QTY());
+                                        FreeItemDetails details = new FreeItemDetails();
+                                        details.setRefno(freeHed.getFFREEHED_REFNO());
+                                        details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                        details.setFreeQty((int) (Float.parseFloat(freeSlab.getFFREESLAB_FREE_QTY())));
+                                        freeList.add(details);
+                                    }
+
+                                } else {
+                                    Log.v("Stab", freeSlab.getFFREESLAB_FREE_QTY());
+                                    FreeItemDetails details = new FreeItemDetails();
+                                    details.setRefno(freeHed.getFFREEHED_REFNO());
+                                    details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                    details.setFreeQty((int) (Float.parseFloat(freeSlab.getFFREESLAB_FREE_QTY())));
+                                    freeList.add(details);
+                                }
+                            }
+                        }
+
+                    } else if (freeHed.getFFREEHED_FTYPE().equals("Mix")) {
+                        // slabAssort
+
+                        FreeMslabController freeMslabDS = new FreeMslabController(context);
+                        final ArrayList<FreeMslab> mixList;
+                        int assortCount = new FreeDetController(context).getAssoCountByRefno(freeHed.getFFREEHED_REFNO());
+                        if (assortCount > 1) {// if assorted
+                            mixAssort = mixAssort + entedTotQty;
+                            mixList = freeMslabDS.getMixDetails(freeHed.getFFREEHED_REFNO(), mixAssort);
+                        } else {
+                            mixList = freeMslabDS.getMixDetails(freeHed.getFFREEHED_REFNO(), entedTotQty);
+                        }
+
+                        for (FreeMslab freeMslab : mixList) {
+
+                            String debCode = new OrderController(context).getRefnoByDebcode(det.getFORDERDET_REFNO());
+                            int debCount = new FreeDebController(context).getRefnoByDebCount(freeHed.getFFREEHED_REFNO());
+                            int IsValidDeb = new FreeDebController(context).isValidDebForFreeIssue(freeHed.getFFREEHED_REFNO(), debCode);
+
+                            if (debCount > 0) {// selected debtors
+
+                                if (IsValidDeb == 1) {
+
+                                    if (assortCount > 1) {
+
+                                        int index = 0;
+                                        boolean assortUpdate = false;
+
+                                        for (FreeItemDetails freeItemDetails : freeList) {
+                                            if (freeItemDetails.getRefno().equals(freeHed.getFFREEHED_REFNO())) {
+
+                                                int itemQty = (int) Float.parseFloat(freeMslab.getFFREEMSLAB_ITEM_QTY());
+                                                freeList.get(index).setRefno(freeHed.getFFREEHED_REFNO());
+                                                freeList.get(index).setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                                freeList.get(index).setFreeQty((int) Math.round(mixAssort / itemQty) * (int) Float.parseFloat(freeMslab.getFFREEMSLAB_FREE_IT_QTY()));
+
+                                                assortUpdate = true;
+                                            }
+                                            index++;
+                                        }
+
+                                        if (!assortUpdate) {
+
+                                            FreeItemDetails details = new FreeItemDetails();
+                                            int itemQty = (int) Float.parseFloat(freeMslab.getFFREEMSLAB_ITEM_QTY());
+                                            details.setRefno(freeHed.getFFREEHED_REFNO());
+                                            details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                            details.setFreeQty((int) Math.round(mixAssort / itemQty) * (int) Float.parseFloat(freeMslab.getFFREEMSLAB_FREE_IT_QTY()));
+                                            freeList.add(details);
+                                        }
+
+                                    } else {
+
+                                        FreeItemDetails details = new FreeItemDetails();
+                                        int itemQty = (int) Float.parseFloat(freeMslab.getFFREEMSLAB_ITEM_QTY());
+                                        details.setRefno(freeHed.getFFREEHED_REFNO());
+                                        details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                        details.setFreeQty((int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeMslab.getFFREEMSLAB_FREE_IT_QTY()));
+                                        freeList.add(details);
+
+                                    }
+                                }
+
+                            } else {// all debtor for freeissues
+
+                                if (assortCount > 1) {
+                                    int index = 0;
+                                    boolean assortUpdate = false;
+                                    for (FreeItemDetails freeItemDetails : freeList) {
+                                        if (freeItemDetails.getRefno().equals(freeHed.getFFREEHED_REFNO())) {
+
+                                            int itemQty = (int) Float.parseFloat(freeMslab.getFFREEMSLAB_ITEM_QTY());
+                                            freeList.get(index).setRefno(freeHed.getFFREEHED_REFNO());
+                                            freeList.get(index).setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                            freeList.get(index).setFreeQty((int) Math.round(mixAssort / itemQty) * (int) Float.parseFloat(freeMslab.getFFREEMSLAB_FREE_IT_QTY()));
+
+                                            assortUpdate = true;
+                                        }
+
+                                        index++;
+                                    }
+
+                                    if (!assortUpdate) {
+
+                                        FreeItemDetails details = new FreeItemDetails();
+                                        int itemQty = (int) Float.parseFloat(freeMslab.getFFREEMSLAB_ITEM_QTY());
+                                        details.setRefno(freeHed.getFFREEHED_REFNO());
+                                        details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                        details.setFreeQty((int) Math.round(mixAssort / itemQty) * (int) Float.parseFloat(freeMslab.getFFREEMSLAB_FREE_IT_QTY()));
+                                        freeList.add(details);
+                                    }
+
+                                } else {
+                                    FreeItemDetails details = new FreeItemDetails();
+                                    int itemQty = (int) Float.parseFloat(freeMslab.getFFREEMSLAB_ITEM_QTY());
+                                    details.setRefno(freeHed.getFFREEHED_REFNO());
+                                    details.setFreeIssueSelectedItem(det.getFORDERDET_ITEMCODE());
+                                    details.setFreeQty((int) Math.round(entedTotQty / itemQty) * (int) Float.parseFloat(freeMslab.getFFREEMSLAB_FREE_IT_QTY()));
+                                    freeList.add(details);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // }
+        return freeList;
+
+    }
 }

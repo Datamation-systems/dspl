@@ -132,47 +132,118 @@ public class OrderDetailFragment extends Fragment{
         lv_order_det.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view2, int position, long id) {
-
+            public void onItemClick(AdapterView<?> parent, View view2, int position, long id)
+            {
+                new OrderDetailController(getActivity()).restFreeIssueData(RefNo);
+                new OrdFreeIssueController(getActivity()).ClearFreeIssues(RefNo);
+                OrderDetail orderDet=orderList.get(position);
+                mSharedPref.setGlobalVal("preKeyIsFreeClicked", "0");
+                FreeIssue issue = new FreeIssue(getActivity());
+                ArrayList<FreeItemDetails> list=issue.getEligibleFreeItemsBySalesItem(orderList.get(position),"");
+                popEditDialogBox(orderDet,list);
             }
         });
 
-//        ibtDiscount.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN: {
-//                        ibtDiscount.setBackground(getResources().getDrawable(R.drawable.discount_down));
-//                    }
-//                    break;
-//
-//                    case MotionEvent.ACTION_UP: {
-//                        ibtDiscount.setBackground(getResources().getDrawable(R.drawable.discount));
-//                    }
-//                    break;
-//                }
-//                return false;
-//            }
-//        });
-
-        //-----------------------------------------pre Discount calculation-----------------------------------------------------
-
-//        ibtDiscount.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                count++;
-//                mSharedPref.setGlobalVal("preKeyIsFreeClicked", ""+count);
-//                if(mSharedPref.getGlobalVal("preKeyIsFreeClicked").equals("1")) {
-//
-//                    calculateFreeIssue(mSharedPref.getSelectedDebCode());
-//                }else{
-//                    Log.v("Freeclick Count", mSharedPref.getGlobalVal("preKeyIsFreeClicked"));
-//                }
-//            }
-//        });
-
         return view;
+    }
+
+    public void popEditDialogBox(final OrderDetail tranSODet, ArrayList<FreeItemDetails>itemDetailsArrayList) {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptView = layoutInflater.inflate(R.layout.input_dialog_layout, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle("Enter Quantity");
+        alertDialogBuilder.setView(promptView);
+
+        final EditText txtInputBox = (EditText) promptView.findViewById(R.id.txtInputBox);
+        final TextView lblQoh = (TextView) promptView.findViewById(R.id.lblQOH);
+
+        final TextView itemName = (TextView) promptView.findViewById(R.id.tv_free_issue_item_name);
+        final TextView freeQty = (TextView) promptView.findViewById(R.id.tv_free_qty);
+
+        lblQoh.setText(tranSODet.getFORDERDET_QOH());
+        txtInputBox.setText(tranSODet.getFORDERDET_QTY());
+        txtInputBox.selectAll();
+
+        if(itemDetailsArrayList==null){
+            freeQty.setVisibility(View.GONE);
+            itemName.setVisibility(View.GONE);
+        }else{
+            for(FreeItemDetails itemDetails :itemDetailsArrayList){
+                freeQty.setText("Free Quantity : " + itemDetails.getFreeQty());
+                itemName.setText("Product : " + new ItemController(getActivity()).getItemNameByCode(itemDetails.getFreeIssueSelectedItem()));
+            }
+        }
+
+
+        txtInputBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (txtInputBox.length() > 0) {
+                    int enteredQty = Integer.parseInt(txtInputBox.getText().toString());
+                    if (tranSODet.getFORDERDET_QOH()!=null)
+                    {
+                        int newQty = enteredQty - (Integer.parseInt(tranSODet.getFORDERDET_QOH()));
+                        lblQoh.setText(String.valueOf(newQty));
+                    }
+                    else
+                    {
+                        lblQoh.setText(String.valueOf(enteredQty));
+                    }
+
+
+                    // commented due to error set text
+                    //lblQoh.setText((int) Double.parseDouble(tranSODet.getFORDERDET_QOH()) - enteredQty + "");
+
+
+                 /*   int enteredQty = Integer.parseInt(txtInputBox.getText().toString());
+
+                    if (enteredQty > Double.parseDouble(tranSODet.getFTRANSODET_QOH())) {
+                        Toast.makeText(getActivity(), "Quantity exceeds QOH !", Toast.LENGTH_SHORT).show();
+                        txtInputBox.setText("0");
+                        txtInputBox.selectAll();
+                    } else
+                        ;*/
+                } else {
+                    txtInputBox.setText("0");
+                    txtInputBox.selectAll();
+                }
+            }
+        });
+
+        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+
+                if (Integer.parseInt(txtInputBox.getText().toString()) > 0) {
+                    new PreProductController(getActivity()).updateProductQty(tranSODet.getFORDERDET_ITEMCODE(), txtInputBox.getText().toString());
+                    new OrderDetailController(getActivity()).deleteOrdDetByItemCode(tranSODet.getFORDERDET_ITEMCODE(), RefNo);
+                    mUpdatePrsSales(tranSODet.getFORDERDET_ID(), tranSODet.getFORDERDET_ITEMCODE(), txtInputBox.getText().toString(), tranSODet.getFORDERDET_PRICE(), tranSODet.getFORDERDET_SEQNO(), tranSODet.getFORDERDET_QOH());
+
+                } else
+                    Toast.makeText(getActivity(), "Enter Qty above Zero !", Toast.LENGTH_SHORT).show();
+
+                showData();
+            }
+
+        }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+
     }
 
     public void calculateFreeIssue(String debCode) {
