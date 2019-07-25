@@ -69,7 +69,7 @@ public class ReceiptSummary extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.sales_management_receipt_summery, container, false);
-        mSharedPref = new SharedPref(getActivity());
+        mSharedPref = SharedPref.getInstance(getActivity());
         localSP = getActivity().getSharedPreferences(SETTINGS, 0);
         gps = new GPSTracker(getActivity());
         setHasOptionsMenu(true);
@@ -207,12 +207,18 @@ public class ReceiptSummary extends Fragment {
 
     public void mPauseReceipt() {
 //
-        if (new ReceiptDetController(getActivity()).getItemCount(RefNo) > 0) {
-            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+        if (!mSharedPref.getSelectedDebCode().equals("0") && mSharedPref.getGlobalVal("ReckeyHeader").equals("1")){
+            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
             startActivity(intnt);
             getActivity().finish();
-        } else
-            Toast.makeText(activity, "Add details before pause ...!", Toast.LENGTH_SHORT).show();
+        }else
+            Toast.makeText(activity, "Select Customer/Fill in header details before Pause", Toast.LENGTH_SHORT).show();
+//        if (new ReceiptDetController(getActivity()).getItemCount(RefNo) > 0) {
+//            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+//            startActivity(intnt);
+//            getActivity().finish();
+//        } else
+//            Toast.makeText(activity, "Add details before pause ...!", Toast.LENGTH_SHORT).show();
 
     }
 
