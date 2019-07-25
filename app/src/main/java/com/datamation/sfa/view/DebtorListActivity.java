@@ -106,4 +106,12 @@ public class DebtorListActivity extends AppCompatActivity {
             return titles.length;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Intent intent = new Intent(DebtorListActivity.this, ActivityHome.class);
+        startActivity(intent);
+        finish();
+    }
 }

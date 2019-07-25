@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
@@ -144,5 +145,11 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
         super.onStart();
 //        if (status)
 //            viewPager.setCurrentItem(1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Toast.makeText(this,"Back button disabled until finish transaction",Toast.LENGTH_SHORT).show();
     }
 }

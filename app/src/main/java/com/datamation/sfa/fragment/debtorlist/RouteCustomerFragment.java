@@ -94,6 +94,7 @@ public class RouteCustomerFragment extends Fragment {
                                 //mSharedPref.setSelectedDebtorEnd(false);
                                 //mSharedPref.setSelectedDebtorStart(true);
                                 startActivity(intent);
+                                getActivity().finish();
                             }
 //                        }
 //                        else
