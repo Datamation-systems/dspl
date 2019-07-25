@@ -348,7 +348,11 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
 	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 	public void mRefreshHeader(){
-        ReceivedAmt = Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRecAmt"));
+	    if(!mSharedPref.getGlobalVal("ReckeyRecAmt").equals("***"))
+            ReceivedAmt = Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRecAmt"));
+	    else
+            ReceivedAmt = 0.0;
+
         FetchData();
     }
 

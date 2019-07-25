@@ -264,7 +264,7 @@ public class ReceiptDetController {
 		}
 
 		try {
-			String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_FPRECHEDS + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+			String selectQuery = "SELECT count(RefNo) as RefNo FROM " + DatabaseHelper.TABLE_FPRECDETS + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
 			Cursor cursor = dB.rawQuery(selectQuery, null);
 
 			while (cursor.moveToNext()) {
