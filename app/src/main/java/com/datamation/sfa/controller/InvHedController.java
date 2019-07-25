@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.DatabaseHelper;
+import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.InvHed;
 import com.github.mikephil.charting.data.Entry;
 
@@ -129,7 +130,7 @@ public class InvHedController {
 
                 while (cursor.moveToNext()) {
 
-                //    invHed.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ID)));
+                    invHed.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ID)));
                     invHed.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                     invHed.setFINVHED_REFNO1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_REFNO1)));
                     invHed.setFINVHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ADDDATE)));
@@ -1061,7 +1062,7 @@ public class InvHedController {
             vanSalesMapper.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.VanNumVal)));
 
             vanSalesMapper.setDistDB(localSP.getString("Dist_DB", "").toString());
-            vanSalesMapper.setConsoleDB(localSP.getString("Console_DB", "").toString());
+            vanSalesMapper.setConsoleDB(SharedPref.getInstance(context).getDatabase());
 
             vanSalesMapper.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ID)));
             vanSalesMapper.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
@@ -1099,6 +1100,7 @@ public class InvHedController {
             vanSalesMapper.setFINVHED_AREACODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_AREACODE)));
             vanSalesMapper.setFINVHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_PAYTYPE)));
             vanSalesMapper.setFINVHED_SETTING_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_SETTING_CODE)));
+
 
             String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
 

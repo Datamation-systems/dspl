@@ -177,6 +177,7 @@ public class VanSalesHeader extends Fragment {
 	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void mSaveInvoiceHeader() {
+        selectedDebtor = new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
 
         if (lblInvRefno.getText().length() > 0) {
 

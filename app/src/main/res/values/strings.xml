@@ -67,4 +67,5 @@
     <string name="imageview_no_image_string">NO IMAGE AVAILABLE</string>
 
     <string name="DATABASE_NAME">sfa_database.db</string>
+    <string name="DATABASE">LHD_PDA_TEST</string>
 </resources>

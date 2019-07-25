@@ -56,7 +56,7 @@ public class NetworkFunctions {
         String domain = pref.getBaseURL();
         Log.wtf("baseURL>>>>>>>>>",domain);
         baseURL = domain +"/SFAWebServices/SFAWebServicesRest.svc/";
-        dbname = "LHD_PDA_TEST";
+        dbname = pref.getDatabase();
         restOfURL = "/mobile123/"+dbname;
         Log.d(LOG_TAG, "testing : " + baseURL + "login" + restOfURL);
         user = pref.getLoginUser();

@@ -374,6 +374,19 @@ public  void  setMacAddress(String MacAddress){
 
     }
 
+    public void setDatabase(String baseURL) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("Console_DB", baseURL);
+        editor.apply();
+    }
+
+    public String getDatabase() {
+        //return sharedPref.getString("baseURL", "https://19920502.000webhostapp.com");
+        return sharedPref.getString("Console_DB", "LHD_PDA_TEST");
+        //return sharedPref.getString("baseURL", "http://192.168.43.62");
+
+    }
+
     public void setCurrentMillage(double millage){
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putFloat("millage", (float) millage);
