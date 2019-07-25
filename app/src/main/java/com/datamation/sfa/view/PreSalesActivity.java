@@ -187,4 +187,9 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
             viewPager.setCurrentItem(3);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

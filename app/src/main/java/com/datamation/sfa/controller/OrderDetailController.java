@@ -11,7 +11,9 @@ import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.InvDet;
 import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.helpers.DatabaseHelper;
+import com.datamation.sfa.model.OrderDisc;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -302,12 +304,12 @@ public class OrderDetailController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_ORDER_DETAIL + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDDET + dbHelper.REFNO + " = '" + refno + "' AND " + dbHelper.FORDDET_TYPE + " = 'FI'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(dbHelper.TABLE_ORDER_DETAIL, dbHelper.REFNO + " = '" + refno + "'", null);
+                count = dB.delete(dbHelper.TABLE_FORDDET, dbHelper.REFNO + " = '" + refno + "' AND " + dbHelper.FORDDET_TYPE + " = 'FI'", null);
                 Log.v("Success Stauts", count + "");
             }
         } catch (Exception e) {
@@ -440,7 +442,7 @@ public class OrderDetailController {
 
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
+        String selectQuery = "select * from " + dbHelper.TABLE_FORDDET + " WHERE "
                + dbHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -450,14 +452,14 @@ public class OrderDetailController {
 
                 OrderDetail ordDet = new OrderDetail();
 
-                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ID)));
-                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_AMT)));
-                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
-                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
-                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
+                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_ID)));
+                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_AMT)));
+                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_ITEM_CODE)));
+                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_PRIL_CODE)));
+                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_QTY)));
                 ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
-                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
+                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_SELL_PRICE)));
+                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_IS_ACTIVE)));
 
                 list.add(ordDet);
 
@@ -1230,5 +1232,121 @@ public class OrderDetailController {
             dB.close();
         }
 
+    }
+
+    public void updateDiscountSO(OrderDetail ordDet, double discount, String discType, String debCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            OrderDisc orderDisc = new OrderDisc();
+            orderDisc.setRefNo(ordDet.getFORDERDET_REFNO());
+            orderDisc.setTxnDate(ordDet.getFORDERDET_TXNDATE());
+            orderDisc.setItemCode(ordDet.getFORDERDET_ITEMCODE());
+            orderDisc.setDisAmt(String.format("%.2f", discount));
+            String disFlag = "1";
+
+            new OrderDiscController(context).UpdateOrderDiscount(orderDisc, ordDet.getFORDERDET_DISC_REF(), ordDet.getFORDERDET_SCHDISPER());
+            String amt = String.format(String.format("%.2f", (Double.parseDouble(ordDet.getFORDERDET_AMT()) + Double.parseDouble(ordDet.getFORDERDET_SCHDISC())) - discount));
+            String forwardAmt[] = new TaxDetController(context).calculateTaxForwardFromDebTax(debCode, ordDet.getFORDERDET_ITEMCODE(),Double.parseDouble(ordDet.getFORDERDET_AMT()));
+            String forwardAmtWithoutDis = String.valueOf(Double.parseDouble(forwardAmt[0]) - discount);
+            String reverseAmtWithoutDis = new TaxDetController(context).calculateReverseTaxFromDebTax(debCode, ordDet.getFORDERDET_ITEMCODE(),new BigDecimal(forwardAmtWithoutDis));
+            String forwardSellPrice = String.valueOf((Double.parseDouble(reverseAmtWithoutDis)+ discount)/Double.parseDouble(ordDet.getFORDERDET_QTY()));
+            String updateQuery = "UPDATE FOrddet SET " +
+                    DatabaseHelper.FORDDET_SCH_DISPER + "='" +
+                    ordDet.getFORDERDET_SCHDISPER() + "'," + DatabaseHelper.FORDDET_DIS_VAL_AMT + " ='" + String.format("%.2f", discount) + "'," + DatabaseHelper.FORDDET_AMT + "='" + reverseAmtWithoutDis + "'," + DatabaseHelper.FORDDET_DISFLAG + "='" + disFlag + "'," + DatabaseHelper.FORDDET_SELL_PRICE + "='" + forwardSellPrice + "'," + DatabaseHelper.FORDDET_BT_SELL_PRICE + "='" + forwardSellPrice + "'," + DatabaseHelper.FORDDET_B_AMT + "='" + reverseAmtWithoutDis + "'," + DatabaseHelper.FORDDET_DISCTYPE + "='" + discType + "' WHERE Itemcode ='" + ordDet.getFORDERDET_ITEMCODE() + "' AND type='SA'";
+            dB.execSQL(updateQuery);
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+    }
+
+    public void updateDiscount(OrderDetail ordDet, double discount, String discType) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            OrderDisc orderDisc = new OrderDisc();
+            orderDisc.setRefNo(ordDet.getFORDERDET_REFNO());
+            orderDisc.setTxnDate(ordDet.getFORDERDET_TXNDATE());
+            orderDisc.setItemCode(ordDet.getFORDERDET_ITEMCODE());
+            orderDisc.setDisAmt(String.format("%.2f", discount));
+
+            new OrderDiscController(context).UpdateOrderDiscount(orderDisc, ordDet.getFORDERDET_DISC_REF(), ordDet.getFORDERDET_SCHDISPER());
+            String amt = String.format(String.format("%.2f", (Double.parseDouble(ordDet.getFORDERDET_AMT()) + Double.parseDouble(ordDet.getFORDERDET_SCHDISC())) - discount));
+
+            String updateQuery = "UPDATE FTranSODet SET " +
+                    DatabaseHelper.FORDDET_SCH_DISPER + "='" + ordDet.getFORDERDET_SCHDISPER() + "',"
+                    + DatabaseHelper.FORDDET_DIS_VAL_AMT + " ='" + String.format("%.2f", discount) + "',"
+                    + DatabaseHelper.FORDDET_AMT + "='" + amt + "',"
+                    + DatabaseHelper.FORDDET_B_AMT + "='" + amt + "',"
+                    + DatabaseHelper.FORDDET_DISCTYPE + "='" + discType + "' WHERE Itemcode ='" + ordDet.getFORDERDET_ITEMCODE() + "' AND type='SA'";
+            dB.execSQL(updateQuery);
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+    }
+
+    public ArrayList<OrderDetail> getAllFreeIssue(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
+
+        String selectQuery = "select * from " + DatabaseHelper.TABLE_FORDDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND " + DatabaseHelper.FORDDET_TYPE  + "='FI'" ;
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+
+            while (cursor.moveToNext()) {
+
+                OrderDetail tranSODet=new OrderDetail();
+                tranSODet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_ITEM_CODE)));
+                tranSODet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDDET_QTY)));
+                list.add(tranSODet);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
     }
 }

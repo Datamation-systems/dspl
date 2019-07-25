@@ -357,8 +357,8 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         }
         else
         {
-            sharedPref.setSelectedDebtorEnd(true);
-            sharedPref.setSelectedDebtorStart(false);
+            //sharedPref.setSelectedDebtorEnd(true);
+            //sharedPref.setSelectedDebtorStart(false);
             UtilityContainer.ClearReturnSharedPref(getApplicationContext());
             Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
             startActivity(intent);

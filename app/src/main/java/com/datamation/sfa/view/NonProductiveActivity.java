@@ -106,4 +106,9 @@ public class NonProductiveActivity extends AppCompatActivity {
             return titles.length;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

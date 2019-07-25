@@ -23,8 +23,8 @@ public class SharedPref {
 
     private static SharedPref pref;
 
-    public boolean selectedDebtorEnd;
-    public boolean selectedDebtorStart;
+//    public boolean selectedDebtorEnd;
+//    public boolean selectedDebtorStart;
 
     public SharedPref() {
     }
@@ -37,21 +37,21 @@ public class SharedPref {
         return pref;
     }
 
-    public boolean isSelectedDebtorStart() {
-        return selectedDebtorStart;
-    }
-
-    public void setSelectedDebtorStart(boolean selectedDebtorStart) {
-        this.selectedDebtorStart = selectedDebtorStart;
-    }
-
-    public boolean isSelectedDebtorEnd() {
-        return selectedDebtorEnd;
-    }
-
-    public void setSelectedDebtorEnd(boolean selectedDebtorEnd) {
-        this.selectedDebtorEnd = selectedDebtorEnd;
-    }
+//    public boolean isSelectedDebtorStart() {
+//        return selectedDebtorStart;
+//    }
+//
+//    public void setSelectedDebtorStart(boolean selectedDebtorStart) {
+//        this.selectedDebtorStart = selectedDebtorStart;
+//    }
+//
+//    public boolean isSelectedDebtorEnd() {
+//        return selectedDebtorEnd;
+//    }
+//
+//    public void setSelectedDebtorEnd(boolean selectedDebtorEnd) {
+//        this.selectedDebtorEnd = selectedDebtorEnd;
+//    }
 
     public SharedPref(Context context) {
 //        this.context = context;

@@ -164,5 +164,8 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

@@ -77,10 +77,10 @@ public class RouteCustomerFragment extends Fragment {
                 /* If option is selected */
                 if (i > 0) {
 
-                    if (mSharedPref.isSelectedDebtorStart())
-                    {
-                        if (mSharedPref.isSelectedDebtorEnd())
-                        {
+//                    if (mSharedPref.isSelectedDebtorStart())
+//                    {
+//                        if (mSharedPref.isSelectedDebtorEnd())
+//                        {
                             debtor = customerList.get(position);
 
                             if (isValidateCustomer(debtor))
@@ -91,34 +91,34 @@ public class RouteCustomerFragment extends Fragment {
                                 mSharedPref.setSelectedDebName(debtor.getCusName());
                                 mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
                                 mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
-                                mSharedPref.setSelectedDebtorEnd(false);
-                                mSharedPref.setSelectedDebtorStart(true);
+                                //mSharedPref.setSelectedDebtorEnd(false);
+                                //mSharedPref.setSelectedDebtorStart(true);
                                 startActivity(intent);
                             }
-                        }
-                        else
-                        {
-                            Toast.makeText(getActivity(), "Please end call to previously selected debtor..", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else
-                    {
-                        debtor = customerList.get(position);
-
-                        if (isValidateCustomer(debtor))
-                        {
-                            Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                            intent.putExtra("outlet",debtor);
-                            mSharedPref.setSelectedDebCode(debtor.getCusCode());
-                            mSharedPref.setSelectedDebName(debtor.getCusName());
-                            mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
-                            mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
-                            mSharedPref.setSelectedDebtorEnd(false);
-                            mSharedPref.setSelectedDebtorStart(true);
-                            startActivity(intent);
-
-                        }
-                    }
+//                        }
+//                        else
+//                        {
+//                            Toast.makeText(getActivity(), "Please end call to previously selected debtor..", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                    else
+//                    {
+//                        debtor = customerList.get(position);
+//
+//                        if (isValidateCustomer(debtor))
+//                        {
+//                            Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                            intent.putExtra("outlet",debtor);
+//                            mSharedPref.setSelectedDebCode(debtor.getCusCode());
+//                            mSharedPref.setSelectedDebName(debtor.getCusName());
+//                            mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
+//                            mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
+//                            mSharedPref.setSelectedDebtorEnd(false);
+//                            mSharedPref.setSelectedDebtorStart(true);
+//                            startActivity(intent);
+//
+//                        }
+//                    }
                 }
                 else {
                     Toast.makeText(getActivity(), "Please tick the 'Automatic Date and Time' option to continue..", Toast.LENGTH_LONG).show();

@@ -982,17 +982,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FORDDET_REA_CODE = "ReaCode";
     public static final String FORDDET_TYPE = "Types";
     public static final String FORDDET_RECORD_ID = "RecordId";
-
+    public static final String FORDDET_DISCTYPE = "DiscType";
     public static final String FORDDET_SELL_PRICE = "SellPrice";
     public static final String FORDDET_SEQNO = "SeqNo";
     public static final String FORDDET_TAX_AMT = "TaxAmt";
     public static final String FORDDET_TAX_COM_CODE = "TaxComCode";
     public static final String FORDDET_TIMESTAMP_COLUMN = "timestamp_column";
     public static final String FORDDET_T_SELL_PRICE = "TSellPrice";
-
+    public static final String FORDDET_DISFLAG = "DisFlag";
     public static final String FORDDET_TXN_TYPE = "TxnType";
     public static final String FORDDET_IS_ACTIVE = "isActive";
-
+    public static final String FORDDET_SCH_DISPER = "SchDisPer";
     public static final String FORDDET_ITEMNAME = "ItemName";
     public static final String FORDDET_PACKSIZE = "PackSize";
 
@@ -1001,7 +1001,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             + FORDDET_ITEMNAME + " TEXT, " + FORDDET_PACKSIZE + " TEXT, "
 
-            + TXNDATE + " TEXT, " + FORDDET_IS_ACTIVE + " TEXT, " + FORDDET_TXN_TYPE + " TEXT); ";
+            + FORDDET_DISCTYPE + " TEXT, " + FORDDET_SCH_DISPER + " TEXT, "+ FORDDET_DISFLAG + " TEXT, " + TXNDATE + " TEXT, " + FORDDET_IS_ACTIVE + " TEXT, "+ FORDDET_TXN_TYPE + " TEXT); ";
 
     /**
      * ############################ finvHed table Details
