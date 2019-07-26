@@ -12,6 +12,7 @@ import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.InvDet;
 import com.datamation.sfa.model.OrderDisc;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -756,7 +757,45 @@ public class InvDetController {
         }
 
     }
+    public void updateDiscountInvoice(InvDet ordDet, double discount, String discType, String debCode) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            OrderDisc orderDisc = new OrderDisc();
+            orderDisc.setRefNo(ordDet.getFINVDET_REFNO());
+            orderDisc.setTxnDate(ordDet.getFINVDET_TXN_DATE());
+            orderDisc.setItemCode(ordDet.getFINVDET_ITEM_CODE());
+            orderDisc.setDisAmt(String.format("%.2f", discount));
+            String disFlag = "1";
+
+            new OrderDiscController(context).UpdateOrderDiscount(orderDisc, ordDet.getFINVDET_DISC_REF(), ordDet.getFINVDET_SCHDISPER());
+            String amt = String.format(String.format("%.2f", (Double.parseDouble(ordDet.getFINVDET_AMT()) + Double.parseDouble(ordDet.getFINVDET_DIS_AMT())) - discount));
+            String forwardAmt[] = new TaxDetController(context).calculateTaxForwardFromDebTax(debCode, ordDet.getFINVDET_ITEM_CODE(),Double.parseDouble(ordDet.getFINVDET_AMT()));
+            String forwardAmtWithoutDis = String.valueOf(Double.parseDouble(forwardAmt[0]) - discount);
+            String reverseAmtWithoutDis = new TaxDetController(context).calculateReverseTaxFromDebTax(debCode, ordDet.getFINVDET_ITEM_CODE(),new BigDecimal(forwardAmtWithoutDis));
+            String forwardSellPrice = String.valueOf((Double.parseDouble(reverseAmtWithoutDis)+ discount)/Double.parseDouble(ordDet.getFINVDET_QTY()));
+            String updateQuery = "UPDATE FOrddet SET " +
+                    DatabaseHelper.FORDDET_SCH_DISPER + "='" +
+                    ordDet.getFINVDET_SCHDISPER() + "'," + DatabaseHelper.FORDDET_DIS_VAL_AMT + " ='" + String.format("%.2f", discount) + "'," + DatabaseHelper.FORDDET_AMT + "='" + reverseAmtWithoutDis + "'," + DatabaseHelper.FORDDET_DISFLAG + "='" + disFlag + "'," + DatabaseHelper.FORDDET_SELL_PRICE + "='" + forwardSellPrice + "'," + DatabaseHelper.FORDDET_BT_SELL_PRICE + "='" + forwardSellPrice + "'," + DatabaseHelper.FORDDET_B_AMT + "='" + reverseAmtWithoutDis + "'," + DatabaseHelper.FORDDET_DISCTYPE + "='" + discType + "' WHERE Itemcode ='" + ordDet.getFINVDET_ITEM_CODE() + "' AND type='SA'";
+            dB.execSQL(updateQuery);
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+    }
     public void UpdateArrayDiscount(ArrayList<InvDet> orderList) {
 
         String DiscRef = orderList.get(0).getFINVDET_DISC_REF();

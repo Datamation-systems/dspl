@@ -960,5 +960,38 @@ public class ReceiptController {
 		return result2;
 	}
 
+	public int updateIsSyncedReceipt(ReceiptHed mapper) {
 
+		int count = 0;
+
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+		Cursor cursor = null;
+
+		try {
+			ContentValues values = new ContentValues();
+
+			values.put(dbHelper.FPRECHED_ISSYNCED, "1");
+
+			if (mapper.getFPRECHED_ISSYNCED().equals("1")) {
+				count = dB.update(dbHelper.TABLE_FPRECHED, values, dbHelper.REFNO + " =?",
+						new String[] { String.valueOf(mapper.getFPRECHED_REFNO()) });
+			}
+
+		} catch (Exception e) {
+
+			Log.v(TAG + " Exception", e.toString());
+
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+		return count;
+
+	}
 }
