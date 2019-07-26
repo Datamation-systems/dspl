@@ -1,5 +1,7 @@
 package com.datamation.sfa.model;
 
+import java.util.ArrayList;
+
 public class ReceiptHed {
 	
 	private String FPRECHED_ID ;
@@ -40,9 +42,43 @@ public class ReceiptHed {
 	private String FPRECHED_BANKCODE;
 	private String FPRECHED_BRANCHCODE;
 	private String FPRECHED_ADDUSER_NEW;
-	
-	
-	
+	private String ConsoleDB;
+	private String DistDB;
+	private String NextNumVal;
+	private ArrayList<ReceiptDet> RecDetList;
+
+	public ArrayList<ReceiptDet> getRecDetList() {
+		return RecDetList;
+	}
+
+	public void setRecDetList(ArrayList<ReceiptDet> recDetList) {
+		RecDetList = recDetList;
+	}
+
+	public String getConsoleDB() {
+		return ConsoleDB;
+	}
+
+	public void setConsoleDB(String consoleDB) {
+		ConsoleDB = consoleDB;
+	}
+
+	public String getDistDB() {
+		return DistDB;
+	}
+
+	public void setDistDB(String distDB) {
+		DistDB = distDB;
+	}
+
+	public String getNextNumVal() {
+		return NextNumVal;
+	}
+
+	public void setNextNumVal(String nextNumVal) {
+		NextNumVal = nextNumVal;
+	}
+
 	public String getFPRECHED_ADDUSER_NEW() {
 		return FPRECHED_ADDUSER_NEW;
 	}
