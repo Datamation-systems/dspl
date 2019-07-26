@@ -406,7 +406,9 @@ public class NetworkFunctions {
     public String syncInvoice(){
         return baseURL+"insertFInvHed";
     }
-
+    public String syncReceipt(){
+        return baseURL+"insertFrecHed";
+    }
     public String syncOrder(){
         return baseURL+"insertFOrdHed";
     }

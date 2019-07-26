@@ -10,6 +10,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.ReceiptHed;
 
@@ -960,5 +961,122 @@ public class ReceiptController {
 		return result2;
 	}
 
+	public int updateIsSyncedReceipt(ReceiptHed mapper) {
 
+		int count = 0;
+
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+		Cursor cursor = null;
+
+		try {
+			ContentValues values = new ContentValues();
+
+			values.put(dbHelper.FPRECHED_ISSYNCED, "1");
+
+			if (mapper.getFPRECHED_ISSYNCED().equals("1")) {
+				count = dB.update(dbHelper.TABLE_FPRECHED, values, dbHelper.REFNO + " =?",
+						new String[] { String.valueOf(mapper.getFPRECHED_REFNO()) });
+			}
+
+		} catch (Exception e) {
+
+			Log.v(TAG + " Exception", e.toString());
+
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+		return count;
+
+	}
+
+	public ArrayList<ReceiptHed> getAllUnsyncedRecHed() {
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		ArrayList<ReceiptHed> list = new ArrayList<ReceiptHed>();
+		String selectQuery;
+
+		try {
+			selectQuery = "select * from " + DatabaseHelper.TABLE_FPRECHED + " Where "
+					+ DatabaseHelper.FPRECHED_ISACTIVE + "='0' and " + DatabaseHelper.FPRECHED_ISSYNCED + "='0' and "
+					+ DatabaseHelper.FPRECHED_ISDELETE + "='0'";
+
+			localSP = context.getSharedPreferences(SETTINGS,
+					0);
+
+			Cursor cursor = dB.rawQuery(selectQuery, null);
+
+			while (cursor.moveToNext()) {
+
+				ReceiptHed mapper = new ReceiptHed();
+
+				mapper.setNextNumVal(new ReferenceController(context)
+						.getCurrentNextNumVal(context.getResources().getString(R.string.ReceiptNumVal)));
+
+				mapper.setDistDB(localSP.getString("Dist_DB", "").toString());
+				mapper.setConsoleDB(localSP.getString("Console_DB", "").toString());
+//				mapper.setSALEREP_DEALCODE(new SalRepDS(context).getDealCode());
+//				mapper.setSALEREP_AREACODE(new SalRepDS(context).getAreaCode());
+
+				mapper.setFPRECHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_ADDDATE)));
+				mapper.setFPRECHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_ADDMACH)));
+				mapper.setFPRECHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_ADDRESS)));
+				mapper.setFPRECHED_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_ADDUSER)));
+				mapper.setFPRECHED_BTOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_BTOTALAMT)));
+				mapper.setFPRECHED_CHQDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_CHQDATE)));
+				mapper.setFPRECHED_CHQNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_CHQNO)));
+				mapper.setFPRECHED_CURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_CURCODE)));
+				mapper.setFPRECHED_CURRATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_CURRATE)));
+				mapper.setFPRECHED_CURRATE1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_CURRATE1)));
+				mapper.setFPRECHED_CUSBANK(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_CUSBANK)));
+				mapper.setFPRECHED_COSTCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_COST_CODE)));
+				mapper.setFPRECHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_DEBCODE)));
+				mapper.setFPRECHED_END_TIME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_END_TIME)));
+				mapper.setFPRECHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_ID)));
+				mapper.setFPRECHED_ISACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_ISACTIVE)));
+				mapper.setFPRECHED_ISSYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_ISSYNCED)));
+				mapper.setFPRECHED_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_LATITUDE)));
+				mapper.setFPRECHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_LONGITUDE)));
+				mapper.setFPRECHED_MANUREF(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_MANUREF)));
+				mapper.setFPRECHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_PAYTYPE)));
+				mapper.setFPRECHED_PRTCOPY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_PRTCOPY)));
+				mapper.setFPRECHED_RECORDID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_RECORDID)));
+				mapper.setFPRECHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+				mapper.setFPRECHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_REMARKS)));
+				mapper.setFPRECHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_REPCODE)));
+				mapper.setFPRECHED_SALEREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_SALEREFNO)));
+				mapper.setFPRECHED_START_TIME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_START_TIME)));
+				mapper.setFPRECHED_TIMESTAMP(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_TIMESTAMP)));
+				mapper.setFPRECHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_TOTALAMT)));
+				mapper.setFPRECHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+				mapper.setFPRECHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_TXNTYPE)));
+				mapper.setFPRECHED_BANKCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_BANKCODE)));
+				mapper.setFPRECHED_BRANCHCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRECHED_BRANCHCODE)));
+
+				mapper.setRecDetList(new ReceiptDetController(context).GetReceiptByRefno(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO))));
+
+				list.add(mapper);
+
+			}
+			cursor.close();
+		} catch (Exception e) {
+
+			Log.v(TAG + " Exception", e.toString());
+
+		} finally {
+			dB.close();
+		}
+
+		return list;
+	}
 }

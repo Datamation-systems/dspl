@@ -94,6 +94,7 @@ import com.datamation.sfa.model.TaxDet;
 import com.datamation.sfa.model.TaxHed;
 import com.datamation.sfa.model.TourHed;
 import com.datamation.sfa.presale.UploadPreSales;
+import com.datamation.sfa.receipt.UploadReceipt;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.NetworkUtil;
 import com.datamation.sfa.utils.UtilityContainer;
@@ -236,7 +237,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                     new UploadVanSales(getActivity(), FragmentTools.this).execute(invHedList);
 
                                     Log.v(">>8>>","UploadPreSales execute finish");
-                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
 //
                                 }
 
@@ -258,6 +259,27 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
 
                                     Log.v(">>8>>","UploadPreSales execute finish");
                                     new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+//
+                                }
+
+                            }catch(Exception e){
+                                Log.v("Exception in sync order",e.toString());
+                            }
+
+                            try { // upload receipt
+
+                                ReceiptController receiptHed = new ReceiptController(getActivity());
+
+                                ArrayList<ReceiptHed> receiptHedList = receiptHed.getAllUnsyncedRecHed();
+//                    /* If records available for upload then */
+                                if (receiptHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
+                                else{
+
+                                    new UploadReceipt(getActivity(), FragmentTools.this).execute(receiptHedList);
+
+                                    Log.v(">>8>>","UploadPreSales execute finish");
+                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ReceiptNumVal));
 //
                                 }
 

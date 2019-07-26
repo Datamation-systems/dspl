@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.SearchView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,17 +23,25 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.adapter.FreeIssueAdapter;
 import com.datamation.sfa.adapter.FreeItemsAdapter;
 import com.datamation.sfa.adapter.InvDetAdapter;
 import com.datamation.sfa.adapter.NewProduct_Adapter;
+import com.datamation.sfa.adapter.OrderFreeItemAdapter;
 import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.InvHedController;
+import com.datamation.sfa.controller.ItemController;
+import com.datamation.sfa.controller.ItemPriController;
 import com.datamation.sfa.controller.OrdFreeIssueController;
+import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.ProductController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.SharedPref;
@@ -39,6 +49,9 @@ import com.datamation.sfa.model.FreeIssue;
 import com.datamation.sfa.model.FreeItemDetails;
 import com.datamation.sfa.model.InvDet;
 import com.datamation.sfa.model.InvHed;
+import com.datamation.sfa.model.ItemFreeIssue;
+import com.datamation.sfa.model.OrdFreeIssue;
+import com.datamation.sfa.model.OrderDetail;
 import com.datamation.sfa.model.Product;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.view.VanSalesActivity;
@@ -107,7 +120,7 @@ public class VanSalesOrderDetails extends Fragment {
         ibtDiscount.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                calculateFreeIssue();
+                calculateFreeIssue(SharedPref.getInstance(getActivity()).getSelectedDebCode());
             }
         });
 
@@ -214,73 +227,156 @@ public class VanSalesOrderDetails extends Fragment {
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    public void calculateFreeIssue() {
+//    public void calculateFreeIssue() {
+//
+//        //ibtDiscount.setClickable(false);
+//
+//        /* GET CURRENT ORDER DETAILS FROM TABLE */
+//        ArrayList<InvDet> dets = new InvDetController(getActivity()).getSAForFreeIssueCalc(RefNo);
+//        //ArrayList<InvDet> dets = new ProductDS(getActivity()).getSelectedItemsForInvoice(RefNo);
+//
+//        /* CLEAR ORDERDET TABLE RECORD IF FREE ITEMS ARE ALREADY ADDED. */
+//        new InvDetController(getActivity()).restFreeIssueData(RefNo);
+//        /* Clear free issues in OrdFreeIss */
+//        new OrdFreeIssueController(getActivity()).ClearFreeIssues(RefNo);
+//        /*
+//         * JUST LOAD ORDER ITEMS TO LISTVIEW & CLEAR FREE ITEM FROM LISTVIEW
+//         * USER ALREADY RETREIVED FREE ISSUES
+//         */
+//        //FetchData();
+//
+//        FreeIssue issue = new FreeIssue(getActivity());
+//
+//        /* Get discounts for assorted items */
+//        ArrayList<ArrayList<InvDet>> metaOrdList = issue.SortInvoiceDiscount(dets);
+//
+//        /* Iterate through for discounts for items */
+//        for (ArrayList<InvDet> OrderList : metaOrdList) {
+//            // DiscountDialogBox(OrderList);
+//
+//            double totAmt = 0;
+//            double freeVal = Double.parseDouble(OrderList.get(0).getFINVDET_B_AMT());
+//            String discPer = OrderList.get(0).getFINVDET_SCHDISPER();
+//            String discType = OrderList.get(0).getFINVDET_DISCTYPE();
+//            String discRef = OrderList.get(0).getFINVDET_DISC_REF();
+//            OrderList.get(0).setFINVDET_B_AMT("0");
+//
+//            for (InvDet det : OrderList)
+//                totAmt += Double.parseDouble(det.getFINVDET_PRICE()) * (Double.parseDouble(det.getFINVDET_QTY()));
+//
+//            for (InvDet det : OrderList) {
+//                det.setFINVDET_SCHDISPER(discPer);
+//                det.setFINVDET_DISCTYPE(discType);
+//                det.setFINVDET_DISC_REF(discRef);
+//
+//                double disc;
+//
+//                /*
+//                 * For value, calculate amount portion & for percentage ,
+//                 * calculate percentage portion
+//                 */
+//                disc = (freeVal / totAmt) * Double.parseDouble(det.getFINVDET_PRICE()) * (Double.parseDouble(det.getFINVDET_QTY()));
+//
+//                /* Calculate discount amount from disc percentage portion */
+//                if (discType.equals("P"))
+//                    disc = (Double.parseDouble(det.getFINVDET_AMT()) / 100) * disc;
+//
+//                new InvDetController(getActivity()).updateDiscount(det, disc, det.getFINVDET_DISCTYPE());
+//            }
+//        }
+//
+//        // GET ARRAY OF FREE ITEMS BY PASSING IN ORDER DETAILS
+//        ArrayList<FreeItemDetails> list = issue.getFreeItemsByInvoiceItem(dets, new SharedPref(getActivity()).getGlobalVal("KeyCostCode"));
+//        // PASS EACH ITEM IN TO DIALOG BOX FOR USER SELECTION
+//        for (FreeItemDetails freeItemDetails : list) {
+//           // freeIssueDialogBox(freeItemDetails);//comment on 07-07-2019 till error free
+//
+//        }
+//    }
+public void calculateFreeIssue(String debCode) {
+    /* GET CURRENT ORDER DETAILS FROM TABLE */
+    ArrayList<InvDet> dets = new InvDetController(getActivity()).getSAForFreeIssueCalc(RefNo);
+    /* CLEAR ORDERDET TABLE RECORD IF FREE ITEMS ARE ALREADY ADDED. */
+    new InvDetController(getActivity()).restFreeIssueData(RefNo);
+    /* Clear free issues in OrdFreeIss */
+    new OrdFreeIssueController(getActivity()).ClearFreeIssues(RefNo);
 
-        //ibtDiscount.setClickable(false);
+    FreeIssue issue = new FreeIssue(getActivity());
 
-        /* GET CURRENT ORDER DETAILS FROM TABLE */
-        ArrayList<InvDet> dets = new InvDetController(getActivity()).getSAForFreeIssueCalc(RefNo);
-        //ArrayList<InvDet> dets = new ProductDS(getActivity()).getSelectedItemsForInvoice(RefNo);
+    /* Get discounts for assorted items */
+    ArrayList<ArrayList<InvDet>> metaOrdList = issue.SortInvDiscount(dets, debCode);
 
-        /* CLEAR ORDERDET TABLE RECORD IF FREE ITEMS ARE ALREADY ADDED. */
-        new InvDetController(getActivity()).restFreeIssueData(RefNo);
-        /* Clear free issues in OrdFreeIss */
-        new OrdFreeIssueController(getActivity()).ClearFreeIssues(RefNo);
-        /*
-         * JUST LOAD ORDER ITEMS TO LISTVIEW & CLEAR FREE ITEM FROM LISTVIEW
-         * USER ALREADY RETREIVED FREE ISSUES
-         */
-        //FetchData();
+    Log.d("PRE_SALES_ORDER_DETAILS", "LIST_SIZE: " + metaOrdList.size());
 
-        FreeIssue issue = new FreeIssue(getActivity());
+    /* Iterate through for discounts for items */
+    for (ArrayList<InvDet> OrderList : metaOrdList) {
 
-        /* Get discounts for assorted items */
-        ArrayList<ArrayList<InvDet>> metaOrdList = issue.SortInvoiceDiscount(dets);
+        double totAmt = 0;
+        String discPer,discType,discRef;
+        double freeVal = Double.parseDouble(OrderList.get(0).getFINVDET_B_AMT());
+        if(OrderList.get(0).getFINVDET_SCHDISPER() != null)
+            discPer = OrderList.get(0).getFINVDET_SCHDISPER();
+        else
+            discPer = "";
+        if(OrderList.get(0).getFINVDET_DISCTYPE() != null)
+            discType = OrderList.get(0).getFINVDET_DISCTYPE();
+        else
+            discType = "";
+        if(OrderList.get(0).getFINVDET_DISC_REF() != null)
+            discRef = OrderList.get(0).getFINVDET_DISC_REF();
+        else
+            discRef = "";
 
-        /* Iterate through for discounts for items */
-        for (ArrayList<InvDet> OrderList : metaOrdList) {
-            // DiscountDialogBox(OrderList);
 
-            double totAmt = 0;
-            double freeVal = Double.parseDouble(OrderList.get(0).getFINVDET_B_AMT());
-            String discPer = OrderList.get(0).getFINVDET_SCHDISPER();
-            String discType = OrderList.get(0).getFINVDET_DISCTYPE();
-            String discRef = OrderList.get(0).getFINVDET_DISC_REF();
-            OrderList.get(0).setFINVDET_B_AMT("0");
+        OrderList.get(0).setFINVDET_B_AMT("0");
 
-            for (InvDet det : OrderList)
-                totAmt += Double.parseDouble(det.getFINVDET_PRICE()) * (Double.parseDouble(det.getFINVDET_QTY()));
+        for (InvDet det : OrderList)
+            totAmt += Double.parseDouble(det.getFINVDET_B_SELL_PRICE()) * (Double.parseDouble(det.getFINVDET_QTY()));
+        // commented cue to getFTRANSODET_PRICE() is not set
+        //totAmt += Double.parseDouble(det.getFTRANSODET_PRICE()) * (Double.parseDouble(det.getFTRANSODET_QTY()));
 
-            for (InvDet det : OrderList) {
-                det.setFINVDET_SCHDISPER(discPer);
-                det.setFINVDET_DISCTYPE(discType);
-                det.setFINVDET_DISC_REF(discRef);
+        for (InvDet det : OrderList) {
+            det.setFINVDET_SCHDISPER(discPer);
+            det.setFINVDET_DISCTYPE(discType);
+            det.setFINVDET_DISC_REF(discRef);
 
-                double disc;
+            double disc;
+            /*
+             * For value, calculate amount portion & for percentage ,
+             * calculate percentage portion
+             */
+            disc = (freeVal / totAmt) * Double.parseDouble(det.getFINVDET_B_SELL_PRICE()) * (Double.parseDouble(det.getFINVDET_QTY()));
 
-                /*
-                 * For value, calculate amount portion & for percentage ,
-                 * calculate percentage portion
-                 */
-                disc = (freeVal / totAmt) * Double.parseDouble(det.getFINVDET_PRICE()) * (Double.parseDouble(det.getFINVDET_QTY()));
+            //commented due to
+            // disc = (Double.parseDouble(det.getFTRANSODET_AMT()) / 100) * disc not correct
 
-                /* Calculate discount amount from disc percentage portion */
-                if (discType.equals("P"))
-                    disc = (Double.parseDouble(det.getFINVDET_AMT()) / 100) * disc;
+            /* Calculate discount amount from disc percentage portion */
+//					if (discType != null)
+//                    {
+//                        if (discType.equals("P"))
+////                            disc = (Double.parseDouble(det.getFTRANSODET_AMT()) / 100) * disc;
+//                            disc = (Double.parseDouble(det.getFTRANSODET_AMT()) / 100);
+//                    }
 
-                new InvDetController(getActivity()).updateDiscount(det, disc, det.getFINVDET_DISCTYPE());
-            }
-        }
-
-        // GET ARRAY OF FREE ITEMS BY PASSING IN ORDER DETAILS
-        ArrayList<FreeItemDetails> list = issue.getFreeItemsByInvoiceItem(dets, new SharedPref(getActivity()).getGlobalVal("KeyCostCode"));
-        // PASS EACH ITEM IN TO DIALOG BOX FOR USER SELECTION
-        for (FreeItemDetails freeItemDetails : list) {
-           // freeIssueDialogBox(freeItemDetails);//comment on 07-07-2019 till error free
-
+            new InvDetController(getActivity()).updateDiscount(det, disc, det.getFINVDET_DISCTYPE());
         }
     }
 
+    // GET ARRAY OF FREE ITEMS BY PASSING IN ORDER DETAILS
+    //ArrayList<FreeItemDetails> list = issue.getFreeItemsBySalesItem(dets);
+    ArrayList<FreeItemDetails> list = issue.getFreeItemsByInvoiceItem(dets, "");
+    //ArrayList<FreeItemDetails> list = issue.getFreeItemsBySalesItem(dets, new SharedPref(getActivity()).getGlobalVal("preKeyCostCode"));
+    // PASS EACH ITEM IN TO DIALOG BOX FOR USER SELECTION
+    //       if(count == 1) {
+    // Log.v("Click count before loop", ">>>"+count);
+    for (FreeItemDetails freeItemDetails : list) {
+        freeIssueDialogBox(freeItemDetails);
+
+    }
+   // Log.v("Click count after loop", ">>>"+count);
+//        }
+
+}
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     /*@Override
@@ -374,6 +470,195 @@ public class VanSalesOrderDetails extends Fragment {
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
+    private boolean freeIssueDialogBox(final FreeItemDetails itemDetails) {
+
+        final ArrayList<ItemFreeIssue> itemFreeIssues;
+        final String FIRefNo = itemDetails.getRefno();
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptView = layoutInflater.inflate(R.layout.free_issues_items_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle("Free Issue Schemes");
+        alertDialogBuilder.setView(promptView);
+
+        final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
+        final TextView itemName = (TextView) promptView.findViewById(R.id.tv_free_issue_item_name);
+        final TextView freeQty = (TextView) promptView.findViewById(R.id.tv_free_qty);
+
+        freeQty.setText("Free Quantity : " + itemDetails.getFreeQty());
+        itemName.setText("Product : " + new ItemController(getActivity()).getItemNameByCode(itemDetails.getFreeIssueSelectedItem()));
+
+        final ItemController itemsDS = new ItemController(getActivity());
+        itemFreeIssues = itemsDS.getAllFreeItemNameByRefno(itemDetails.getRefno());
+        listView.setAdapter(new FreeIssueAdapter(getActivity(), itemFreeIssues));
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            int avaliableQty = 0;
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view2, final int position, long id) {
+
+                if (itemDetails.getFreeQty() > 0) {
+
+                    ItemFreeIssue freeIssue = itemFreeIssues.get(position);
+                    LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+
+                    View promptView = layoutInflater.inflate(R.layout.set_free_issue_dialog, null);
+
+                    final TextView leftQty = (TextView) promptView.findViewById(R.id.tv_free_item_left_qty);
+                    final EditText enteredQty = (EditText) promptView.findViewById(R.id.et_free_qty);
+
+                    leftQty.setText("Free Items Left = " + itemDetails.getFreeQty());
+
+                    enteredQty.addTextChangedListener(new TextWatcher() {
+                        public void afterTextChanged(Editable s) {
+
+                            if (enteredQty.getText().toString().equals("")) {
+
+                                leftQty.setText("Free Items Left = " + itemDetails.getFreeQty());
+
+                            } else {
+                                avaliableQty = itemDetails.getFreeQty() - Integer.parseInt(enteredQty.getText().toString());
+
+                                if (avaliableQty < 0) {
+                                    enteredQty.setText("");
+                                    leftQty.setText("Free Items Left = " + itemDetails.getFreeQty());
+                                    Toast.makeText(getActivity(), "You don't have enough sufficient quantity to order", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    leftQty.setText("Free Items Left = " + avaliableQty);
+                                }
+                            }
+                        }
+
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        }
+                    });
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                    alertDialogBuilder.setTitle(freeIssue.getItems().getFITEM_ITEM_NAME());
+                    alertDialogBuilder.setView(promptView);
+
+                    alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            itemDetails.setFreeQty(avaliableQty);
+                            freeQty.setText("Free Qty you have : " + itemDetails.getFreeQty());
+
+                            itemFreeIssues.get(position).setAlloc(enteredQty.getText().toString());
+                            listView.clearTextFilter();
+                            listView.setAdapter(new FreeIssueAdapter(getActivity(), itemFreeIssues));
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    AlertDialog alertD = alertDialogBuilder.create();
+                    alertD.show();
+                } else {
+                    Toast.makeText(getActivity(), "You don't have enough sufficient quantity to order", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                for (ItemFreeIssue itemFreeIssue : itemFreeIssues) {
+
+                    if (Integer.parseInt(itemFreeIssue.getAlloc()) > 0) {
+
+                        seqno++;
+                        OrderDetail ordDet = new OrderDetail();
+                        OrderDetailController detDS = new OrderDetailController(getActivity());
+                        ArrayList<OrderDetail> ordList = new ArrayList<OrderDetail>();
+
+                        ordDet.setFORDERDET_ID("0");
+                        ordDet.setFORDERDET_AMT("0");
+                        ordDet.setFORDERDET_BALQTY(itemFreeIssue.getAlloc());
+                        ordDet.setFORDERDET_BAMT("0");
+                        ordDet.setFORDERDET_BDISAMT("0");
+                        ordDet.setFORDERDET_BPDISAMT("0");
+                        String unitPrice = new ItemPriController(getActivity()).getProductPriceByCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mSharedPref.getSelectedDebtorPrilCode());
+                        ordDet.setFORDERDET_BSELLPRICE("0");
+                        ordDet.setFORDERDET_BTSELLPRICE("0.00");
+                        ordDet.setFORDERDET_DISAMT("0");
+                        ordDet.setFORDERDET_SCHDISPER("0");
+                        ordDet.setFORDERDET_FREEQTY("0");
+                        ordDet.setFORDERDET_ITEMCODE(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
+                        ordDet.setFORDERDET_PDISAMT("0");
+                        ordDet.setFORDERDET_PRILCODE(mSharedPref.getSelectedDebtorPrilCode());
+                        ordDet.setFORDERDET_QTY(itemFreeIssue.getAlloc());
+                        ordDet.setFORDERDET_PICE_QTY(itemFreeIssue.getAlloc());
+                        ordDet.setFORDERDET_TYPE("FI");
+                        ordDet.setFORDERDET_RECORDID("");
+                        ordDet.setFORDERDET_REFNO(RefNo);
+                        ordDet.setFORDERDET_SELLPRICE("0");
+                        ordDet.setFORDERDET_SEQNO(seqno + "");
+                        ordDet.setFORDERDET_TAXAMT("0");
+                        ordDet.setFORDERDET_TAXCOMCODE(new ItemController(getActivity()).getTaxComCodeByItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
+                        //ordDet.setFTRANSODET_TAXCOMCODE(new ItemsDS(getActivity()).getTaxComCodeByItemCodeFromDebTax(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mainActivity.selectedDebtor.getFDEBTOR_CODE()));
+                        ordDet.setFORDERDET_TIMESTAMP_COLUMN("");
+                        ordDet.setFORDERDET_TSELLPRICE("0.00");
+                        ordDet.setFORDERDET_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                        ordDet.setFORDERDET_TXNTYPE("27");
+                        ordDet.setFORDERDET_IS_ACTIVE("1");
+                        ordDet.setFORDERDET_LOCCODE(mSharedPref.getGlobalVal("PrekeyLocCode").trim());
+                        ordDet.setFORDERDET_COSTPRICE(new ItemController(getActivity()).getCostPriceItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
+                        ordDet.setFORDERDET_BTAXAMT("0");
+                        ordDet.setFORDERDET_IS_SYNCED("0");
+                        ordDet.setFORDERDET_QOH("0");
+                        ordDet.setFORDERDET_SCHDISC("0");
+                        ordDet.setFORDERDET_BRAND_DISC("0");
+                        ordDet.setFORDERDET_BRAND_DISPER("0");
+                        ordDet.setFORDERDET_COMP_DISC("0");
+                        ordDet.setFORDERDET_COMP_DISPER("0");
+                        ordDet.setFORDERDET_DISCTYPE("");
+                        ordDet.setFORDERDET_PRICE("0.00");
+                        ordDet.setFORDERDET_ORG_PRICE("0");
+                        ordDet.setFORDERDET_DISFLAG("0");
+
+                        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*OrdFreeIssue table update*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+                        OrdFreeIssue ordFreeIssue = new OrdFreeIssue();
+                        ordFreeIssue.setOrdFreeIssue_ItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
+                        ordFreeIssue.setOrdFreeIssue_Qty(itemFreeIssue.getAlloc());
+                        ordFreeIssue.setOrdFreeIssue_RefNo(FIRefNo);
+                        ordFreeIssue.setOrdFreeIssue_RefNo1(RefNo);
+                        ordFreeIssue.setOrdFreeIssue_TxnDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                        new OrdFreeIssueController(getActivity()).UpdateOrderFreeIssue(ordFreeIssue);
+
+                        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*/
+
+                        ordList.add(ordDet);
+
+                        if (detDS.createOrUpdateOrdDet(ordList) > 0) {
+                            Toast.makeText(getActivity(), "Added successfully", Toast.LENGTH_SHORT).show();
+                            //showData();
+
+                            lvFree.setAdapter(null);
+                            ArrayList<OrderDetail> freeList=new OrderDetailController(getActivity()).getAllFreeIssue(RefNo);
+                            lvFree.setAdapter(new OrderFreeItemAdapter(getActivity(), freeList));
+                        }
+                    }
+                }
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+
+        alertD.show();
+        return true;
+    }
     public void showData() {
         selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
         try {
