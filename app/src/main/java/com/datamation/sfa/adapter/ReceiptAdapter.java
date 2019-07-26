@@ -127,11 +127,12 @@ public class ReceiptAdapter extends ArrayAdapter<FddbNote> {
 		} else {
 			
 			lblDueAmt.setText(String.format("%,.2f", Double.parseDouble(list.get(position).getFDDBNOTE_TOT_BAL())));
-
-			if (list.get(position).getFDDBNOTE_ENTER_AMT().length() > 0)
-				lblAmt.setText(String.format("%,.2f", Double.parseDouble(list.get(position).getFDDBNOTE_ENTER_AMT())));
-			else
-				lblAmt.setText("0.00");
+			if (list.get(position).getFDDBNOTE_ENTER_AMT() != null) {
+				if (list.get(position).getFDDBNOTE_ENTER_AMT().length() > 0)
+					lblAmt.setText(String.format("%,.2f", Double.parseDouble(list.get(position).getFDDBNOTE_ENTER_AMT())));
+				else
+					lblAmt.setText("0.00");
+			}
 
 		}
 
