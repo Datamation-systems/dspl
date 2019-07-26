@@ -93,6 +93,7 @@ import com.datamation.sfa.model.Tax;
 import com.datamation.sfa.model.TaxDet;
 import com.datamation.sfa.model.TaxHed;
 import com.datamation.sfa.model.TourHed;
+import com.datamation.sfa.presale.UploadPreSales;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.NetworkUtil;
 import com.datamation.sfa.utils.UtilityContainer;
@@ -229,10 +230,31 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                 ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
 //                    /* If records available for upload then */
                                 if (invHedList.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Records to upload !", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), "No Van Sale Records to upload !", Toast.LENGTH_LONG).show();
                                 else{
 
                                     new UploadVanSales(getActivity(), FragmentTools.this).execute(invHedList);
+
+                                    Log.v(">>8>>","UploadPreSales execute finish");
+                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+//
+                                }
+
+                            }catch(Exception e){
+                                Log.v("Exception in sync order",e.toString());
+                            }
+
+                            try { // upload pre sale order
+
+                                OrderController orderHed = new OrderController(getActivity());
+
+                                ArrayList<Order> ordHedList = orderHed.getAllUnSyncOrdHed();
+//                    /* If records available for upload then */
+                                if (ordHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
+                                else{
+
+                                    new UploadPreSales(getActivity(), FragmentTools.this).execute(ordHedList);
 
                                     Log.v(">>8>>","UploadPreSales execute finish");
                                     new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));

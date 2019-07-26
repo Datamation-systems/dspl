@@ -273,18 +273,10 @@ public class OrderController {
             values.put(dbHelper.FORDHED_LATITUDE, SharedPref.getInstance(context).getGlobalVal("startLatitude"));
             values.put(dbHelper.FORDHED_LONGITUDE, SharedPref.getInstance(context).getGlobalVal("startLongitude"));
 
-            //commented due to chaged the table
-
-            //            values.put(dbHelper.ORDER_IS_ACTIVE, "0");
-//            values.put(dbHelper.ORDER_END_TIME, UploadDate.split(" ")[1]);
-//            values.put(dbHelper.ORDER_ADDDATE, UploadDate.split(" ")[0]);
-//            values.put(dbHelper.ORDER_LATITUDE, SharedPref.getInstance(context).getGlobalVal("startLatitude"));
-//            values.put(dbHelper.ORDER_LONGITUDE, SharedPref.getInstance(context).getGlobalVal("startLongitude"));
-
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.REFNO + " =?",
+                count = dB.update(dbHelper.TABLE_FORDHED, values, dbHelper.REFNO + " =?",
                         new String[] { String.valueOf(refno) });
             }
 
@@ -303,7 +295,7 @@ public class OrderController {
     }
 
     @SuppressWarnings("static-access")
-    public int updateIsSynced(boolean status,String refNo) {
+    public int updateIsSynced(Order hed) {
 
         int count = 0;
 
@@ -317,12 +309,10 @@ public class OrderController {
         try {
             ContentValues values = new ContentValues();
 
+            values.put(dbHelper.FORDHED_IS_SYNCED, "1");
 
-            values.put(dbHelper.ORDER_IS_SYNCED, "1");
-
-            if (status) {
-                count = dB.update(dbHelper.TABLE_ORDER, values, dbHelper.REFNO + " =?",
-                        new String[] { String.valueOf(refNo) });
+            if (hed.getORDER_IS_SYNCED().equals("1")) {
+                count = dB.update(dbHelper.TABLE_FORDHED, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(hed.getORDER_REFNO()) });
             }
 
         } catch (Exception e) {

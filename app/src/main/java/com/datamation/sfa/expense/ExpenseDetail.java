@@ -411,6 +411,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 //                UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
                 Intent intent = new Intent(getActivity(), ActivityHome.class);
                 startActivity(intent);
+                getActivity().finish();
                 Toast.makeText(getActivity(), "Undo Success", Toast.LENGTH_LONG).show();
 
             }
