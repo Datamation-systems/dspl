@@ -227,7 +227,8 @@ public class VanSalesSummary extends Fragment {
         int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
 
-        locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
+        //locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
+        locCode = new SalRepController(getActivity()).getCurrentLocCode().trim();
 
         list = new InvDetController(getActivity()).getAllInvDet(RefNo);
         returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(ReturnRefNo);
