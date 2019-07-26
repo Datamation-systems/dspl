@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.DatabaseHelper;
+import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.ReceiptHed;
 
 
@@ -1024,7 +1025,8 @@ public class ReceiptController {
 						.getCurrentNextNumVal(context.getResources().getString(R.string.ReceiptNumVal)));
 
 				mapper.setDistDB(localSP.getString("Dist_DB", "").toString());
-				mapper.setConsoleDB(localSP.getString("Console_DB", "").toString());
+				mapper.setConsoleDB(SharedPref.getInstance(context).getDatabase());
+
 //				mapper.setSALEREP_DEALCODE(new SalRepDS(context).getDealCode());
 //				mapper.setSALEREP_AREACODE(new SalRepDS(context).getAreaCode());
 
