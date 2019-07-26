@@ -143,8 +143,8 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
     @Override
     protected void onStart() {
         super.onStart();
-//        if (status)
-//            viewPager.setCurrentItem(1);
+        if (status)
+            viewPager.setCurrentItem(1);
     }
 
     @Override

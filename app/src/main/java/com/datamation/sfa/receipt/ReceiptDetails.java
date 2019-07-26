@@ -242,6 +242,8 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
             }
         });
 
+        FetchData();
+
         return view;
     }
 
@@ -265,11 +267,12 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
     public void FetchData() {
         Log.d("Paymode",mSharedPref.getGlobalVal("ReckeyPayMode"));
         Log.d("Received",mSharedPref.getGlobalVal("ReckeyPayMode"));
+        Log.d("debcode",SharedPref.getInstance(getActivity()).getSelectedDebCode());
 
-            if (!mSharedPref.getGlobalVal("ReckeyPayMode").equals("***") &&
-                    !mSharedPref.getGlobalVal("ReckeyPayMode").equals("-SELECT-") &&
-        !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("***") && !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("0")) {
-
+//            if (!mSharedPref.getGlobalVal("ReckeyPayMode").equals("***") &&
+//                    !mSharedPref.getGlobalVal("ReckeyPayMode").equals("-SELECT-") &&
+//        !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("***") && !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("0")) {
+if(!SharedPref.getInstance(getActivity()).getSelectedDebCode().equals("0")){
             lv_order_det.setAdapter(null);
             orderList = new OutstandingController(getActivity()).getAllRecords(SharedPref.getInstance(getActivity()).getSelectedDebCode(), false);
             lv_order_det.setAdapter(new ReceiptAdapter(getActivity(), orderList, false, RefNo));
@@ -283,10 +286,10 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
 
             mSharedPref.setGlobalVal("ReckeyRemnant", et_remnant.getText().toString().replaceAll(",", ""));
         }
-        else
-        {
-            navigateToHeader(0);
-        }
+//        else
+//        {
+//            navigateToHeader(0);
+//        }
     }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -348,7 +351,11 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
 	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 	public void mRefreshHeader(){
-        ReceivedAmt = Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRecAmt"));
+	    if(!mSharedPref.getGlobalVal("ReckeyRecAmt").equals("***"))
+            ReceivedAmt = Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRecAmt"));
+	    else
+            ReceivedAmt = 0.0;
+
         FetchData();
     }
 
