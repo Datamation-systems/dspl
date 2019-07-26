@@ -40,7 +40,7 @@ public class DashboardController {
             open();
         }
 
-        double targetsum =0;
+        double targetsum =300000.00;
 
         Cursor cursor = dB.rawQuery("SELECT Target from fTarget where Month = '"+String.format("%02d", curMonth)+"' and Year = '" + curYear +"'", null);
 
@@ -51,7 +51,7 @@ public class DashboardController {
 
         cursor.close();
         dB.close();
-        return 0.0;
+        return targetsum;
 
     }
     //current month discount
@@ -244,7 +244,7 @@ public class DashboardController {
             open();
         }
 
-        double targetsum =0;
+        double targetsum =200000.00;
 
         Cursor cursor = dB.rawQuery("SELECT Target from fTarget where Month = '"+String.format("%02d", curMonth-1)+"' and Year = '" + curYear +"'", null);
 
@@ -255,7 +255,7 @@ public class DashboardController {
 
         cursor.close();
         dB.close();
-        return 0.0;
+        return targetsum;
 
     }
     //previous month discount
