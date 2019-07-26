@@ -1008,7 +1008,7 @@ public class ReceiptController {
 		String selectQuery;
 
 		try {
-			selectQuery = "select * from " + DatabaseHelper.TABLE_FPRECHED + " Where "
+			selectQuery = "select * from " + DatabaseHelper.TABLE_FPRECHEDS + " Where "
 					+ DatabaseHelper.FPRECHED_ISACTIVE + "='0' and " + DatabaseHelper.FPRECHED_ISSYNCED + "='0' and "
 					+ DatabaseHelper.FPRECHED_ISDELETE + "='0'";
 
