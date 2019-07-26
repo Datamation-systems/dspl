@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.OrderDetail;
+import com.datamation.sfa.model.TaxDT;
 import com.datamation.sfa.model.TaxDet;
 
 import java.math.BigDecimal;
@@ -90,47 +91,47 @@ public class PreSaleTaxDTDS {
 
     }
 
-//    public ArrayList<TaxDT> getAllTaxDT(String RefNo) {
-//
-//        if (dB == null) {
-//            open();
-//        } else if (!dB.isOpen()) {
-//            open();
-//        }
-//
-//        ArrayList<TaxDT> list = new ArrayList<TaxDT>();
-//        try {
-//            String selectQuery = "select * from " + dbHelper.TABLE_PRETAXDT + " WHERE RefNo='" + RefNo + "'";
-//
-//            Cursor cursor = dB.rawQuery(selectQuery, null);
-//
-//            while (cursor.moveToNext()) {
-//                TaxDT tax = new TaxDT();
-//
-//                tax.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_REFNO)));
-//                tax.setTAXCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_TAXCODE)));
-//                tax.setBTAXDETAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_BDETAMT)));
-//                tax.setTAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_TAXCOMCODE)));
-//                tax.setTAXDETAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_DETAMT)));
-//                tax.setTAXPER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_TAXPER)));
-//                tax.setTAXRATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_RATE)));
-//                tax.setTAXSEQ(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_SEQ)));
-//                tax.setITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_ITEMCODE)));
-//
-//                list.add(tax);
-//            }
-//            cursor.close();
-//
-//        } catch (Exception e) {
-//            Log.v("Erorr ", e.toString());
-//
-//        } finally {
-//            dB.close();
-//        }
-//
-//        return list;
-//
-//    }
+    public ArrayList<TaxDT> getAllTaxDT(String RefNo) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<TaxDT> list = new ArrayList<TaxDT>();
+        try {
+            String selectQuery = "select * from " + dbHelper.TABLE_PRETAXDT + " WHERE RefNo='" + RefNo + "'";
+
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+                TaxDT tax = new TaxDT();
+
+                tax.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_REFNO)));
+                tax.setTAXCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_TAXCODE)));
+                tax.setBTAXDETAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_BDETAMT)));
+                tax.setTAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_TAXCOMCODE)));
+                tax.setTAXDETAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_DETAMT)));
+                tax.setTAXPER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_TAXPER)));
+                tax.setTAXRATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_RATE)));
+                tax.setTAXSEQ(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_SEQ)));
+                tax.setITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXDT_ITEMCODE)));
+
+                list.add(tax);
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            Log.v("Erorr ", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return list;
+
+    }
 //
 //    public ArrayList<TaxDT> getTaxDTSummery(String RefNo) {
 //

@@ -1,8 +1,12 @@
 package com.datamation.sfa.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class FInvRHed implements Serializable{
+
+    private String ConsoleDB;
+    private String DistDB;
 
     private String FINVRHED_ID;
     private String FINVRHED_REFNO;
@@ -39,8 +43,52 @@ public class FInvRHed implements Serializable{
     private String FINVRHED_HELPERCODE;
     private String FINVRHED_DRIVERCODE;
 
+    private ArrayList<FInvRDet> FinvrtDets;
+    private ArrayList<TaxDT> taxDTs;
+    private ArrayList<TaxRG> taxRGs;
+
+    public ArrayList<FInvRDet> getFinvrtDets() {
+        return FinvrtDets;
+    }
+
+    public void setFinvrtDets(ArrayList<FInvRDet> finvrtDets) {
+        FinvrtDets = finvrtDets;
+    }
+
+    public ArrayList<TaxDT> getTaxDTs() {
+        return taxDTs;
+    }
+
+    public void setTaxDTs(ArrayList<TaxDT> taxDTs) {
+        this.taxDTs = taxDTs;
+    }
+
+    public ArrayList<TaxRG> getTaxRGs() {
+        return taxRGs;
+    }
+
+    public void setTaxRGs(ArrayList<TaxRG> taxRGs) {
+        this.taxRGs = taxRGs;
+    }
+
     public String getFINVRHED_INV_REFNO() {
         return FINVRHED_INV_REFNO;
+    }
+
+    public String getConsoleDB() {
+        return ConsoleDB;
+    }
+
+    public void setConsoleDB(String consoleDB) {
+        ConsoleDB = consoleDB;
+    }
+
+    public String getDistDB() {
+        return DistDB;
+    }
+
+    public void setDistDB(String distDB) {
+        DistDB = distDB;
     }
 
     public void setFINVRHED_INV_REFNO(String FINVRHED_INV_REFNO) {

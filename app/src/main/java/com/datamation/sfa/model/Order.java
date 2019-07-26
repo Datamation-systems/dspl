@@ -65,9 +65,64 @@ public class Order {
     private String ORDER_ADDUSER;
     private String ORDER_TOTFREEQTY;
     private String ORDER_SETTING_CODE;
+
+    private String ConsoleDB;
+    private String DistDB;
     private ArrayList<OrderDetail> soDetArrayList;
+    private ArrayList<TaxDT> taxDTs;
+    private ArrayList<TaxRG> taxRGs;
+    private ArrayList<OrderDisc> ordDisc;
+    private ArrayList<OrdFreeIssue> freeIssues;
 
     public Order() {
+    }
+
+    public ArrayList<TaxDT> getTaxDTs() {
+        return taxDTs;
+    }
+
+    public void setTaxDTs(ArrayList<TaxDT> taxDTs) {
+        this.taxDTs = taxDTs;
+    }
+
+    public ArrayList<TaxRG> getTaxRGs() {
+        return taxRGs;
+    }
+
+    public void setTaxRGs(ArrayList<TaxRG> taxRGs) {
+        this.taxRGs = taxRGs;
+    }
+
+    public ArrayList<OrderDisc> getOrdDisc() {
+        return ordDisc;
+    }
+
+    public void setOrdDisc(ArrayList<OrderDisc> ordDisc) {
+        this.ordDisc = ordDisc;
+    }
+
+    public ArrayList<OrdFreeIssue> getFreeIssues() {
+        return freeIssues;
+    }
+
+    public void setFreeIssues(ArrayList<OrdFreeIssue> freeIssues) {
+        this.freeIssues = freeIssues;
+    }
+
+    public String getConsoleDB() {
+        return ConsoleDB;
+    }
+
+    public void setConsoleDB(String consoleDB) {
+        ConsoleDB = consoleDB;
+    }
+
+    public String getDistDB() {
+        return DistDB;
+    }
+
+    public void setDistDB(String distDB) {
+        DistDB = distDB;
     }
 
     public String getORDER_TOTFREEQTY() {

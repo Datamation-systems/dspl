@@ -51,6 +51,7 @@ import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.RouteDetController;
 import com.datamation.sfa.controller.STKInController;
+import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.TaxController;
 import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.controller.TaxHedController;
@@ -71,6 +72,7 @@ import com.datamation.sfa.model.Discdet;
 import com.datamation.sfa.model.Disched;
 import com.datamation.sfa.model.Discslab;
 import com.datamation.sfa.model.Expense;
+import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.FddbNote;
 import com.datamation.sfa.model.FreeDeb;
 import com.datamation.sfa.model.FreeDet;
@@ -95,6 +97,7 @@ import com.datamation.sfa.model.TaxHed;
 import com.datamation.sfa.model.TourHed;
 import com.datamation.sfa.presale.UploadPreSales;
 import com.datamation.sfa.receipt.UploadReceipt;
+import com.datamation.sfa.salesreturn.UploadSalesReturn;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.NetworkUtil;
 import com.datamation.sfa.utils.UtilityContainer;
@@ -280,6 +283,27 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
 
                                     Log.v(">>8>>","UploadPreSales execute finish");
                                     new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ReceiptNumVal));
+//
+                                }
+
+                            }catch(Exception e){
+                                Log.v("Exception in sync order",e.toString());
+                            }
+
+                            try { // upload pre sales return
+
+                                SalesReturnController retHed = new SalesReturnController(getActivity());
+
+                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsynced();
+//                    /* If records available for upload then */
+                                if (retHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
+                                else{
+
+                                    new UploadSalesReturn(getActivity(), FragmentTools.this).execute(retHedList);
+
+                                    Log.v(">>8>>","UploadPreSales execute finish");
+                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
 //
                                 }
 

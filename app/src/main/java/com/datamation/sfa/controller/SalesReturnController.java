@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.FInvRHed;
+import com.datamation.sfa.model.Order;
 
 import java.util.ArrayList;
 
@@ -410,5 +411,113 @@ public class SalesReturnController
         }
 
         return REHed;
+    }
+
+    public int updateIsSynced(FInvRHed hed) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(dbHelper.FINVRHED_IS_SYNCED, "1");
+
+            if (hed.getFINVRHED_IS_SYNCED().equals("1")) {
+                count = dB.update(dbHelper.TABLE_FINVRHED, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(hed.getFINVRHED_REFNO()) });
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
+
+    // Sales Return Upload Method
+
+    public ArrayList<FInvRHed> getAllUnsynced() {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<FInvRHed> list = new ArrayList<FInvRHed>();
+
+
+        @SuppressWarnings("static-access")
+        String selectQuery = "select * from " + dbHelper.TABLE_FINVRHED
+                + " Where " + dbHelper.FINVRHED_IS_ACTIVE + "='0' and " +
+                dbHelper.FINVRHED_IS_SYNCED + "='0'";
+
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        //localSP =  context.getSharedPreferences(SETTINGS, Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
+
+        while (cursor.moveToNext()) {
+
+            FInvRHed salesReturnMapper = new FInvRHed();
+
+            salesReturnMapper.setDistDB(localSP.getString("DistDB", "").toString());
+            salesReturnMapper.setConsoleDB(localSP.getString("ConsoleDB",
+                    "").toString());
+
+            salesReturnMapper.setFINVRHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ID)));
+            salesReturnMapper.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            salesReturnMapper.setFINVRHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ADD_DATE)));
+            salesReturnMapper.setFINVRHED_ADD_MACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ADD_MACH)));
+            salesReturnMapper.setFINVRHED_ADD_USER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ADD_USER)));
+            salesReturnMapper.setFINVRHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_REMARKS)));
+            salesReturnMapper.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_AMT)));
+            salesReturnMapper.setFINVRHED_TOTAL_DIS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_DIS)));
+            salesReturnMapper.setFINVRHED_TOTAL_TAX(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_TAX)));
+            salesReturnMapper.setFINVRHED_COSTCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_COSTCODE)));
+            salesReturnMapper.setFINVRHED_REASON_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_REASON_CODE)));
+            salesReturnMapper.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_DEBCODE)));
+            salesReturnMapper.setFINVRHED_START_TIME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_START_TIME)));
+            salesReturnMapper.setFINVRHED_END_TIME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_END_TIME)));
+            salesReturnMapper.setFINVRHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_LONGITUDE)));
+            salesReturnMapper.setFINVRHED_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_LATITUDE)));
+            salesReturnMapper.setFINVRHED_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_LOCCODE)));
+            salesReturnMapper.setFINVRHED_MANUREF(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_MANUREF)));
+            salesReturnMapper.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_REPCODE)));
+            salesReturnMapper.setFINVRHED_TAX_REG(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TAX_REG)));
+            salesReturnMapper.setFINVRHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TXNTYPE)));
+            salesReturnMapper.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            salesReturnMapper.setFINVRHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ADDRESS)));
+            salesReturnMapper.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_IS_SYNCED)));
+            salesReturnMapper.setFINVRHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_IS_ACTIVE)));
+            salesReturnMapper.setFINVRHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ROUTE_CODE)));
+
+
+
+            String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+
+            salesReturnMapper.setFinvrtDets(new SalesReturnDetController(context).getAllInvRDet(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO))));
+            //salesReturnMapper.setFinvrtDets(new FInvRDetDS(context).getAllInvRDet(RefNo));
+            salesReturnMapper.setTaxDTs(new SalesReturnTaxDTDS(context).getAllTaxDT(RefNo));
+            salesReturnMapper.setTaxRGs(new SalesReturnTaxRGDS(context).getAllTaxRG(RefNo));
+
+            list.add(salesReturnMapper);
+
+        }
+
+        return list;
     }
 }

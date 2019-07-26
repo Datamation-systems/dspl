@@ -409,8 +409,13 @@ public class NetworkFunctions {
     public String syncReceipt(){
         return baseURL+"insertFrecHed";
     }
+
     public String syncOrder(){
         return baseURL+"insertFOrdHed";
+    }
+
+    public String syncSalesReturn(){
+        return baseURL+"insertReturn";
     }
 //
 //    public String syncPayments(List<CashPayment> cashPayments, List<Cheque> cheques) throws IOException, JSONException {

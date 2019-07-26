@@ -413,6 +413,13 @@ public class OrderController {
 ////            preSalesMapper.setIssuList(
 ////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
+            String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+
+            order.setTaxDTs(new PreSaleTaxDTDS(context).getAllTaxDT(RefNo));
+            order.setTaxRGs(new PreSaleTaxRGDS(context).getAllTaxRG(RefNo));
+            order.setOrdDisc(new OrderDiscController(context).getAllOrderDiscs(RefNo));
+            order.setFreeIssues(new OrdFreeIssueController(context).getAllFreeIssues(RefNo));
+
             list.add(order);
 
         }

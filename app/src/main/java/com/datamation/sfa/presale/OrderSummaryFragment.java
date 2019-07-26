@@ -369,6 +369,7 @@ public class OrderSummaryFragment extends Fragment {
                         ordHed.setORDER_TOTQTY(lblQty.getText().toString());
                         ordHed.setORDER_TOTFREEQTY(iTotFreeQty + "");
                         ordHed.setORDER_SETTING_CODE(presale.getORDER_SETTING_CODE());
+                        ordHed.setConsoleDB(getResources().getString(R.string.DATABASE));
 
                         ordHedList.add(ordHed);
 

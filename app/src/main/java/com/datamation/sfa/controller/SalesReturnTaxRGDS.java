@@ -8,20 +8,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.sfa.helpers.DatabaseHelper;
-import com.datamation.sfa.model.OrderDetail;
+import com.datamation.sfa.model.FInvRDet;
 import com.datamation.sfa.model.TaxDet;
 import com.datamation.sfa.model.TaxRG;
 
 import java.util.ArrayList;
 
-public class PreSaleTaxRGDS {
+public class SalesReturnTaxRGDS {
 
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
-    private String TAG = "PreSaleTaxRGDS ";
+    private String TAG = "SalesReturnTaxRGDS ";
 
-    public PreSaleTaxRGDS(Context context) {
+    public SalesReturnTaxRGDS(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }
@@ -30,7 +30,7 @@ public class PreSaleTaxRGDS {
         dB = dbHelper.getWritableDatabase();
     }
 
-    public int UpdateSalesTaxRG(ArrayList<OrderDetail> list, String debtorCode) {
+    public int UpdateReturnTaxRG(ArrayList<FInvRDet> list, String debtorCode) {
 
         int count = 0;
 
@@ -43,26 +43,26 @@ public class PreSaleTaxRGDS {
         try {
 
             Cursor cursor = null;
-            for (OrderDetail ordDet : list) {
+            for (FInvRDet invRDet : list) {
 
-                if (ordDet.getFORDERDET_TYPE().equals("SA")) {
+                if (invRDet.getFINVRDET_RETURN_TYPE().equals("MR") || invRDet.getFINVRDET_RETURN_TYPE().equals("UR")) {
 
-                    ArrayList<TaxDet> taxcodelist = new TaxDetController(context).getTaxInfoByComCode(ordDet.getFORDERDET_TAXCOMCODE());
+                    ArrayList<TaxDet> taxcodelist = new TaxDetController(context).getTaxInfoByComCode(invRDet.getFINVRDET_TAXCOMCODE());
 
                     for (TaxDet taxDet : taxcodelist) {
 
-                        String s = "SELECT * FROM " + DatabaseHelper.TABLE_PRETAXRG + " WHERE " + DatabaseHelper.PRETAXRG_REFNO + "='" + ordDet.getFORDERDET_REFNO() + "' AND " + DatabaseHelper.PRETAXRG_TAXCODE + "='" + taxDet.getTAXCODE() + "'";
+                        String s = "SELECT * FROM " + DatabaseHelper.TABLE_INVRTAXRG + " WHERE " + DatabaseHelper.INVRTAXRG_REFNO + "='" + invRDet.getFINVRDET_REFNO() + "' AND " + DatabaseHelper.INVRTAXRG_TAXCODE + "='" + taxDet.getTAXCODE() + "'";
 
                         cursor = dB.rawQuery(s, null);
 
                         ContentValues values = new ContentValues();
-                        values.put(DatabaseHelper.PRETAXRG_REFNO, ordDet.getFORDERDET_REFNO());
+                        values.put(DatabaseHelper.INVRTAXRG_REFNO, invRDet.getFINVRDET_REFNO());
                         values.put(DatabaseHelper.PRETAXRG_RGNO, new TaxController(context).getTaxRGNo(taxDet.getTAXCODE()));
-                        //values.put(DatabaseHelper.PRETAXRG_RGNO, new FDebTaxDS(context).getTaxRegNo(debtorCode));
-                        values.put(DatabaseHelper.PRETAXRG_TAXCODE, taxDet.getTAXCODE());
+                        //values.put(DatabaseHelper.INVRTAXRG_RGNO, new FDebTaxDS(context).getTaxRegNo(debtorCode));
+                        values.put(DatabaseHelper.INVRTAXRG_TAXCODE, taxDet.getTAXCODE());
 
                         if (cursor.getCount() <= 0)
-                            count = (int) dB.insert(DatabaseHelper.TABLE_PRETAXRG, null, values);
+                            count = (int) dB.insert(DatabaseHelper.TABLE_INVRTAXRG, null, values);
 
                     }
                 }
@@ -89,16 +89,16 @@ public class PreSaleTaxRGDS {
 
         ArrayList<TaxRG> list = new ArrayList<TaxRG>();
         try {
-            String selectQuery = "select * from " + DatabaseHelper.TABLE_PRETAXRG + " WHERE RefNo='" + RefNo + "'";
+            String selectQuery = "select * from " + DatabaseHelper.TABLE_INVRTAXRG + " WHERE RefNo='" + RefNo + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
                 TaxRG tax = new TaxRG();
 
-                tax.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXRG_REFNO)));
-                tax.setTAXCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXRG_TAXCODE)));
-                tax.setRGNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.PRETAXRG_RGNO)));
+                tax.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRTAXRG_REFNO)));
+                tax.setTAXCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRTAXRG_TAXCODE)));
+                tax.setRGNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.INVRTAXRG_RGNO)));
                 list.add(tax);
             }
             cursor.close();
@@ -125,7 +125,7 @@ public class PreSaleTaxRGDS {
         }
         try {
 
-            dB.delete(DatabaseHelper.TABLE_PRETAXRG, DatabaseHelper.PRETAXRG_REFNO + "='" + RefNo + "'", null);
+            dB.delete(DatabaseHelper.TABLE_INVRTAXRG, DatabaseHelper.INVRTAXRG_REFNO + "='" + RefNo + "'", null);
         } catch (Exception e) {
 
             Log.v(TAG + " Exception", e.toString());

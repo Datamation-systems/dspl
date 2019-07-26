@@ -2503,7 +2503,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-pre TAX DT-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*/
     public static final String CREATE_FPRETAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PRETAXDT + " (" + PRETAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PRETAXDT_REFNO + " TEXT, " + PRETAXDT_ITEMCODE + " TEXT, " + PRETAXDT_TAXCOMCODE + " TEXT, " + PRETAXDT_TAXCODE + " TEXT, " + PRETAXDT_TAXPER + " TEXT, " + PRETAXDT_RATE + " TEXT, " + PRETAXDT_SEQ + " TEXT, " + PRETAXDT_DETAMT + " TEXT, " + PRETAXDT_TAXTYPE + " TEXT, " + PRETAXDT_BDETAMT + " TEXT ); ";
 
+    // ------------------------------- Nuwan ------------ SalesReturnTaxRg -------------------------------------
 
+    public static final String TABLE_INVRTAXRG = "fInvRTaxRg";
+    public static final String INVRTAXRG_ID = "Id";
+    public static final String INVRTAXRG_REFNO = "RefNo";
+    public static final String INVRTAXRG_TAXCODE = "TaxCode";
+    public static final String INVRTAXRG_RGNO = "RGNo";
+
+    public static final String CREATE_FINVRTAXRG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVRTAXRG + " (" + INVRTAXRG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + INVRTAXRG_REFNO + " TEXT, " + INVRTAXRG_TAXCODE + " TEXT, " + INVRTAXRG_RGNO + " TEXT ); ";
+
+    // ------------------------------------------------ SalesReturnTaxDt -------------------------------------
+
+    public static final String TABLE_INVRTAXDT = "fInvRTaxDT";
+    public static final String INVRTAXDT_ID = "Id";
+    public static final String INVRTAXDT_REFNO = "RefNo";
+    public static final String INVRTAXDT_ITEMCODE = "ItemCode";
+    public static final String INVRTAXDT_TAXCOMCODE = "TaxComCode";
+    public static final String INVRTAXDT_TAXCODE = "TaxCode";
+    public static final String INVRTAXDT_TAXPER = "TaxPer";
+    public static final String INVRTAXDT_RATE = "TaxRate";
+    public static final String INVRTAXDT_SEQ = "TaxSeq";
+    public static final String INVRTAXDT_DETAMT = "TaxDetAmt";
+    public static final String INVRTAXDT_BDETAMT = "BTaxDetAmt";
+    public static final String INVRTAXDT_TAXTYPE = "TaxType";
+
+    public static final String CREATE_FINVRTAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVRTAXDT + " (" + INVRTAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + INVRTAXDT_REFNO + " TEXT, " + INVRTAXDT_ITEMCODE + " TEXT, " + INVRTAXDT_TAXCOMCODE + " TEXT, " + INVRTAXDT_TAXCODE + " TEXT, " + INVRTAXDT_TAXPER + " TEXT, " + INVRTAXDT_RATE + " TEXT, " + INVRTAXDT_SEQ + " TEXT, " + INVRTAXDT_DETAMT + " TEXT, " + INVRTAXDT_TAXTYPE + " TEXT, " + INVRTAXDT_BDETAMT + " TEXT ); ";
 
     @Override
     public void onCreate(SQLiteDatabase arg0) {
@@ -2620,6 +2645,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(CREATE_NEW_CUSTOMER);
         arg0.execSQL(CREATE_FPRETAXRG_TABLE);
         arg0.execSQL(CREATE_FPRETAXDT_TABLE);
+        arg0.execSQL(CREATE_FINVRTAXRG_TABLE);
+        arg0.execSQL(CREATE_FINVRTAXDT_TABLE);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -2657,6 +2684,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CREATE_NEW_CUSTOMER);
             arg0.execSQL(CREATE_FPRETAXRG_TABLE);
             arg0.execSQL(CREATE_FPRETAXDT_TABLE);
+            arg0.execSQL(CREATE_FINVRTAXRG_TABLE);
+            arg0.execSQL(CREATE_FINVRTAXDT_TABLE);
 
 
         } catch (SQLiteException e) {

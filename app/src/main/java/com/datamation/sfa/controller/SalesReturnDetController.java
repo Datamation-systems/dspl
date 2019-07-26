@@ -590,4 +590,98 @@ public class SalesReturnDetController
 
         return false;
     }
+
+    public void UpdateItemTaxInfo(ArrayList<FInvRDet> list, String debtorCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        double totTax = 0, totalAmt = 0, bTSellPrice = 0, tSellPrice = 0, totDisc=0, disR=0;
+
+        try {
+
+            for (FInvRDet invRDet : list) {
+
+                /* Calculate only for MR or UR */
+                if (invRDet.getFINVRDET_RETURN_TYPE().equals("SA")) {
+
+                    String sArray[] = new TaxDetController(context).calculateTaxForwardFromDebTax(debtorCode, invRDet.getFINVRDET_ITEMCODE(), Double.parseDouble(invRDet.getFINVRDET_AMT()));
+
+                    bTSellPrice = Double.parseDouble(sArray[0])/Double.parseDouble(invRDet.getFINVRDET_QTY());
+                    if (Double.parseDouble(invRDet.getFINVRDET_DIS_AMT())>0.0)
+                    {
+                        tSellPrice = (Double.parseDouble(sArray[0])+ Double.parseDouble(invRDet.getFINVRDET_DIS_AMT()))/Double.parseDouble(invRDet.getFINVRDET_QTY());
+                        disR = ((Double.parseDouble(invRDet.getFINVRDET_DIS_AMT()))/(Double.parseDouble(sArray[0])+ Double.parseDouble(invRDet.getFINVRDET_DIS_AMT())))* 100;
+                        totDisc += Double.parseDouble(invRDet.getFINVRDET_DIS_AMT());
+                    }
+                    else
+                    {
+                        tSellPrice = Double.parseDouble(sArray[0])/Double.parseDouble(invRDet.getFINVRDET_QTY());
+                    }
+
+                    totTax += Double.parseDouble(sArray[1]);
+                    totalAmt += Double.parseDouble(sArray[0]);
+
+                    String updateQuery = "UPDATE FInvRDet SET TaxAmt='" + sArray[1] + "', Amt='" + sArray[0] + "', DisRate='" + String.valueOf(disR) + "', TSellPrice ='" + tSellPrice + "' where Itemcode ='" + invRDet.getFINVRDET_ITEMCODE() + "' AND refno='" + invRDet.getFINVRDET_REFNO() + "' AND ReturnType!='FR'";
+                    dB.execSQL(updateQuery);
+                }
+            }
+            /* Update sales return Header TotalTax */
+            dB.execSQL("UPDATE FInvRHed SET TotalTax='" + totTax + "',TotalDis='" + totDisc + "',TotalAmt='" + totalAmt + "' WHERE refno='" + list.get(0).getFINVRDET_REFNO() + "'");
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+    }
+
+    public ArrayList<FInvRDet> getEveryItem(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
+
+        String selectQuery = "select Itemcode,RefNo,TaxComCode,Price,Qty,Amt,ReturnType,DisAmt from " + DatabaseHelper.TABLE_FINVRDET + " WHERE RefNo='" + refno + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                FInvRDet IRDet = new FInvRDet();
+
+                IRDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_ITEMCODE)));
+                IRDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                IRDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TAXCOMCODE)));
+                IRDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_SELL_PRICE)));
+                IRDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_QTY)));
+                IRDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_AMT)));
+                IRDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_RETURN_TYPE)));
+                IRDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_DIS_AMT)));
+
+                list.add(IRDet);
+
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
 }

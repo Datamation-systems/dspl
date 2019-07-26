@@ -38,6 +38,8 @@ import com.datamation.sfa.controller.PreProductController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.SalesReturnController;
 import com.datamation.sfa.controller.SalesReturnDetController;
+import com.datamation.sfa.controller.SalesReturnTaxDTDS;
+import com.datamation.sfa.controller.SalesReturnTaxRGDS;
 import com.datamation.sfa.dialog.PrintPreviewAlertBox;
 import com.datamation.sfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.sfa.helpers.SalesReturnResponseListener;
@@ -511,10 +513,10 @@ public class SalesReturnSummary extends Fragment {
 
     public void UpdateTaxDetails(String refNo, String retDebtorCode) {
 
-//        ArrayList<FInvRDet> list = new FInvRDetDS(activity).getEveryItem(refNo);
-//        new FInvRDetDS(activity).UpdateItemTaxInfo(list, retDebtorCode);
-//        new SalesReturnTaxRGDS(activity).UpdateReturnTaxRG(list, retDebtorCode);
-//        new SalesReturnTaxDTDS(activity).UpdateReturnTaxDT(list);
+        ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getEveryItem(refNo);
+        new SalesReturnDetController(activity).UpdateItemTaxInfo(list, retDebtorCode);
+        new SalesReturnTaxRGDS(activity).UpdateReturnTaxRG(list, retDebtorCode);
+        new SalesReturnTaxDTDS(activity).UpdateReturnTaxDT(list);
 
     }
 
