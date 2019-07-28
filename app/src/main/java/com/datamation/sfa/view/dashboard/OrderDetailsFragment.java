@@ -104,6 +104,15 @@ public class OrderDetailsFragment extends Fragment {
 
 
         // Listview on child click listener
+
+
+        prepareListData();
+
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
@@ -115,13 +124,6 @@ public class OrderDetailsFragment extends Fragment {
                 return false;
             }
         });
-
-        prepareListData();
-
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
-
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
         return rootView;
     }
     //https://github.com/Rishijay/Dynamic-Expandable-ListView
