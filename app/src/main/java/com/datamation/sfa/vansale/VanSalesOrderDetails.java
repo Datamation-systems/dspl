@@ -657,7 +657,7 @@ public void calculateFreeIssue(String debCode) {
 
                         if (detDS.createOrUpdateInvDet(ordList) > 0) {
                             Toast.makeText(getActivity(), "Added successfully", Toast.LENGTH_SHORT).show();
-                            //showData();
+                            showData();
 
                             lvFree.setAdapter(null);
                             ArrayList<InvDet> freeList=new InvDetController(getActivity()).getAllFreeIssue(RefNo);

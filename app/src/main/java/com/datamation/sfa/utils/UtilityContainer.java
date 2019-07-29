@@ -94,6 +94,30 @@ public class UtilityContainer {
         editor.remove("returnKeyReason");
         editor.commit();
     }
+    public static void ClearReceiptSharedPref(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove("ReckeyPayModePos");
+        editor.remove("ReckeyPayMode");
+        editor.remove("isHeaderComplete");
+        editor.remove("ReckeyHeader");
+        editor.remove("ReckeyRecAmt");
+        editor.remove("ReckeyRemnant");
+        editor.remove("ReckeyCHQNo");
+        editor.remove("Rec_Start_Time");
+        editor.commit();
+    }
+    public static void ClearCustomerSharedPref(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove("selected_out_id");
+        editor.remove("selected_out_name");
+        editor.remove("selected_out_route_code");
+        editor.remove("selected_pril_code");
+        editor.commit();
+    }
+
+
 
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------

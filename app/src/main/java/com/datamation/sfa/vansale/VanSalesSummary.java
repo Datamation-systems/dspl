@@ -969,7 +969,8 @@ public class VanSalesSummary extends Fragment {
         FInvRHed invRHed = new SalesReturnController(getActivity()).getDetailsforPrint(RefNo);
         Customer debtor = new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
 
-        int lengthDealI = debtor.getCusCode().length() + "-".length() + debtor.getCusName().length();
+        int lengthDealI = debtor.getCusCode().length();
+       // int lengthDealI = debtor.getCusCode().length() + "-".length() + debtor.getCusName().length();
         int lengthDealIB = (LINECHAR - lengthDealI) / 2;
         String printGapAdjustI = printGapAdjust.substring(0, Math.min(lengthDealIB, printGapAdjust.length()));
 
