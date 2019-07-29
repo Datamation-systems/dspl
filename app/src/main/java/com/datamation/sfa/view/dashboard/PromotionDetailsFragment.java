@@ -76,7 +76,7 @@ public class PromotionDetailsFragment extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.promotion, container, false);
+        View rootView = inflater.inflate(R.layout.promotion_new, container, false);
 
 
         numberFormat.setMaximumFractionDigits(2);
@@ -243,7 +243,7 @@ for(FreeHed free : listDataHeader){
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this._context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_group, null);
+                convertView = infalInflater.inflate(R.layout.list_group_new, null);
             }
 
             TextView lblListHeader = (TextView) convertView
