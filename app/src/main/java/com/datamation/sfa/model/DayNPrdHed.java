@@ -2,7 +2,12 @@ package com.datamation.sfa.model;
 
 import java.io.Serializable;
 
-public class DayNPrdHed implements Serializable {
+public class DayNPrdHed implements Serializable
+{
+
+    private String ConsoleDB;
+    private String DistDB;
+
     private String NONPRDHED_REFNO;
     private String NONPRDHED_TXNDATE;
     private String NONPRDHED_DEALCODE;
@@ -19,6 +24,22 @@ public class DayNPrdHed implements Serializable {
     private String NONPRDHED_LATITUDE;
     private String NONPRDHED_DEBCODE;
     private String NONPRDHED_IS_ACTIVE;
+
+    public String getConsoleDB() {
+        return ConsoleDB;
+    }
+
+    public void setConsoleDB(String consoleDB) {
+        ConsoleDB = consoleDB;
+    }
+
+    public String getDistDB() {
+        return DistDB;
+    }
+
+    public void setDistDB(String distDB) {
+        DistDB = distDB;
+    }
 
     public String getNONPRDHED_LONGITUDE() {
         return NONPRDHED_LONGITUDE;

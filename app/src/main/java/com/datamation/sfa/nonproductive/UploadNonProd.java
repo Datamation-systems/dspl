@@ -76,7 +76,7 @@ public class UploadNonProd extends AsyncTask<ArrayList<DayNPrdHed>, Integer, Arr
                 String sJsonHed = new Gson().toJson(c);
                 List.add(sJsonHed);
 
-                boolean bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncSalesReturn(),List.toString());
+                boolean bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncNonProductive(),List.toString());
 
                 if (bStatus) {
                     c.setNONPRDHED_IS_SYNCED("1");

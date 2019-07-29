@@ -513,10 +513,10 @@ public class SalesReturnSummary extends Fragment {
 
     public void UpdateTaxDetails(String refNo, String retDebtorCode) {
 
-        ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getEveryItem(refNo);
-        new SalesReturnDetController(activity).UpdateItemTaxInfo(list, retDebtorCode);
-        new SalesReturnTaxRGDS(activity).UpdateReturnTaxRG(list, retDebtorCode);
-        new SalesReturnTaxDTDS(activity).UpdateReturnTaxDT(list);
+        //ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getEveryItem(refNo);
+//        new SalesReturnDetController(activity).UpdateItemTaxInfo(list, retDebtorCode);
+//        new SalesReturnTaxRGDS(activity).UpdateReturnTaxRG(list, retDebtorCode);
+//        new SalesReturnTaxDTDS(activity).UpdateReturnTaxDT(list);
 
     }
 

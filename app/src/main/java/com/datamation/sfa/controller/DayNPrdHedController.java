@@ -397,5 +397,58 @@ public class DayNPrdHedController {
 
     }
 
+    public ArrayList<DayNPrdHed> getUnSyncedData() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<DayNPrdHed> list = new ArrayList<DayNPrdHed>();
+
+        try {
+
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_NONPRDHED + " WHERE " + DatabaseHelper.NONPRDHED_IS_SYNCED + "='0'";
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+//            localSP = context.getSharedPreferences(SETTINGS, Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
+
+            while (cursor.moveToNext()) {
+
+                DayNPrdHed mapper = new DayNPrdHed();
+                //mapper.setNextNumVal(new CompanyBranchDS(context).getCurrentNextNumVal(context.getResources().getString(R.string.NonProd)));
+                mapper.setConsoleDB(localSP.getString("ConsoleDB", "").toString());
+
+                mapper.setNONPRDHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDDATE)));
+                mapper.setNONPRDHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDMACH)));
+                mapper.setNONPRDHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDRESS)));
+                mapper.setNONPRDHED_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDUSER)));
+                mapper.setNONPRDHED_COSTCODE("000");
+                // mapper.setNONPRDHED_DEALCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_DEALCODE)));
+                mapper.setNONPRDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_IS_SYNCED)));
+                mapper.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REFNO)));
+                mapper.setNONPRDHED_REMARK(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REMARK)));
+                mapper.setNONPRDHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REPCODE)));
+                mapper.setNONPRDHED_TRANSBATCH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_TRANSBATCH)));
+                mapper.setNONPRDHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_TXNDAET)));
+                mapper.setNONPRDHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_DEBCODE)));
+                mapper.setNONPRDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_LONGITUDE)));
+                mapper.setNONPRDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_LATITUDE)));
+                //mapper.setNonPrdDet(new fDaynPrdDetDS(context).getAllnonprdDetails(mapper.getNONPRDHED_REFNO()));
+
+                list.add(mapper);
+            }
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+        return list;
+
+    }
+
 
 }
