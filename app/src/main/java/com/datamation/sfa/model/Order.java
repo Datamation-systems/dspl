@@ -70,7 +70,7 @@ public class Order {
     private String DistDB;
     private String NextNumVal;
 
-    private ArrayList<OrderDetail> soDetArrayList;
+    private ArrayList<OrderDetail> ordDet;
     private ArrayList<TaxDT> taxDTs;
     private ArrayList<TaxRG> taxRGs;
     private ArrayList<OrderDisc> ordDisc;
@@ -511,12 +511,12 @@ public class Order {
         this.ORDER_ROUTECODE = ORDER_ROUTECODE;
     }
 
-    public ArrayList<OrderDetail> getSoDetArrayList() {
-        return soDetArrayList;
+    public ArrayList<OrderDetail> getOrdDet() {
+        return ordDet;
     }
 
-    public void setSoDetArrayList(ArrayList<OrderDetail> soDetArrayList) {
-        this.soDetArrayList = soDetArrayList;
+    public void setOrdDet(ArrayList<OrderDetail> ordDet) {
+        this.ordDet = ordDet;
     }
 
     public JSONObject getOrderAsJSON(Context context) throws JSONException {

@@ -545,7 +545,7 @@ public class OrderDetailFragment extends Fragment{
 
                 if(tmpsoHed!=null) {
 
-                    ArrayList<OrderDetail> orderDetailArrayList = tmpsoHed.getSoDetArrayList();
+                    ArrayList<OrderDetail> orderDetailArrayList = tmpsoHed.getOrdDet();
                     if (orderDetailArrayList != null) {
                         for (int i = 0; i < orderDetailArrayList.size(); i++) {
                             String tmpItemName = orderDetailArrayList.get(i).getFORDERDET_ITEMCODE();

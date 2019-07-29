@@ -416,9 +416,9 @@ public class OrderController {
             order.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_TOTAL_AMT)));
             order.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
             order.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_IS_ACTIVE)));
-            //order.setD(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_DELV_DATE)));
+            order.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_DEB_CODE)));
             order.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_ROUTE_CODE)));
-            order.setSoDetArrayList(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
+            order.setOrdDet(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
 ////            preSalesMapper.setIssuList(
 ////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
 
@@ -545,8 +545,7 @@ public class OrderController {
             presale.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
             presale.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_IS_ACTIVE)));
             presale.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_ROUTE_CODE)));
-
-            presale.setSoDetArrayList(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
+            presale.setOrdDet(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
 
         }
 
