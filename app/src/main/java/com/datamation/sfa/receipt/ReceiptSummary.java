@@ -423,7 +423,7 @@ public class ReceiptSummary extends Fragment {
             lblCHQNo.setText(mSharedPref.getGlobalVal("ReckeyCHQNo"));
         }
 
-        if (!mSharedPref.getGlobalVal("ReckeyRecAmt").equals(""))
+        if (!mSharedPref.getGlobalVal("ReckeyRecAmt").equals("") || !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("0") || !mSharedPref.getGlobalVal("ReckeyRecAmt").equals("***"))
             lblRecAmt.setText(String.format("%,.2f", Double.parseDouble(mSharedPref.getGlobalVal("ReckeyRecAmt").replaceAll(",", ""))));
 
         FetchData();

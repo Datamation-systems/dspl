@@ -273,10 +273,10 @@ public class ActivitySplash extends AppCompatActivity{
 //temerary set for new SFA
                 // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
                 //Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
-                Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
-                // ..............................................................................................
-                startActivity(loginActivity);
-                finish();
+//                Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
+//                // ..............................................................................................
+//                startActivity(loginActivity);
+//                finish();
 
             }
         }

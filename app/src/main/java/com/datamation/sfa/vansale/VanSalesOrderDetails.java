@@ -34,6 +34,7 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.FreeIssueAdapter;
 import com.datamation.sfa.adapter.FreeItemsAdapter;
 import com.datamation.sfa.adapter.InvDetAdapter;
+import com.datamation.sfa.adapter.InvoiceFreeItemAdapter;
 import com.datamation.sfa.adapter.NewProduct_Adapter;
 import com.datamation.sfa.adapter.OrderFreeItemAdapter;
 import com.datamation.sfa.controller.InvDetController;
@@ -574,54 +575,71 @@ public void calculateFreeIssue(String debCode) {
                     if (Integer.parseInt(itemFreeIssue.getAlloc()) > 0) {
 
                         seqno++;
-                        OrderDetail ordDet = new OrderDetail();
-                        OrderDetailController detDS = new OrderDetailController(getActivity());
-                        ArrayList<OrderDetail> ordList = new ArrayList<OrderDetail>();
+                        InvDet ordDet = new InvDet();
+                        InvDetController detDS = new InvDetController(getActivity());
+                        ArrayList<InvDet> ordList = new ArrayList<InvDet>();
 
-                        ordDet.setFORDERDET_ID("0");
-                        ordDet.setFORDERDET_AMT("0");
-                        ordDet.setFORDERDET_BALQTY(itemFreeIssue.getAlloc());
-                        ordDet.setFORDERDET_BAMT("0");
-                        ordDet.setFORDERDET_BDISAMT("0");
-                        ordDet.setFORDERDET_BPDISAMT("0");
+
+//                        invDet.setFINVDET_T_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
+//                        invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
+//                        invDet.setFINVDET_REFNO(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
+//                        invDet.setFINVDET_BRAND_DISCPER("0");
+//                        invDet.setFINVDET_BRAND_DISC("0");
+//                        invDet.setFINVDET_COMDISC("0");
+//                        invDet.setFINVDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//                        invDet.setFINVDET_TXN_TYPE("22");
+//                        invDet.setFINVDET_IS_ACTIVE("1");
+//                        invDet.setFINVDET_QOH(qoh);
+//                        invDet.setFINVDET_DISVALAMT("0");
+//                        invDet.setFINVDET_PRICE(price);
+//                        invDet.setFINVDET_CHANGED_PRICE(changedPrice);
+//                        invDet.setFINVDET_AMT(String.format("%.2f", amt));
+//                        invDet.setFINVDET_BAL_QTY(Qty);
+                       // ordDet.setFINVDET_ID("0");
+                        ordDet.setFINVDET_AMT("0");
+                        ordDet.setFINVDET_BAL_QTY(itemFreeIssue.getAlloc());
+                        ordDet.setFINVDET_B_AMT("0");
+                        ordDet.setFINVDET_BRAND_DISC("0");
+                        //ordDet.setFINVDET_BP("0");
                         String unitPrice = new ItemPriController(getActivity()).getProductPriceByCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mSharedPref.getSelectedDebtorPrilCode());
-                        ordDet.setFORDERDET_BSELLPRICE("0");
-                        ordDet.setFORDERDET_BTSELLPRICE("0.00");
-                        ordDet.setFORDERDET_DISAMT("0");
-                        ordDet.setFORDERDET_SCHDISPER("0");
-                        ordDet.setFORDERDET_FREEQTY("0");
-                        ordDet.setFORDERDET_ITEMCODE(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
-                        ordDet.setFORDERDET_PDISAMT("0");
-                        ordDet.setFORDERDET_PRILCODE(mSharedPref.getSelectedDebtorPrilCode());
-                        ordDet.setFORDERDET_QTY(itemFreeIssue.getAlloc());
-                        ordDet.setFORDERDET_PICE_QTY(itemFreeIssue.getAlloc());
-                        ordDet.setFORDERDET_TYPE("FI");
-                        ordDet.setFORDERDET_RECORDID("");
-                        ordDet.setFORDERDET_REFNO(RefNo);
-                        ordDet.setFORDERDET_SELLPRICE("0");
-                        ordDet.setFORDERDET_SEQNO(seqno + "");
-                        ordDet.setFORDERDET_TAXAMT("0");
-                        ordDet.setFORDERDET_TAXCOMCODE(new ItemController(getActivity()).getTaxComCodeByItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
-                        //ordDet.setFTRANSODET_TAXCOMCODE(new ItemsDS(getActivity()).getTaxComCodeByItemCodeFromDebTax(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mainActivity.selectedDebtor.getFDEBTOR_CODE()));
-                        ordDet.setFORDERDET_TIMESTAMP_COLUMN("");
-                        ordDet.setFORDERDET_TSELLPRICE("0.00");
-                        ordDet.setFORDERDET_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                        ordDet.setFORDERDET_TXNTYPE("27");
-                        ordDet.setFORDERDET_IS_ACTIVE("1");
-                        ordDet.setFORDERDET_LOCCODE(mSharedPref.getGlobalVal("PrekeyLocCode").trim());
-                        ordDet.setFORDERDET_COSTPRICE(new ItemController(getActivity()).getCostPriceItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
-                        ordDet.setFORDERDET_BTAXAMT("0");
-                        ordDet.setFORDERDET_IS_SYNCED("0");
-                        ordDet.setFORDERDET_QOH("0");
-                        ordDet.setFORDERDET_SCHDISC("0");
-                        ordDet.setFORDERDET_BRAND_DISC("0");
-                        ordDet.setFORDERDET_BRAND_DISPER("0");
-                        ordDet.setFORDERDET_COMP_DISC("0");
-                        ordDet.setFORDERDET_COMP_DISPER("0");
-                        ordDet.setFORDERDET_DISCTYPE("");
-                        ordDet.setFORDERDET_PRICE("0.00");
-                        ordDet.setFORDERDET_ORG_PRICE("0");
-                        ordDet.setFORDERDET_DISFLAG("0");
+                        ordDet.setFINVDET_B_SELL_PRICE("0");
+                        ordDet.setFINVDET_BT_SELL_PRICE("0.00");
+                        ordDet.setFINVDET_DIS_AMT("0");
+                        ordDet.setFINVDET_SCHDISPER("0");
+                        ordDet.setFINVDET_FREEQTY("0");
+                        ordDet.setFINVDET_ITEM_CODE(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
+                        //ordDet.setFINVDET_PDISAMT("0");
+                        ordDet.setFINVDET_PRIL_CODE(SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
+
+                        ordDet.setFINVDET_QTY(itemFreeIssue.getAlloc());
+                        ordDet.setFINVDET_PICE_QTY(itemFreeIssue.getAlloc());
+                        ordDet.setFINVDET_TYPE("FI");
+                        ordDet.setFINVDET_RECORD_ID("");
+                        ordDet.setFINVDET_REFNO(RefNo);
+                        ordDet.setFINVDET_SELL_PRICE("0");
+                        ordDet.setFINVDET_SEQNO(seqno + "");
+                        ordDet.setFINVDET_TAX_AMT("0");
+                        ordDet.setFINVDET_TAX_COM_CODE(new ItemController(getActivity()).getTaxComCodeByItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
+                       // ordDet.setFINVDET_TAX_COMCODE(new ItemsDS(getActivity()).getTaxComCodeByItemCodeFromDebTax(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mainActivity.selectedDebtor.getFDEBTOR_CODE()));
+                     //   ordDet.setFINVDET_TIMESTAMP_COLUMN("");
+                        ordDet.setFINVDET_T_SELL_PRICE("0.00");
+                        ordDet.setFINVDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                        ordDet.setFINVDET_TXN_TYPE("27");
+                        ordDet.setFINVDET_IS_ACTIVE("1");
+                        ordDet.setFINVDET_LOCCODE(mSharedPref.getGlobalVal("PrekeyLocCode").trim());
+                      //  ordDet.setFINVDET_COST_PRICE(new ItemController(getActivity()).getCostPriceItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
+                   //     ordDet.setFINVDET_B_TAX_AMT("0");
+                        ordDet.setFINVDET_IS_SYNCED("0");
+                        ordDet.setFINVDET_QOH("0");
+                     //   ordDet.setFINVDET_SCHDISC("0");
+                      //  ordDet.setFINVDET_BRAND_DISC("0");
+                      //  ordDet.setFINVDET_BRAND_DISPER("0");
+                      //  ordDet.setFINVDET_COMP_DISC("0");
+                     //   ordDet.setFINVDET_COMP_DISPER("0");
+                        ordDet.setFINVDET_DISCTYPE("");
+                        ordDet.setFINVDET_PRICE("0.00");
+                       // ordDet.setFINVDET_ORG_PRICE("0");
+                       // ordDet.setFINVDET_DISFLAG("0");
 
                         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*OrdFreeIssue table update*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -637,13 +655,13 @@ public void calculateFreeIssue(String debCode) {
 
                         ordList.add(ordDet);
 
-                        if (detDS.createOrUpdateOrdDet(ordList) > 0) {
+                        if (detDS.createOrUpdateInvDet(ordList) > 0) {
                             Toast.makeText(getActivity(), "Added successfully", Toast.LENGTH_SHORT).show();
                             //showData();
 
                             lvFree.setAdapter(null);
-                            ArrayList<OrderDetail> freeList=new OrderDetailController(getActivity()).getAllFreeIssue(RefNo);
-                            lvFree.setAdapter(new OrderFreeItemAdapter(getActivity(), freeList));
+                            ArrayList<InvDet> freeList=new InvDetController(getActivity()).getAllFreeIssue(RefNo);
+                            lvFree.setAdapter(new InvoiceFreeItemAdapter(getActivity(), freeList));
                         }
                     }
                 }
@@ -1232,17 +1250,7 @@ public void calculateFreeIssue(String debCode) {
         }else{
             amt = Double.parseDouble(changedPrice) * Double.parseDouble(Qty);
         }
-      //  String TaxedAmt = new TaxDetDS(getActivity()).calculateTax(itemCode, new BigDecimal(amt));//2019-07-07 till error free
         InvDet invDet = new InvDet();
-
-       // invDet.setFINVDET_ID(id + "");
-        //2018/10/23 no need deduct taxed for amount - mega heaters
-        // invDet.setFINVDET_AMT(String.format("%.2f", amt - Double.parseDouble(TaxedAmt)));
-        invDet.setFINVDET_AMT(String.format("%.2f", amt));
-
-        invDet.setFINVDET_BAL_QTY(Qty);
-        //2018/10/23 no need deduct taxed for amount - mega heaters
-        //invDet.setFINVDET_B_AMT(String.format("%.2f", amt - Double.parseDouble(TaxedAmt)));
         invDet.setFINVDET_B_AMT(String.format("%.2f", amt));
         invDet.setFINVDET_B_SELL_PRICE(price);
         invDet.setFINVDET_BT_SELL_PRICE(price);
@@ -1255,16 +1263,10 @@ public void calculateFreeIssue(String debCode) {
         invDet.setFINVDET_TYPE("SA");
         invDet.setFINVDET_BT_TAX_AMT("0");
         invDet.setFINVDET_RECORD_ID("");
-        //2019-07-07 till error free
-//        invDet.setFINVDET_SELL_PRICE(String.format("%.2f", (amt - Double.parseDouble(TaxedAmt)) / Double.parseDouble(invDet.getFINVDET_QTY())));
-//        invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", (amt - Double.parseDouble(TaxedAmt)) / Double.parseDouble(invDet.getFINVDET_QTY())));
         invDet.setFINVDET_SEQNO(seqno + "");
-      //  invDet.setFINVDET_TAX_AMT(TaxedAmt);//2019-07-07 till error free
-     //   invDet.setFINVDET_TAX_COM_CODE(new ItemsDS(getActivity()).getTaxComCodeByItemCode(itemCode));//2019-07-07 till error free
         invDet.setFINVDET_T_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
         invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
         invDet.setFINVDET_REFNO(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
-     //   invDet.setFINVDET_COM_DISCPER(new ControlDS(getActivity()).getCompanyDisc() + "");//2019-07-07 till error free
         invDet.setFINVDET_BRAND_DISCPER("0");
         invDet.setFINVDET_BRAND_DISC("0");
         invDet.setFINVDET_COMDISC("0");
@@ -1275,6 +1277,29 @@ public void calculateFreeIssue(String debCode) {
         invDet.setFINVDET_DISVALAMT("0");
         invDet.setFINVDET_PRICE(price);
         invDet.setFINVDET_CHANGED_PRICE(changedPrice);
+        invDet.setFINVDET_AMT(String.format("%.2f", amt));
+        invDet.setFINVDET_BAL_QTY(Qty);
+
+        //  String TaxedAmt = new TaxDetDS(getActivity()).calculateTax(itemCode, new BigDecimal(amt));//2019-07-07 till error free
+
+        // invDet.setFINVDET_ID(id + "");
+        //2018/10/23 no need deduct taxed for amount - mega heaters
+        // invDet.setFINVDET_AMT(String.format("%.2f", amt - Double.parseDouble(TaxedAmt)));
+
+
+
+        //2018/10/23 no need deduct taxed for amount - mega heaters
+        //invDet.setFINVDET_B_AMT(String.format("%.2f", amt - Double.parseDouble(TaxedAmt)));
+
+        //2019-07-07 till error free
+//        invDet.setFINVDET_SELL_PRICE(String.format("%.2f", (amt - Double.parseDouble(TaxedAmt)) / Double.parseDouble(invDet.getFINVDET_QTY())));
+//        invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", (amt - Double.parseDouble(TaxedAmt)) / Double.parseDouble(invDet.getFINVDET_QTY())));
+
+      //  invDet.setFINVDET_TAX_AMT(TaxedAmt);//2019-07-07 till error free
+     //   invDet.setFINVDET_TAX_COM_CODE(new ItemsDS(getActivity()).getTaxComCodeByItemCode(itemCode));//2019-07-07 till error free
+
+     //   invDet.setFINVDET_COM_DISCPER(new ControlDS(getActivity()).getCompanyDisc() + "");//2019-07-07 till error free
+
 
         arrList.add(invDet);
         new InvDetController(getActivity()).createOrUpdateInvDet(arrList);
