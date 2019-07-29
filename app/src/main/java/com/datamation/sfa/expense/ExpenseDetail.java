@@ -28,7 +28,9 @@ import android.widget.Toast;
 import com.datamation.sfa.adapter.SalesExpenseDetailAdapter;
 import com.datamation.sfa.adapter.SalesExpenseGridDetails;
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.ExpenseController;
 import com.datamation.sfa.controller.SalRepController;
+import com.datamation.sfa.model.Expense;
 import com.datamation.sfa.settings.ReferenceNum;
 
 import com.datamation.sfa.controller.DayExpDetController;
@@ -57,7 +59,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
     public static String DebCODE, RESULT;
     View view;
     EditText Txndate, Amount, ExpCode, Remark, RefNo;
-    ArrayList<Reason> list2;
+    ArrayList<Expense> list2;
     Button btnAdd;
     ListView lv_invent_load;
     ReferenceNum referenceNum;
@@ -192,15 +194,15 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
         final ListView locList = (ListView) dialog.findViewById(R.id.rt_product_items);
         dialog.setCancelable(true);
 
-        list2 = new ReasonController(getActivity()).getAllExpense("");
+        list2 = new ExpenseController(getActivity()).getAllExpense("");
         locList.clearTextFilter();
         locList.setAdapter(new SalesExpenseDetailAdapter(getActivity(), list2));
         locList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExpCode.setText(list2.get(position).getFREASON_NAME());
-                sExpenseCode = list2.get(position).getFREASON_CODE();
+                ExpCode.setText(list2.get(position).getFEXPENSE_NAME());
+                sExpenseCode = list2.get(position).getFEXPENSE_CODE();
                 dialog.dismiss();
             }
         });
@@ -215,7 +217,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
             @Override
             public boolean onQueryTextChange(String newText) {
                 locList.clearTextFilter();
-                list2 = new ReasonController(getActivity()).getAllExpense(newText);
+                list2 = new ExpenseController(getActivity()).getAllExpense(newText);
                 locList.setAdapter(new SalesExpenseDetailAdapter(getActivity(), list2));
                 return false;
             }
@@ -325,7 +327,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
                     exphed.setEXPHED_TOTAMT(new DayExpDetController(getActivity()).getTotalExpenseSumReturns(refno));
                     ExpHedList.add(exphed);
 
-                    if (new DayExpHedController(getActivity()).createOrUpdateNonPrdHed(ExpHedList) > 0) {
+                    if (new DayExpHedController(getActivity()).createOrUpdateDayExpHed(ExpHedList) > 0) {
                         referenceNum.nNumValueInsertOrUpdate(getResources().getString(R.string.ExpenseNumVal));
                         Toast.makeText(getActivity(), "Successfully saved Expense. ", Toast.LENGTH_LONG).show();
 //                        UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());

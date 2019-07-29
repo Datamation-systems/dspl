@@ -382,7 +382,7 @@ public class SalesReturnSummary extends Fragment {
                                     public void onPositive(MaterialDialog dialog) {
                                         super.onPositive(dialog);
 
-                                        printItems();
+                                        //printItems();
                                         Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
                                         startActivity(intent);
                                         getActivity().finish();

@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.datamation.sfa.model.Expense;
 import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.Reason;
@@ -220,34 +221,34 @@ public class ReasonController {
 		return "";
 	}
 
-	public ArrayList<Reason> getAllExpense(String excode) {
-		if (dB == null) {
-			open();
-		} else if (!dB.isOpen()) {
-			open();
-		}
-
-		ArrayList<Reason> list = new ArrayList<Reason>();
-		String selectQuery = null;
-		if(excode.equals(""))
-			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON ;
-		else
-			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + excode + "'";
-
-		Cursor cursor = dB.rawQuery(selectQuery, null);
-		while (cursor.moveToNext()) {
-
-			Reason expense = new Reason();
-
-			expense.setFREASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
-			expense.setFREASON_NAME(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
-
-			list.add(expense);
-
-		}
-
-		return list;
-	}
+//	public ArrayList<Reason> getAllExpense(String excode) {
+//		if (dB == null) {
+//			open();
+//		} else if (!dB.isOpen()) {
+//			open();
+//		}
+//
+//		ArrayList<Reason> list = new ArrayList<Reason>();
+//		String selectQuery = null;
+//		if(excode.equals(""))
+//			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON ;
+//		else
+//			selectQuery = "SELECT * FROM " + dbHelper.TABLE_FREASON + " WHERE " + dbHelper.FREASON_CODE + "='" + excode + "'";
+//
+//		Cursor cursor = dB.rawQuery(selectQuery, null);
+//		while (cursor.moveToNext()) {
+//
+//			Reason expense = new Reason();
+//
+//			expense.setFREASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_CODE)));
+//			expense.setFREASON_NAME(cursor.getString(cursor.getColumnIndex(dbHelper.FREASON_NAME)));
+//
+//			list.add(expense);
+//
+//		}
+//
+//		return list;
+//	}
 
 
 	public String getReasonByReaCode(String reaCode) {

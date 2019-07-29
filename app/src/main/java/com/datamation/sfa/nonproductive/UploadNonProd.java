@@ -76,7 +76,7 @@ public class UploadNonProd extends AsyncTask<ArrayList<DayNPrdHed>, Integer, Arr
                 String sJsonHed = new Gson().toJson(c);
                 List.add(sJsonHed);
 
-                boolean bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncSalesReturn(),List.toString());
+                boolean bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncNonProductive(),List.toString());
 
                 if (bStatus) {
                     c.setNONPRDHED_IS_SYNCED("1");
@@ -115,13 +115,13 @@ public class UploadNonProd extends AsyncTask<ArrayList<DayNPrdHed>, Integer, Arr
         int i = 1;
         for (DayNPrdHed c : NonPrdList) {
 
-//            new DayNPrdHedController(context).updateIsSynced(c);
-//
-//            if (c.isSynced()) {
-//                list.add(i + ". " + c.getNONPRDHED_REFNO()+ " --> Success\n");
-//            } else {
-//                list.add(i + ". " + c.getNONPRDHED_REFNO() + " --> Failed\n");
-//            }
+            new DayNPrdHedController(context).updateIsSynced(c);
+
+            if (c.getNONPRDHED_IS_SYNCED().equals("1")) {
+                list.add(i + ". " + c.getNONPRDHED_REFNO()+ " --> Success\n");
+            } else {
+                list.add(i + ". " + c.getNONPRDHED_REFNO() + " --> Failed\n");
+            }
             i++;
         }
 

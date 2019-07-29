@@ -9,15 +9,16 @@ import android.widget.TextView;
 
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.model.Expense;
 import com.datamation.sfa.model.Reason;
 
 import java.util.ArrayList;
 
-public class SalesExpenseDetailAdapter extends ArrayAdapter<Reason> {
+public class SalesExpenseDetailAdapter extends ArrayAdapter<Expense> {
     Context context;
-    ArrayList<Reason> list;
+    ArrayList<Expense> list;
 
-    public SalesExpenseDetailAdapter(Context context, ArrayList<Reason> list) {
+    public SalesExpenseDetailAdapter(Context context, ArrayList<Expense> list) {
         super(context, R.layout.row_sales_expense_detail, list);
         this.context = context;
         this.list = list;
@@ -36,8 +37,8 @@ public class SalesExpenseDetailAdapter extends ArrayAdapter<Reason> {
         TextView Itemname = (TextView) row.findViewById(R.id.row_sales_expensename);
         TextView Itemcode = (TextView) row.findViewById(R.id.row_sales_expensecode);
 
-        Itemname.setText(list.get(position).getFREASON_NAME());
-        Itemcode.setText(list.get(position).getFREASON_CODE());
+        Itemname.setText(list.get(position).getFEXPENSE_NAME());
+        Itemcode.setText(list.get(position).getFEXPENSE_CODE());
 
         return row;
     }

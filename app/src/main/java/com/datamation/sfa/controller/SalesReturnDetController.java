@@ -649,7 +649,7 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select Itemcode,RefNo,TaxComCode,Price,Qty,Amt,ReturnType,DisAmt from " + DatabaseHelper.TABLE_FINVRDET + " WHERE RefNo='" + refno + "'";
+        String selectQuery = "select Itemcode,RefNo,TaxComCode,SellPrice,Qty,Amt,ReturnType,DisAmt from " + DatabaseHelper.TABLE_FINVRDET + " WHERE RefNo='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 

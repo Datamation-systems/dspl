@@ -417,6 +417,14 @@ public class NetworkFunctions {
     public String syncSalesReturn(){
         return baseURL+"insertReturn";
     }
+
+    public String syncNonProductive(){
+        return baseURL+"insertFDaynPrdHed";
+    }
+
+    public String syncDayExp(){
+        return baseURL+"insertDayExpense";
+    }
 //
 //    public String syncPayments(List<CashPayment> cashPayments, List<Cheque> cheques) throws IOException, JSONException {
 //

@@ -26,6 +26,8 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.controller.BankController;
 import com.datamation.sfa.controller.CompanyDetailsController;
 import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.DayExpHedController;
+import com.datamation.sfa.controller.DayNPrdHedController;
 import com.datamation.sfa.controller.DebItemPriController;
 import com.datamation.sfa.controller.DiscdebController;
 import com.datamation.sfa.controller.DiscdetController;
@@ -59,6 +61,7 @@ import com.datamation.sfa.controller.TaxHedController;
 import com.datamation.sfa.controller.TourController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
 import com.datamation.sfa.dialog.StockInquiryDialog;
+import com.datamation.sfa.expense.UploadExpenses;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.helpers.UploadTaskListener;
@@ -66,6 +69,8 @@ import com.datamation.sfa.model.Bank;
 import com.datamation.sfa.model.CompanyBranch;
 import com.datamation.sfa.model.CompanySetting;
 import com.datamation.sfa.model.Control;
+import com.datamation.sfa.model.DayExpHed;
+import com.datamation.sfa.model.DayNPrdHed;
 import com.datamation.sfa.model.DebItemPri;
 import com.datamation.sfa.model.Debtor;
 import com.datamation.sfa.model.Discdeb;
@@ -96,6 +101,7 @@ import com.datamation.sfa.model.Tax;
 import com.datamation.sfa.model.TaxDet;
 import com.datamation.sfa.model.TaxHed;
 import com.datamation.sfa.model.TourHed;
+import com.datamation.sfa.nonproductive.UploadNonProd;
 import com.datamation.sfa.presale.UploadPreSales;
 import com.datamation.sfa.receipt.UploadReceipt;
 import com.datamation.sfa.salesreturn.UploadSalesReturn;
@@ -299,13 +305,55 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                 ArrayList<FInvRHed> retHedList = retHed.getAllUnsynced();
 //                    /* If records available for upload then */
                                 if (retHedList.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), "No Sales Returns Records to upload !", Toast.LENGTH_LONG).show();
                                 else{
 
                                     new UploadSalesReturn(getActivity(), FragmentTools.this).execute(retHedList);
 
-                                    Log.v(">>8>>","UploadPreSales execute finish");
-                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+                                    Log.v(">>8>>","Upload sales return execute finish");
+                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+//
+                                }
+
+                            }catch(Exception e){
+                                Log.v("Exception in sync order",e.toString());
+                            }
+
+                            try { // upload Non productive
+
+                                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
+
+                                ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
+//                    /* If records available for upload then */
+                                if (npHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
+                                else{
+
+                                    new UploadNonProd(getActivity(), FragmentTools.this).execute(npHedList);
+
+                                    Log.v(">>8>>","Upload non productive execute finish");
+                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.nonprdVal));
+//
+                                }
+
+                            }catch(Exception e){
+                                Log.v("Exception in sync order",e.toString());
+                            }
+
+                            try { // upload dAY eXPENSE
+
+                                DayExpHedController exHed = new DayExpHedController(getActivity());
+
+                                ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();
+//                    /* If records available for upload then */
+                                if (exHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No Expense Records to upload !", Toast.LENGTH_LONG).show();
+                                else{
+
+                                    new UploadExpenses(getActivity(), FragmentTools.this).execute(exHedList);
+
+                                    Log.v(">>8>>","Upload expense execute finish");
+                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ExpenseNumVal));
 //
                                 }
 
