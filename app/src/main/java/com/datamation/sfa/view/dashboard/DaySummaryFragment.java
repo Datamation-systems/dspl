@@ -117,23 +117,23 @@ public class DaySummaryFragment extends Fragment {
 
 
         double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
-        //double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
+        double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
         double dailyDiscount = new DashboardController(getActivity()).getTodayDiscount();
         double dailyReturn = new DashboardController(getActivity()).getTodayReturn();
         double dayCash = new DashboardController(getActivity()).getTodayCashCollection();
-        double dayCheque = new DashboardController(getActivity()).getTodayCashCollection();
-        double previousCash = new DashboardController(getActivity()).getTodayReturn();
-        double previousCheque = new DashboardController(getActivity()).getTodayReturn();
-        //int nonprd = new DayNPrdHedController(getActivity()).getNonPrdCount();
+        double dayCheque = new DashboardController(getActivity()).getTodayChequeCollection();
+        double previousCash = new DashboardController(getActivity()).getTodayCashPreviousCollection();
+        double previousCheque = new DashboardController(getActivity()).getTodayChequePreviousCollection();
+        int nonprd = new DashboardController(getActivity()).getNonPrdCount();
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
-        //String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
-        //int outlets = new DashboardController(getActivity()).getOutletCount(route);
-//        int notVisit = outlets - (ordcount+nonprd);
-//        if(notVisit > 0){
-//            notVisit = outlets - (ordcount+nonprd);
-//        }else{
-//            notVisit = 0;
-//        }
+        String route = new DashboardController(getActivity()).getRoute(new SalRepController(getActivity()).getCurrentRepCode().trim());
+        int outlets = new DashboardController(getActivity()).getOutletCount(route);
+        int notVisit = outlets - (ordcount+nonprd);
+        if(notVisit > 0){
+            notVisit = outlets - (ordcount+nonprd);
+        }else{
+            notVisit = 0;
+        }
         double thisMonthTarget = new DashboardController(getActivity()).getRepTarget();
         double preMonthTarget = new DashboardController(getActivity()).getPMRepTarget();
         double thisMonthDiscount = new DashboardController(getActivity()).getTMDiscounts();
@@ -170,13 +170,15 @@ public class DaySummaryFragment extends Fragment {
 
         tvSalesGross.setText(""+format.format(dailyAchieve));
         tvNetValue.setText(""+format.format(dailyAchieve));
-        //tvTarget.setText(""+format.format(dailyTarget));
+        tvTarget.setText(""+format.format(dailyTarget));
         tvProductive.setText(""+ordcount);
-        //tvNonprdctive.setText(""+nonprd);
+        tvNonprdctive.setText(""+nonprd);
         tvDayCash.setText(""+format.format(dayCash));
         tvDayCheque.setText(""+format.format(dayCheque));
-        tvPreviousCash.setText("");
-        tvPreviousCheque.setText("");
+        tvPreviousCash.setText(""+format.format(previousCash));
+        tvPreviousCheque.setText(""+format.format(previousCheque));
+        tvCashTotal.setText(""+format.format(dayCash+previousCash));
+        tvChequeTotal.setText(""+format.format(dayCheque+previousCheque));
         //TODO::dailyDiscount,dailyDiscount should be set after create tables(FOrdDisc,fInvRdet)
 
         return rootView;

@@ -127,7 +127,8 @@ public class InvDetController {
         try {
             String selectQuery = "select hed.DebCode, det.RefNo, ifnull((sum(det.Amt)),0) as totAmt, ifnull((sum(det.Qty)),0) as totQty from finvHed hed, finvDet det" +
                     //			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
-                    "  where hed.refno = det.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+                   // "  where hed.refno = det.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+                    "  where  hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
             cursor = dB.rawQuery(selectQuery, null);
 

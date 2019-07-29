@@ -649,10 +649,57 @@ public Double getTodayDiscount() {
 
             Cursor cursor;
 
-            cursor = dB.rawQuery("select ifnull((sum(det.aloamt)),0)  as totAmt from fprecdets  det, fprecheds hed where det.refno = hed.refno and " +
+            cursor = dB.rawQuery("select ifnull((sum(det.amt)),0)  as totAmt from fprecdets  det, fprecheds hed where det.refno = hed.refno and " +
 
                     "det.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'" +
                     " and  det.dtxndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"' and hed.paytype = 'CA'", null);
+//                    "det.txndate = '2019-04-12'" +
+//                    " and  det.dtxndate = '2019-02-13'", null);
+            // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+            while (cursor.moveToNext()) {
+                discount = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+                return discount;
+            }
+
+
+            cursor.close();
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+
+        return 0.0;
+
+    }
+    public Double getTodayChequeCollection() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+        try {
+
+
+            double discount;
+
+
+            Cursor cursor;
+
+            cursor = dB.rawQuery("select ifnull((sum(det.amt)),0)  as totAmt from fprecdets  det, fprecheds hed where det.refno = hed.refno and " +
+
+                    "det.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'" +
+                    " and  det.dtxndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"' and hed.paytype = 'CH'", null);
 //                    "det.txndate = '2019-04-12'" +
 //                    " and  det.dtxndate = '2019-02-13'", null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
@@ -696,9 +743,55 @@ public Double getTodayDiscount() {
 
             Cursor cursor;
 
-            cursor = dB.rawQuery("select ifnull((sum(det.aloamt)),0)  as totAmt from fprecdets  det where " +
+            cursor = dB.rawQuery("select ifnull((sum(det.aloamt)),0)  as totAmt from fprecdets  det, fprecheds hed where det.refno = hed.refno and " +
                     "det.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'" +
-                    " and  det.dtxndate <> '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'", null);
+                    " and  det.dtxndate <> '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"' and hed.paytype = 'CA'", null);
+//                    "det.txndate = '2019-04-12'" +
+//                    " and  det.dtxndate <> '2019-02-13'", null);
+            // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+            while (cursor.moveToNext()) {
+                discount = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+                return discount;
+            }
+
+
+            cursor.close();
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+
+        return 0.0;
+
+    }
+    public Double getTodayChequePreviousCollection() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+        try {
+
+
+            double discount;
+
+
+            Cursor cursor;
+
+            cursor = dB.rawQuery("select ifnull((sum(det.aloamt)),0)  as totAmt from fprecdets  det , fprecheds hed where det.refno = hed.refno and " +
+                    "det.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"'" +
+                    " and  det.dtxndate <> '" + curYear + "-" + String.format("%02d", curMonth) + "-"+ String.format("%02d", curDate)+"' and hed.paytype = 'CH'", null);
 //                    "det.txndate = '2019-04-12'" +
 //                    " and  det.dtxndate <> '2019-02-13'", null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);

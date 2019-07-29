@@ -209,7 +209,7 @@ for(FreeHed free : listDataHeader){
             }
 
             TextView txtListChild = (TextView) convertView
-                    .findViewById(R.id.lblListItem);
+                    .findViewById(R.id.refno);
 
             txtListChild.setText(childText.getFFREEDEB_DEB_CODE());
             return convertView;
@@ -247,7 +247,7 @@ for(FreeHed free : listDataHeader){
             }
 
             TextView lblListHeader = (TextView) convertView
-                    .findViewById(R.id.lblListHeader);
+                    .findViewById(R.id.refno);
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle.getFFREEHED_REFNO()+" From : ("+headerTitle.getFFREEHED_VDATEF()+") , To : (" +
                     ""+headerTitle.getFFREEHED_VDATET()+")");

@@ -104,6 +104,14 @@ public class OrderDetailsFragment extends Fragment {
 
 
         // Listview on child click listener
+
+
+        prepareListData();
+
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
@@ -115,13 +123,6 @@ public class OrderDetailsFragment extends Fragment {
                 return false;
             }
         });
-
-        prepareListData();
-
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
-
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
         return rootView;
     }
     //https://github.com/Rishijay/Dynamic-Expandable-ListView
@@ -180,21 +181,24 @@ public class OrderDetailsFragment extends Fragment {
 
         @Override
         public View getChildView(int groupPosition, final int childPosition,
-                                 boolean isLastChild, View convertView, ViewGroup parent) {
+                                 boolean isLastChild, View grpview, ViewGroup parent) {
 
             final OrderDetail childText = (OrderDetail) getChild(groupPosition, childPosition);
 
-            if (convertView == null) {
+            if (grpview == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this._context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_items, null);
+                grpview = infalInflater.inflate(R.layout.list_items, null);
             }
 
-            TextView txtListChild = (TextView) convertView
-                    .findViewById(R.id.lblListItem);
+            TextView txtListChild = (TextView) grpview.findViewById(R.id.itemcode);
+            TextView txtListChild1 = (TextView) grpview.findViewById(R.id.qty);
+            TextView txtListChild2 = (TextView) grpview.findViewById(R.id.amount);
 
-            txtListChild.setText(childText.getFORDERDET_ITEMCODE()+" - "+childText.getFORDERDET_QTY()+" - "+childText.getFORDERDET_AMT());
-            return convertView;
+            txtListChild.setText("ItemCode - "+childText.getFORDERDET_ITEMCODE());
+            txtListChild1.setText("Qty - "+childText.getFORDERDET_QTY());
+            txtListChild2.setText("Amount - "+childText.getFORDERDET_AMT());
+            return grpview;
         }
 
         @Override
@@ -229,9 +233,26 @@ public class OrderDetailsFragment extends Fragment {
             }
 
             TextView lblListHeader = (TextView) convertView
-                    .findViewById(R.id.lblListHeader);
+                    .findViewById(R.id.refno);
+            TextView deb = (TextView) convertView.findViewById(R.id.debcode);
+            TextView date = (TextView) convertView.findViewById(R.id.date);
+            TextView tot = (TextView) convertView.findViewById(R.id.total);
+            TextView stats = (TextView) convertView.findViewById(R.id.status);
+            TextView type = (TextView) convertView.findViewById(R.id.type);
             lblListHeader.setTypeface(null, Typeface.BOLD);
-            lblListHeader.setText(headerTitle.getORDER_REFNO()+" Customer : ("+headerTitle.getORDER_DEBCODE()+")");
+            lblListHeader.setText(headerTitle.getORDER_REFNO());
+            deb.setText(headerTitle.getORDER_DEBCODE());
+            if(headerTitle.getORDER_IS_SYNCED().equals("1")){
+                stats.setText("Synced");
+                stats.setTextColor(getResources().getColor(R.color.material_alert_positive_button));
+            }else{
+                stats.setText("Not Synced");
+                stats.setTextColor(getResources().getColor(R.color.material_alert_negative_button));
+
+            }
+            type.setText(headerTitle.getORDER_TXNTYPE());
+            date.setText(headerTitle.getORDER_TXNDATE());
+            tot.setText(headerTitle.getORDER_TOTALAMT());
 
             return convertView;
         }

@@ -223,7 +223,7 @@ public class OtherDetailsFragment extends Fragment {
                 convertView = infalInflater.inflate(R.layout.list_items, null);
             }
 
-            TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
+            TextView txtListChild = (TextView) convertView.findViewById(R.id.refno);
 
             txtListChild.setText(childText.getNONPRDDET_REASON_CODE()+" - "+childText.getNONPRDDET_REPCODE()+" - "+childText.getNONPRDDET_REASON());
             return convertView;
@@ -260,7 +260,7 @@ public class OtherDetailsFragment extends Fragment {
                 convertView = infalInflater.inflate(R.layout.list_group, null);
             }
 
-            TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
+            TextView lblListHeader = (TextView) convertView.findViewById(R.id.refno);
 
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle.getNONPRDHED_REFNO()+" Customer : ("+headerTitle.getNONPRDHED_DEBCODE()+")");
@@ -313,7 +313,7 @@ public class OtherDetailsFragment extends Fragment {
                 convertView = infalInflater.inflate(R.layout.list_items, null);
             }
 
-            TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
+            TextView txtListChild = (TextView) convertView.findViewById(R.id.refno);
 
             txtListChild.setText(childText.getEXPDET_REFNO()+" - "+childText.getEXPDET_EXPCODE()+" - "+childText.getEXPDET_AMOUNT());
             return convertView;
@@ -350,7 +350,7 @@ public class OtherDetailsFragment extends Fragment {
                 convertView = infalInflater.inflate(R.layout.list_group, null);
             }
 
-            TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
+            TextView lblListHeader = (TextView) convertView.findViewById(R.id.refno);
 
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle.getEXPHED_REFNO()+" Customer : ("+headerTitle.getEXPHED_REPCODE()+")");

@@ -173,7 +173,7 @@ public class OrderController {
 
         try {
             //String selectQuery = "select DebCode, RefNo from fordHed " +
-            String selectQuery = "select DebCode, RefNo from fordHed " +
+            String selectQuery = "select DebCode, RefNo, isSynced, TxnDate, TotalAmt from fordHed " +
                     //			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
                     "  where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
@@ -186,6 +186,10 @@ public class OrderController {
 //
                 recDet.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 recDet.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_DEB_CODE)));
+                recDet.setORDER_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_IS_SYNCED)));
+                recDet.setORDER_TXNTYPE("Order");
+                recDet.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                recDet.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FORDHED_TOTAL_AMT)));
                 //TODO :set  discount, free
 
                 list.add(recDet);
