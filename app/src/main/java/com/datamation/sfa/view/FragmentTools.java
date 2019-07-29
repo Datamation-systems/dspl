@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,6 +146,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
         imgSalesRep.setOnClickListener(this);
         imgDayExp.setOnClickListener(this);
         resultList = new ArrayList<>();
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         return view;
     }
 

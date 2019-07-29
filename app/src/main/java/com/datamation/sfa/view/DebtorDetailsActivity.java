@@ -16,12 +16,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
 import at.markushi.ui.CircleButton;
 import com.astuetz.PagerSlidingTabStrip;
@@ -329,6 +331,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     public void mEndCallDialog()
@@ -359,10 +362,40 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         {
             //sharedPref.setSelectedDebtorEnd(true);
             //sharedPref.setSelectedDebtorStart(false);
-            UtilityContainer.ClearReturnSharedPref(getApplicationContext());
-            Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
-            startActivity(intent);
-            finish();
+            MaterialDialog materialDialog = new MaterialDialog.Builder(this)
+                    .content("Do you want to end call for this customer?")
+                    .positiveColor(ContextCompat.getColor(this, R.color.material_alert_positive_button))
+                    .positiveText("Yes")
+                    .negativeColor(ContextCompat.getColor(this, R.color.material_alert_negative_button))
+                    .negativeText("No, Exit")
+                    .callback(new MaterialDialog.ButtonCallback() {
+
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            super.onPositive(dialog);
+
+                            UtilityContainer.ClearReturnSharedPref(getApplicationContext());
+                            UtilityContainer.ClearReceiptSharedPref(getApplicationContext());
+                            UtilityContainer.ClearCustomerSharedPref(getApplicationContext());
+                            Intent intent = new Intent(getApplicationContext(), DebtorListActivity.class);
+                            startActivity(intent);
+                            finish();
+
+                        }
+
+                        @Override
+                        public void onNegative(MaterialDialog dialog) {
+                            super.onNegative(dialog);
+                            dialog.dismiss();
+
+
+                        }
+                    })
+                    .build();
+            materialDialog.setCanceledOnTouchOutside(false);
+            materialDialog.show();
+
+
         }
     }
 

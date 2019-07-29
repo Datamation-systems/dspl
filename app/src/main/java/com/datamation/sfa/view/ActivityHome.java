@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -147,7 +148,7 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
         //set home frgament
         changeFragment(0);
 
-
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     public void Logout() {
