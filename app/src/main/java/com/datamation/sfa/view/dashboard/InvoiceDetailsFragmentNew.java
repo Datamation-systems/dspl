@@ -1,5 +1,6 @@
 package com.datamation.sfa.view.dashboard;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -11,16 +12,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
+import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.OrderController;
-import com.datamation.sfa.controller.OrderDetailController;
-import com.datamation.sfa.model.OrderDetail;
-import com.datamation.sfa.model.Order;
+import com.datamation.sfa.controller.InvDetController;
+import com.datamation.sfa.controller.InvHedController;
+import com.datamation.sfa.model.InvDet;
+import com.datamation.sfa.model.InvHed;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -28,20 +34,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 /**
  * Created by TaZ on 4/7/15.
  * Used to show the user the list of invoices.
  */
-public class OrderDetailsFragment extends Fragment {
+public class InvoiceDetailsFragmentNew extends Fragment {
 
-    private static final String LOG_TAG = OrderDetailsFragment.class.getSimpleName();
-
+    private static final String LOG_TAG = InvoiceDetailsFragmentNew.class.getSimpleName();
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    List<Order> listDataHeader;
-    HashMap<Order, List<OrderDetail>> listDataChild;
+    List<InvHed> listDataHeader;
+    HashMap<InvHed, List<InvDet>> listDataChild;
     TextView total;
-//    private DatabaseHandler dbHandler;
+    //    private DatabaseHandler dbHandler;
 //    private CalendarDatePickerDialog calendarDatePickerDialog;
     private int mYear, mMonth, mDay;
 
@@ -118,9 +126,9 @@ public class OrderDetailsFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
 
-                String itemName = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFORDERDET_ITEMCODE();
+                String itemName = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFINVDET_ITEM_CODE();
                 Toast.makeText(getActivity(), "You selected : " + itemName, Toast.LENGTH_SHORT).show();
-                Log.e("Child", listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFORDERDET_ITEMCODE());
+                Log.e("Child", listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFINVDET_ITEM_CODE());
                 return false;
             }
         });
@@ -128,11 +136,11 @@ public class OrderDetailsFragment extends Fragment {
     }
     //https://github.com/Rishijay/Dynamic-Expandable-ListView
     private void prepareListData() {
-        listDataHeader = new OrderController(getActivity()).getTodayOrders();
-        listDataChild = new HashMap<Order, List<OrderDetail>>();
+        listDataHeader = new InvHedController(getActivity()).getTodayOrders();
+        listDataChild = new HashMap<InvHed, List<InvDet>>();
 
-        for(Order free : listDataHeader){
-            listDataChild.put(free,new OrderDetailController(getActivity()).getTodayOrderDets(free.getORDER_REFNO()));
+        for(InvHed free : listDataHeader){
+            listDataChild.put(free,new InvDetController(getActivity()).getTodayOrderDets(free.getFINVHED_REFNO()));
         }
 
     }
@@ -158,12 +166,12 @@ public class OrderDetailsFragment extends Fragment {
     public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         private Context _context;
-        private List<Order> _listDataHeader; // header titles
+        private List<InvHed> _listDataHeader; // header titles
         // child data in format of header title, child title
-        private HashMap<Order, List<OrderDetail>> _listDataChild;
+        private HashMap<InvHed, List<InvDet>> _listDataChild;
 
-        public ExpandableListAdapter(Context context, List<Order> listDataHeader,
-                                     HashMap<Order, List<OrderDetail>> listChildData) {
+        public ExpandableListAdapter(Context context, List<InvHed> listDataHeader,
+                                     HashMap<InvHed, List<InvDet>> listChildData) {
             this._context = context;
             this._listDataHeader = listDataHeader;
             this._listDataChild = listChildData;
@@ -184,7 +192,7 @@ public class OrderDetailsFragment extends Fragment {
         public View getChildView(int groupPosition, final int childPosition,
                                  boolean isLastChild, View grpview, ViewGroup parent) {
 
-            final OrderDetail childText = (OrderDetail) getChild(groupPosition, childPosition);
+            final InvDet childText = (InvDet) getChild(groupPosition, childPosition);
 
             if (grpview == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -196,9 +204,9 @@ public class OrderDetailsFragment extends Fragment {
             TextView txtListChild1 = (TextView) grpview.findViewById(R.id.qty);
             TextView txtListChild2 = (TextView) grpview.findViewById(R.id.amount);
 
-            txtListChild.setText("ItemCode - "+childText.getFORDERDET_ITEMCODE());
-            txtListChild1.setText("Qty - "+childText.getFORDERDET_QTY());
-            txtListChild2.setText("Amount - "+numberFormat.format(Double.parseDouble(childText.getFORDERDET_AMT())));
+            txtListChild.setText("ItemCode - "+childText.getFINVDET_ITEM_CODE());
+            txtListChild1.setText("Qty - "+childText.getFINVDET_QTY());
+            txtListChild2.setText("Amount - "+numberFormat.format(Double.parseDouble(childText.getFINVDET_AMT())));
             return grpview;
         }
 
@@ -226,7 +234,7 @@ public class OrderDetailsFragment extends Fragment {
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded,
                                  View convertView, ViewGroup parent) {
-            Order headerTitle = (Order) getGroup(groupPosition);
+            InvHed headerTitle = (InvHed) getGroup(groupPosition);
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this._context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -241,9 +249,9 @@ public class OrderDetailsFragment extends Fragment {
             TextView stats = (TextView) convertView.findViewById(R.id.status);
             TextView type = (TextView) convertView.findViewById(R.id.type);
             lblListHeader.setTypeface(null, Typeface.BOLD);
-            lblListHeader.setText(headerTitle.getORDER_REFNO());
-            deb.setText(headerTitle.getORDER_DEBCODE());
-            if(headerTitle.getORDER_IS_SYNCED().equals("1")){
+            lblListHeader.setText(headerTitle.getFINVHED_REFNO());
+            deb.setText(headerTitle.getFINVHED_DEBCODE());
+            if(headerTitle.getFINVHED_IS_SYNCED().equals("1")){
                 stats.setText("Synced");
                 stats.setTextColor(getResources().getColor(R.color.material_alert_positive_button));
             }else{
@@ -251,9 +259,9 @@ public class OrderDetailsFragment extends Fragment {
                 stats.setTextColor(getResources().getColor(R.color.material_alert_negative_button));
 
             }
-            type.setText(headerTitle.getORDER_TXNTYPE());
-            date.setText(headerTitle.getORDER_TXNDATE());
-            tot.setText(headerTitle.getORDER_TOTALAMT());
+            type.setText(headerTitle.getFINVHED_TXNTYPE());
+            date.setText(headerTitle.getFINVHED_TXNDATE());
+            tot.setText(headerTitle.getFINVHED_TOTALAMT());
 
             return convertView;
         }
@@ -274,13 +282,13 @@ public class OrderDetailsFragment extends Fragment {
             double grossTotal = 0;
 
 
-            List<Order> searchingDetails = _listDataHeader;
+            List<InvHed> searchingDetails = _listDataHeader;
 
 
-            for (Order invoice : searchingDetails) {
+            for (InvHed invoice : searchingDetails) {
 
                 if (invoice != null) {
-                    grossTotal += Double.parseDouble(invoice.getORDER_TOTALAMT());
+                    grossTotal += Double.parseDouble(invoice.getFINVHED_TOTALAMT());
 
                 }
             }
