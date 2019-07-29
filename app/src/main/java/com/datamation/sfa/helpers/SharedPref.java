@@ -369,7 +369,8 @@ public  void  setMacAddress(String MacAddress){
 
     public String getBaseURL() {
         //return sharedPref.getString("baseURL", "https://19920502.000webhostapp.com");
-        return sharedPref.getString("baseURL", "http://203.143.21.121:8080");
+        //return sharedPref.getString("baseURL", "http://203.143.21.121:8080");
+        return sharedPref.getString("baseURL", "http://123.231.13.199:1025");
         //return sharedPref.getString("baseURL", "http://192.168.43.62");
 
     }
@@ -382,7 +383,8 @@ public  void  setMacAddress(String MacAddress){
 
     public String getDatabase() {
         //return sharedPref.getString("baseURL", "https://19920502.000webhostapp.com");
-        return sharedPref.getString("Console_DB", "LHD_PDA_TEST");
+        return sharedPref.getString("Console_DB", "WCSFA_DB");
+        //return sharedPref.getString("Console_DB", "LHD_PDA_TEST");
         //return sharedPref.getString("baseURL", "http://192.168.43.62");
 
     }

@@ -35,7 +35,7 @@
                         android:id="@+id/imgTourInfo"
                         android:layout_width="@dimen/finac_dashboard_image_height"
                         android:layout_height="@dimen/finac_dashboard_image_height"
-                        android:background="@drawable/circle_ic_tour" />
+                        android:src="@drawable/circle_ic_tour" />
 
                     <com.datamation.sfa.utils.CustomFont
                         android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
                         android:id="@+id/imgDayExp"
                         android:layout_width="@dimen/finac_dashboard_image_height"
                         android:layout_height="@dimen/finac_dashboard_image_height"
-                        android:background="@drawable/circle_ic_market_share"/>
+                        android:src="@drawable/circle_ic_market_share"/>
 
                     <com.datamation.sfa.utils.CustomFont
                         android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                         android:id="@+id/imgSalrep"
                         android:layout_width="@dimen/finac_dashboard_image_height"
                         android:layout_height="@dimen/finac_dashboard_image_height"
-                        android:background="@drawable/circle_ic_salesman" />
+                        android:src="@drawable/circle_ic_salesman" />
 
                     <com.datamation.sfa.utils.CustomFont
                         android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
                             android:id="@+id/imgStockInquiry"
                             android:layout_width="@dimen/finac_dashboard_image_height"
                             android:layout_height="@dimen/finac_dashboard_image_height"
-                            android:background="@drawable/circle_ic_stock"/>
+                            android:src="@drawable/circle_ic_stock"/>
 
                         <com.datamation.sfa.utils.CustomFont
                             android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                             android:id="@+id/imgDownload"
                             android:layout_width="@dimen/finac_dashboard_image_height"
                             android:layout_height="@dimen/finac_dashboard_image_height"
-                            android:background="@drawable/circle_ic_download_new"/>
+                            android:src="@drawable/circle_ic_download_new"/>
 
                         <com.datamation.sfa.utils.CustomFont
                             android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
                             android:id="@+id/imgSqlite"
                             android:layout_width="@dimen/finac_dashboard_image_height"
                             android:layout_height="@dimen/finac_dashboard_image_height"
-                            android:background="@drawable/circle_ic_database"/>
+                            android:src="@drawable/circle_ic_database"/>
 
                         <com.datamation.sfa.utils.CustomFont
                             android:layout_width="wrap_content"
@@ -208,7 +208,7 @@
                             android:id="@+id/imgPrinter"
                             android:layout_width="@dimen/finac_dashboard_image_height"
                             android:layout_height="@dimen/finac_dashboard_image_height"
-                            android:background="@drawable/circle_ic_printer"/>
+                            android:src="@drawable/circle_ic_printer"/>
 
                         <com.datamation.sfa.utils.CustomFont
                             android:layout_width="wrap_content"
@@ -232,7 +232,7 @@
                             android:id="@+id/imgSync"
                             android:layout_width="@dimen/finac_dashboard_image_height"
                             android:layout_height="@dimen/finac_dashboard_image_height"
-                            android:background="@drawable/cirle_ic_sync_new" />
+                            android:src="@drawable/cirle_ic_sync_new" />
 
 
                         <com.datamation.sfa.utils.CustomFont
@@ -257,7 +257,7 @@
                             android:id="@+id/imgUpload"
                             android:layout_width="@dimen/finac_dashboard_image_height"
                             android:layout_height="@dimen/finac_dashboard_image_height"
-                            android:background="@drawable/circle_ic_upload_new" />
+                            android:src="@drawable/circle_ic_upload_new" />
 
                         <com.datamation.sfa.utils.CustomFont
                             android:layout_width="wrap_content"

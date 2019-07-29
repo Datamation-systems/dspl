@@ -193,7 +193,7 @@ public class VanSalesHeader extends Fragment {
             hed.setFINVHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
 
             if (selectedDebtor != null) {
-                hed.setFINVHED_DEBCODE(selectedDebtor.getCusCode());
+                hed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
                 hed.setFINVHED_CONTACT(selectedDebtor.getCusMob());
                 hed.setFINVHED_CUSADD1(selectedDebtor.getCusAdd1());
                 hed.setFINVHED_CUSADD2(selectedDebtor.getCusAdd2());

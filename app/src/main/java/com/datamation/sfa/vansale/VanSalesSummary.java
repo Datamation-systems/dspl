@@ -301,7 +301,7 @@ public class VanSalesSummary extends Fragment {
                         InvHed invHed = new InvHedController(getActivity()).getActiveInvhed();
 
                         sHed.setFINVHED_REFNO(RefNo);
-                        sHed.setFINVHED_DEBCODE(invHed.getFINVHED_DEBCODE());
+                        sHed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
                         sHed.setFINVHED_ADDDATE(invHed.getFINVHED_ADDDATE());
                         sHed.setFINVHED_MANUREF(invHed.getFINVHED_MANUREF());
                         sHed.setFINVHED_REMARKS(invHed.getFINVHED_REMARKS());
@@ -536,7 +536,7 @@ public class VanSalesSummary extends Fragment {
  hed.setFINVHED_START_TIME_SO(currentTime());
  hed.setFINVHED_SETTING_CODE(getResources().getString(R.string.VanNumVal));**/
                     sHed.setFINVHED_REFNO(RefNo);
-                    //sHed.setFINVHED_DEBCODE(invHed.getFINVHED_DEBCODE());
+                    sHed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
                     sHed.setFINVHED_ADDDATE(invHed.getFINVHED_ADDDATE());
                     sHed.setFINVHED_MANUREF(invHed.getFINVHED_MANUREF());
                     sHed.setFINVHED_REMARKS(invHed.getFINVHED_REMARKS());

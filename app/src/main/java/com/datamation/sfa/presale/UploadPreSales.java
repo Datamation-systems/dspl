@@ -94,7 +94,7 @@ public class UploadPreSales extends AsyncTask<ArrayList<Order>, Integer, ArrayLi
         List<String> list = new ArrayList<>();
 
         if (RCSList.size() > 0) {
-            list.add("\nVAN SALES");
+            list.add("\nPRE SALES");
             list.add("------------------------------------\n");
         }
 

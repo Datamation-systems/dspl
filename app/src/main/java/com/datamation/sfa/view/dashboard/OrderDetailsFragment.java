@@ -40,7 +40,7 @@ public class OrderDetailsFragment extends Fragment {
     ExpandableListView expListView;
     List<Order> listDataHeader;
     HashMap<Order, List<OrderDetail>> listDataChild;
-    //    private DatabaseHandler dbHandler;
+//    private DatabaseHandler dbHandler;
 //    private CalendarDatePickerDialog calendarDatePickerDialog;
     private int mYear, mMonth, mDay;
 
@@ -197,7 +197,7 @@ public class OrderDetailsFragment extends Fragment {
 
             txtListChild.setText("ItemCode - "+childText.getFORDERDET_ITEMCODE());
             txtListChild1.setText("Qty - "+childText.getFORDERDET_QTY());
-            txtListChild2.setText("Amount - "+childText.getFORDERDET_AMT());
+            txtListChild2.setText("Amount - "+numberFormat.format(Double.parseDouble(childText.getFORDERDET_AMT())));
             return grpview;
         }
 
