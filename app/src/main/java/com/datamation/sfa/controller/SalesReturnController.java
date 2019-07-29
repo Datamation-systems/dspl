@@ -8,7 +8,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.DatabaseHelper;
+import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.Order;
 
@@ -474,9 +476,13 @@ public class SalesReturnController
 
             FInvRHed salesReturnMapper = new FInvRHed();
 
-            salesReturnMapper.setDistDB(localSP.getString("DistDB", "").toString());
-            salesReturnMapper.setConsoleDB(localSP.getString("ConsoleDB",
-                    "").toString());
+            salesReturnMapper.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.salRet)));
+            salesReturnMapper.setDistDB(localSP.getString("Dist_DB", "").toString());
+            salesReturnMapper.setConsoleDB(SharedPref.getInstance(context).getDatabase());
+
+//            salesReturnMapper.setDistDB(localSP.getString("DistDB", "").toString());
+//            salesReturnMapper.setConsoleDB(localSP.getString("ConsoleDB",
+//                    "").toString());
 
             salesReturnMapper.setFINVRHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ID)));
             salesReturnMapper.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));

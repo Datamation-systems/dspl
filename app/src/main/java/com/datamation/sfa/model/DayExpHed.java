@@ -11,6 +11,61 @@ public class DayExpHed {
     private String EXPHED_IS_SYNCED;
     private String EXPHED_TOTAMT;
     private String EXPHED_ACTIVESTATE;
+    private String EXPHED_ADDUSER;
+    private String EXPHED_ADDMACH;
+    private String EXPHED_ADDRESS;
+
+    public String getEXPHED_ADDUSER() {
+        return EXPHED_ADDUSER;
+    }
+
+    public void setEXPHED_ADDUSER(String EXPHED_ADDUSER) {
+        this.EXPHED_ADDUSER = EXPHED_ADDUSER;
+    }
+
+    public String getEXPHED_ADDMACH() {
+        return EXPHED_ADDMACH;
+    }
+
+    public void setEXPHED_ADDMACH(String EXPHED_ADDMACH) {
+        this.EXPHED_ADDMACH = EXPHED_ADDMACH;
+    }
+
+    public String getEXPHED_ADDRESS() {
+        return EXPHED_ADDRESS;
+    }
+
+    public void setEXPHED_ADDRESS(String EXPHED_ADDRESS) {
+        this.EXPHED_ADDRESS = EXPHED_ADDRESS;
+    }
+
+    private String ConsoleDB;
+    private String DistDB;
+    private String NextNumVal;
+
+    public String getNextNumVal() {
+        return NextNumVal;
+    }
+
+    public void setNextNumVal(String nextNumVal) {
+        NextNumVal = nextNumVal;
+    }
+
+    public String getConsoleDB() {
+        return ConsoleDB;
+    }
+
+    public void setConsoleDB(String consoleDB) {
+        ConsoleDB = consoleDB;
+    }
+
+    public String getDistDB() {
+        return DistDB;
+    }
+
+    public void setDistDB(String distDB) {
+        DistDB = distDB;
+    }
 
     public String getEXPHED_ADDDATE() {
         return EXPHED_ADDDATE;

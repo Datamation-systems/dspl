@@ -68,6 +68,8 @@ public class Order {
 
     private String ConsoleDB;
     private String DistDB;
+    private String NextNumVal;
+
     private ArrayList<OrderDetail> soDetArrayList;
     private ArrayList<TaxDT> taxDTs;
     private ArrayList<TaxRG> taxRGs;
@@ -75,6 +77,14 @@ public class Order {
     private ArrayList<OrdFreeIssue> freeIssues;
 
     public Order() {
+    }
+
+    public String getNextNumVal() {
+        return NextNumVal;
+    }
+
+    public void setNextNumVal(String nextNumVal) {
+        NextNumVal = nextNumVal;
     }
 
     public ArrayList<TaxDT> getTaxDTs() {

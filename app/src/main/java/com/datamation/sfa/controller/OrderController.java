@@ -8,6 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.Order;
@@ -399,6 +400,10 @@ public class OrderController {
             Order order = new Order();
             OrderDetailController detDS = new OrderDetailController(context);
             ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
+
+            order.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
+            order.setDistDB(localSP.getString("Dist_DB", "").toString());
+            order.setConsoleDB(SharedPref.getInstance(context).getDatabase());
             //order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
 
             order.setORDER_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_ID)));

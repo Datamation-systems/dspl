@@ -7,6 +7,7 @@ public class DayNPrdHed implements Serializable
 
     private String ConsoleDB;
     private String DistDB;
+    private String NextNumVal;
 
     private String NONPRDHED_REFNO;
     private String NONPRDHED_TXNDATE;
@@ -24,6 +25,14 @@ public class DayNPrdHed implements Serializable
     private String NONPRDHED_LATITUDE;
     private String NONPRDHED_DEBCODE;
     private String NONPRDHED_IS_ACTIVE;
+
+    public String getNextNumVal() {
+        return NextNumVal;
+    }
+
+    public void setNextNumVal(String nextNumVal) {
+        NextNumVal = nextNumVal;
+    }
 
     public String getConsoleDB() {
         return ConsoleDB;

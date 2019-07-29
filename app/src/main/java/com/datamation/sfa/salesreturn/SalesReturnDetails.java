@@ -467,7 +467,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
                 }
                 else
                 {
-                    lblPrice.setText("1000.00");
+                    //lblPrice.setText("1000.00");
 //                    if(new ItemController(getActivity()).(selectedItem.getFITEM_ITEM_CODE(), activity.selectedRetDebtor.getFDEBTOR_PRILLCODE()).equals("") || new ItemPriDS(getActivity()).getProductPriceByCode(selectedItem.getFITEM_ITEM_CODE(), activity.selectedRetDebtor.getFDEBTOR_PRILLCODE()).equals(null)) {
 //                        price = 0.0;
 //                    }else{
@@ -475,8 +475,9 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 //                        changedPrice = price;
 //                    }
 //                    lblPrice.setText(""+price);
+                    lblPrice.setText(selectedItem.getFITEM_AVGPRICE());
                 }
-                //lblPrice.setText(selectedItem.getFITEM_AVGPRICE());
+
 
                 //lblPrice.setText("10000.00");
                 //iQoh = Double.parseDouble(selectedItem.getFITEM_QOH());

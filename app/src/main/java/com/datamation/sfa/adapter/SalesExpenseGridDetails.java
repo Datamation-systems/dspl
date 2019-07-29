@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.datamation.sfa.R;
+import com.datamation.sfa.controller.ExpenseController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.model.DayExpDet;
 
@@ -38,7 +39,7 @@ public class SalesExpenseGridDetails extends ArrayAdapter<DayExpDet> {
         TextView Itemcode = (TextView) row.findViewById(R.id.row_nonprd_reason);
         //TextView _id = (TextView) row.findViewById(R.id._id);
 
-        Itemname.setText(new ReasonController(getContext()).getReaNameByCode(list.get(position).getEXPDET_EXPCODE()));
+        Itemname.setText(new ExpenseController(getContext()).getReasonByCode(list.get(position).getEXPDET_EXPCODE()));
         Itemcode.setText(String.format("%.2f", Double.parseDouble(list.get(position).getEXPDET_AMOUNT())));
 
         return row;

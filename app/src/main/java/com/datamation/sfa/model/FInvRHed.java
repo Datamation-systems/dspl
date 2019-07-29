@@ -7,6 +7,7 @@ public class FInvRHed implements Serializable{
 
     private String ConsoleDB;
     private String DistDB;
+    private String NextNumVal;
 
     private String FINVRHED_ID;
     private String FINVRHED_REFNO;
@@ -46,6 +47,14 @@ public class FInvRHed implements Serializable{
     private ArrayList<FInvRDet> FinvrtDets;
     private ArrayList<TaxDT> taxDTs;
     private ArrayList<TaxRG> taxRGs;
+
+    public String getNextNumVal() {
+        return NextNumVal;
+    }
+
+    public void setNextNumVal(String nextNumVal) {
+        NextNumVal = nextNumVal;
+    }
 
     public ArrayList<FInvRDet> getFinvrtDets() {
         return FinvrtDets;
