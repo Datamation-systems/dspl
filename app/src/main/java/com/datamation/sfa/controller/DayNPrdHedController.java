@@ -423,7 +423,7 @@ public class DayNPrdHedController {
                 //mapper.setNextNumVal(new CompanyBranchDS(context).getCurrentNextNumVal(context.getResources().getString(R.string.NonProd)));
 //                mapper.setConsoleDB(localSP.getString("ConsoleDB", "").toString());
 
-                mapper.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
+                mapper.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.nonprdVal)));
                 mapper.setDistDB(localSP.getString("Dist_DB", "").toString());
                 mapper.setConsoleDB(SharedPref.getInstance(context).getDatabase());
 
