@@ -628,7 +628,7 @@ public void calculateFreeIssue(String debCode) {
                         ordDet.setFINVDET_IS_ACTIVE("1");
                         ordDet.setFINVDET_LOCCODE(mSharedPref.getGlobalVal("PrekeyLocCode").trim());
                       //  ordDet.setFINVDET_COST_PRICE(new ItemController(getActivity()).getCostPriceItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
-                   //     ordDet.setFINVDET_B_TAX_AMT("0");
+                        ordDet.setFINVDET_BT_TAX_AMT("0");
                         ordDet.setFINVDET_IS_SYNCED("0");
                         ordDet.setFINVDET_QOH("0");
                      //   ordDet.setFINVDET_SCHDISC("0");
@@ -657,7 +657,7 @@ public void calculateFreeIssue(String debCode) {
 
                         if (detDS.createOrUpdateInvDet(ordList) > 0) {
                             Toast.makeText(getActivity(), "Added successfully", Toast.LENGTH_SHORT).show();
-                            showData();
+                            //showData();
 
                             lvFree.setAdapter(null);
                             ArrayList<InvDet> freeList=new InvDetController(getActivity()).getAllFreeIssue(RefNo);

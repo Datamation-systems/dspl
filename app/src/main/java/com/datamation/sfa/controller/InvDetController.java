@@ -50,8 +50,8 @@ public class InvDetController {
 
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVDET + " WHERE " + DatabaseHelper.FINVDET_ITEM_CODE+ " = '" + invDet.getFINVDET_ITEM_CODE() + "' and "+ DatabaseHelper.REFNO+ " = '" + invDet.getFINVDET_REFNO()+ "'";
-
+                String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVDET + " WHERE " + DatabaseHelper.FINVDET_ID
+                        + " = '" + invDet.getFINVDET_ID() + "'";
                 cursor = dB.rawQuery(selectQuery, null);
 
               //  values.put(DatabaseHelper.FINVDET_ID, invDet.getFINVDET_ID());
