@@ -67,6 +67,7 @@ public class OtherDetailsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_other_details, container, false);
 
         spnOther = (Spinner)view.findViewById(R.id.spnOtherTrans);
+
         //noDataLayout = (LinearLayout)view.findViewById(R.id.no_item_layout);
 
         ArrayList<String> otherList = new ArrayList<String>();
@@ -220,12 +221,15 @@ public class OtherDetailsFragment extends Fragment {
             if (convertView == null)
             {
                 LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_items, null);
+                convertView = infalInflater.inflate(R.layout.list_items_1, null);
             }
 
-            TextView txtListChild = (TextView) convertView.findViewById(R.id.refno);
+            TextView reason = (TextView) convertView.findViewById(R.id.reason);
+            TextView remarks = (TextView) convertView.findViewById(R.id.remark);
 
-            txtListChild.setText(childText.getNONPRDDET_REASON_CODE()+" - "+childText.getNONPRDDET_REPCODE()+" - "+childText.getNONPRDDET_REASON());
+            reason.setText(childText.getNONPRDDET_REASON());
+            remarks.setText(childText.getNONPRDDET_REMARK());
+
             return convertView;
         }
 
@@ -257,13 +261,20 @@ public class OtherDetailsFragment extends Fragment {
             if (convertView == null)
             {
                 LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_group, null);
+                convertView = infalInflater.inflate(R.layout.list_group_1, null);
             }
 
-            TextView lblListHeader = (TextView) convertView.findViewById(R.id.refno);
+            TextView lblrefNo = (TextView) convertView.findViewById(R.id.refno);
+            TextView lbldebCode = (TextView) convertView.findViewById(R.id.debcode);
+            TextView lbldate = (TextView) convertView.findViewById(R.id.date);
+            TextView lblreason = (TextView) convertView.findViewById(R.id.total);
+            TextView lblstatus = (TextView) convertView.findViewById(R.id.status);
 
-            lblListHeader.setTypeface(null, Typeface.BOLD);
-            lblListHeader.setText(headerTitle.getNONPRDHED_REFNO()+" Customer : ("+headerTitle.getNONPRDHED_DEBCODE()+")");
+            lblrefNo.setTypeface(null, Typeface.BOLD);
+            lblrefNo.setText(headerTitle.getNONPRDHED_REFNO());
+            lbldate.setText(headerTitle.getNONPRDHED_TXNDATE());
+            lbldebCode.setText(headerTitle.getNONPRDHED_DEBCODE());
+            lblstatus.setText(headerTitle.getNONPRDHED_IS_SYNCED());
 
             return convertView;
         }
@@ -310,12 +321,15 @@ public class OtherDetailsFragment extends Fragment {
             if (convertView == null)
             {
                 LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_items, null);
+                convertView = infalInflater.inflate(R.layout.list_items_1, null);
             }
 
-            TextView txtListChild = (TextView) convertView.findViewById(R.id.refno);
+            TextView reason = (TextView) convertView.findViewById(R.id.reason);
+            TextView remarks = (TextView) convertView.findViewById(R.id.remark);
 
-            txtListChild.setText(childText.getEXPDET_REFNO()+" - "+childText.getEXPDET_EXPCODE()+" - "+childText.getEXPDET_AMOUNT());
+            reason.setText(childText.getEXPDET_EXPCODE());
+            remarks.setText(childText.getEXPDET_AMOUNT());
+
             return convertView;
         }
 
@@ -347,13 +361,20 @@ public class OtherDetailsFragment extends Fragment {
             if (convertView == null)
             {
                 LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_group, null);
+                convertView = infalInflater.inflate(R.layout.list_group_1, null);
             }
 
-            TextView lblListHeader = (TextView) convertView.findViewById(R.id.refno);
+            TextView lblrefNo = (TextView) convertView.findViewById(R.id.refno);
+            TextView lbldebCode = (TextView) convertView.findViewById(R.id.debcode);
+            TextView lbldate = (TextView) convertView.findViewById(R.id.date);
+            TextView lblreason = (TextView) convertView.findViewById(R.id.total);
+            TextView lblstatus = (TextView) convertView.findViewById(R.id.status);
 
-            lblListHeader.setTypeface(null, Typeface.BOLD);
-            lblListHeader.setText(headerTitle.getEXPHED_REFNO()+" Customer : ("+headerTitle.getEXPHED_REPCODE()+")");
+            lblrefNo.setTypeface(null, Typeface.BOLD);
+            lblrefNo.setText(headerTitle.getEXPHED_REFNO());
+            lbldate.setText(headerTitle.getEXPHED_TXNDATE());
+            lbldebCode.setText(headerTitle.getEXPHED_REPCODE());
+            lblstatus.setText(headerTitle.getEXPHED_IS_SYNCED());
 
             return convertView;
         }

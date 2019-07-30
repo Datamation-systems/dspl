@@ -238,11 +238,12 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
                         nondet.setNONPRDDET_REFNO(RefNo.getText() + "");
                         nondet.setNONPRDDET_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
                         nondet.setNONPRDDET_TXNDATE(dateFormat.format(date));
-                        nondet.setNONPRDDET_REASON(TxtReason.getText() + "");
+                        nondet.setNONPRDDET_REASON(TxtReason.getText().toString() + "");
+                        nondet.setNONPRDDET_REMARK(Remark.getText().toString() + "");
 //                        nondet.setNONPRDDET_LONGITUDE(new SharedPref(getActivity()).getGlobalVal("Longitude"));
 //                        nondet.setNONPRDDET_LATITUDE(new SharedPref(getActivity()).getGlobalVal("Latitude"));
 
-                        nondet.setNONPRDDET_REASON_CODE(new ReasonController(getActivity()).getReaCodeByName(TxtReason.getText() + ""));
+                        nondet.setNONPRDDET_REASON_CODE(new ReasonController(getActivity()).getReaCodeByName(TxtReason.getText().toString() + ""));
                         nondet.setNONPRDDET_IS_SYNCED("0");
                         NONDetList.add(nondet);
 
@@ -333,7 +334,8 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
                     nonhed.setNONPRDHED_COSTCODE("");
                     nonhed.setNONPRDHED_DEALCODE("");
                     nonhed.setNONPRDHED_IS_SYNCED("0");
-                    nonhed.setNONPRDHED_DEBCODE(SharedPref.getInstance(getActivity()).getGlobalVal("NonkeyCusCode"));
+                    nonhed.setNONPRDHED_DEBCODE(mSharedPref.getSelectedDebCode());
+                    nonhed.setNONPRDHED_REASON(TxtReason.getText().toString());
                     //nonhed.setNONPRDHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
                     NONHedList.add(nonhed);
 

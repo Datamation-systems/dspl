@@ -57,7 +57,7 @@ public class DayNPrdDetController {
                 values.put(DatabaseHelper.NONPRDDET_REASON_CODE, nondet.getNONPRDDET_REASON_CODE());
                 values.put(DatabaseHelper.NONPRDDET_TXNDATE, nondet.getNONPRDDET_TXNDATE());
                 values.put(DatabaseHelper.NONPRDDET_REPCODE, nondet.getNONPRDDET_REPCODE());
-
+                values.put(DatabaseHelper.NONPRDDET_REMARK, nondet.getNONPRDDET_REMARK());
 
                 int count = cursor.getCount();
                 if (count > 0) {
@@ -94,7 +94,7 @@ public class DayNPrdDetController {
         }
 
         ArrayList<DayNPrdDet> list = new ArrayList<DayNPrdDet>();
-        String selectQuery = "select * from FOrddet WHERE " + dbHelper.REFNO + "='" + refno + "' and  TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+        String selectQuery = "select * from FDaynPrdDet WHERE " + dbHelper.REFNO + "='" + refno + "' and  TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -106,6 +106,7 @@ public class DayNPrdDetController {
                 npDet.setNONPRDDET_REASON(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REASON)));
                 npDet.setNONPRDDET_REASON_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REASON_CODE)));
                 npDet.setNONPRDDET_REPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REPCODE)));
+                npDet.setNONPRDDET_REMARK(cursor.getString(cursor.getColumnIndex(dbHelper.NONPRDDET_REMARK)));
 
                 list.add(npDet);
 

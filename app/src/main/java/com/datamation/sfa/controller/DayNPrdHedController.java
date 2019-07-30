@@ -63,6 +63,7 @@ public class DayNPrdHedController {
                 values.put(dbHelper.NONPRDHED_LATITUDE,nonhed.getNONPRDHED_LATITUDE());
                 values.put(dbHelper.NONPRDHED_DEBCODE,nonhed.getNONPRDHED_DEBCODE());
                 values.put(dbHelper.NONPRDHED_IS_ACTIVE,nonhed.getNONPRDHED_IS_ACTIVE());
+                values.put(dbHelper.NONPRDHED_REASON,nonhed.getNONPRDHED_REASON());
 
                 count = (int) dB.insert(dbHelper.TABLE_NONPRDHED, null, values);
 
@@ -95,17 +96,19 @@ public class DayNPrdHedController {
         ArrayList<DayNPrdHed> list = new ArrayList<DayNPrdHed>();
 
         try {
-            String selectQuery = "select DebCode, RefNo from FDaynPrdHed " + "  where TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+            String selectQuery = "select DebCode, RefNo, TxnDate, Reason, ISsync from FDaynPrdHed " + "  where TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
 
                 DayNPrdHed npHed = new DayNPrdHed();
-
 //
                 npHed.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 npHed.setNONPRDHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_DEBCODE)));
+                npHed.setNONPRDHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_TXNDAET)));
+                npHed.setNONPRDHED_REASON(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REASON)));
+                npHed.setNONPRDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_IS_SYNCED)));
                 //TODO :set  discount, free
 
                 list.add(npHed);

@@ -5,10 +5,11 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true">
 
-    <!--<android.support.v4.widget.SwipeRefreshLayout-->
-        <!--android:id="@+id/swipeToRefresh"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+    <View
+        android:id="@+id/fragment_payment_details_center_view"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"/>
 
         <TableRow
             android:layout_width="match_parent"
@@ -32,6 +33,58 @@
 
         </TableRow>
 
+    <LinearLayout
+        android:id="@+id/fragment_order_details_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:weightSum="8"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/refno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:maxLines="3"
+            android:gravity="left"
+            android:text="RefNo"
+            android:layout_weight="2"/>
+
+        <TextView
+            android:id="@+id/main_debcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="DebCode"
+            android:layout_weight="2.5"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Date"
+            android:layout_weight="1.5"/>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="IsSynced"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
         <!--<ExpandableListView-->
             <!--android:id="@+id/lvExp"-->
             <!--android:layout_width="50dp"-->
@@ -44,9 +97,48 @@
     <ExpandableListView
         android:id="@+id/lvExp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:background="@drawable/custom_textbox"/>
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:maxLines="3"
+            android:gravity="center"
+            android:text="RefNo"
+            android:layout_weight="2"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_gross_amount_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:gravity="center_vertical|end"
+            android:singleLine="true"
+            android:text="0.00"
+            android:layout_weight="2"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_net_amount_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:gravity="center_vertical|end"
+            android:singleLine="true"
+            android:text="0.00"
+            android:layout_weight="4"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

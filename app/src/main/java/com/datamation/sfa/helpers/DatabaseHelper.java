@@ -356,8 +356,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_DAYEXPHED = "DayExpHed";
     // table attributes
     public static final String FDAYEXPHED_ID = "FDayExpHed_id";
-
-
     public static final String FDAYEXPHED_REPNAME = "RepName";
     public static final String FDAYEXPHED_DEALCODE = "DealCode";
     public static final String FDAYEXPHED_COSTCODE = "CostCode";
@@ -1945,7 +1943,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String NONPRDHED_TRANSBATCH = "TranBatch";
     public static final String NONPRDHED_IS_SYNCED = "ISsync";
     public static final String NONPRDHED_ADDRESS = "Address";
-
+    public static final String NONPRDHED_REASON = "Reason";
     public static final String NONPRDHED_DEBCODE = "DebCode";
     public static final String NONPRDHED_LONGITUDE = "Longitude";
     public static final String NONPRDHED_LATITUDE = "Latitude";
@@ -1966,6 +1964,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String NONPRDDET_REASON_CODE = "ReasonCode";
     public static final String NONPRDDET_IS_SYNCED = "ISsync";
     public static final String NONPRDDET_IS_ACTIVE = "IsActive";
+    public static final String NONPRDDET_REMARK = "Remark";
 
 
     private static final String CREATE_TABLE_NONPRDHED = "CREATE  TABLE IF NOT EXISTS " + TABLE_NONPRDHED + " (" + NONPRDHED_ID +
@@ -1978,6 +1977,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             NONPRDHED_LONGITUDE + " TEXT, " +
             NONPRDHED_LATITUDE + " TEXT, " +
             NONPRDHED_IS_ACTIVE + " TEXT, " +
+            NONPRDHED_REASON + " TEXT, " +
             NONPRDHED_DEBCODE + " TEXT, " +
             NONPRDHED_ADDUSER + " TEXT, " + NONPRDHED_ADDDATE + " TEXT," + NONPRDHED_ADDMACH + " TEXT," + NONPRDHED_TRANSBATCH + " TEXT, " + NONPRDHED_IS_SYNCED + " TEXT," + NONPRDHED_ADDRESS + " TEXT); ";
     // create StringNONPRDHED_DEBCODE =
@@ -1989,6 +1989,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + NONPRDDET_REPCODE + " TEXT, "
             + NONPRDDET_REASON_CODE + " TEXT, "
             + NONPRDDET_REASON + " TEXT, "
+            + NONPRDDET_REMARK + " TEXT, "
             + NONPRDDET_IS_ACTIVE + " TEXT, "
             + NONPRDDET_IS_SYNCED + " TEXT); ";
 

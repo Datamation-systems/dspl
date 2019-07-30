@@ -25,6 +25,15 @@ public class DayNPrdHed implements Serializable
     private String NONPRDHED_LATITUDE;
     private String NONPRDHED_DEBCODE;
     private String NONPRDHED_IS_ACTIVE;
+    private String NONPRDHED_REASON;
+
+    public String getNONPRDHED_REASON() {
+        return NONPRDHED_REASON;
+    }
+
+    public void setNONPRDHED_REASON(String NONPRDHED_REASON) {
+        this.NONPRDHED_REASON = NONPRDHED_REASON;
+    }
 
     public String getNextNumVal() {
         return NextNumVal;

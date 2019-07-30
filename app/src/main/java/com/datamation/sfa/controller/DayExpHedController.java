@@ -270,17 +270,18 @@ public class DayExpHedController {
         ArrayList<DayExpHed> list = new ArrayList<DayExpHed>();
 
         try {
-            String selectQuery = "select RepCode, RefNo from DayExpHed " + "  where TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+            String selectQuery = "select RepCode, RefNo, txndate, issync from DayExpHed " + "  where TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
 
                 DayExpHed deHed = new DayExpHed();
-
 //
                 deHed.setEXPHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 deHed.setEXPHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REPCODE)));
+                deHed.setEXPHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                deHed.setEXPHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ISSYNC)));
                 //TODO :set  discount, free
 
                 list.add(deHed);

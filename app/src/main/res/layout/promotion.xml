@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true">
+
     <View
         android:id="@+id/fragment_payment_details_center_view"
         android:layout_width="1dp"
         android:layout_height="1dp"
         android:layout_centerInParent="true"/>
-
-
 
     <RelativeLayout
         android:id="@+id/fragment_order_details_header_container"

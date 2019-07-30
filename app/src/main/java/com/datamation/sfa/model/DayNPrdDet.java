@@ -9,6 +9,15 @@ public class DayNPrdDet {
     private String NONPRDDET_REASON;
     private String NONPRDDET_REPCODE;
     private String NONPRDDET_IS_SYNCED;
+    private String NONPRDDET_REMARK;
+
+    public String getNONPRDDET_REMARK() {
+        return NONPRDDET_REMARK;
+    }
+
+    public void setNONPRDDET_REMARK(String NONPRDDET_REMARK) {
+        this.NONPRDDET_REMARK = NONPRDDET_REMARK;
+    }
 
     public String getNONPRDDET_REASON_CODE() {
         return NONPRDDET_REASON_CODE;
