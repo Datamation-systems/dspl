@@ -26,6 +26,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.sfa.R;
 import com.datamation.sfa.view.dashboard.DaySummaryFragment;
 import com.datamation.sfa.view.dashboard.InvoiceDetailsFragment;
+import com.datamation.sfa.view.dashboard.InvoiceDetailsFragmentNew;
 import com.datamation.sfa.view.dashboard.MainDashboardFragment;
 import com.datamation.sfa.view.dashboard.OrderDetailsFragment;
 import com.datamation.sfa.view.dashboard.OtherDetailsFragment;
@@ -42,7 +43,7 @@ public class FragmentHome extends Fragment {
 
     private MainDashboardFragment mainDashboardFragment;
     private DaySummaryFragment daySummaryFragment;
-    private InvoiceDetailsFragment invoiceDetailsFragment;
+    private InvoiceDetailsFragmentNew invoiceDetailsFragment;
     private PaymentDetailsFragment paymentDetailsFragment;
     private OrderDetailsFragment orderDetailsFragment;
     private PromotionDetailsFragment promoDetailsFragment;
@@ -201,7 +202,7 @@ public class FragmentHome extends Fragment {
                     if(orderDetailsFragment == null) orderDetailsFragment = new OrderDetailsFragment();
                     return orderDetailsFragment;
                 case 3:
-                    if(invoiceDetailsFragment == null) invoiceDetailsFragment = new InvoiceDetailsFragment();
+                    if(invoiceDetailsFragment == null) invoiceDetailsFragment = new InvoiceDetailsFragmentNew();
                     return invoiceDetailsFragment;
                 case 4:
                     if(promoDetailsFragment == null) promoDetailsFragment = new PromotionDetailsFragment();

@@ -40,7 +40,7 @@ public class DashboardController {
             open();
         }
 
-        double targetsum =300000.00;
+        double targetsum =3000000.00;
 
         Cursor cursor = dB.rawQuery("SELECT Target from fTarget where Month = '"+String.format("%02d", curMonth)+"' and Year = '" + curYear +"'", null);
 
@@ -244,7 +244,7 @@ public class DashboardController {
             open();
         }
 
-        double targetsum =200000.00;
+        double targetsum =2000000.00;
 
         Cursor cursor = dB.rawQuery("SELECT Target from fTarget where Month = '"+String.format("%02d", curMonth-1)+"' and Year = '" + curYear +"'", null);
 

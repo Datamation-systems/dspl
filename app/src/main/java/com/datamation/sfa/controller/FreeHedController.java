@@ -181,7 +181,7 @@ public class FreeHedController {
 
         // String selectQuery = "select * from ffreehed where refno in (select refno from ffreedet where itemcode='" + itemCode + "') AND costcode='" + costCode + "' AND date('now') between vdatef and vdatet";
         // inoshi--Mine**CostCode change//
-        String selectQuery = "select * from ffreehed where date('now') between vdatef and vdatet and refno in (select refno from ffreedeb where debcode in (select debcode from froutedet))";
+        String selectQuery = "select * from ffreehed where date('now') between vdatef and vdatet";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
             while (cursor.moveToNext()) {

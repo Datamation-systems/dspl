@@ -79,6 +79,8 @@ public class SalesReturnController
                 values.put(dbHelper.FINVRHED_START_TIME, invrHed.getFINVRHED_START_TIME());
                 values.put(dbHelper.FINVRHED_END_TIME, invrHed.getFINVRHED_END_TIME());
                 values.put(dbHelper.FINVRHED_REPCODE, invrHed.getFINVRHED_REP_CODE());
+                values.put(dbHelper.FINVRHED_INV_REFNO, invrHed.getFINVRHED_INV_REFNO());
+
 //                values.put(dbHelper.FINVRHED_RETURN_TYPE, invrHed.getFINVRHED_RETURN_TYPE());
 //                values.put(dbHelper.FINVRHED_TOURCODE, invrHed.getFINVRHED_TOURCODE());
 //                values.put(dbHelper.FINVRHED_AREACODE, invrHed.getFINVRHED_AREACODE());
@@ -449,9 +451,9 @@ public class SalesReturnController
 
     }
 
-    // Sales Return Upload Method
+    // Sales Return with invoice Upload Method
 
-    public ArrayList<FInvRHed> getAllUnsynced() {
+    public ArrayList<FInvRHed> getAllUnsyncedWithInvoice() {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -476,7 +478,7 @@ public class SalesReturnController
 
             FInvRHed salesReturnMapper = new FInvRHed();
 
-            salesReturnMapper.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.salRet)));
+            salesReturnMapper.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.VanReturnNumVal)));
             salesReturnMapper.setDistDB(localSP.getString("Dist_DB", "").toString());
             salesReturnMapper.setConsoleDB(SharedPref.getInstance(context).getDatabase());
 
@@ -510,6 +512,7 @@ public class SalesReturnController
             salesReturnMapper.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_IS_SYNCED)));
             salesReturnMapper.setFINVRHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_IS_ACTIVE)));
             salesReturnMapper.setFINVRHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ROUTE_CODE)));
+            salesReturnMapper.setFINVRHED_INV_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_INV_REFNO)));
 
 
 

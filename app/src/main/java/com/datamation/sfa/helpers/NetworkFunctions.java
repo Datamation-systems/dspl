@@ -415,7 +415,7 @@ public class NetworkFunctions {
     }
 
     public String syncSalesReturn(){
-        return baseURL+"insertReturn";
+        return baseURL;
     }
 
     public String syncNonProductive(){
@@ -862,7 +862,7 @@ public class NetworkFunctions {
     }
 
 public static boolean mHttpManager(String url,String sJsonObject) throws Exception {
-    Log.v("## Json ##", sJsonObject);
+    Log.v(url+"## Json ##", sJsonObject);
     HttpPost requestfDam = new HttpPost(url);
     StringEntity entityfDam = new StringEntity(sJsonObject, "UTF-8");
     entityfDam.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));

@@ -248,7 +248,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                     new UploadVanSales(getActivity(), FragmentTools.this).execute(invHedList);
 
                                     Log.v(">>8>>","UploadPreSales execute finish");
-                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
+                                    //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
 //
                                 }
 
@@ -269,7 +269,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                     new UploadPreSales(getActivity(), FragmentTools.this).execute(ordHedList);
 
                                     Log.v(">>8>>","UploadPreSales execute finish");
-                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+                                   // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
 //
                                 }
 
@@ -302,16 +302,16 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
 
                                 SalesReturnController retHed = new SalesReturnController(getActivity());
 
-                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsynced();
+                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
 //                    /* If records available for upload then */
                                 if (retHedList.size() <= 0)
                                     Toast.makeText(getActivity(), "No Sales Returns Records to upload !", Toast.LENGTH_LONG).show();
                                 else{
 
-                                    new UploadSalesReturn(getActivity(), FragmentTools.this).execute(retHedList);
+                                    new UploadSalesReturn(getActivity(), FragmentTools.this,"insertReturns").execute(retHedList);
 
                                     Log.v(">>8>>","Upload sales return execute finish");
-                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                                  //  new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
 //
                                 }
 
@@ -332,7 +332,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                     new UploadNonProd(getActivity(), FragmentTools.this).execute(npHedList);
 
                                     Log.v(">>8>>","Upload non productive execute finish");
-                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.nonprdVal));
+                                   // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.nonprdVal));
 //
                                 }
 
@@ -353,7 +353,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                     new UploadExpenses(getActivity(), FragmentTools.this).execute(exHedList);
 
                                     Log.v(">>8>>","Upload expense execute finish");
-                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ExpenseNumVal));
+                                   // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ExpenseNumVal));
 //
                                 }
 

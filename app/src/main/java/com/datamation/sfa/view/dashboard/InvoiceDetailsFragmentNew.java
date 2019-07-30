@@ -1,63 +1,54 @@
 package com.datamation.sfa.view.dashboard;
 
 import android.annotation.SuppressLint;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.Filter;
-import android.widget.Filterable;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
-import com.datamation.sfa.controller.FreeDebController;
-import com.datamation.sfa.controller.FreeHedController;
-import com.datamation.sfa.controller.ReceiptDetController;
-import com.datamation.sfa.model.FreeDeb;
-import com.datamation.sfa.model.FreeHed;
-import com.datamation.sfa.model.ReceiptDet;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.datamation.sfa.controller.InvDetController;
+import com.datamation.sfa.controller.InvHedController;
+import com.datamation.sfa.model.InvDet;
+import com.datamation.sfa.model.InvHed;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
- * Created by TaZ on 4/8/15.
- * Used to show the user a list of recorded payments.
+ * Created by TaZ on 4/7/15.
+ * Used to show the user the list of invoices.
  */
-public class PromotionDetailsFragment extends Fragment  {
+public class InvoiceDetailsFragmentNew extends Fragment {
 
-    private static final String LOG_TAG = PromotionDetailsFragment.class.getSimpleName();
+    private static final String LOG_TAG = InvoiceDetailsFragmentNew.class.getSimpleName();
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    List<FreeHed> listDataHeader;
-    HashMap<FreeHed, List<FreeDeb>> listDataChild;
+    List<InvHed> listDataHeader;
+    HashMap<InvHed, List<InvDet>> listDataChild;
+    TextView total;
     //    private DatabaseHandler dbHandler;
 //    private CalendarDatePickerDialog calendarDatePickerDialog;
     private int mYear, mMonth, mDay;
@@ -67,19 +58,22 @@ public class PromotionDetailsFragment extends Fragment  {
 
     //    private Calendar /*calendarBegin, calendarEnd, */nowCalendar;
 
+    String url = "http://203.143.21.121:8080/LankaHDWebServices/LankaHDWebServicesRest.svc/ffreehed/mobile123/lhd"; // Replace with your own url
+    //ExpandableListAdapter listAdapter;
+
     SwipeRefreshLayout mSwipeRefreshLayout;
     ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.promotion_new, container, false);
+        View rootView = inflater.inflate(R.layout.promotion, container, false);
 
 
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMinimumFractionDigits(2);
         numberFormat.setGroupingUsed(true);
-
+        total = (TextView)rootView.findViewById(R.id.item_payment_details_tv_outstanding_amount_total) ;
 //        progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_SPINNER);
 //        progressDialog.setMessage("Please wait...");
 //        progressDialog.setCancelable(false);
@@ -97,7 +91,7 @@ public class PromotionDetailsFragment extends Fragment  {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-              //  getMenu();
+                //  getMenu();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -119,17 +113,7 @@ public class PromotionDetailsFragment extends Fragment  {
 
 
         // Listview on child click listener
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
 
-                String itemName = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFFREEDEB_DEB_CODE();
-                Toast.makeText(getActivity(), "You selected : " + itemName, Toast.LENGTH_SHORT).show();
-                Log.e("Child", listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFFREEDEB_DEB_CODE());
-                return false;
-            }
-        });
 
         prepareListData();
 
@@ -137,16 +121,27 @@ public class PromotionDetailsFragment extends Fragment  {
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+
+                String itemName = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFINVDET_ITEM_CODE();
+                Toast.makeText(getActivity(), "You selected : " + itemName, Toast.LENGTH_SHORT).show();
+                Log.e("Child", listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition).getFINVDET_ITEM_CODE());
+                return false;
+            }
+        });
         return rootView;
     }
     //https://github.com/Rishijay/Dynamic-Expandable-ListView
     private void prepareListData() {
-        listDataHeader = new FreeHedController(getActivity()).getFreeIssueHeaders();
-        listDataChild = new HashMap<FreeHed, List<FreeDeb>>();
+        listDataHeader = new InvHedController(getActivity()).getTodayOrders();
+        listDataChild = new HashMap<InvHed, List<InvDet>>();
 
-for(FreeHed free : listDataHeader){
-    listDataChild.put(free,new FreeDebController(getActivity()).getFreeIssueDebtors(free.getFFREEHED_REFNO()));
-}
+        for(InvHed free : listDataHeader){
+            listDataChild.put(free,new InvDetController(getActivity()).getTodayOrderDets(free.getFINVHED_REFNO()));
+        }
 
     }
 
@@ -171,12 +166,12 @@ for(FreeHed free : listDataHeader){
     public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         private Context _context;
-        private List<FreeHed> _listDataHeader; // header titles
+        private List<InvHed> _listDataHeader; // header titles
         // child data in format of header title, child title
-        private HashMap<FreeHed, List<FreeDeb>> _listDataChild;
+        private HashMap<InvHed, List<InvDet>> _listDataChild;
 
-        public ExpandableListAdapter(Context context, List<FreeHed> listDataHeader,
-                                     HashMap<FreeHed, List<FreeDeb>> listChildData) {
+        public ExpandableListAdapter(Context context, List<InvHed> listDataHeader,
+                                     HashMap<InvHed, List<InvDet>> listChildData) {
             this._context = context;
             this._listDataHeader = listDataHeader;
             this._listDataChild = listChildData;
@@ -195,21 +190,24 @@ for(FreeHed free : listDataHeader){
 
         @Override
         public View getChildView(int groupPosition, final int childPosition,
-                                 boolean isLastChild, View convertView, ViewGroup parent) {
+                                 boolean isLastChild, View grpview, ViewGroup parent) {
 
-            final FreeDeb childText = (FreeDeb) getChild(groupPosition, childPosition);
+            final InvDet childText = (InvDet) getChild(groupPosition, childPosition);
 
-            if (convertView == null) {
+            if (grpview == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this._context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_items, null);
+                grpview = infalInflater.inflate(R.layout.list_items, null);
             }
 
-            TextView txtListChild = (TextView) convertView
-                    .findViewById(R.id.refno);
+            TextView txtListChild = (TextView) grpview.findViewById(R.id.itemcode);
+            TextView txtListChild1 = (TextView) grpview.findViewById(R.id.qty);
+            TextView txtListChild2 = (TextView) grpview.findViewById(R.id.amount);
 
-            txtListChild.setText(childText.getFFREEDEB_DEB_CODE());
-            return convertView;
+            txtListChild.setText("ItemCode - "+childText.getFINVDET_ITEM_CODE());
+            txtListChild1.setText("Qty - "+childText.getFINVDET_QTY());
+            txtListChild2.setText("Amount - "+numberFormat.format(Double.parseDouble(childText.getFINVDET_AMT())));
+            return grpview;
         }
 
         @Override
@@ -236,18 +234,34 @@ for(FreeHed free : listDataHeader){
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded,
                                  View convertView, ViewGroup parent) {
-            FreeHed headerTitle = (FreeHed) getGroup(groupPosition);
+            InvHed headerTitle = (InvHed) getGroup(groupPosition);
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this._context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.list_group_new, null);
+                convertView = infalInflater.inflate(R.layout.list_group, null);
             }
 
             TextView lblListHeader = (TextView) convertView
                     .findViewById(R.id.refno);
+            TextView deb = (TextView) convertView.findViewById(R.id.debcode);
+            TextView date = (TextView) convertView.findViewById(R.id.date);
+            TextView tot = (TextView) convertView.findViewById(R.id.total);
+            TextView stats = (TextView) convertView.findViewById(R.id.status);
+            TextView type = (TextView) convertView.findViewById(R.id.type);
             lblListHeader.setTypeface(null, Typeface.BOLD);
-            lblListHeader.setText(headerTitle.getFFREEHED_REFNO()+" From : ("+headerTitle.getFFREEHED_VDATEF()+") , To : (" +
-                    ""+headerTitle.getFFREEHED_VDATET()+")");
+            lblListHeader.setText(headerTitle.getFINVHED_REFNO());
+            deb.setText(headerTitle.getFINVHED_DEBCODE());
+            if(headerTitle.getFINVHED_IS_SYNCED().equals("1")){
+                stats.setText("Synced");
+                stats.setTextColor(getResources().getColor(R.color.material_alert_positive_button));
+            }else{
+                stats.setText("Not Synced");
+                stats.setTextColor(getResources().getColor(R.color.material_alert_negative_button));
+
+            }
+            type.setText(headerTitle.getFINVHED_TXNTYPE());
+            date.setText(headerTitle.getFINVHED_TXNDATE());
+            tot.setText(headerTitle.getFINVHED_TOTALAMT());
 
             return convertView;
         }
@@ -261,5 +275,32 @@ for(FreeHed free : listDataHeader){
         public boolean isChildSelectable(int groupPosition, int childPosition) {
             return true;
         }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            double grossTotal = 0;
+
+
+            List<InvHed> searchingDetails = _listDataHeader;
+
+
+            for (InvHed invoice : searchingDetails) {
+
+                if (invoice != null) {
+                    grossTotal += Double.parseDouble(invoice.getFINVHED_TOTALAMT());
+
+                }
+            }
+
+//            invoiceGrossTotal.setText(numberFormat.format(grossTotal));
+//            invoiceNetTotal.setText(numberFormat.format(netTotal));
+//            invoiceOutstandingTotal.setText(numberFormat.format(outstandingTotal));
+//            invoiceMarketReturnTotal.setText(numberFormat.format(marketReturnTotal));
+//            invoiceDiscountTotal.setText(numberFormat.format(discountTotal));
+
+        }
     }
+
+
 }

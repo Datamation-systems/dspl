@@ -40,6 +40,7 @@ public class OrderDetailsFragment extends Fragment {
     ExpandableListView expListView;
     List<Order> listDataHeader;
     HashMap<Order, List<OrderDetail>> listDataChild;
+    TextView total;
 //    private DatabaseHandler dbHandler;
 //    private CalendarDatePickerDialog calendarDatePickerDialog;
     private int mYear, mMonth, mDay;
@@ -64,7 +65,7 @@ public class OrderDetailsFragment extends Fragment {
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMinimumFractionDigits(2);
         numberFormat.setGroupingUsed(true);
-
+        total = (TextView)rootView.findViewById(R.id.item_payment_details_tv_outstanding_amount_total) ;
 //        progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_SPINNER);
 //        progressDialog.setMessage("Please wait...");
 //        progressDialog.setCancelable(false);
@@ -266,5 +267,32 @@ public class OrderDetailsFragment extends Fragment {
         public boolean isChildSelectable(int groupPosition, int childPosition) {
             return true;
         }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            double grossTotal = 0;
+
+
+            List<Order> searchingDetails = _listDataHeader;
+
+
+            for (Order invoice : searchingDetails) {
+
+                if (invoice != null) {
+                    grossTotal += Double.parseDouble(invoice.getORDER_TOTALAMT());
+
+                }
+            }
+
+//            invoiceGrossTotal.setText(numberFormat.format(grossTotal));
+//            invoiceNetTotal.setText(numberFormat.format(netTotal));
+//            invoiceOutstandingTotal.setText(numberFormat.format(outstandingTotal));
+//            invoiceMarketReturnTotal.setText(numberFormat.format(marketReturnTotal));
+//            invoiceDiscountTotal.setText(numberFormat.format(discountTotal));
+
+        }
     }
+
+
 }
