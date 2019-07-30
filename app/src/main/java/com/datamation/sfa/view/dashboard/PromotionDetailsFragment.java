@@ -67,9 +67,6 @@ public class PromotionDetailsFragment extends Fragment  {
 
     //    private Calendar /*calendarBegin, calendarEnd, */nowCalendar;
 
-    String url = "http://203.143.21.121:8080/LankaHDWebServices/LankaHDWebServicesRest.svc/ffreehed/mobile123/lhd"; // Replace with your own url
-    //ExpandableListAdapter listAdapter;
-
     SwipeRefreshLayout mSwipeRefreshLayout;
     ProgressDialog progressDialog;
 

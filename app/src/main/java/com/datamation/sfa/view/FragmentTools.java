@@ -302,13 +302,13 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
 
                                 SalesReturnController retHed = new SalesReturnController(getActivity());
 
-                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsynced();
+                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
 //                    /* If records available for upload then */
                                 if (retHedList.size() <= 0)
                                     Toast.makeText(getActivity(), "No Sales Returns Records to upload !", Toast.LENGTH_LONG).show();
                                 else{
 
-                                    new UploadSalesReturn(getActivity(), FragmentTools.this).execute(retHedList);
+                                    new UploadSalesReturn(getActivity(), FragmentTools.this,"insertReturns").execute(retHedList);
 
                                     Log.v(">>8>>","Upload sales return execute finish");
                                   //  new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));

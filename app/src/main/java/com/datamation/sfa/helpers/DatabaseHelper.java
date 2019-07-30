@@ -2144,7 +2144,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVRHED_START_TIME = "StartTime";
     public static final String FINVRHED_END_TIME = "EndTime";
 
-
     public static final String TABLE_FINVRDET = "FInvRDet";
     public static final String FINVRDET_ID = "id";
     public static final String FINVRDET_ITEMCODE = "ItemCode";

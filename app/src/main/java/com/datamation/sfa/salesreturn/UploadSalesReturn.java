@@ -20,16 +20,16 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
     UploadTaskListener taskListener;
     NetworkFunctions networkFunctions;
     int totalRecords;
-
+    String functionName;
     // Shared Preferences variables
     public static final String SETTINGS = "SETTINGS";
     public static SharedPreferences localSP;
 
-    public UploadSalesReturn(Context context, UploadTaskListener taskListener) {
+    public UploadSalesReturn(Context context, UploadTaskListener taskListener, String function) {
 
         this.context = context;
         this.taskListener = taskListener;
-
+        this.functionName = function;
         //localSP = context.getSharedPreferences(SETTINGS, Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
     }
@@ -60,7 +60,7 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
                 String sJsonHed = new Gson().toJson(c);
                 List.add(sJsonHed);
 
-                boolean bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncSalesReturn(),List.toString());
+                boolean bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncSalesReturn()+functionName,List.toString());
                 // boolean bStatus = UtilityContainer.mHttpManager(sURL, new Gson().toJson(c));
 
                 if (bStatus) {
