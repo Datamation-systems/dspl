@@ -485,8 +485,7 @@ public class SalesReturnController
             salesReturnMapper.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.salRet)));
 
             salesReturnMapper.setDistDB(localSP.getString("Dist_DB", "").toString());
-            salesReturnMapper.setConsoleDB(localSP.getString("Console_DB",
-                    "").toString());
+            salesReturnMapper.setConsoleDB(SharedPref.getInstance(context).getDatabase());
 
             salesReturnMapper.setFINVRHED_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ID)));
             salesReturnMapper.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
@@ -514,7 +513,7 @@ public class SalesReturnController
             salesReturnMapper.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_IS_SYNCED)));
             salesReturnMapper.setFINVRHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_IS_ACTIVE)));
             salesReturnMapper.setFINVRHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ROUTE_CODE)));
-            salesReturnMapper.setFINVRHED_INV_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_INV_REFNO)));
+            salesReturnMapper.setFINVRHED_INV_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_ORD_REFNO)));
             //salesReturnMapper.setFINVRHED_INV_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_INV_REFNO)));
 
             salesReturnMapper.setFinvrtDets(new SalesReturnDetController(context).getAllInvRDet(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO))));

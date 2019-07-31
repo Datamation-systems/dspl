@@ -337,7 +337,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
                                 ReturnDet.setFINVRDET_RETURN_REASON_CODE(activity.selectedReturnHed.getFINVRHED_REASON_CODE());
                                 ReturnDet.setFINVRDET_REFNO(RefNo);
                                 ReturnDet.setFINVRDET_ITEMCODE(selectedItem.getFITEM_ITEM_CODE());
-                                ReturnDet.setFINVRDET_PRILCODE(selectedItem.getFITEM_PRILCODE());
+                                ReturnDet.setFINVRDET_PRILCODE("");
                                 ReturnDet.setFINVRDET_IS_ACTIVE("1");
                                 ReturnDet.setFINVRDET_TAXCOMCODE("VAT15");
                                 ReturnDet.setFINVRDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));

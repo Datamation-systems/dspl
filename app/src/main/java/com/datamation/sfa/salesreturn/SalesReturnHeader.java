@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ import java.util.Date;
 
 
 public class SalesReturnHeader extends Fragment implements View.OnClickListener{
-
+    public static final String SETTINGS = "SETTINGS";
     View view;
     private FloatingActionButton next;
     public static EditText ordno, date, mNo, deldate, remarks, lblReason;
@@ -57,6 +58,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
     private Location finalLocation;
     private Button reasonSearch;
     SharedPref pref;
+    public static SharedPreferences localSP;
     SalesReturnResponseListener salesReturnResponseListener;
     MyReceiver r;
     //private Spinner spnReason;
@@ -74,7 +76,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_sales_retrun_header, container, false);
-
+        localSP = getActivity().getSharedPreferences(SETTINGS, 0);
         activity = (SalesReturnActivity)getActivity();
         next = (FloatingActionButton) view.findViewById(R.id.fab);
         pref = SharedPref.getInstance(getActivity());
@@ -232,13 +234,14 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
 
             hed.setFINVRHED_REFNO(ordno.getText().toString());
             hed.setFINVRHED_DEBCODE(pref.getSelectedDebCode());
-            hed.setFINVRHED_TXN_DATE(date.getText().toString());
+            hed.setFINVRHED_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
             hed.setFINVRHED_ROUTE_CODE(pref.getSelectedDebRouteCode());
             hed.setFINVRHED_MANUREF(mNo.getText().toString());
             hed.setFINVRHED_REMARKS(remarks.getText().toString());
             hed.setFINVRHED_IS_ACTIVE("1");
             hed.setFINVRHED_IS_SYNCED("0");
-            hed.setFINVRHED_ADD_DATE(date.getText().toString());
+            hed.setFINVRHED_ADD_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            hed.setFINVRHED_ADD_MACH(localSP.getString("MAC_Address", "No MAC Address").toString());
             hed.setFINVRHED_REP_CODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
             hed.setFINVRHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLongitude"));
             hed.setFINVRHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("startLatitude"));

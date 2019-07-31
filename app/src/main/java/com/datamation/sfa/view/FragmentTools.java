@@ -308,7 +308,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                     Toast.makeText(getActivity(), "No Sales Returns Records to upload !", Toast.LENGTH_LONG).show();
                                 else{
 
-                                    new UploadSalesReturn(getActivity(), FragmentTools.this,"insertReturn").execute(retHedList);
+                                    new UploadSalesReturn(getActivity(), FragmentTools.this,"insertReturns").execute(retHedList);
 
                                     Log.v(">>8>>","Upload sales return execute finish");
                                   //  new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
@@ -316,9 +316,28 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                 }
 
                             }catch(Exception e){
-                                Log.v("Exception in sync order",e.toString());
+                                Log.v("Exception in return+inv",e.toString());
                             }
+                            try { // upload pre sales return
 
+                                SalesReturnController retHed = new SalesReturnController(getActivity());
+
+                                ArrayList<FInvRHed> retHedList = retHed.getUnSyncedReturnWithoutInvoice();
+//                    /* If records available for upload then */
+                                if (retHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No Sales Returns Records to upload !", Toast.LENGTH_LONG).show();
+                                else{
+
+                                    new UploadSalesReturn(getActivity(), FragmentTools.this,"insertReturn").execute(retHedList);
+
+                                    Log.v(">>8>>","Upload sales return execute finish");
+                                    //  new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+//
+                                }
+
+                            }catch(Exception e){
+                                Log.v("Exception without inv",e.toString());
+                            }
                             try { // upload Non productive
 
                                 DayNPrdHedController npHed = new DayNPrdHedController(getActivity());

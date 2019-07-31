@@ -394,7 +394,7 @@ public class OrderSummaryFragment extends Fragment {
                                 mainHead.setFINVRHED_MANUREF(ordHed.getORDER_MANUREF());
                                 mainHead.setFINVRHED_REMARKS(ordHed.getORDER_REMARKS());
                                 mainHead.setFINVRHED_ADD_MACH(ordHed.getORDER_ADDMACH());
-                                mainHead.setFINVRHED_ADD_USER(ordHed.getORDER_ADDUSER());
+                                mainHead.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());
                                 mainHead.setFINVRHED_TXN_DATE(HedList.get(0).getFINVRHED_TXN_DATE());
                                 mainHead.setFINVRHED_ROUTE_CODE(ordHed.getORDER_ROUTECODE());
                                 mainHead.setFINVRHED_TOTAL_AMT(HedList.get(0).getFINVRHED_TOTAL_AMT());
