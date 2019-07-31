@@ -79,20 +79,7 @@ public class PromotionDetailsFragment extends Fragment  {
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMinimumFractionDigits(2);
         numberFormat.setGroupingUsed(true);
-
-//        progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_SPINNER);
-//        progressDialog.setMessage("Please wait...");
-//        progressDialog.setCancelable(false);
-//        progressDialog.show();
-
-        // Creating database to store menu items
-        // database = openOrCreateDatabase("Menu.db", MODE_PRIVATE, null);
-        // final String q = "Create Table if not exists List (dishName varchar(50), categoryName varchar(50), categoryID varchar(20), itemCode varchar(20), rateOfHalf varchar(10), rateOfFull varchar(10), itemStatus varchar(20), half varchar(20), full varchar(20))";
-        // database.execSQL(q);
-        // Get data from JSON
-        // getMenu();
-
-        // Swipe down to refresh list
+        
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeToRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
