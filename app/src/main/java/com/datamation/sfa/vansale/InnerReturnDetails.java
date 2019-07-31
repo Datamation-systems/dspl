@@ -116,7 +116,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         lv_return_det = (ListView) view.findViewById(R.id.lv_return_det);
 
 
-        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanReturnNumVal));
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 
 
         editTotDisc = (EditText) view.findViewById(R.id.et_TotalDisc);

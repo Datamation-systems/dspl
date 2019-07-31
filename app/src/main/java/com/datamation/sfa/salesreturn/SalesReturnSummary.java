@@ -318,6 +318,8 @@ public class SalesReturnSummary extends Fragment {
                     if (!HedList.isEmpty()) {
 
                         mainHead.setFINVRHED_REFNO(RefNo);
+                        mainHead.setFINVRHED_INV_REFNO("NON");
+                        mainHead.setFINVRHED_ORD_REFNO("NON");
                         mainHead.setFINVRHED_DEBCODE(HedList.get(0).getFINVRHED_DEBCODE());
                         mainHead.setFINVRHED_ADD_DATE(HedList.get(0).getFINVRHED_ADD_DATE());
                         mainHead.setFINVRHED_MANUREF(HedList.get(0).getFINVRHED_MANUREF());

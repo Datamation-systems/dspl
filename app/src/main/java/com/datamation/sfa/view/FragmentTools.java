@@ -308,7 +308,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                     Toast.makeText(getActivity(), "No Sales Returns Records to upload !", Toast.LENGTH_LONG).show();
                                 else{
 
-                                    new UploadSalesReturn(getActivity(), FragmentTools.this,"insertReturns").execute(retHedList);
+                                    new UploadSalesReturn(getActivity(), FragmentTools.this,"insertReturn").execute(retHedList);
 
                                     Log.v(">>8>>","Upload sales return execute finish");
                                   //  new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));

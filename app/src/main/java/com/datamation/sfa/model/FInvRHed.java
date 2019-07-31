@@ -11,6 +11,7 @@ public class FInvRHed implements Serializable{
 
     private String FINVRHED_ID;
     private String FINVRHED_REFNO;
+    private String FINVRHED_ORD_REFNO;
     private String FINVRHED_TXN_DATE;
     private String FINVRHED_MANUREF;
     private String FINVRHED_DEBCODE;
@@ -47,6 +48,14 @@ public class FInvRHed implements Serializable{
     private ArrayList<FInvRDet> FinvrtDets;
     private ArrayList<TaxDT> taxDTs;
     private ArrayList<TaxRG> taxRGs;
+
+    public String getFINVRHED_ORD_REFNO() {
+        return FINVRHED_ORD_REFNO;
+    }
+
+    public void setFINVRHED_ORD_REFNO(String FINVRHED_ORD_REFNO) {
+        this.FINVRHED_ORD_REFNO = FINVRHED_ORD_REFNO;
+    }
 
     public String getNextNumVal() {
         return NextNumVal;

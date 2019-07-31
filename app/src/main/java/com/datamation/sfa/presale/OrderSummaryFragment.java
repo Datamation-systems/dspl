@@ -133,7 +133,7 @@ public class OrderSummaryFragment extends Fragment {
         mSharedPref = new SharedPref(getActivity());
         mainActivity = (PreSalesActivity)getActivity();
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
+        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
@@ -242,7 +242,7 @@ public class OrderSummaryFragment extends Fragment {
     public void mRefreshData() {
 
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
+        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 
         int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
@@ -410,7 +410,8 @@ public class OrderSummaryFragment extends Fragment {
                                 mainHead.setFINVRHED_LATITUDE(HedList.get(0).getFINVRHED_LATITUDE());
                                 mainHead.setFINVRHED_START_TIME(HedList.get(0).getFINVRHED_START_TIME());
                                 mainHead.setFINVRHED_END_TIME(HedList.get(0).getFINVRHED_END_TIME());
-                                mainHead.setFINVRHED_INV_REFNO(RefNo);//HedList.get(0).getFINVRHED_INV_REFNO()
+                                mainHead.setFINVRHED_INV_REFNO("NON");//HedList.get(0).getFINVRHED_INV_REFNO()
+                                mainHead.setFINVRHED_ORD_REFNO(RefNo);//HedList.get(0).getFINVRHED_INV_REFNO()
                                 mainHead.setFINVRHED_IS_ACTIVE("0");
                                 mainHead.setFINVRHED_IS_SYNCED("0");
                             }
@@ -424,7 +425,7 @@ public class OrderSummaryFragment extends Fragment {
                                 new SalesReturnController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
 
                                 activity.selectedReturnHed = null;
-                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.PreReturnNumVal));
+                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
                                 Toast.makeText(getActivity(), "Order Return saved successfully !", Toast.LENGTH_LONG).show();
 
                             } else {
