@@ -124,7 +124,6 @@ public class OtherDetailsFragment extends Fragment {
                 {
                     expListNPView.clearTextFilter();
                     prepareNPListData();
-                    // this is ;]gld[gdpsd;
                 }
                 else
                 {
