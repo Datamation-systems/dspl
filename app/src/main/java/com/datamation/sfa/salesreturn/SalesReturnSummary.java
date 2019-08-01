@@ -318,12 +318,14 @@ public class SalesReturnSummary extends Fragment {
                     if (!HedList.isEmpty()) {
 
                         mainHead.setFINVRHED_REFNO(RefNo);
+                        mainHead.setFINVRHED_INV_REFNO("NON");
+                        mainHead.setFINVRHED_ORD_REFNO("");
                         mainHead.setFINVRHED_DEBCODE(HedList.get(0).getFINVRHED_DEBCODE());
                         mainHead.setFINVRHED_ADD_DATE(HedList.get(0).getFINVRHED_ADD_DATE());
                         mainHead.setFINVRHED_MANUREF(HedList.get(0).getFINVRHED_MANUREF());
                         mainHead.setFINVRHED_REMARKS(HedList.get(0).getFINVRHED_REMARKS());
                         mainHead.setFINVRHED_ADD_MACH(HedList.get(0).getFINVRHED_ADD_MACH());
-                        mainHead.setFINVRHED_ADD_USER(HedList.get(0).getFINVRHED_ADD_USER());
+                        mainHead.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());
                         mainHead.setFINVRHED_TXN_DATE(HedList.get(0).getFINVRHED_TXN_DATE());
                         mainHead.setFINVRHED_ROUTE_CODE(HedList.get(0).getFINVRHED_ROUTE_CODE());
                         //mainHead.setFINVRHED_TOTAL_AMT(HedList.get(0).getFINVRHED_TOTAL_AMT());

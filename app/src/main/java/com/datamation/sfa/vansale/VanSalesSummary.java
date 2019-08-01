@@ -130,7 +130,7 @@ public class VanSalesSummary extends Fragment {
 
         mSharedPref = new SharedPref(getActivity());
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
-        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanReturnNumVal));
+        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
@@ -385,6 +385,7 @@ public class VanSalesSummary extends Fragment {
                                 mainHead.setFINVRHED_START_TIME(HedList.get(0).getFINVRHED_START_TIME());
                                 mainHead.setFINVRHED_END_TIME(HedList.get(0).getFINVRHED_END_TIME());
                                 mainHead.setFINVRHED_INV_REFNO(RefNo);//HedList.get(0).getFINVRHED_INV_REFNO()
+                                mainHead.setFINVRHED_ORD_REFNO("NON");//HedList.get(0).getFINVRHED_INV_REFNO()
                                 mainHead.setFINVRHED_IS_ACTIVE("0");
                                 mainHead.setFINVRHED_IS_SYNCED("0");
                             }
@@ -398,7 +399,7 @@ public class VanSalesSummary extends Fragment {
                                 new SalesReturnController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
 
 
-                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanReturnNumVal));
+                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
                                 Toast.makeText(getActivity(), "Return saved successfully !", Toast.LENGTH_LONG).show();
                                 UtilityContainer.ClearReturnSharedPref(getActivity());
                                // UtilityContainer.mLoadFragment(new SalesReturnHistory(), activity);

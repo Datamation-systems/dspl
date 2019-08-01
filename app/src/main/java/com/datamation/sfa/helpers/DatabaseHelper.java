@@ -2122,6 +2122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FINVRHED_REMARKS = "Remarks";
     public static final String FINVRHED_TXNTYPE = "TxnType";
     public static final String FINVRHED_INV_REFNO= "InvRefNo";
+    public static final String FINVRHED_ORD_REFNO= "OrdRefNo";
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public static final String FINVRHED_LOCCODE = "LOCCode";
@@ -2178,6 +2179,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + FINVRHED_REMARKS + " TEXT, "
                     + FINVRHED_TXNTYPE + " TEXT, "
                     + FINVRHED_INV_REFNO + " TEXT, "
+                    + FINVRHED_ORD_REFNO + " TEXT, "
                     + FINVRHED_ADD_DATE + " TEXT, "
                     + FINVRHED_ADD_MACH + " TEXT, "
                     + FINVRHED_ADD_USER + " TEXT, "

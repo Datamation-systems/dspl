@@ -112,7 +112,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
         lblReason = (EditText) view.findViewById(R.id.et_reason);
 
         lv_return_det = (ListView) view.findViewById(R.id.lv_pre_return_det);
-        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.PreReturnNumVal));
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 //        RefNo = "/0001";
 
         editTotDisc = (EditText) view.findViewById(R.id.et_TotalDisc);
