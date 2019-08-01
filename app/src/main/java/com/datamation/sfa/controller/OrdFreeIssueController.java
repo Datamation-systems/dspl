@@ -90,6 +90,35 @@ public class OrdFreeIssueController {
 
     }
 
+    public void ClearFreeIssuesForPreSale(String RefNo) {
+
+        int count;
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FORDFREEISS + " WHERE " + DatabaseHelper.FORDFREEISS_REFNO1 + " = '" + RefNo + "'", null);
+            count = cursor.getCount();
+            if (count > 0) {
+                dB.delete(DatabaseHelper.TABLE_FORDFREEISS, DatabaseHelper.FORDFREEISS_REFNO1 + " = '" + RefNo + "'", null);
+            }
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+    }
+
     public void RemoveFreeIssue(String RefNo, String itemCode) {
 
         int count;

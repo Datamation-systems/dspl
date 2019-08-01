@@ -304,12 +304,12 @@ public class OrderDetailController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDDET + dbHelper.REFNO + " = '" + refno + "' AND " + dbHelper.FORDDET_TYPE + " = 'FI'";
+            String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.REFNO + " ='" + refno + "' AND " + dbHelper.FORDDET_TYPE + " = 'FI'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(dbHelper.TABLE_FORDDET, dbHelper.REFNO + " = '" + refno + "' AND " + dbHelper.FORDDET_TYPE + " = 'FI'", null);
+                count = dB.delete(dbHelper.TABLE_FORDDET, dbHelper.REFNO + " ='" + refno + "' AND " + dbHelper.FORDDET_TYPE + " = 'FI'", null);
                 Log.v("Success Stauts", count + "");
             }
         } catch (Exception e) {
@@ -504,8 +504,7 @@ public class OrderDetailController {
 
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select * from " + dbHelper.TABLE_FORDDET + " WHERE "
-               + dbHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.FORDDET_TXN_TYPE + "='21' AND " + dbHelper.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -947,8 +946,7 @@ public class OrderDetailController {
                 ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
                 ordDet.setFORDERDET_SELLPRICE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_SELL_PRICE)));
                 ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_IS_ACTIVE)));
-
-
+                ordDet.setFORDERDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDDET_TAX_COM_CODE)));
 
                 list.add(ordDet);
 

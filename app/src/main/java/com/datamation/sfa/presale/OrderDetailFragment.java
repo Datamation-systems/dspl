@@ -116,6 +116,7 @@ public class OrderDetailFragment extends Fragment{
         ibtDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lvFree.setAdapter(null);
                 calculateFreeIssue(mSharedPref.getSelectedDebCode());
             }
         });
@@ -135,7 +136,7 @@ public class OrderDetailFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view2, int position, long id)
             {
                 new OrderDetailController(getActivity()).restFreeIssueData(RefNo);
-                new OrdFreeIssueController(getActivity()).ClearFreeIssues(RefNo);
+                new OrdFreeIssueController(getActivity()).ClearFreeIssuesForPreSale(RefNo);
                 OrderDetail orderDet=orderList.get(position);
                 mSharedPref.setGlobalVal("preKeyIsFreeClicked", "0");
                 FreeIssue issue = new FreeIssue(getActivity());
@@ -252,7 +253,7 @@ public class OrderDetailFragment extends Fragment{
         /* CLEAR ORDERDET TABLE RECORD IF FREE ITEMS ARE ALREADY ADDED. */
         new OrderDetailController(getActivity()).restFreeIssueData(RefNo);
         /* Clear free issues in OrdFreeIss */
-        new OrdFreeIssueController(getActivity()).ClearFreeIssues(RefNo);
+        new OrdFreeIssueController(getActivity()).ClearFreeIssuesForPreSale(RefNo);
 
         FreeIssue issue = new FreeIssue(getActivity());
 
@@ -501,11 +502,11 @@ public class OrderDetailFragment extends Fragment{
 
                         if (detDS.createOrUpdateOrdDet(ordList) > 0) {
                             Toast.makeText(getActivity(), "Added successfully", Toast.LENGTH_SHORT).show();
-                            //showData();
+                            showData();
 
-                            lvFree.setAdapter(null);
-                            ArrayList<OrderDetail> freeList=new OrderDetailController(getActivity()).getAllFreeIssue(RefNo);
-                            lvFree.setAdapter(new OrderFreeItemAdapter(getActivity(), freeList));
+//                            lvFree.setAdapter(null);
+//                            ArrayList<OrderDetail> freeList=new OrderDetailController(getActivity()).getAllFreeIssue(RefNo);
+//                            lvFree.setAdapter(new OrderFreeItemAdapter(getActivity(), freeList));
                         }
                     }
                 }
