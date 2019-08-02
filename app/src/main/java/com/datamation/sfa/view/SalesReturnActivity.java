@@ -47,9 +47,9 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.saleretrun_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.saleretrun_viewpager);
 
-        slidingTabStrip.setBackgroundColor(getResources().getColor(R.color.theme_color));
+       // slidingTabStrip.setBackgroundColor(getResources().getColor(R.color.theme_color));
         slidingTabStrip.setTextColor(getResources().getColor(android.R.color.black));
-        slidingTabStrip.setIndicatorColor(getResources().getColor(R.color.red_error));
+        slidingTabStrip.setIndicatorColor(getResources().getColor(R.color.colorPrimaryDark));
         slidingTabStrip.setDividerColor(getResources().getColor(R.color.half_black));
 
         SalesReturnPagerAdapter adapter = new SalesReturnPagerAdapter(getSupportFragmentManager());

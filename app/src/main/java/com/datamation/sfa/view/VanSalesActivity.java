@@ -49,9 +49,9 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.presale_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.presale_viewpager);
 
-        slidingTabStrip.setBackgroundColor(getResources().getColor(R.color.theme_color));
+      //  slidingTabStrip.setBackgroundColor(getResources().getColor(R.color.theme_color));
         slidingTabStrip.setTextColor(getResources().getColor(android.R.color.black));
-        slidingTabStrip.setIndicatorColor(getResources().getColor(R.color.red_error));
+        slidingTabStrip.setIndicatorColor(getResources().getColor(R.color.colorPrimaryDark));
         slidingTabStrip.setDividerColor(getResources().getColor(R.color.half_black));
 
         PreSalesPagerAdapter adapter = new PreSalesPagerAdapter(getSupportFragmentManager());

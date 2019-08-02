@@ -45,9 +45,9 @@ public class NonProductiveActivity extends AppCompatActivity {
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.np_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.np_viewpager);
 
-        slidingTabStrip.setBackgroundColor(getResources().getColor(R.color.theme_color));
+    //    slidingTabStrip.setBackgroundColor(getResources().getColor(R.color.theme_color));
         slidingTabStrip.setTextColor(getResources().getColor(android.R.color.black));
-        slidingTabStrip.setIndicatorColor(getResources().getColor(R.color.red_error));
+        slidingTabStrip.setIndicatorColor(getResources().getColor(R.color.colorPrimaryDark));
         slidingTabStrip.setDividerColor(getResources().getColor(R.color.half_black));
 
         NPPagerAdapter adapter = new NPPagerAdapter(getSupportFragmentManager());
