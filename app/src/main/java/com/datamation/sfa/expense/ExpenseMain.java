@@ -28,7 +28,6 @@ import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.controller.DayExpDetController;
 import com.datamation.sfa.controller.DayExpHedController;
 import com.datamation.sfa.model.DayExpHed;
-import com.datamation.sfa.utils.UtilityContainer;
 import com.datamation.sfa.view.ActivityHome;
 
 import java.util.ArrayList;
@@ -123,7 +122,7 @@ public class ExpenseMain extends Fragment {
         DayExpHed dayHed = loadexplist.get(info.position);
         switch (item.getItemId()) {
             case R.id.mnuDiscard:
-                deleteDialog(getActivity(), dayHed.getEXPHED_REFNO());
+                deleteDialog(getActivity(), dayHed.getEXP_REFNO());
                 return true;
 
 

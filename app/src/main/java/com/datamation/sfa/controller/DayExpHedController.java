@@ -13,7 +13,6 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.DayExpHed;
-import com.datamation.sfa.model.DayNPrdHed;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,17 +53,19 @@ public class DayExpHedController {
             for (DayExpHed exphed : list) {
                 ContentValues values = new ContentValues();
 
-                values.put(DatabaseHelper.REFNO, exphed.getEXPHED_REFNO());
-                values.put(DatabaseHelper.TXNDATE, exphed.getEXPHED_TXNDATE());
-                values.put(DatabaseHelper.FDAYEXPHED_REPCODE, exphed.getEXPHED_REPCODE());
-                values.put(DatabaseHelper.FDAYEXPHED_REMARKS, exphed.getEXPHED_REMARK());
-                values.put(DatabaseHelper.FDAYEXPHED_ADDDATE, exphed.getEXPHED_ADDDATE());
-                values.put(DatabaseHelper.FDAYEXPHED_ISSYNC, exphed.getEXPHED_IS_SYNCED());
-                values.put(DatabaseHelper.FDAYEXPHED_TOTAMT, exphed.getEXPHED_TOTAMT());
-                values.put(DatabaseHelper.FDAYEXPHED_ACTIVESTATE, exphed.getEXPHED_ACTIVESTATE());
-                values.put(DatabaseHelper.FDAYEXPHED_LATITUDE, exphed.getEXPHED_LATITUDE());
-                values.put(DatabaseHelper.FDAYEXPHED_LONGITUDE, exphed.getEXPHED_LONGITUDE());
-
+                values.put(DatabaseHelper.REFNO, exphed.getEXP_REFNO());
+                values.put(DatabaseHelper.TXNDATE, exphed.getEXP_TXNDATE());
+                values.put(DatabaseHelper.FDAYEXPHED_REPCODE, exphed.getEXP_REPCODE());
+                values.put(DatabaseHelper.FDAYEXPHED_REMARKS, exphed.getEXP_REMARK());
+                values.put(DatabaseHelper.FDAYEXPHED_ADDDATE, exphed.getEXP_ADDDATE());
+                values.put(DatabaseHelper.FDAYEXPHED_ISSYNC, exphed.getEXP_IS_SYNCED());
+                values.put(DatabaseHelper.FDAYEXPHED_TOTAMT, exphed.getEXP_TOTAMT());
+                values.put(DatabaseHelper.FDAYEXPHED_ACTIVESTATE, exphed.getEXP_ACTIVESTATE());
+                values.put(DatabaseHelper.FDAYEXPHED_LATITUDE, exphed.getEXP_LATITUDE());
+                values.put(DatabaseHelper.FDAYEXPHED_LONGITUDE, exphed.getEXP_LONGITUDE());
+                values.put(DatabaseHelper.FDAYEXPHED_REPNAME, exphed.getEXP_REPNAME());
+                values.put(DatabaseHelper.FDAYEXPHED_COSTCODE, exphed.getEXP_COSTCODE());
+                values.put(DatabaseHelper.FDAYEXPHED_ADDMATCH, exphed.getEXP_ADDMACH());
 
                 count = (int) dB.insert(DatabaseHelper.TABLE_DAYEXPHED, null, values);
 
@@ -98,9 +99,9 @@ public class DayExpHedController {
 
         while (cursor.moveToNext()) {
             DayExpHed fdayexpset = new DayExpHed();
-            fdayexpset.setEXPHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-            fdayexpset.setEXPHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
-            fdayexpset.setEXPHED_TOTAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_TOTAMT)));
+            fdayexpset.setEXP_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            fdayexpset.setEXP_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            fdayexpset.setEXP_TOTAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_TOTAMT)));
             list.add(fdayexpset);
         }
 
@@ -278,10 +279,10 @@ public class DayExpHedController {
 
                 DayExpHed deHed = new DayExpHed();
 //
-                deHed.setEXPHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                deHed.setEXPHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REPCODE)));
-                deHed.setEXPHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
-                deHed.setEXPHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ISSYNC)));
+                deHed.setEXP_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                deHed.setEXP_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REPCODE)));
+                deHed.setEXP_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                deHed.setEXP_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ISSYNC)));
                 //TODO :set  discount, free
 
                 list.add(deHed);
@@ -318,8 +319,8 @@ public class DayExpHedController {
 
             values.put(dbHelper.FDAYEXPHED_ISSYNC, "1");
 
-            if (hed.getEXPHED_IS_SYNCED().equals("1")) {
-                count = dB.update(dbHelper.TABLE_DAYEXPHED, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(hed.getEXPHED_REFNO()) });
+            if (hed.getEXP_IS_SYNCED().equals("1")) {
+                count = dB.update(dbHelper.TABLE_DAYEXPHED, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(hed.getEXP_REFNO()) });
             }
 
         } catch (Exception e) {
@@ -362,19 +363,20 @@ public class DayExpHedController {
                 mapper.setDistDB(localSP.getString("Dist_DB", "").toString());
                 mapper.setConsoleDB(SharedPref.getInstance(context).getDatabase());
 
-                mapper.setEXPHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ADDDATE)));
-                mapper.setEXPHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ADDMATCH)));
-                mapper.setEXPHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ADDRESS)));
-                mapper.setEXPHED_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ADDUSER)));
-                // mapper.setNONPRDHED_DEALCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_DEALCODE)));
-                mapper.setEXPHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ISSYNC)));
-                mapper.setEXPHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                mapper.setEXPHED_REMARK(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REMARKS)));
-                mapper.setEXPHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REPCODE)));
-                mapper.setEXPHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REPCODE)));
-                mapper.setEXPHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_LONGITUDE)));
-                mapper.setEXPHED_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_LATITUDE)));
-                //mapper.setNonPrdDet(new fDaynPrdDetDS(context).getAllnonprdDetails(mapper.getNONPRDHED_REFNO()));
+                mapper.setEXP_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                mapper.setEXP_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                mapper.setEXP_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REPCODE)));
+                mapper.setEXP_REPNAME(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REPNAME)));
+                mapper.setEXP_COSTCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_COSTCODE)));
+                mapper.setEXP_REMARK(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_REMARKS)));
+                mapper.setEXP_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ADDUSER)));
+                mapper.setEXP_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ADDMATCH)));
+                mapper.setEXP_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_ISSYNC)));
+                mapper.setEXP_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_LONGITUDE)));
+                mapper.setEXP_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_LATITUDE)));
+                mapper.setEXP_TOTAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FDAYEXPHED_TOTAMT)));
+
+                mapper.setExpnseDetList(new DayExpDetController(context).getAllExpDetails(mapper.getEXP_REFNO()));
 
                 list.add(mapper);
             }

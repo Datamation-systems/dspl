@@ -832,7 +832,7 @@ public class OrderSummaryFragment extends Fragment {
     // without print preview just call to print
 
     public void printItems() {
-        final int LINECHAR = 44;
+        final int LINECHAR = 50;
         String printGapAdjustCom = "                      ";
 
         ArrayList<Control> controlList;

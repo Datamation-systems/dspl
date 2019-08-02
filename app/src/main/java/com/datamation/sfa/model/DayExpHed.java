@@ -1,42 +1,71 @@
 package com.datamation.sfa.model;
 
+import java.util.ArrayList;
+
 public class DayExpHed {
-    private String EXPHED_REFNO;
-    private String EXPHED_TXNDATE;
-    private String EXPHED_REPCODE;
-    private String EXPHED_REMARK;
-    private String EXPHED_ADDDATE;
-    private String EXPHED_LONGITUDE;
-    private String EXPHED_LATITUDE;
-    private String EXPHED_IS_SYNCED;
-    private String EXPHED_TOTAMT;
-    private String EXPHED_ACTIVESTATE;
-    private String EXPHED_ADDUSER;
-    private String EXPHED_ADDMACH;
-    private String EXPHED_ADDRESS;
+    private String EXP_REFNO;
+    private String EXP_TXNDATE;
+    private String EXP_REPCODE;
+    private String EXP_REMARK;
+    private String EXP_ADDDATE;
+    private String EXP_LONGITUDE;
+    private String EXP_LATITUDE;
+    private String EXP_IS_SYNCED;
+    private String EXP_TOTAMT;
+    private String EXP_ACTIVESTATE;
+    private String EXP_ADDUSER;
+    private String EXP_ADDMACH;
+    private String EXP_ADDRESS;
+    private String EXP_REPNAME;
+    private String EXP_COSTCODE;
+    private ArrayList<DayExpDet>ExpnseDetList;
 
-    public String getEXPHED_ADDUSER() {
-        return EXPHED_ADDUSER;
+    public ArrayList<DayExpDet> getExpnseDetList() {
+        return ExpnseDetList;
     }
 
-    public void setEXPHED_ADDUSER(String EXPHED_ADDUSER) {
-        this.EXPHED_ADDUSER = EXPHED_ADDUSER;
+    public void setExpnseDetList(ArrayList<DayExpDet> expnseDetList) {
+        ExpnseDetList = expnseDetList;
     }
 
-    public String getEXPHED_ADDMACH() {
-        return EXPHED_ADDMACH;
+    public String getEXP_REPNAME() {
+        return EXP_REPNAME;
     }
 
-    public void setEXPHED_ADDMACH(String EXPHED_ADDMACH) {
-        this.EXPHED_ADDMACH = EXPHED_ADDMACH;
+    public void setEXP_REPNAME(String EXP_REPNAME) {
+        this.EXP_REPNAME = EXP_REPNAME;
     }
 
-    public String getEXPHED_ADDRESS() {
-        return EXPHED_ADDRESS;
+    public String getEXP_COSTCODE() {
+        return EXP_COSTCODE;
     }
 
-    public void setEXPHED_ADDRESS(String EXPHED_ADDRESS) {
-        this.EXPHED_ADDRESS = EXPHED_ADDRESS;
+    public void setEXP_COSTCODE(String EXP_COSTCODE) {
+        this.EXP_COSTCODE = EXP_COSTCODE;
+    }
+
+    public String getEXP_ADDUSER() {
+        return EXP_ADDUSER;
+    }
+
+    public void setEXP_ADDUSER(String EXP_ADDUSER) {
+        this.EXP_ADDUSER = EXP_ADDUSER;
+    }
+
+    public String getEXP_ADDMACH() {
+        return EXP_ADDMACH;
+    }
+
+    public void setEXP_ADDMACH(String EXP_ADDMACH) {
+        this.EXP_ADDMACH = EXP_ADDMACH;
+    }
+
+    public String getEXP_ADDRESS() {
+        return EXP_ADDRESS;
+    }
+
+    public void setEXP_ADDRESS(String EXP_ADDRESS) {
+        this.EXP_ADDRESS = EXP_ADDRESS;
     }
 
     private String ConsoleDB;
@@ -67,84 +96,84 @@ public class DayExpHed {
         DistDB = distDB;
     }
 
-    public String getEXPHED_ADDDATE() {
-        return EXPHED_ADDDATE;
+    public String getEXP_ADDDATE() {
+        return EXP_ADDDATE;
     }
 
-    public void setEXPHED_ADDDATE(String EXPHED_ADDDATE) {
-        this.EXPHED_ADDDATE = EXPHED_ADDDATE;
+    public void setEXP_ADDDATE(String EXP_ADDDATE) {
+        this.EXP_ADDDATE = EXP_ADDDATE;
     }
 
-    public String getEXPHED_REFNO() {
-        return EXPHED_REFNO;
+    public String getEXP_REFNO() {
+        return EXP_REFNO;
     }
 
-    public void setEXPHED_REFNO(String eXPHED_REFNO) {
-        EXPHED_REFNO = eXPHED_REFNO;
+    public void setEXP_REFNO(String eXPHED_REFNO) {
+        EXP_REFNO = eXPHED_REFNO;
     }
 
-    public String getEXPHED_REPCODE() {
-        return EXPHED_REPCODE;
+    public String getEXP_REPCODE() {
+        return EXP_REPCODE;
     }
 
-    public void setEXPHED_REPCODE(String eXPHED_REPCODE) {
-        EXPHED_REPCODE = eXPHED_REPCODE;
+    public void setEXP_REPCODE(String eXPHED_REPCODE) {
+        EXP_REPCODE = eXPHED_REPCODE;
     }
 
-    public String getEXPHED_REMARK() {
-        return EXPHED_REMARK;
+    public String getEXP_REMARK() {
+        return EXP_REMARK;
     }
 
-    public void setEXPHED_REMARK(String eXPHED_REMARK) {
-        EXPHED_REMARK = eXPHED_REMARK;
+    public void setEXP_REMARK(String eXPHED_REMARK) {
+        EXP_REMARK = eXPHED_REMARK;
     }
 
-    public String getEXPHED_IS_SYNCED() {
-        return EXPHED_IS_SYNCED;
+    public String getEXP_IS_SYNCED() {
+        return EXP_IS_SYNCED;
     }
 
-    public void setEXPHED_IS_SYNCED(String eXPHED_IS_SYNCED) {
-        EXPHED_IS_SYNCED = eXPHED_IS_SYNCED;
+    public void setEXP_IS_SYNCED(String eXPHED_IS_SYNCED) {
+        EXP_IS_SYNCED = eXPHED_IS_SYNCED;
     }
 
 
-    public String getEXPHED_TXNDATE() {
-        return EXPHED_TXNDATE;
+    public String getEXP_TXNDATE() {
+        return EXP_TXNDATE;
     }
 
-    public void setEXPHED_TXNDATE(String eXPHED_TXNDATE) {
-        EXPHED_TXNDATE = eXPHED_TXNDATE;
+    public void setEXP_TXNDATE(String eXPHED_TXNDATE) {
+        EXP_TXNDATE = eXPHED_TXNDATE;
     }
 
-    public String getEXPHED_TOTAMT() {
-        return EXPHED_TOTAMT;
+    public String getEXP_TOTAMT() {
+        return EXP_TOTAMT;
     }
 
-    public void setEXPHED_TOTAMT(String eXPHED_TOTAMT) {
-        EXPHED_TOTAMT = eXPHED_TOTAMT;
+    public void setEXP_TOTAMT(String eXPHED_TOTAMT) {
+        EXP_TOTAMT = eXPHED_TOTAMT;
     }
 
-    public String getEXPHED_ACTIVESTATE() {
-        return EXPHED_ACTIVESTATE;
+    public String getEXP_ACTIVESTATE() {
+        return EXP_ACTIVESTATE;
     }
 
-    public void setEXPHED_ACTIVESTATE(String eXPHED_ACTIVESTATE) {
-        EXPHED_ACTIVESTATE = eXPHED_ACTIVESTATE;
+    public void setEXP_ACTIVESTATE(String eXPHED_ACTIVESTATE) {
+        EXP_ACTIVESTATE = eXPHED_ACTIVESTATE;
     }
-    public String getEXPHED_LATITUDE() {
-        return EXPHED_LATITUDE;
-    }
-
-    public void setEXPHED_LATITUDE(String eXPHED_LATITUDE) {
-        EXPHED_LATITUDE = eXPHED_LATITUDE;
+    public String getEXP_LATITUDE() {
+        return EXP_LATITUDE;
     }
 
-    public String getEXPHED_LONGITUDE() {
-        return EXPHED_LONGITUDE;
+    public void setEXP_LATITUDE(String eXPHED_LATITUDE) {
+        EXP_LATITUDE = eXPHED_LATITUDE;
     }
 
-    public void setEXPHED_LONGITUDE(String eXPHED_LONGITUDE) {
-        EXPHED_LONGITUDE = eXPHED_LONGITUDE;
+    public String getEXP_LONGITUDE() {
+        return EXP_LONGITUDE;
+    }
+
+    public void setEXP_LONGITUDE(String eXPHED_LONGITUDE) {
+        EXP_LONGITUDE = eXPHED_LONGITUDE;
     }
 
 

@@ -143,7 +143,7 @@ public class DayNPrdDetController {
 
             DayNPrdDet fnonset = new DayNPrdDet();
 
-            // fnonset.setNONPRDDET_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDDET_DEBCODE)));
+            fnonset.setNONPRDDET_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDDET_TXNDATE)));
             fnonset.setNONPRDDET_REASON(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDDET_REASON)));
             fnonset.setNONPRDDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
             fnonset.setNONPRDDET_REASON_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDDET_REASON_CODE)));

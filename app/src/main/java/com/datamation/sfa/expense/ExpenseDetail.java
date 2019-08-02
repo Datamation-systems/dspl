@@ -39,7 +39,6 @@ import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.DayExpDet;
 import com.datamation.sfa.model.DayExpHed;
-import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.utils.UtilityContainer;
 import com.datamation.sfa.view.ActivityHome;
 import com.datamation.sfa.view.FragmentTools;
@@ -47,7 +46,6 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 
-import java.sql.Ref;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -314,20 +312,24 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
                     ArrayList<DayExpHed> ExpHedList = new ArrayList<DayExpHed>();
 
                     String refno = RefNo.getText().toString();
-                    exphed.setEXPHED_REFNO(RefNo.getText() + "");
-                    exphed.setEXPHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
-                    exphed.setEXPHED_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                    exphed.setEXPHED_REMARK(Remark.getText() + "");
-                    exphed.setEXPHED_ADDDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                    exphed.setEXPHED_ACTIVESTATE("0");
-                    exphed.setEXPHED_IS_SYNCED("0");
-                    exphed.setEXPHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("***") ? "0.00" : SharedPref.getInstance(getActivity()).getGlobalVal("Latitude"));
-                    exphed.setEXPHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("***") ? "0.00" : SharedPref.getInstance(getActivity()).getGlobalVal("Longitude"));
-                   // exphed.setEXPHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
-                    exphed.setEXPHED_TOTAMT(new DayExpDetController(getActivity()).getTotalExpenseSumReturns(refno));
+                    exphed.setEXP_REFNO(RefNo.getText() + "");
+                    exphed.setEXP_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
+                    exphed.setEXP_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                    exphed.setEXP_REMARK(Remark.getText() + "");
+                    exphed.setEXP_ADDDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                    exphed.setEXP_ACTIVESTATE("0");
+                    exphed.setEXP_IS_SYNCED("0");
+                    exphed.setEXP_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("***") ? "0.00" : SharedPref.getInstance(getActivity()).getGlobalVal("Latitude"));
+                    exphed.setEXP_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("***") ? "0.00" : SharedPref.getInstance(getActivity()).getGlobalVal("Longitude"));
+                   // exphed.setEXP_ADDRESS(localSP.getString("GPS_Address", "").toString());
+                    exphed.setEXP_REPNAME(new SalRepController(getActivity()).getSaleRep(new SalRepController(getActivity()).getCurrentRepCode()).getNAME());
+                    exphed.setEXP_COSTCODE("000");
+                    exphed.setEXP_TOTAMT(new DayExpDetController(getActivity()).getTotalExpenseSumReturns(refno));
                     ExpHedList.add(exphed);
 
                     if (new DayExpHedController(getActivity()).createOrUpdateDayExpHed(ExpHedList) > 0) {
+
+
                         referenceNum.nNumValueInsertOrUpdate(getResources().getString(R.string.ExpenseNumVal));
                         Toast.makeText(getActivity(), "Successfully saved Expense. ", Toast.LENGTH_LONG).show();
 //                        UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
@@ -438,7 +440,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
             if (!result.equals("") || !result.equals("No Address")) {
 
 
-               // activity.selectedexpHed.setEXPHED_ADDRESS(result);
+               // activity.selectedexpHed.setEXP_ADDRESS(result);
 
             }
         } catch (Exception e) {

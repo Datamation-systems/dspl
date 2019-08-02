@@ -1,6 +1,7 @@
 package com.datamation.sfa.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class DayNPrdHed implements Serializable
 {
@@ -13,7 +14,7 @@ public class DayNPrdHed implements Serializable
     private String NONPRDHED_TXNDATE;
     private String NONPRDHED_DEALCODE;
     private String NONPRDHED_REPCODE;
-    private String NONPRDHED_REMARK;
+    private String NONPRDHED_REMARKS;
     private String NONPRDHED_COSTCODE;
     private String NONPRDHED_ADDUSER;
     private String NONPRDHED_ADDDATE;
@@ -26,6 +27,15 @@ public class DayNPrdHed implements Serializable
     private String NONPRDHED_DEBCODE;
     private String NONPRDHED_IS_ACTIVE;
     private String NONPRDHED_REASON;
+    private ArrayList<DayNPrdDet>NonPrdDet;
+
+    public ArrayList<DayNPrdDet> getNonPrdDet() {
+        return NonPrdDet;
+    }
+
+    public void setNonPrdDet(ArrayList<DayNPrdDet> nonPrdDet) {
+        NonPrdDet = nonPrdDet;
+    }
 
     public String getNONPRDHED_REASON() {
         return NONPRDHED_REASON;
@@ -131,12 +141,12 @@ public class DayNPrdHed implements Serializable
         NONPRDHED_REPCODE = nONPRDHED_REPCODE;
     }
 
-    public String getNONPRDHED_REMARK() {
-        return NONPRDHED_REMARK;
+    public String getNONPRDHED_REMARKS() {
+        return NONPRDHED_REMARKS;
     }
 
-    public void setNONPRDHED_REMARK(String nONPRDHED_REMARK) {
-        NONPRDHED_REMARK = nONPRDHED_REMARK;
+    public void setNONPRDHED_REMARKS(String NONPRDHED_REMARKS) {
+        this.NONPRDHED_REMARKS = NONPRDHED_REMARKS;
     }
 
     public String getNONPRDHED_COSTCODE() {

@@ -56,14 +56,17 @@ public class DayNPrdHedController {
                 values.put(dbHelper.REFNO, nonhed.getNONPRDHED_REFNO());
                 values.put(dbHelper.TXNDATE, nonhed.getNONPRDHED_TXNDATE());
                 values.put(dbHelper.NONPRDHED_REPCODE, nonhed.getNONPRDHED_REPCODE());
-                values.put(dbHelper.NONPRDHED_REMARK, nonhed.getNONPRDHED_REMARK());
+                values.put(dbHelper.NONPRDHED_REMARK, nonhed.getNONPRDHED_REMARKS());
                 values.put(dbHelper.NONPRDHED_ADDDATE, nonhed.getNONPRDHED_ADDDATE());
+                values.put(dbHelper.NONPRDHED_COSTCODE, nonhed.getNONPRDHED_COSTCODE());
+                values.put(dbHelper.NONPRDHED_ADDUSER, nonhed.getNONPRDHED_ADDUSER());
                 values.put(dbHelper.NONPRDHED_IS_SYNCED, nonhed.getNONPRDHED_IS_SYNCED());
                 values.put(dbHelper.NONPRDHED_LONGITUDE,nonhed.getNONPRDHED_LONGITUDE());
                 values.put(dbHelper.NONPRDHED_LATITUDE,nonhed.getNONPRDHED_LATITUDE());
                 values.put(dbHelper.NONPRDHED_DEBCODE,nonhed.getNONPRDHED_DEBCODE());
                 values.put(dbHelper.NONPRDHED_IS_ACTIVE,nonhed.getNONPRDHED_IS_ACTIVE());
-                values.put(dbHelper.NONPRDHED_REASON,nonhed.getNONPRDHED_REASON());
+                values.put(dbHelper.NONPRDHED_ADDMACH,nonhed.getNONPRDHED_ADDMACH());
+                values.put(dbHelper.NONPRDHED_ADDRESS,nonhed.getNONPRDHED_ADDRESS());
 
                 count = (int) dB.insert(dbHelper.TABLE_NONPRDHED, null, values);
 
@@ -430,22 +433,21 @@ public class DayNPrdHedController {
                 mapper.setDistDB(localSP.getString("Dist_DB", "").toString());
                 mapper.setConsoleDB(SharedPref.getInstance(context).getDatabase());
 
-                mapper.setNONPRDHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDDATE)));
-                mapper.setNONPRDHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDMACH)));
-                mapper.setNONPRDHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDRESS)));
-                mapper.setNONPRDHED_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDUSER)));
-                mapper.setNONPRDHED_COSTCODE("000");
-                // mapper.setNONPRDHED_DEALCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_DEALCODE)));
-                mapper.setNONPRDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_IS_SYNCED)));
                 mapper.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REFNO)));
-                mapper.setNONPRDHED_REMARK(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REMARK)));
-                mapper.setNONPRDHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REPCODE)));
-                mapper.setNONPRDHED_TRANSBATCH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_TRANSBATCH)));
                 mapper.setNONPRDHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_TXNDAET)));
+                mapper.setNONPRDHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REPCODE)));
+                mapper.setNONPRDHED_REMARKS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_REMARK)));
+                mapper.setNONPRDHED_COSTCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_COSTCODE)));
+                mapper.setNONPRDHED_ADDUSER(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDUSER)));
+                mapper.setNONPRDHED_ADDDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDDATE)));
                 mapper.setNONPRDHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_DEBCODE)));
                 mapper.setNONPRDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_LONGITUDE)));
                 mapper.setNONPRDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_LATITUDE)));
-                //mapper.setNonPrdDet(new fDaynPrdDetDS(context).getAllnonprdDetails(mapper.getNONPRDHED_REFNO()));
+                mapper.setNONPRDHED_ADDRESS(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDRESS)));
+                mapper.setNONPRDHED_ADDMACH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_ADDMACH)));
+                mapper.setNONPRDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NONPRDHED_IS_SYNCED)));
+
+                mapper.setNonPrdDet(new DayNPrdDetController(context).getAllnonprdDetails(mapper.getNONPRDHED_REFNO()));
 
                 list.add(mapper);
             }
