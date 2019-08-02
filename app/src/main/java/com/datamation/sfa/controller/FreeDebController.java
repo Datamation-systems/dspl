@@ -82,14 +82,14 @@ public class FreeDebController {
 
         // String selectQuery = "select * from ffreehed where refno in (select refno from ffreedet where itemcode='" + itemCode + "') AND costcode='" + costCode + "' AND date('now') between vdatef and vdatet";
         // inoshi--Mine**CostCode change//
-        String selectQuery = "select * from " + dbHelper.TABLE_FFREEDEB + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select deb.debname from fdebtor deb, ffreedeb fdeb where fdeb.debcode = deb.debcode and fdeb.refno ='" + refno + "'";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
             while (cursor.moveToNext()) {
 
                 FreeDeb freeHed = new FreeDeb();
 
-                freeHed.setFFREEDEB_DEB_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FFREEDEB_DEB_CODE)));
+                freeHed.setFFREEDEB_DEB_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_NAME)));
 
                 list.add(freeHed);
             }

@@ -22,7 +22,6 @@
             android:inputType="number" />
 
         <com.datamation.sfa.utils.CustomFont
-            android:id="@+id/textView10"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
