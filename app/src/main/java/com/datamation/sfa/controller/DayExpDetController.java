@@ -101,6 +101,7 @@ public class DayExpDetController {
             DayExpDet fdayexpset = new DayExpDet();
 
             fdayexpset.setEXPDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+            fdayexpset.setEXPDET_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.DAYEXPDET_TXNDATE)));
             fdayexpset.setEXPDET_EXPCODE(cursor.getString(cursor.getColumnIndex(dbHelper.DAYEXPDET_EXPCODE)));
             fdayexpset.setEXPDET_AMOUNT(cursor.getString(cursor.getColumnIndex(dbHelper.DAYEXPDET_AMT)));
 

@@ -1,12 +1,9 @@
 package com.datamation.sfa.view.dashboard;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,22 +21,15 @@ import com.datamation.sfa.controller.DayExpDetController;
 import com.datamation.sfa.controller.DayExpHedController;
 import com.datamation.sfa.controller.DayNPrdDetController;
 import com.datamation.sfa.controller.DayNPrdHedController;
-import com.datamation.sfa.controller.OrderController;
-import com.datamation.sfa.controller.OrderDetailController;
-import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.model.DayExpDet;
 import com.datamation.sfa.model.DayExpHed;
 import com.datamation.sfa.model.DayNPrdDet;
 import com.datamation.sfa.model.DayNPrdHed;
-import com.datamation.sfa.model.Order;
-import com.datamation.sfa.model.OrderDetail;
 
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 
 public class OtherDetailsFragment extends Fragment {
@@ -181,7 +170,7 @@ public class OtherDetailsFragment extends Fragment {
 
             for(DayExpHed free : listDEDataHeader)
             {
-                listDEDataChild.put(free,new DayExpDetController(getActivity()).getTodayDEDets(free.getEXPHED_REFNO()));
+                listDEDataChild.put(free,new DayExpDetController(getActivity()).getTodayDEDets(free.getEXP_REFNO()));
             }
 
             listDEAdapter = new ExpandableDEListAdapter(getActivity(), listDEDataHeader, listDEDataChild);
@@ -371,10 +360,10 @@ public class OtherDetailsFragment extends Fragment {
             TextView lblstatus = (TextView) convertView.findViewById(R.id.status);
 
             lblrefNo.setTypeface(null, Typeface.BOLD);
-            lblrefNo.setText(headerTitle.getEXPHED_REFNO());
-            lbldate.setText(headerTitle.getEXPHED_TXNDATE());
-            lbldebCode.setText(headerTitle.getEXPHED_REPCODE());
-            lblstatus.setText(headerTitle.getEXPHED_IS_SYNCED());
+            lblrefNo.setText(headerTitle.getEXP_REFNO());
+            lbldate.setText(headerTitle.getEXP_TXNDATE());
+            lbldebCode.setText(headerTitle.getEXP_REPCODE());
+            lblstatus.setText(headerTitle.getEXP_IS_SYNCED());
 
             return convertView;
         }

@@ -465,8 +465,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-FOrdFreeIss table info-*-**-**-**-**-**-**-**-*-*-*-*/
 
     public static final String TABLE_FORDFREEISS = "FOrdFreeIss";
-
-
     public static final String FORDFREEISS_REFNO1 = "RefNo1";
     public static final String FORDFREEISS_ITEMCODE = "ItemCode";
     public static final String FORDFREEISS_QTY = "Qty";

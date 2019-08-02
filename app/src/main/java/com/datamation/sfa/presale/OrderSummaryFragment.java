@@ -668,7 +668,7 @@ public class OrderSummaryFragment extends Fragment {
 
     public void UpdateTaxDetails(String refNo) {
 
-        ArrayList<OrderDetail> list = new OrderDetailController(getActivity()).getAllOrderDetails(refNo);
+        ArrayList<OrderDetail> list = new OrderDetailController(getActivity()).getAllOrderDetailsForTaxUpdate(refNo);
         new OrderDetailController(getActivity()).UpdateItemTaxInfoWithDiscount(list, mSharedPref.getSelectedDebCode());
         new PreSaleTaxRGDS(getActivity()).UpdateSalesTaxRG(list, mSharedPref.getSelectedDebCode());
         new PreSaleTaxDTDS(getActivity()).UpdateSalesTaxDT(list);
@@ -832,7 +832,7 @@ public class OrderSummaryFragment extends Fragment {
     // without print preview just call to print
 
     public void printItems() {
-        final int LINECHAR = 44;
+        final int LINECHAR = 50;
         String printGapAdjustCom = "                      ";
 
         ArrayList<Control> controlList;

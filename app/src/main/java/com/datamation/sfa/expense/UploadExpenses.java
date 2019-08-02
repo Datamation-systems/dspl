@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import com.datamation.sfa.R;
 import com.datamation.sfa.controller.DayExpHedController;
 import com.datamation.sfa.helpers.NetworkFunctions;
 import com.datamation.sfa.helpers.UploadTaskListener;
 import com.datamation.sfa.model.DayExpHed;
-import com.datamation.sfa.model.DayNPrdHed;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -63,9 +61,9 @@ public class UploadExpenses extends AsyncTask<ArrayList<DayExpHed>, Integer, Arr
                 boolean bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncDayExp(),List.toString());
 
                 if (bStatus) {
-                    c.setEXPHED_IS_SYNCED("1");
+                    c.setEXP_IS_SYNCED("1");
                 } else {
-                    c.setEXPHED_IS_SYNCED("0");
+                    c.setEXP_IS_SYNCED("0");
                 }
 
             } catch (Exception e) {
@@ -100,10 +98,10 @@ public class UploadExpenses extends AsyncTask<ArrayList<DayExpHed>, Integer, Arr
         for (DayExpHed c : RCSList) {
             new DayExpHedController(context).updateIsSynced(c);
 
-            if (c.getEXPHED_IS_SYNCED().equals("1")) {
-                list.add(i + ". " + c.getEXPHED_REFNO()+ " --> Success\n");
+            if (c.getEXP_IS_SYNCED().equals("1")) {
+                list.add(i + ". " + c.getEXP_REFNO()+ " --> Success\n");
             } else {
-                list.add(i + ". " + c.getEXPHED_REFNO() + " --> Failed\n");
+                list.add(i + ". " + c.getEXP_REFNO() + " --> Failed\n");
             }
             i++;
         }

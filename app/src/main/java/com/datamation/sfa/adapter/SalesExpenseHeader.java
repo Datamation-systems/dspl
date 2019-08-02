@@ -37,9 +37,9 @@ public class SalesExpenseHeader extends ArrayAdapter<DayExpHed> {
         TextView amount = (TextView) row.findViewById(R.id.amount);
 
 
-        refno.setText(list.get(position).getEXPHED_REFNO());
-        date.setText(list.get(position).getEXPHED_TXNDATE());
-        amount.setText(String.format("%.2f", Double.parseDouble(list.get(position).getEXPHED_TOTAMT())));
+        refno.setText(list.get(position).getEXP_REFNO());
+        date.setText(list.get(position).getEXP_TXNDATE());
+        amount.setText(String.format("%.2f", Double.parseDouble(list.get(position).getEXP_TOTAMT())));
         return row;
     }
 }
