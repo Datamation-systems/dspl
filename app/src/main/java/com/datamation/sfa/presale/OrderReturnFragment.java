@@ -399,7 +399,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
     public void FetchData() {
         try {
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(RefNo);
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
         } catch (NullPointerException e) {
@@ -554,7 +554,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
 //                        Log.v("RETURN HED>>>>",activity.selectedInvHed.toString());
             new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList );
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(activity.selectedReturnHed.getFINVRHED_REFNO());
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(activity.selectedReturnHed.getFINVRHED_REFNO());
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
             lblPrice.setOnClickListener(new View.OnClickListener() {
                 @Override

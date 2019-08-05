@@ -59,7 +59,7 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
         slidingTabStrip.setViewPager(viewPager);
         ReferenceNum referenceNum = new ReferenceNum(getApplicationContext());
 
-        status = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
+        status = new SalesReturnDetController(getApplicationContext()).isAnyActiveReturnHedDet(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

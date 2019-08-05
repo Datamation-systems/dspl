@@ -202,7 +202,7 @@ public class OrderSummaryFragment extends Fragment {
             public void onClick(DialogInterface dialog, int id) {
 
                 int result = new OrderController(getActivity()).restData(RefNo);
-                int resultReturn = new SalesReturnController(getActivity()).restData(ReturnRefNo);
+                int resultReturn = new SalesReturnController(getActivity()).restDataForOrders(ReturnRefNo);
 
                 if (result>0) {
                     new OrderDetailController(getActivity()).restData(RefNo);
@@ -251,7 +251,7 @@ public class OrderSummaryFragment extends Fragment {
         locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
 
         list = new OrderDetailController(getActivity()).getAllOrderDetails(RefNo);
-        returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(ReturnRefNo);
+        returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(ReturnRefNo);
 
         for (OrderDetail ordDet : list) {
             ftotAmt += Double.parseDouble(ordDet.getFORDERDET_AMT());
@@ -675,7 +675,7 @@ public class OrderSummaryFragment extends Fragment {
     }
 
     public void UpdateReturnTotal(String refNo) {
-        ArrayList<FInvRDet> list = new SalesReturnDetController(getActivity()).getAllInvRDet(refNo);
+        ArrayList<FInvRDet> list = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(refNo);
         new SalesReturnDetController(getActivity()).UpdateReturnTot(list);
 
     }

@@ -179,7 +179,7 @@ public class SalesReturnSummary extends Fragment {
         {
             RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
-            returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
+            returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDetForSalesReturn(RefNo);
 
             for (FInvRDet retDet : returnDetList) {
                 ftotAmt += Double.parseDouble(retDet.getFINVRDET_AMT());
@@ -202,13 +202,13 @@ public class SalesReturnSummary extends Fragment {
             totReturnDiscount = 0;
             fTotQty = 0;
         }
-        else if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet))))
+        else if (new SalesReturnDetController(getActivity()).isAnyActiveReturnHedDet(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet))))
         {
             activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
 
             RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
-            returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
+            returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDetForSalesReturn(RefNo);
 
             for (FInvRDet retDet : returnDetList) {
                 ftotAmt += Double.parseDouble(retDet.getFINVRDET_AMT());

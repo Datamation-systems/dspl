@@ -299,6 +299,53 @@ public class SalesReturnController
         return count;
 
     }
+
+    public int restDataForOrders(String refno) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+       String isRefExisting = "";
+
+        try {
+
+            //String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE "  + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NOT NULL and InvRefNo IS NULL";
+            cursor = dB.rawQuery(selectQuery, null);
+
+            if (cursor.getCount()>0)
+            {
+                while (cursor.moveToNext())
+                {
+                    isRefExisting = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+
+                    if (isRefExisting.equals(refno))
+                    {
+                        int success = dB.delete(DatabaseHelper.TABLE_FINVRHED,
+                                DatabaseHelper.REFNO + " ='" + refno + "'", null);
+                        Log.v("Success", success + "");
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
+
     public FInvRHed getDetailsforPrint(String Refno) {
 
         if (dB == null) {

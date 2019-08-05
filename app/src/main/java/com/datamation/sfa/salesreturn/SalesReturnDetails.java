@@ -381,7 +381,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         Log.d("SALES_RETRUN", "DETAILS_FROM_FETCH_DATA");
         try {
                 lv_return_det.setAdapter(null);
-                returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(RefNo);
+                returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForSalesReturn(RefNo);
                 lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
         } catch (NullPointerException e) {

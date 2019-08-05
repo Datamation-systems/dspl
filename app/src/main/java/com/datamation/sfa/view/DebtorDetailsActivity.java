@@ -115,7 +115,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.outlet_details_viewpager);
 
         isAnyActiveOrders = new OrderDetailController(getApplicationContext()).isAnyActiveOrders();
-        isAnyActiveReturns = new SalesReturnDetController(getApplicationContext()).isAnyActiveRetuens(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
+        isAnyActiveReturns = new SalesReturnDetController(getApplicationContext()).isAnyActiveReturnHedDet(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
         isAnyActiveInvoices = new InvDetController(getApplicationContext()).isAnyActiveOrders();
         isAnyActiveReceipt = new ReceiptDetController(getApplicationContext()).isAnyActiveReceipt();
         //isAnyActiveNonProds  = new DayNPrdDetController(getApplicationContext()).isAnyActiveNPs();
