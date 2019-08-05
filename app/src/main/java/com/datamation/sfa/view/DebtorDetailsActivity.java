@@ -204,8 +204,9 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         viewPager.setPageMargin(pageMargin);
 
         slidingTabStrip.setViewPager(viewPager);
-        slidingTabStrip.setIndicatorColor(ContextCompat.getColor(DebtorDetailsActivity.this, R.color.colorPrimaryDark));
-
+        slidingTabStrip.setTextColor(getResources().getColor(android.R.color.black));
+        slidingTabStrip.setIndicatorColor(getResources().getColor(R.color.colorPrimaryDark));
+        slidingTabStrip.setDividerColor(getResources().getColor(R.color.half_black));
         fabUnproductive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -123,7 +123,7 @@ public class FragmentHome extends Fragment {
         viewPager.setAdapter(pagerAdapter);
         Resources resources = getResources();
 
-        tabStrip.setBackgroundColor(resources.getColor(R.color.theme_color));
+      //  tabStrip.setBackgroundColor(resources.getColor(R.color.theme_color));
         tabStrip.setTextColor(resources.getColor(android.R.color.black));
         tabStrip.setIndicatorColor(resources.getColor(R.color.blue_c));
         tabStrip.setDividerColor(resources.getColor(R.color.half_black));

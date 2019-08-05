@@ -498,7 +498,8 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
             public boolean onQueryTextChange(String newText) {
 
                 list.clear();
-                list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
+                list = new ItemController(getActivity()).getAllItemForSalesReturn("","","",new SalRepController(getActivity()).getCurrentLocCode().trim(),sharedPref.getSelectedDebtorPrilCode());
+                Log.v("Return Item count", ">>>>>"+list.size());
                 productList.clearTextFilter();
                 productList.setAdapter(new ProductAdapter(getActivity(), list));
 

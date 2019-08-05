@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.FreeHed;
+import com.datamation.sfa.model.free;
 
 import java.util.ArrayList;
 
@@ -169,6 +170,67 @@ public class FreeHedController {
             dB.close();
         }
         return list;
+    }
+    public ArrayList<free> getFreeIssueDetails(String refno, String type) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<free> list = new ArrayList<free>();
+
+        // String selectQuery = "select * from ffreehed where refno in (select refno from ffreedet where itemcode='" + itemCode + "') AND costcode='" + costCode + "' AND date('now') between vdatef and vdatet";
+        // inoshi--Mine**CostCode change//
+        String selectQuery = "  select  hed.refno as Scheme , hed.ItemQty as ItemQty , hed.FreeItQty as FreeQty , item.itemname as SaleItem " +
+                "  ,(select item.itemname from fItem item, fFreeItem fritem, Ffreehed hed where item.itemcode = fritem.itemcode and" +
+                " fritem.refno = hed.refno)  as FreeItem " +
+                "  from fItem item, Ffreedet free , Ffreehed hed  where item.itemcode = free.itemcode and hed.refno = free.refno";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                free freeHed = new free();
+
+                freeHed.setSaleItem(cursor.getString(cursor.getColumnIndex("SaleItem")));
+                freeHed.setIssueItem(cursor.getString(cursor.getColumnIndex("FreeItem")));
+                freeHed.setItemQty(cursor.getString(cursor.getColumnIndex("ItemQty")));
+                freeHed.setFreeQty(cursor.getString(cursor.getColumnIndex("FreeQty")));
+                freeHed.setFromQty("0");
+                freeHed.setToQty("0");
+
+                list.add(freeHed);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return list;
+    }
+    public int getRefnoByDebCount(String refno) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT count(*) FROM " + dbHelper.TABLE_FFREEDEB + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
+
+        Cursor cursor = null;
+        cursor = dB.rawQuery(selectQuery, null);
+
+        while (cursor.moveToNext()) {
+
+            return cursor.getInt(0);
+
+        }
+        return 0;
+
     }
     public ArrayList<FreeHed> getFreeIssueHeaders() {
         if (dB == null) {

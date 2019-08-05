@@ -39,10 +39,10 @@ public class DayExpenseActivity extends AppCompatActivity {
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.de_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.de_viewpager);
 
-        slidingTabStrip.setBackgroundColor(getResources().getColor(R.color.theme_color));
-        slidingTabStrip.setTextColor(getResources().getColor(android.R.color.black));
-        slidingTabStrip.setIndicatorColor(getResources().getColor(R.color.red_error));
-        slidingTabStrip.setDividerColor(getResources().getColor(R.color.half_black));
+     //   slidingTabStrip.setBackgroundColor(getResources().getColor(R.color.theme_color));
+//        slidingTabStrip.setTextColor(getResources().getColor(android.R.color.black));
+//        slidingTabStrip.setIndicatorColor(getResources().getColor(R.color.red_error));
+//        slidingTabStrip.setDividerColor(getResources().getColor(R.color.half_black));
 
         DEPagerAdapter adapter = new DEPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
