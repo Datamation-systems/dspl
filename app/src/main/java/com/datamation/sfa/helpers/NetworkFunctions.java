@@ -3,6 +3,7 @@ package com.datamation.sfa.helpers;
 import android.content.Context;
 import android.util.Log;
 
+import com.datamation.sfa.R;
 import com.datamation.sfa.model.CustomNameValuePair;
 import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.model.Order;
@@ -54,11 +55,12 @@ public class NetworkFunctions {
     public NetworkFunctions(Context context) {
         pref = SharedPref.getInstance(context);
         String domain = pref.getBaseURL();
-        Log.wtf("baseURL>>>>>>>>>",domain);
-        baseURL = domain +"/SFAWebServices/SFAWebServicesRest.svc/";
+        Log.d("baseURL>>>>>>>>>",domain);
+        baseURL = domain +context.getResources().getString(R.string.connection_string);
         dbname = pref.getDatabase();
         restOfURL = "/mobile123/"+dbname;
-        Log.d(LOG_TAG, "testing : " + baseURL + "login" + restOfURL);
+        this.context = context;
+       // Log.d(LOG_TAG, "testing : " + baseURL + "login" + restOfURL);
         user = pref.getLoginUser();
     }
 
@@ -66,13 +68,13 @@ public class NetworkFunctions {
         this.user = user;
     }
 
-    public String validate(String macId) throws IOException {
+    public String validate(Context context,String macId, String url) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Validating : " + baseURL + "fSalRep" +restOfURL+"/"+ macId);
+        Log.d(LOG_TAG, "Validating : " + url +context.getResources().getString(R.string.connection_string) + "fSalRep" +restOfURL+"/"+ macId);
 
-        return getFromServer(baseURL + "fSalRep"+restOfURL+"/"+macId, params);
+        return getFromServer(url+context.getResources().getString(R.string.connection_string) + "fSalRep"+restOfURL+"/"+macId, params);
     }
     /**
      * This function will POST repCode will return a the response JSON
