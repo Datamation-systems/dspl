@@ -1,28 +1,32 @@
 package com.datamation.sfa.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.RequiresApi;
-//import android.support.v7.app.AlertDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.dialog.CustomProgressDialog;
@@ -47,6 +51,7 @@ public class ActivitySplash extends AppCompatActivity{
 
     private ImageView logo;
     private static int SPLASH_TIME_OUT = 4000;
+    private static String spURL = "";
     DatabaseHelper db;
     private SharedPref pref;
     private NetworkFunctions networkFunctions;
@@ -84,37 +89,8 @@ public class ActivitySplash extends AppCompatActivity{
 
 
         if(pref.getLoginUser()==null) {
+            validateDialog();
 
-            if (connectionStatus) {
-
-                new Handler().postDelayed(new Runnable() {
-
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void run() {
-
-                        new Validate(pref.getMacAddress().trim()).execute();
-
-    //     TODO :: Setting activity should be in home for setting icon
-
-                       // finish();
-                    }
-                }, SPLASH_TIME_OUT);
-            tryAgain.setVisibility(View.INVISIBLE);
-            } else {
-
-                Snackbar snackbar = Snackbar.make(v, R.string.txt_msg, Snackbar.LENGTH_LONG);
-                View snackbarLayout = snackbar.getView();
-                snackbarLayout.setBackgroundColor(Color.RED);
-                TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
-                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signal_wifi_off_black_24dp, 0, 0, 0);
-                textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.body_size));
-                textView.setTextColor(Color.WHITE);
-                snackbar.show();
-                tryAgain.setVisibility(View.VISIBLE);
-               // reCallActivity();
-
-            }
         }else{
             if(pref.isLoggedIn()){
                 goToHome();
@@ -123,29 +99,111 @@ public class ActivitySplash extends AppCompatActivity{
             }
         }
 
-        tryAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (NetworkUtil.isNetworkAvailable(ActivitySplash.this)) {
-                new Validate(pref.getMacAddress().trim()).execute();
-                } else {
+//        tryAgain.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (NetworkUtil.isNetworkAvailable(ActivitySplash.this)) {
+//                new Validate(pref.getMacAddress().trim()).execute();
+//                } else {
+//
+//                    Snackbar snackbar = Snackbar.make(v, R.string.txt_msg, Snackbar.LENGTH_LONG);
+//                    View snackbarLayout = snackbar.getView();
+//                    snackbarLayout.setBackgroundColor(Color.RED);
+//                    TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+//                    textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signal_wifi_off_black_24dp, 0, 0, 0);
+//                    textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.body_size));
+//                    textView.setTextColor(Color.WHITE);
+//                    snackbar.show();
+//                    tryAgain.setVisibility(View.VISIBLE);
+//
+//                }
+//            }
+//        });
 
-                    Snackbar snackbar = Snackbar.make(v, R.string.txt_msg, Snackbar.LENGTH_LONG);
-                    View snackbarLayout = snackbar.getView();
-                    snackbarLayout.setBackgroundColor(Color.RED);
-                    TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signal_wifi_off_black_24dp, 0, 0, 0);
-                    textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.body_size));
-                    textView.setTextColor(Color.WHITE);
-                    snackbar.show();
-                    tryAgain.setVisibility(View.VISIBLE);
+}
+    private void validateDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        final View promptView = layoutInflater.inflate(R.layout.ip_connection_dailog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
+        alertDialogBuilder.setView(promptView);
+        final EditText input = (EditText) promptView.findViewById(R.id.txt_Enter_url);
+        Button btn_validate = (Button)promptView.findViewById(R.id.btn_validate);
+//        btn_validate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                spURL = input.getText().toString().trim();
+//                String URL = "http://" + input.getText().toString().trim();
+//                if (Patterns.WEB_URL.matcher(URL).matches())
+//                {
+//                        pref.setBaseURL(spURL);
+//                         Toast.makeText(ActivitySplash.this, "URL config success."+spURL, Toast.LENGTH_LONG).show();
+//
+//                } else {
+//                    Toast.makeText(ActivitySplash.this, "Invalid URL Entered. Please Enter Valid URL.", Toast.LENGTH_LONG).show();
+//                    reCallActivity();
+//                }
+//            }
+//        });
 
+
+
+        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String URL = "http://" + input.getText().toString().trim();
+
+                if(URL.length()!=0)
+                {
+                 //   pref.setDBNAME(DBNAME);
+//                    if (Patterns.WEB_URL.matcher(URL).matches()&& URL.length()== 26)
+                    if (Patterns.WEB_URL.matcher(URL).matches())
+                    {
+                        if (NetworkUtil.isNetworkAvailable(ActivitySplash.this))
+                        {
+                            pref.setBaseURL(URL);
+                            new Validate(pref.getMacAddress().trim(),URL).execute();
+                            //TODO: validate uname pwd with server details
+
+
+                        }
+                        else
+                        {
+                            Snackbar snackbar = Snackbar.make(promptView, R.string.txt_msg, Snackbar.LENGTH_LONG);
+                            View snackbarLayout = snackbar.getView();
+                            snackbarLayout.setBackgroundColor(Color.RED);
+                            TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+                            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signal_wifi_off_black_24dp, 0, 0, 0);
+                            textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.body_size));
+                            textView.setTextColor(Color.WHITE);
+                            snackbar.show();
+                            reCallActivity();
+                        }
+
+                    } else {
+                        Toast.makeText(ActivitySplash.this, "Invalid URL Entered. Please Enter Valid URL.", Toast.LENGTH_LONG).show();
+                        reCallActivity();
+                    }
+
+                }else
+                {
+                    Toast.makeText(ActivitySplash.this, "Please fill informations", Toast.LENGTH_LONG).show();
+                    validateDialog();
                 }
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+
+                ActivitySplash.this.finish();
             }
         });
 
-}
-
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+                | ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
 //
     public void reCallActivity(){
         Intent mainActivity = new Intent(ActivitySplash.this, ActivitySplash.class);
@@ -155,8 +213,8 @@ public class ActivitySplash extends AppCompatActivity{
     public void goToLogin(){
 
         // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
-        //Intent mainActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
-        Intent mainActivity = new Intent(ActivitySplash.this, ActivityHome.class);
+        Intent mainActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+      //  Intent mainActivity = new Intent(ActivitySplash.this, ActivityHome.class);
         // ..............................................................................................
         startActivity(mainActivity);
        // finish();
@@ -171,10 +229,11 @@ public class ActivitySplash extends AppCompatActivity{
     private class Validate extends AsyncTask<String, Integer, Boolean> {
         int totalRecords=0;
         CustomProgressDialog pdialog;
-        private String macId;
+        private String macId,url;
 
-        public Validate(String macId){
+        public Validate(String macId,String url){
             this.macId = macId;
+            this.url = url;
             this.pdialog = new CustomProgressDialog(ActivitySplash.this);
         }
         @Override
@@ -194,7 +253,7 @@ public class ActivitySplash extends AppCompatActivity{
                 String validateResponse = null;
                 JSONObject validateJSON;
                 try {
-                    validateResponse = networkFunctions.validate(macId);
+                    validateResponse = networkFunctions.validate(ActivitySplash.this,macId,url);
                     Log.d("validateResponse",validateResponse);
                     validateJSON = new JSONObject(validateResponse);
 
@@ -269,7 +328,8 @@ public class ActivitySplash extends AppCompatActivity{
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(), "Invalid Mac Id", Toast.LENGTH_LONG).show();
-                tryAgain.setVisibility(View.VISIBLE);
+               // tryAgain.setVisibility(View.VISIBLE);
+                reCallActivity();
 //temerary set for new SFA
                 // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
                 //Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);

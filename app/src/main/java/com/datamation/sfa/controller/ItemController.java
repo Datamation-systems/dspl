@@ -332,15 +332,15 @@ public class ItemController {
         }
         else
         {
-            selectQuery = "SELECT itm.*, loc.QOH,\n" +
-                    "IFNULL(pri.Price,0.0) AS Price , \n" +
+            selectQuery = "SELECT itm.*, loc.QOH, " +
+                    "IFNULL(pri.Price,0.0) AS Price ,  " +
 //                          "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +
 //                          "IFNULL(pri.MaxPrice,0.0) AS MaxPrice \n" +
-                    "FROM fitem itm INNER JOIN fitemLoc loc ON itm.ItemCode = loc.ItemCode \n" +
-                    "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
-                    "WHERE itm.ItemCode || itm.ItemName LIKE '%"+ newText +"%' AND loc.LocCode='"+ LocCode +"' AND pri.Price > 0 AND pri.PrilCode = '"+prillcode+"' AND  itm.ItemCode not in \n" +
-                    "(SELECT ItemCode FROM InvRDet WHERE  "+ type +"  AND RefNo ='"+ refno +"' GROUP BY ItemCode)\n" +
-                    "GROUP BY itm.ItemCode\n" +
+                    " FROM fitem itm INNER JOIN fitemLoc loc ON itm.ItemCode = loc.ItemCode " +
+                    " LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode " +
+                    " WHERE itm.ItemCode || itm.ItemName LIKE '%"+ newText +"%' AND loc.LocCode='"+ LocCode +"' AND pri.Price > 0 AND pri.PrilCode = '"+prillcode+"' AND  itm.ItemCode not in " +
+                    "(SELECT ItemCode FROM InvRDet WHERE  "+ type +"  AND RefNo ='"+ refno +"' GROUP BY ItemCode) " +
+                    "GROUP BY itm.ItemCode " +
                     "ORDER BY CAST(loc.QOH AS FLOAT) DESC";
         }
 

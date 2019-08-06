@@ -13,11 +13,12 @@
     <color name="unselected">#ffffff</color>
 
     <color name="blue_c">#303f9f</color>
+    <color name="topic_color">#d6a800</color>
     <!--<color name="cardviews_colors2">#8a93a0</color>-->
     <color name="list_view_diveder">#b5b5b5</color>
     <color name="menucolor">#F32104</color>
     <color name="achievecolor">#00c853</color>
-
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
     <color name="material_alert_positive_button">#ff4caf50</color>
     <color name="material_alert_negative_button">#ffff5252</color>
     <color name="material_alert_neutral_button">#ff070a08</color>

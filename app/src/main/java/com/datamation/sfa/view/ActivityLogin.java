@@ -1,11 +1,20 @@
 package com.datamation.sfa.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -42,6 +51,7 @@ import com.datamation.sfa.controller.ReferenceSettingController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.RouteDetController;
 import com.datamation.sfa.controller.STKInController;
+import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.controller.TaxController;
 import com.datamation.sfa.controller.TaxDetController;
 import com.datamation.sfa.controller.TaxHedController;
@@ -77,12 +87,14 @@ import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.RefSetting;
 import com.datamation.sfa.model.Route;
 import com.datamation.sfa.model.RouteDet;
+import com.datamation.sfa.model.SalRep;
 import com.datamation.sfa.model.StkIn;
 import com.datamation.sfa.model.Tax;
 import com.datamation.sfa.model.TaxDet;
 import com.datamation.sfa.model.TaxHed;
 import com.datamation.sfa.model.TourHed;
 import com.datamation.sfa.model.User;
+import com.datamation.sfa.utils.NetworkUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,7 +114,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     SharedPref pref;
     User loggedUser;
     NetworkFunctions networkFunctions;
-
+    private static String spURL = "";
     int tap;
 
     @Override
@@ -117,15 +129,163 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         password = (EditText) findViewById(R.id.editText2);
         Button login = (Button) findViewById(R.id.btnlogin);
         txtver = (TextView) findViewById(R.id.textVer);
-        //txtver.setText("Version " + getVersionCode());
+        txtver.setText("Version " + getVersionCode());
         loggedUser = pref.getLoginUser();
 
         login.setOnClickListener(this);
 
+        txtver.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                tap += 1;
+               // StartTimer(3000);
+                if (tap >= 7) {
+                    validateDialog();
+                }
+            }
+        });
 
     }
+    private void validateDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        final View promptView = layoutInflater.inflate(R.layout.ip_connection_dailog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
+        alertDialogBuilder.setView(promptView);
+        final EditText input = (EditText) promptView.findViewById(R.id.txt_Enter_url);
 
+        input.setText(pref.getBaseURL().substring(7));
+//        DBList = (Spinner) promptView.findViewById(R.id.spinner2);
+//
+//        //dbName =(TextView) promptView.findViewById(R.id.txtDatabase);
+//        DBList =(Spinner)promptView.findViewById(R.id.spinner2);
+//        DBList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                DBNAME = DBList.getSelectedItem().toString();
+//
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+        Button btn_validate = (Button)promptView.findViewById(R.id.btn_validate);
+        btn_validate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spURL = input.getText().toString().trim();
+                String URL = "http://" + input.getText().toString().trim();
+                if (Patterns.WEB_URL.matcher(URL).matches())
+                {
+//                    if (NetworkUtil.isNetworkAvailable(ActivitySplash.this))
+//                    {
+                    pref.setBaseURL(spURL);
+                    Toast.makeText(ActivityLogin.this, "URL config success."+spURL, Toast.LENGTH_LONG).show();
+
+
+//                    }
+//                    else
+//                    {
+//                        Snackbar snackbar = Snackbar.make(v, R.string.txt_msg, Snackbar.LENGTH_LONG);
+//                        View snackbarLayout = snackbar.getView();
+//                        snackbarLayout.setBackgroundColor(Color.RED);
+//                        TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+//                        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signal_wifi_off_black_24dp, 0, 0, 0);
+//                        textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.body_size));
+//                        textView.setTextColor(Color.WHITE);
+//                        snackbar.show();
+//
+//                        // Toast.makeText(finac_payroll_splash.this, "No Internet Connection", Toast.LENGTH_LONG).show();
+//                        reCallActivity();
+//                    }
+                } else {
+                    Toast.makeText(ActivityLogin.this, "Invalid URL Entered. Please Enter Valid URL.", Toast.LENGTH_LONG).show();
+                    reCallActivity();
+                }
+            }
+        });
+
+
+
+        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String URL = "http://" + input.getText().toString().trim();
+                pref.setBaseURL(URL);
+                if(URL.length()!=0)
+                {
+                    //   pref.setDBNAME(DBNAME);
+//                    if (Patterns.WEB_URL.matcher(URL).matches()&& URL.length()== 26)
+                    if (Patterns.WEB_URL.matcher(URL).matches())
+                    {
+                        if (NetworkUtil.isNetworkAvailable(ActivityLogin.this))
+                        {
+                            pref.setBaseURL(URL);
+                            new Validate(pref.getMacAddress().trim(),URL).execute();
+                            //TODO: validate uname pwd with server details
+//                            String debtorURL = getResources().getString(R.string.ConnURL) + "/fSalrep/mobile123/"+pref.getDBNAME() +"/"+ pref.getMacAddress().replace(":", "");
+//                            // String URL = getResources().getString(R.string.ConnectionURL) + "/femployee/mobile123/" + databaseName + "/" + UIdStr.toString() + "/" + UserNameStr.toString();
+//                            new Downloader(SplashActivity.this, SplashActivity.this, FSALREP, URL, debtorURL).execute();
+                            //me tika wenna one username pwd server yawala validate unata passe..
+
+                            //pref.setFirstTimeLaunch(true);
+
+
+                        }
+                        else
+                        {
+                            Snackbar snackbar = Snackbar.make(promptView, R.string.txt_msg, Snackbar.LENGTH_LONG);
+                            View snackbarLayout = snackbar.getView();
+                            snackbarLayout.setBackgroundColor(Color.RED);
+                            TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+                            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signal_wifi_off_black_24dp, 0, 0, 0);
+                            textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.body_size));
+                            textView.setTextColor(Color.WHITE);
+                            snackbar.show();
+                            reCallActivity();
+                        }
+
+                    } else {
+                        Toast.makeText(ActivityLogin.this, "Invalid URL Entered. Please Enter Valid URL.", Toast.LENGTH_LONG).show();
+                        reCallActivity();
+                    }
+
+                }else
+                {
+                    Toast.makeText(ActivityLogin.this, "Please fill informations", Toast.LENGTH_LONG).show();
+                    validateDialog();
+                }
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+
+                ActivityLogin.this.finish();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+                | ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+    public void reCallActivity(){
+        Intent mainActivity = new Intent(ActivityLogin.this, ActivityLogin.class);
+        startActivity(mainActivity);
+    }
+    public void StartTimer(int timeout) {
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                tap = 0;
+            }
+        }, timeout);
+
+    }
     public String getVersionCode() {
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -1418,5 +1578,118 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         }
         return encryptedString;
     }
+    private class Validate extends AsyncTask<String, Integer, Boolean> {
+        int totalRecords=0;
+        CustomProgressDialog pdialog;
+        private String macId,url;
 
+        public Validate(String macId,String url){
+            this.macId = macId;
+            this.url = url;
+            this.pdialog = new CustomProgressDialog(ActivityLogin.this);
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pdialog.setMessage("Validating...");
+            pdialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... arg0) {
+
+            try {
+                int recordCount = 0;
+                int totalBytes  = 0;
+                String validateResponse = null;
+                JSONObject validateJSON;
+                try {
+                    validateResponse = networkFunctions.validate(ActivityLogin.this,macId,pref.getBaseURL());
+                    Log.d("validateResponse",validateResponse);
+                    validateJSON = new JSONObject(validateResponse);
+
+
+                    if (validateJSON != null) {
+                        pref = SharedPref.getInstance(ActivityLogin.this);
+                        //dbHandler.clearTables();
+                        // Login successful. Proceed to download other items
+
+                        JSONArray repArray = validateJSON.getJSONArray("fSalRepResult");
+                        ArrayList<SalRep> salRepList = new ArrayList<>();
+                        for (int i = 0; i<repArray.length(); i++){
+                            JSONObject expenseJSON = repArray.getJSONObject(i);
+                            salRepList.add(SalRep.parseUser(expenseJSON));
+                        }
+                        new SalRepController(getApplicationContext()).createOrUpdateSalRep(salRepList);
+                        User user = User.parseUser(repArray.getJSONObject(0));
+                        networkFunctions.setUser(user);
+                        pref.storeLoginUser(user);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pdialog.setMessage("Authenticated...");
+                            }
+                        });
+
+                        return true;
+                    }else{
+                        Toast.makeText(ActivityLogin.this,"Invalid response from server when getting sales rep data",Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+
+                } catch (IOException e) {
+                    Log.e("networkFunctions ->","IOException -> "+e.toString());
+                    throw e;
+                } catch (JSONException e) {
+                    Log.e("networkFunctions ->","JSONException -> "+e.toString());
+                    throw e;
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+//        protected void onProgressUpdate(Integer... progress) {
+//            super.onProgressUpdate(progress);
+//            pDialog.setMessage("Prefetching data..." + progress[0] + "/" + totalRecords);
+//
+//        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(pdialog.isShowing())
+                pdialog.cancel();
+            // pdialog.cancel();
+            if(result){
+                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                pref.setValidateStatus(true);
+                //tryAgain.setVisibility(View.INVISIBLE);
+                //set user details to shared prefferences
+                //Intent mainActivity = new Intent(ActivitySplash.this, SettingsActivity.class);
+                // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
+                Intent loginActivity = new Intent(ActivityLogin.this, ActivityLogin.class);
+                //  Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
+                // ..............................................................................................
+//
+                startActivity(loginActivity);
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(), "Invalid response from server", Toast.LENGTH_LONG).show();
+                //tryAgain.setVisibility(View.VISIBLE);
+//temerary set for new SFA
+                // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
+                //Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+//                Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
+//                // ..............................................................................................
+//                startActivity(loginActivity);
+//                finish();
+
+            }
+        }
+    }
 }
