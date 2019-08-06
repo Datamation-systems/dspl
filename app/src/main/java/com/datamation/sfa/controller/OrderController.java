@@ -737,4 +737,41 @@ public class OrderController {
         return res;
 
     }
+
+    public String getActiveRefNoFromOrders()
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String refNo = "";
+
+        String selectQuery = "select * from " + dbHelper.TABLE_FORDHED + " WHERE " + dbHelper.FORDHED_IS_ACTIVE + "='" + "1" + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            if (cursor.getCount()>0)
+            {
+                while(cursor.moveToNext())
+                {
+                    refNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                }
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return refNo;
+    }
 }

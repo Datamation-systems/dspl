@@ -41,6 +41,7 @@ import com.datamation.sfa.adapter.SalesReturnDetailsAdapter;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriController;
+import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.SalRepController;
@@ -69,7 +70,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
 
     public static final String SETTINGS = "SETTINGS";
     public static SharedPreferences localSP;
-    public String RefNo = "";
+    public String RetRefNo = "", RetOrderRefNo = "";
     View view;
     Button itemSearch, bAdd, bFreeIssue, reasonSearch;
     EditText lblItemName, txtQty, editTotDisc, lblReason,lblNou;
@@ -112,7 +113,8 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
         lblReason = (EditText) view.findViewById(R.id.et_reason);
 
         lv_return_det = (ListView) view.findViewById(R.id.lv_pre_return_det);
-        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        RetOrderRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
 //        RefNo = "/0001";
 
         editTotDisc = (EditText) view.findViewById(R.id.et_TotalDisc);
@@ -228,7 +230,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 FInvRDet returnDet = returnList.get(position);
-                deleteReturnDialog(getActivity(), "Return Details ", returnDet.getFINVRDET_ITEMCODE(),RefNo);
+                deleteReturnDialog(getActivity(), "Return Details ", returnDet.getFINVRDET_ITEMCODE(),RetRefNo);
                 return true;
             }
         });
@@ -278,6 +280,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                         txtQty.setText("0");
                     }
                     if (Integer.parseInt(txtQty.getText().toString()) > 0) {
+                        RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 //                        Log.v("TOTAL PEIACES>>>>",totPieces+"");
                         FInvRDet ReturnDet = new FInvRDet();
                         ArrayList<FInvRDet> ReturnList = new ArrayList<FInvRDet>();
@@ -288,7 +291,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                         //          new BigDecimal(amount - Double.parseDouble(editTotDisc.getText().toString())));
                         FInvRHed hed = new FInvRHed();
 
-                        hed.setFINVRHED_REFNO(RefNo);
+                        hed.setFINVRHED_REFNO(RetRefNo);
                         //hed.setFINVRHED_MANUREF(activity.selectedPreHed.getORDER_MANUREF());
                         //hed.setFINVRHED_INV_REFNO(activity.selectedPreHed.getORDER_REFNO());
                         //hed.setFINVRHED_REMARKS(activity.selectedPreHed.getORDER_REMARKS());
@@ -307,6 +310,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                         hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
                         hed.setFINVRHED_ROUTE_CODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
                         hed.setFINVRHED_COSTCODE("");
+                        hed.setFINVRHED_ORD_REFNO(RetOrderRefNo);
 
                         activity.selectedReturnHed = hed;
 
@@ -329,7 +333,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                             ReturnDet.setFINVRDET_BAL_QTY(totPieces + "");
                             ReturnDet.setFINVRDET_RETURN_REASON(lblReason.getText().toString());
                             ReturnDet.setFINVRDET_RETURN_REASON_CODE(new ReasonController(getActivity()).getReaCodeByName(lblReason.getText().toString()));
-                            ReturnDet.setFINVRDET_REFNO(RefNo);
+                            ReturnDet.setFINVRDET_REFNO(RetRefNo);
                             ReturnDet.setFINVRDET_ITEMCODE(selectedItem.getFITEM_ITEM_CODE());
                             ReturnDet.setFINVRDET_PRILCODE("");
                             ReturnDet.setFINVRDET_IS_ACTIVE("1");
@@ -342,6 +346,10 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
 
                             ReturnList.add(ReturnDet);
                             new SalesReturnDetController(getActivity()).createOrUpdateInvRDet(ReturnList);
+
+                            // when paused and redirect to sales return, refno should be updated -------
+                            new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                            //--------------------------------------
 
                             if (bAdd.getText().equals("EDIT"))
                                 Toast.makeText(getActivity(), "Edited successfully !", Toast.LENGTH_LONG).show();
@@ -396,10 +404,25 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    public void FetchData() {
+    public void FetchData()
+    {
+        String orRefNo = new OrderController(getActivity()).getActiveRefNoFromOrders();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            RetRefNo = activeRetRefNo;
+        }
+
+        Log.d("ORDER_INNER_RETURN", "RET_REF_NO_IS:" + RetRefNo);
+
         try {
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(RefNo);
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(RetRefNo);
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
         } catch (NullPointerException e) {
@@ -481,7 +504,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
             @Override
             public boolean onQueryTextChange(String newText) {
                 list.clear();
-                list = new ItemController(getActivity()).getAllItem(newText, "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getCusPrilCode());
+                list = new ItemController(getActivity()).getAllItem(newText, "TxnType ='SR'", RetRefNo, new SalRepController(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getCusPrilCode());
                 productList.clearTextFilter();
                 productList.setAdapter(new ProductAdapter(getActivity(), list));
                 return false;
@@ -527,7 +550,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
 //                    * Double.parseDouble(lblPrice.getText().toString());
             FInvRHed hed = new FInvRHed();
             ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
-            hed.setFINVRHED_REFNO(RefNo);
+            hed.setFINVRHED_REFNO(RetRefNo);
             hed.setFINVRHED_MANUREF(activity.selectedPreHed.getORDER_MANUREF());
             hed.setFINVRHED_REMARKS(activity.selectedPreHed.getORDER_REMARKS());
             hed.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());

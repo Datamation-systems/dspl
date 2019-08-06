@@ -348,6 +348,10 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
                                 if (new SalesReturnDetController(getActivity()).createOrUpdateInvRDet(ReturnList)>0)
                                 {
+                                    // when paused and redirect to sales return, refno should be updated -------
+                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                                    //--------------------------------------
+
                                     //if (bAdd.getText().equals("EDIT"))
                                     //Toast.makeText(getActivity(), "Edited successfully !", Toast.LENGTH_LONG).show();
                                     //else
@@ -378,7 +382,16 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
     public void FetchData()
     {
-        Log.d("SALES_RETRUN", "DETAILS_FROM_FETCH_DATA");
+        if (new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals(""))
+        {
+            RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            RefNo = new SalesReturnController(getActivity()).getDirectSalesReturnRefNo();
+        }
+
+        Log.d("SALES_RETRUN", "DETAILS_FROM_FETCH_DATA: " + RefNo);
         try {
                 lv_return_det.setAdapter(null);
                 returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForSalesReturn(RefNo);

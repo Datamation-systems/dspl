@@ -425,7 +425,11 @@ public class OrderSummaryFragment extends Fragment {
                                 new SalesReturnController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
 
                                 activity.selectedReturnHed = null;
-                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+
+                                // in order details refno already updated due to pause and redirect to sales return -------
+//                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+
+                                //-------------------------------------------------
                                 Toast.makeText(getActivity(), "Order Return saved successfully !", Toast.LENGTH_LONG).show();
 
                             } else {
@@ -832,7 +836,7 @@ public class OrderSummaryFragment extends Fragment {
     // without print preview just call to print
 
     public void printItems() {
-        final int LINECHAR = 50;
+        final int LINECHAR = 60;
         String printGapAdjustCom = "                      ";
 
         ArrayList<Control> controlList;
@@ -1147,13 +1151,27 @@ public class OrderSummaryFragment extends Fragment {
         int totReturnQty = 0;
         Double returnTot = 0.00;
 
+        returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(ReturnRefNo);
+
         if(invRHed.getFINVRHED_REFNO() != null) {
 
-            sRetGross = String.format(Locale.US, "%,.2f",
-                    Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
+            for (FInvRDet returnDet : returnList){
+                if(!returnDet.getFINVRDET_RETURN_TYPE().equals("RP")) {
+                    returnTot += Double.parseDouble(returnDet.getFINVRDET_AMT());
+                    totReturnQty += Double.parseDouble(returnDet.getFINVRDET_QTY());
+                }else{
+                    totReturnQty += Double.parseDouble(returnDet.getFINVRDET_QTY());
+                }
+            }
+
+//            sRetGross = String.format(Locale.US, "%,.2f",
+//                    Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
+
+            sRetGross = String.format(Locale.US, "%,.2f", returnTot);
 
 
-            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getORDER_TOTALAMT()) -  Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
+//            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getORDER_TOTALAMT()) -  Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
+            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getORDER_TOTALAMT()) -  returnTot);
             /*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Return Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
             Heading_e = "";
             //Return Item Total

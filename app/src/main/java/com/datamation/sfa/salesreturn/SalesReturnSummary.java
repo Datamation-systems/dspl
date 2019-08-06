@@ -175,9 +175,18 @@ public class SalesReturnSummary extends Fragment {
         String itemCode = "";
         ReferenceNum referenceNum = new ReferenceNum(getActivity());
 
-        if (activity.selectedReturnHed != null )
+        if (new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals(""))
         {
             RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            RefNo = new SalesReturnController(getActivity()).getDirectSalesReturnRefNo();
+        }
+
+        if (activity.selectedReturnHed != null )
+        {
+            //RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
             returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDetForSalesReturn(RefNo);
 
@@ -206,7 +215,7 @@ public class SalesReturnSummary extends Fragment {
         {
             activity.selectedReturnHed = new SalesReturnController(getActivity()).getActiveReturnHed(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
 
-            RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+            //RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
             HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
             returnDetList = new SalesReturnDetController(getActivity()).getAllInvRDetForSalesReturn(RefNo);
 
@@ -256,7 +265,7 @@ public class SalesReturnSummary extends Fragment {
         alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                int result = new SalesReturnController(getActivity()).restData(RefNo);
+                int result = new SalesReturnController(getActivity()).restDataForSalesReturns(RefNo);
 
                 if (result > 0) {
                     new SalesReturnDetController(getActivity()).restData(RefNo);
@@ -367,7 +376,11 @@ public class SalesReturnSummary extends Fragment {
 
                         UpdateTaxDetails(RefNo, mSharedPref.getSelectedDebCode());
                         activity.selectedReturnHed = null;
-                        new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+
+                        // commented due to details update the refno ----------------------
+                        //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                        //-----------------------------
+
                         Toast.makeText(getActivity(), "Return saved successfully !", Toast.LENGTH_LONG).show();
                         UtilityContainer.ClearReturnSharedPref(getActivity());
                         //new PrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(),"SALES RETURN", RefNo);

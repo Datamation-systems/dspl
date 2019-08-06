@@ -50,8 +50,7 @@ public class SalesReturnController
 
             for (FInvRHed invrHed : list) {
 
-                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FINVRHED + " WHERE " + dbHelper.REFNO
-                        + " = '" + invrHed.getFINVRHED_REFNO() + "'";
+                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FINVRHED + " WHERE " + dbHelper.REFNO + " = '" + invrHed.getFINVRHED_REFNO() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
@@ -79,7 +78,6 @@ public class SalesReturnController
                 values.put(dbHelper.FINVRHED_START_TIME, invrHed.getFINVRHED_START_TIME());
                 values.put(dbHelper.FINVRHED_END_TIME, invrHed.getFINVRHED_END_TIME());
                 values.put(dbHelper.FINVRHED_REPCODE, invrHed.getFINVRHED_REP_CODE());
-                values.put(dbHelper.FINVRHED_INV_REFNO, invrHed.getFINVRHED_INV_REFNO());
                 values.put(dbHelper.FINVRHED_ORD_REFNO, invrHed.getFINVRHED_ORD_REFNO());
 
 //                values.put(dbHelper.FINVRHED_RETURN_TYPE, invrHed.getFINVRHED_RETURN_TYPE());
@@ -127,7 +125,8 @@ public class SalesReturnController
 
         Cursor cursor = null;
         try {
-            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE " + DatabaseHelper.FINVRHED_IS_ACTIVE + "='1'";
+//            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE " + DatabaseHelper.FINVRHED_IS_ACTIVE + "='1'";
+            String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NULL and InvRefNo IS NULL";
             cursor = dB.rawQuery(selectQuery, null);
 
             if (cursor.getCount() > 0)
@@ -146,6 +145,41 @@ public class SalesReturnController
         }
 
         return res;
+
+    }
+
+    public String getActiveInnerReturnRefNoByOrderRefNo(String ordRefNo) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        String refNo = "";
+
+        Cursor cursor = null;
+        try {
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE " + DatabaseHelper.FINVRHED_ORD_REFNO + " = '" + ordRefNo + "'";
+            cursor = dB.rawQuery(selectQuery, null);
+
+            if (cursor.getCount() > 0)
+            {
+                while(cursor.moveToNext())
+                {
+                    refNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                }
+            }
+        } catch (Exception e) {
+            Log.v(TAG, e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return refNo;
 
     }
 
@@ -297,6 +331,91 @@ public class SalesReturnController
             dB.close();
         }
         return count;
+
+    }
+
+    public int restDataForSalesReturns(String refno) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        String isRefExisting = "";
+
+        try {
+
+            //String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE "  + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NULL and InvRefNo IS NULL";
+            cursor = dB.rawQuery(selectQuery, null);
+
+            if (cursor.getCount()>0)
+            {
+                while (cursor.moveToNext())
+                {
+                    isRefExisting = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+
+                    if (isRefExisting.equals(refno))
+                    {
+                        int success = dB.delete(DatabaseHelper.TABLE_FINVRHED,
+                                DatabaseHelper.REFNO + " ='" + refno + "'", null);
+                        Log.v("Success", success + "");
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
+
+    public String getDirectSalesReturnRefNo() {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        String isRefExisting = "";
+
+        try {
+
+            //String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE "  + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NULL and InvRefNo IS NULL";
+            cursor = dB.rawQuery(selectQuery, null);
+
+            if (cursor.getCount()>0)
+            {
+                while (cursor.moveToNext())
+                {
+                    isRefExisting = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                }
+            }
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return isRefExisting;
 
     }
 
