@@ -111,17 +111,20 @@ public class TransactionDetailsFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if (position==0)
                 {
-                    expListView.clearTextFilter();
+                    expListView.setAdapter((BaseExpandableListAdapter)null);
+                    //expListView.clearTextFilter();
                     preparePreListData();
                 }
                 else if (position == 1)
                 {
-                    expListView.clearTextFilter();
+                    expListView.setAdapter((BaseExpandableListAdapter)null);
+                    //expListView.clearTextFilter();
                     prepareVanListData();
                 }
                 else
                 {
-                    expListView.clearTextFilter();
+                    expListView.setAdapter((BaseExpandableListAdapter)null);
+                    //expListView.clearTextFilter();
                     prepareRetListData();
                 }
             }

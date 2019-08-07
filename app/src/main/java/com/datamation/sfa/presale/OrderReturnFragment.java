@@ -322,12 +322,13 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                         //hed.setFINVRHED_INV_REFNO(activity.selectedPreHed.getORDER_REFNO());
                         //hed.setFINVRHED_REMARKS(activity.selectedPreHed.getORDER_REMARKS());
                         hed.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());
-                        hed.setFINVRHED_ADD_DATE(currentTime());
+                        hed.setFINVRHED_ADD_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                         hed.setFINVRHED_ADD_MACH(localSP.getString("MAC_Address", "No MAC Address").toString());
                         hed.setFINVRHED_TXNTYPE("24");
                         //hed.setFINVRHED_TXN_DATE(activity.selectedPreHed.getORDER_TXNDATE());
                         hed.setFINVRHED_IS_ACTIVE("1");
                         hed.setFINVRHED_IS_SYNCED("0");
+                        hed.setFINVRHED_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
                         if (activity.selectedDebtor != null) {
                             hed.setFINVRHED_DEBCODE(activity.selectedDebtor.getCusCode());
@@ -576,7 +577,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
             hed.setFINVRHED_MANUREF(activity.selectedPreHed.getORDER_MANUREF());
             hed.setFINVRHED_REMARKS(activity.selectedPreHed.getORDER_REMARKS());
             hed.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());
-            hed.setFINVRHED_ADD_DATE(currentTime());
+            hed.setFINVRHED_ADD_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
             hed.setFINVRHED_ADD_MACH(localSP.getString("MAC_Address", "No MAC Address").toString());
             hed.setFINVRHED_TXNTYPE("42");
             hed.setFINVRHED_TXN_DATE(activity.selectedPreHed.getORDER_TXNDATE());

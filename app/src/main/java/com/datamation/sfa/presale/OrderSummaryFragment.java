@@ -409,6 +409,15 @@ public class OrderSummaryFragment extends Fragment {
                             ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
                             ArrayList<FInvRHed> HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
 
+                            Double totAmt = 0.0;
+
+                            ArrayList<FInvRDet>detList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(ReturnRefNo);
+
+                            for (FInvRDet list : detList)
+                            {
+                                totAmt += Double.parseDouble(list.getFINVRDET_AMT());
+                            }
+
                             if (!HedList.isEmpty()) {
 
                                 mainHead.setFINVRHED_REFNO(ReturnRefNo);
@@ -437,6 +446,7 @@ public class OrderSummaryFragment extends Fragment {
                                 mainHead.setFINVRHED_ORD_REFNO(RefNo);//HedList.get(0).getFINVRHED_INV_REFNO()
                                 mainHead.setFINVRHED_IS_ACTIVE("0");
                                 mainHead.setFINVRHED_IS_SYNCED("0");
+                                mainHead.setFINVRHED_TOTAL_AMT(String.valueOf(totAmt));
                             }
 
                             returnHedList.add(mainHead);
