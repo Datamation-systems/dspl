@@ -250,6 +250,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
             hed.setFINVRHED_ROUTE_CODE(pref.getSelectedDebRouteCode());
             hed.setFINVRHED_MANUREF(mNo.getText().toString());
             hed.setFINVRHED_REMARKS(remarks.getText().toString());
+//            hed.setFINVRHED_TXNTYPE("Return");
             hed.setFINVRHED_IS_ACTIVE("1");
             hed.setFINVRHED_IS_SYNCED("0");
             hed.setFINVRHED_ADD_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));

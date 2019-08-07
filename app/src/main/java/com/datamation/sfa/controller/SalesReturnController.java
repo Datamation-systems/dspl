@@ -12,9 +12,12 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.helpers.SharedPref;
 import com.datamation.sfa.model.FInvRHed;
+import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.model.Order;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SalesReturnController
 {
@@ -79,6 +82,7 @@ public class SalesReturnController
                 values.put(dbHelper.FINVRHED_END_TIME, invrHed.getFINVRHED_END_TIME());
                 values.put(dbHelper.FINVRHED_REPCODE, invrHed.getFINVRHED_REP_CODE());
                 values.put(dbHelper.FINVRHED_ORD_REFNO, invrHed.getFINVRHED_ORD_REFNO());
+                values.put(dbHelper.FINVRHED_TXNTYPE, invrHed.getFINVRHED_TXNTYPE());
 
 //                values.put(dbHelper.FINVRHED_RETURN_TYPE, invrHed.getFINVRHED_RETURN_TYPE());
 //                values.put(dbHelper.FINVRHED_TOURCODE, invrHed.getFINVRHED_TOURCODE());
@@ -801,5 +805,52 @@ public class SalesReturnController
         }
 
         return list;
+    }
+
+    public ArrayList<FInvRHed> getTodayReturns() {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<FInvRHed> list = new ArrayList<FInvRHed>();
+
+        try {
+            //String selectQuery = "select DebCode, RefNo from fordHed " +
+            String selectQuery = "select DebCode, RefNo, IsSync, TxnDate, TotalAmt, TxnType from FInvRHed " + "  where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                FInvRHed retDet = new FInvRHed();
+//
+                retDet.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                retDet.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_DEBCODE)));
+                retDet.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_IS_SYNCED)));
+                retDet.setFINVRHED_TXNTYPE("Return");
+                retDet.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                retDet.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRHED_TOTAL_AMT)));
+
+                list.add(retDet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+
     }
 }
