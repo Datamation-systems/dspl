@@ -38,7 +38,7 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
     protected void onPreExecute() {
         super.onPreExecute();
         dialog = new ProgressDialog(context);
-        //dialog.setTitle("Uploading records");
+        dialog.setTitle("Uploading records");
         dialog.show();
     }
 

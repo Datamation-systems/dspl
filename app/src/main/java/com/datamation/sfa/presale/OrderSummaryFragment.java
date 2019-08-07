@@ -192,6 +192,18 @@ public class OrderSummaryFragment extends Fragment {
 
     public void undoEditingData() {
 
+        String orRefNo = new OrderController(getActivity()).getActiveRefNoFromOrders();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            ReturnRefNo = activeRetRefNo;
+        }
+
         Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
         outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());
 
@@ -242,7 +254,18 @@ public class OrderSummaryFragment extends Fragment {
     public void mRefreshData() {
 
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+
+        String orRefNo = new OrderController(getActivity()).getActiveRefNoFromOrders();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            ReturnRefNo = activeRetRefNo;
+        }
 
         int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
@@ -426,10 +449,10 @@ public class OrderSummaryFragment extends Fragment {
 
                                 activity.selectedReturnHed = null;
 
-                                // in order details refno already updated due to pause and redirect to sales return -------
-//                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                                // when paused and redirect to sales return, refno should be updated -------
+                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                                //--------------------------------------
 
-                                //-------------------------------------------------
                                 Toast.makeText(getActivity(), "Order Return saved successfully !", Toast.LENGTH_LONG).show();
 
                             } else {
@@ -737,6 +760,15 @@ public class OrderSummaryFragment extends Fragment {
     public void mPauseinvoice() {
 
         if (new OrderDetailController(getActivity()).getItemCount(RefNo) > 0) {
+
+            String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(RefNo);
+
+            if (!activeRetRefNo.equals(""))
+            {
+                // when paused and redirect to sales return, refno should be updated -------
+                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                //--------------------------------------
+            }
 
             Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
             outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());

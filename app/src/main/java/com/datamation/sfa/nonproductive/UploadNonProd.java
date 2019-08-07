@@ -54,7 +54,7 @@ public class UploadNonProd extends AsyncTask<ArrayList<DayNPrdHed>, Integer, Arr
     protected void onPreExecute() {
         super.onPreExecute();
         dialog = new ProgressDialog(context);
-        // dialog.setTitle("Uploading records");
+        dialog.setTitle("Uploading records");
         dialog.show();
     }
 

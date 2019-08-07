@@ -334,7 +334,7 @@ public class SalesReturnController
 
     }
 
-    public int restDataForSalesReturns(String refno) {
+    public int restDataForDirectSalesReturnHed(String refno) {
 
         int count = 0;
 
@@ -361,9 +361,9 @@ public class SalesReturnController
 
                     if (isRefExisting.equals(refno))
                     {
-                        int success = dB.delete(DatabaseHelper.TABLE_FINVRHED,
+                        count = dB.delete(DatabaseHelper.TABLE_FINVRHED,
                                 DatabaseHelper.REFNO + " ='" + refno + "'", null);
-                        Log.v("Success", success + "");
+                        Log.v("Success", count + "");
                     }
                 }
             }
@@ -419,6 +419,42 @@ public class SalesReturnController
 
     }
 
+    public String getDirectSalesReturnRefNoForPrint() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        String isRefExisting = "";
+
+        try {
+
+            String selectQuery = "select * from FInvRHed where IsActive = 0 and OrdRefNo IS NULL and InvRefNo IS NULL";
+            cursor = dB.rawQuery(selectQuery, null);
+
+            if (cursor.getCount()>0)
+            {
+                while (cursor.moveToNext())
+                {
+                    isRefExisting = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                }
+            }
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return isRefExisting;
+
+    }
+
     public int restDataForOrders(String refno) {
 
         int count = 0;
@@ -446,9 +482,9 @@ public class SalesReturnController
 
                     if (isRefExisting.equals(refno))
                     {
-                        int success = dB.delete(DatabaseHelper.TABLE_FINVRHED,
+                        count = dB.delete(DatabaseHelper.TABLE_FINVRHED,
                                 DatabaseHelper.REFNO + " ='" + refno + "'", null);
-                        Log.v("Success", success + "");
+                        Log.v("Success", count + "");
                     }
                 }
             }

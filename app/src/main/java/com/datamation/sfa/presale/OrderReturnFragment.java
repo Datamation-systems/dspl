@@ -113,7 +113,20 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
         lblReason = (EditText) view.findViewById(R.id.et_reason);
 
         lv_return_det = (ListView) view.findViewById(R.id.lv_pre_return_det);
-        RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        //RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+
+        String orRefNo = new OrderController(getActivity()).getActiveRefNoFromOrders();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            RetRefNo = activeRetRefNo;
+        }
+
         RetOrderRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
 //        RefNo = "/0001";
 
@@ -280,7 +293,20 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                         txtQty.setText("0");
                     }
                     if (Integer.parseInt(txtQty.getText().toString()) > 0) {
-                        RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+
+                        String orRefNo = new OrderController(getActivity()).getActiveRefNoFromOrders();
+                        String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(orRefNo);
+
+                        if (activeRetRefNo.equals(""))
+                        {
+                            RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+                        }
+                        else
+                        {
+                            RetRefNo = activeRetRefNo;
+                        }
+
+                        //RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 //                        Log.v("TOTAL PEIACES>>>>",totPieces+"");
                         FInvRDet ReturnDet = new FInvRDet();
                         ArrayList<FInvRDet> ReturnList = new ArrayList<FInvRDet>();
@@ -346,10 +372,6 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
 
                             ReturnList.add(ReturnDet);
                             new SalesReturnDetController(getActivity()).createOrUpdateInvRDet(ReturnList);
-
-                            // when paused and redirect to sales return, refno should be updated -------
-                            new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
-                            //--------------------------------------
 
                             if (bAdd.getText().equals("EDIT"))
                                 Toast.makeText(getActivity(), "Edited successfully !", Toast.LENGTH_LONG).show();

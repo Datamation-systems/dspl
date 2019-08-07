@@ -37,7 +37,7 @@ public class UploadExpenses extends AsyncTask<ArrayList<DayExpHed>, Integer, Arr
     protected void onPreExecute() {
         super.onPreExecute();
         dialog = new ProgressDialog(context);
-        // dialog.setTitle("Uploading records");
+        dialog.setTitle("Uploading records");
         dialog.show();
     }
 

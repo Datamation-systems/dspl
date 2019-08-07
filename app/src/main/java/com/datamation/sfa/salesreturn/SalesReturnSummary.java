@@ -245,17 +245,16 @@ public class SalesReturnSummary extends Fragment {
 
     public void undoEditingData() {
 
-//        if (new SalesReturnDetController(getActivity()).isAnyActiveRetuens())
-//        {
-//            RefNo = new SalesReturnDetController(getActivity()).getActiveReturnRefNo().getFINVRDET_REFNO();
-//            //RefNo = "/001";
-//        }
-//        else
-//        {
-//            RefNo = activity.selectedReturnHed.getFINVRHED_REFNO();
-//        }
+        if (new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals(""))
+        {
+            RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            RefNo = new SalesReturnController(getActivity()).getDirectSalesReturnRefNo();
+        }
 
-        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        //RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
         FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed(RefNo);
         outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getFINVRHED_DEBCODE());
 
@@ -265,20 +264,36 @@ public class SalesReturnSummary extends Fragment {
         alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                int result = new SalesReturnController(getActivity()).restDataForSalesReturns(RefNo);
+                int result = new SalesReturnController(getActivity()).restDataForDirectSalesReturnHed(RefNo);
 
-                if (result > 0) {
-                    new SalesReturnDetController(getActivity()).restData(RefNo);
+                if (result > 0)
+                {
+                    int detResult = new SalesReturnDetController(getActivity()).restDataDirectSalesReturnDets(RefNo);
+
+                    if(detResult> 0)
+                    {
+                        Toast.makeText(getActivity(), "Return Hed and Det discarded successfully..!", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "Return Hed discarded successfully..!", Toast.LENGTH_LONG).show();
+                    }
+
+                    UtilityContainer.ClearReturnSharedPref(getActivity());
+                    activity.selectedReturnHed = null;
+                    Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                    intent.putExtra("outlet", outlet);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
-                UtilityContainer.ClearReturnSharedPref(getActivity());
-                activity.selectedReturnHed = null;
-                Toast.makeText(getActivity(), "Return discarded successfully..!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                intent.putExtra("outlet", outlet);
-                startActivity(intent);
-                getActivity().finish();
-
-
+                else
+                {
+                    Toast.makeText(getActivity(), "Return discard success without data..!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                    intent.putExtra("outlet", outlet);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -296,7 +311,16 @@ public class SalesReturnSummary extends Fragment {
     {
         gpsTracker = new GPSTracker(getActivity());
 
-        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        if (new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals(""))
+        {
+            RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            RefNo = new SalesReturnController(getActivity()).getDirectSalesReturnRefNo();
+        }
+
+        //RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
 
         Log.d("SALES_RETRUN", "SUMMARY_IS:" + activity.selectedReturnHed);
 
@@ -377,8 +401,8 @@ public class SalesReturnSummary extends Fragment {
                         UpdateTaxDetails(RefNo, mSharedPref.getSelectedDebCode());
                         activity.selectedReturnHed = null;
 
-                        // commented due to details update the refno ----------------------
-                        //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                        //commented due to details update the refno ----------------------
+                        new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
                         //-----------------------------
 
                         Toast.makeText(getActivity(), "Return saved successfully !", Toast.LENGTH_LONG).show();
@@ -397,7 +421,7 @@ public class SalesReturnSummary extends Fragment {
                                     public void onPositive(MaterialDialog dialog) {
                                         super.onPositive(dialog);
 
-                                        //printItems();
+                                        printItems(RefNo);
                                         Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
                                         startActivity(intent);
                                         getActivity().finish();
@@ -443,13 +467,28 @@ public class SalesReturnSummary extends Fragment {
 
     public void mPauseinvoice() {
 
+        if (new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals(""))
+        {
+            RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            RefNo = new SalesReturnController(getActivity()).getDirectSalesReturnRefNo();
+        }
+
         if (new SalesReturnDetController(getActivity()).getItemCount(RefNo) > 0)
         {
             FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed(RefNo);
             outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getFINVRHED_DEBCODE());
+
+            // when paused and redirect to sales return, refno should be updated -------
+            new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+            //--------------------------------------
+
             Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
             intent.putExtra("outlet", outlet);
             startActivity(intent);
+            getActivity().finish();
         }
         else
             Toast.makeText(getActivity(), "Add items before pause ...!", Toast.LENGTH_SHORT).show();
@@ -535,8 +574,9 @@ public class SalesReturnSummary extends Fragment {
 
     }
 
-    public void printItems() {
-        final int LINECHAR = 44;
+    public void printItems(String refNo) {
+
+        final int LINECHAR = 60;
         String printGapAdjustCom = "                      ";
 
         ArrayList<Control> controlList;
@@ -610,7 +650,7 @@ public class SalesReturnSummary extends Fragment {
 
         String subTitleheadH = printLineSeperatorNew;
 
-        FInvRHed invRHed = new SalesReturnController(getActivity()).getReturnDetailsForPrint(RefNo);
+        FInvRHed invRHed = new SalesReturnController(getActivity()).getReturnDetailsForPrint(refNo);
         Customer debtor = new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
 
         int lengthDealI = debtor.getCusCode().length() + "-".length() + debtor.getCusName().length();
@@ -657,7 +697,7 @@ public class SalesReturnSummary extends Fragment {
         int lengthDealMB = (LINECHAR - lengthDealM) / 2;
         String printGapAdjustM = printGapAdjust.substring(0, Math.min(lengthDealMB, printGapAdjust.length()));
 
-        String subTitleheadN = "VJO Number: " + RefNo;
+        String subTitleheadN = "VJO Number: " + refNo;
         int lengthDealN = subTitleheadN.length();
         int lengthDealNB = (LINECHAR - lengthDealN) / 2;
         String printGapAdjustN = printGapAdjust.substring(0, Math.min(lengthDealNB, printGapAdjust.length()));
@@ -673,7 +713,7 @@ public class SalesReturnSummary extends Fragment {
 
         String subTitleheadR;
 
-        if (invRHed.getFINVRHED_REMARKS().equals(""))
+        if (invRHed.getFINVRHED_REMARKS()== null)
             subTitleheadR = "Remarks : None";
         else
             subTitleheadR = "Remarks : " + invRHed.getFINVRHED_REMARKS();
@@ -700,7 +740,7 @@ public class SalesReturnSummary extends Fragment {
         String title_Print_R = "\r\n";// + TempsubTermCode + "\r\n" +
         // subTitleheadR;
 
-        ArrayList<FInvRDet> itemList = new SalesReturnDetController(getActivity()).getReturnItemsforPrint(RefNo);
+        ArrayList<FInvRDet> itemList = new SalesReturnDetController(getActivity()).getReturnItemsforPrint(refNo);
         //ArrayList<FInvRDet> Rlist = new SalesReturnDetController(getActivity()).getAllInvRDetForPrint(ReturnRefNo);
 
         BigDecimal compDisc = BigDecimal.ZERO;// new
