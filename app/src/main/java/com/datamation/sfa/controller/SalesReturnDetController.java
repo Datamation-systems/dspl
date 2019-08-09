@@ -292,7 +292,53 @@ public class SalesReturnDetController
         return list;
     }
 
+    public ArrayList<FInvRDet> getAllInvRDetForInvoice(String refno) { // only for inner return of invoice
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
+
+        String selectQuery = "select * from FInvRDet where RefNo in (select Refno from FInvRHed where IsActive = 1 and InvRefNo IS NOT NULL AND OrdRefNo IS NULL)";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        while (cursor.moveToNext()) {
+
+            if (cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)).equals(refno))
+            {
+                FInvRDet invrDet = new FInvRDet();
+
+                invrDet.setFINVRDET_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_ID)));
+                invrDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_AMT)));
+                invrDet.setFINVRDET_COST_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_COST_PRICE)));
+                invrDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_SELL_PRICE)));
+                invrDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_T_SELL_PRICE)));
+                invrDet.setFINVRDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_IS_ACTIVE)));
+                invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_ITEMCODE)));
+                invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_QTY)));
+                invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_BAL_QTY)));
+                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TAXCOMCODE)));
+                invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_PRILCODE)));
+                invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_DIS_AMT)));
+                invrDet.setFINVRDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TAX_AMT)));
+                invrDet.setFINVRDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_TXN_TYPE)));
+                invrDet.setFINVRDET_SEQNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_SEQNO)));
+                invrDet.setFINVRDET_RETURN_REASON(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_REASON_NAME)));
+                invrDet.setFINVRDET_RETURN_REASON_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_REASON_CODE)));
+                invrDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_RETURN_TYPE)));
+                //invrDet.setFINVRDET_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_PRICE)));
+                invrDet.setFINVRDET_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_CHANGED_PRICE)));
+                //invrDet.setFINVRDET_DIS_RATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVRDET_DIS_RATE)));
+                list.add(invrDet);
+            }
+        }
+
+        return list;
+    }
     public ArrayList<FInvRDet> getAllInvRDet(String refno) { // for upload purpose only
         if (dB == null) {
             open();

@@ -434,7 +434,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
     public void FetchData() {
         try {
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(selectedReturnHed.getFINVRHED_REFNO());
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(selectedReturnHed.getFINVRHED_REFNO());
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
         } catch (NullPointerException e) {
@@ -586,7 +586,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
 //                        Log.v("RETURN HED>>>>",activity.selectedInvHed.toString());
             new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList );
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(selectedReturnHed.getFINVRHED_REFNO());
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(selectedReturnHed.getFINVRHED_REFNO());
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
             lblPrice.setOnClickListener(new OnClickListener() {
                 @Override

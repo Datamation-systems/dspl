@@ -143,7 +143,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             fabSalesOrder.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.presale_active));
         }
         else {
-            fabSalesOrder.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_sales));
+            fabSalesOrder.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_sales));
         }
 
         if (isAnyActiveReturns)
@@ -151,7 +151,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.returns_active));
         }
         else {
-            fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_return));
+            fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_return));
         }
 
 //        if (isAnyActiveNonProds)
@@ -160,18 +160,18 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 //        }
 //        else
 //        {
-            fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_nonprod));
+            fabUnproductive.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_nonprod));
         //}
         fabendcall.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this,R.drawable.endtnsc));
         if(isAnyActiveReceipt)
         fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.receipt_active));
         else
-        fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_receipt));
+        fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_receipt));
 
         if(isAnyActiveInvoices)
         fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.vansale_active));
         else
-        fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.circle_ic_expensive));
+        fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_vansales));
 
         // The overlay when showing expanding the menu
         overlay = findViewById(R.id.outlet_details_view_overlay);

@@ -231,7 +231,7 @@ public class VanSalesSummary extends Fragment {
         locCode = new SalRepController(getActivity()).getCurrentLocCode().trim();
 
         list = new InvDetController(getActivity()).getAllInvDet(RefNo);
-        returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(ReturnRefNo);
+        returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(ReturnRefNo);
 
         for (InvDet ordDet : list) {
             ftotAmt += Double.parseDouble(ordDet.getFINVDET_AMT());
@@ -662,7 +662,7 @@ public class VanSalesSummary extends Fragment {
         new InvTaxDTController(activity).UpdateInvTaxDT(list);
     }
     public void UpdateReturnTotal(String refNo) {
-        ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getAllInvRDet(refNo);
+        ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getAllInvRDetForInvoice(refNo);
         new SalesReturnDetController(activity).UpdateReturnTot(list);
 
     }
@@ -851,44 +851,44 @@ public class VanSalesSummary extends Fragment {
 
 
     //------------------------------------------------------------------------------------------------------------------------------------
-    public class LoardingPrintView extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setTitleText("Loading...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo, "",false);
-            return null;
-
-        }
-
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            if(pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-            final VanSalesActivity activity = (VanSalesActivity) getActivity();
-            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
-           // UtilityContainer.ClearVanSharedPref(getActivity());
-
-            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
-            startActivity(intnt);
-            getActivity().finish();
-          //  loadFragment(new VanSaleInvoice());
-
-        }
-    }
+//    public class LoardingPrintView extends AsyncTask<Void, Void, Void> {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+//            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+//            pDialog.setTitleText("Loading...");
+//            pDialog.setCancelable(false);
+//            pDialog.show();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... arg0) {
+//
+//            new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo, "",false);
+//            return null;
+//
+//        }
+//
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//
+//            if(pDialog.isShowing()){
+//                pDialog.dismiss();
+//            }
+//            final VanSalesActivity activity = (VanSalesActivity) getActivity();
+//            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
+//           // UtilityContainer.ClearVanSharedPref(getActivity());
+//
+//            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+//            startActivity(intnt);
+//            getActivity().finish();
+//          //  loadFragment(new VanSaleInvoice());
+//
+//        }
+//    }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public void printItems() {
@@ -908,7 +908,8 @@ public class VanSalesSummary extends Fragment {
         int lengthDealBBCom = (LINECHAR - lengthDealBCom) / 2;
         String printGapAdjustBCom = printGapAdjustCom.substring(0, Math.min(lengthDealBBCom, printGapAdjustCom.length()));
 
-        String addressCCom = controlList.get(0).getFCONTROL_COM_ADD2().trim() + ", " + controlList.get(0).getFCONTROL_COM_ADD3().trim() + ".";
+        //String addressCCom = controlList.get(0).getFCONTROL_COM_ADD2().trim() + ", " + controlList.get(0).getFCONTROL_COM_ADD3().trim() + ".";
+        String addressCCom = controlList.get(0).getFCONTROL_COM_ADD3().trim() + ".";
         int lengthDealCCom = addressCCom.length();
         int lengthDealCBCom = (LINECHAR - lengthDealCCom) / 2;
         String printGapAdjustCCom = printGapAdjustCom.substring(0, Math.min(lengthDealCBCom, printGapAdjustCom.length()));
