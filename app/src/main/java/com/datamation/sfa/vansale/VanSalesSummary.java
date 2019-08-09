@@ -130,7 +130,7 @@ public class VanSalesSummary extends Fragment {
 
         mSharedPref = new SharedPref(getActivity());
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
-        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        ReturnRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(RefNo);
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
@@ -223,7 +223,19 @@ public class VanSalesSummary extends Fragment {
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Save primary & secondary invoice-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*/
 
     public void mRefreshData() {
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
 
+        String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            ReturnRefNo = activeRetRefNo;
+        }
         int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
 
@@ -736,8 +748,29 @@ public class VanSalesSummary extends Fragment {
 //	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 //
     public void mPauseinvoice() {
+        RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
+
+        String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            ReturnRefNo = activeRetRefNo;
+        }
 
         if (new InvDetController(getActivity()).getItemCount(RefNo) > 0) {
+            String activeRetRefNo1 = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(RefNo);
+
+            if (!activeRetRefNo1.equals(""))
+            {
+                // when paused and redirect to sales return, refno should be updated -------
+                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                //--------------------------------------
+            }
             Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
             startActivity(intnt);
             getActivity().finish();

@@ -393,7 +393,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
 
     public void FetchData()
     {
-        if (new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals(""))
+        if (new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals("") || new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals(""))
         {
             RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
         }

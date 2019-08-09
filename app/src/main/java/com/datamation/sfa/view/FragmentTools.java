@@ -290,7 +290,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener,Uplo
                                     new UploadReceipt(getActivity(), FragmentTools.this).execute(receiptHedList);
 
                                     Log.v(">>8>>","UploadPreSales execute finish");
-                                    new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ReceiptNumVal));
+                                   // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ReceiptNumVal));
 //
                                 }
 

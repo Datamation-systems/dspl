@@ -94,7 +94,6 @@ public class VanSalesHeader extends Fragment {
                 txtManual.setText(selectedInvHed.getFINVHED_MANUREF());
                 txtRemakrs.setText(selectedInvHed.getFINVHED_REMARKS());
                 lblInvRefno.setText(selectedInvHed.getFINVHED_REFNO());
-                mSaveInvoiceHeader();
             } else { /*No header*/
 
                 lblInvRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));

@@ -712,32 +712,33 @@ public class InvHedController {
 //
 //    }
 
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    public String getActiveInvoiceRef() {
-
+    public String getActiveInvoiceRef()
+    {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
             open();
         }
 
-        String res = null;
+        String refNo = "";
 
-        Cursor cursor = null;
+        String selectQuery = "select * from " + dbHelper.TABLE_FINVHED + " WHERE " + dbHelper.FINVHED_IS_ACTIVE + "='" + "1" + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
         try {
-            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVHED + " WHERE " + DatabaseHelper.FINVHED_IS_ACTIVE + "='1'";
-            cursor = dB.rawQuery(selectQuery, null);
-
-            if (cursor.getCount() > 0) {
-                cursor.moveToNext();
-                res = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
-                res += " ( " + new CustomerController(context).getSelectedCustomerByCode(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_DEBCODE))) + " )";
-            } else
-                res = "None";
+            if (cursor.getCount()>0)
+            {
+                while(cursor.moveToNext())
+                {
+                    refNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                }
+            }
 
         } catch (Exception e) {
-            Log.v(TAG, e.toString());
+
+            Log.v(TAG + " Exception", e.toString());
 
         } finally {
             if (cursor != null) {
@@ -746,10 +747,8 @@ public class InvHedController {
             dB.close();
         }
 
-        return res;
-
+        return refNo;
     }
-
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public double getLastBillAmount() {

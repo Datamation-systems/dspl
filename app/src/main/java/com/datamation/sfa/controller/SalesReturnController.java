@@ -152,6 +152,40 @@ public class SalesReturnController
 
     }
 
+    public String getCurRefNoOfRetWitInv(String invRefNo) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        String refNo = "";
+
+        Cursor cursor = null;
+        try {
+            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE " + DatabaseHelper.FINVRHED_INV_REFNO + " = '" + invRefNo + "'";
+            cursor = dB.rawQuery(selectQuery, null);
+
+            if (cursor.getCount() > 0)
+            {
+                while(cursor.moveToNext())
+                {
+                    refNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                }
+            }
+        } catch (Exception e) {
+            Log.v(TAG, e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return refNo;
+
+    }
     public String getActiveInnerReturnRefNoByOrderRefNo(String ordRefNo) {
 
         if (dB == null) {
@@ -186,7 +220,6 @@ public class SalesReturnController
         return refNo;
 
     }
-
     public ArrayList<FInvRHed> getAllActiveInvrhed() {
         if (dB == null) {
             open();
@@ -400,7 +433,7 @@ public class SalesReturnController
         try {
 
             //String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE "  + DatabaseHelper.REFNO + " = '" + refno + "'";
-            String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NULL and InvRefNo IS NULL";
+            String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NULL and InvRefNo IS NULL ";
             cursor = dB.rawQuery(selectQuery, null);
 
             if (cursor.getCount()>0)

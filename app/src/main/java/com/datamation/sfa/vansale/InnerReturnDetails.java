@@ -74,6 +74,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
     View view;
     Button itemSearch, bAdd, bFreeIssue, reasonSearch;
     EditText lblItemName, txtQty, editTotDisc, lblReason,lblNou;
+    public String RetRefNo = "";
    TextView lblPrice;
     int totPieces = 0;
     double amount = 0.00,price = 0.00,minPrice = 0.00, maxPrice = 0.00, changedPrice = 0.0;
@@ -320,7 +321,6 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
 
                         hed.setFINVRHED_REFNO(RefNo);
                         hed.setFINVRHED_MANUREF(selectedInvHed.getFINVHED_MANUREF());
-                        hed.setFINVRHED_INV_REFNO(selectedInvHed.getFINVHED_REFNO());
                         hed.setFINVRHED_REMARKS(selectedInvHed.getFINVHED_REMARKS());
                         hed.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());
                         hed.setFINVRHED_ADD_DATE(currentTime());
@@ -338,6 +338,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
                         hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
                         hed.setFINVRHED_ROUTE_CODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
                         hed.setFINVRHED_COSTCODE("");
+                        hed.setFINVRHED_INV_REFNO(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
 
                         selectedReturnHed = hed;
                         //SharedPreferencesClass.setLocalSharedPreference(activity, "Return_Start_Time", currentTime());
@@ -432,9 +433,20 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void FetchData() {
+        String invRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(invRefNo);
+        if (activeRetRefNo.equals(""))
+        {
+            RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            RetRefNo = activeRetRefNo;
+        }
+
         try {
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(selectedReturnHed.getFINVRHED_REFNO());
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(RetRefNo);
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
         } catch (NullPointerException e) {
@@ -585,9 +597,25 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
             returnHedList.add(hed);
 //                        Log.v("RETURN HED>>>>",activity.selectedInvHed.toString());
             new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList );
-            lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(selectedReturnHed.getFINVRHED_REFNO());
-            lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
+            String invRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
+            String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(invRefNo);
+            if (activeRetRefNo.equals(""))
+            {
+                RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+            }
+            else
+            {
+                RetRefNo = activeRetRefNo;
+            }
+
+            try {
+                lv_return_det.setAdapter(null);
+                returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(RetRefNo);
+                lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
+
+            } catch (NullPointerException e) {
+                Log.v(" Error", e.toString());
+            }
             lblPrice.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
