@@ -192,6 +192,18 @@ public class OrderSummaryFragment extends Fragment {
 
     public void undoEditingData() {
 
+        String orRefNo = new OrderController(getActivity()).getActiveRefNoFromOrders();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            ReturnRefNo = activeRetRefNo;
+        }
+
         Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
         outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());
 
@@ -242,7 +254,18 @@ public class OrderSummaryFragment extends Fragment {
     public void mRefreshData() {
 
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-        ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+
+        String orRefNo = new OrderController(getActivity()).getActiveRefNoFromOrders();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            ReturnRefNo = activeRetRefNo;
+        }
 
         int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
@@ -386,6 +409,15 @@ public class OrderSummaryFragment extends Fragment {
                             ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
                             ArrayList<FInvRHed> HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
 
+                            Double totAmt = 0.0;
+
+                            ArrayList<FInvRDet>detList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(ReturnRefNo);
+
+                            for (FInvRDet list : detList)
+                            {
+                                totAmt += Double.parseDouble(list.getFINVRDET_AMT());
+                            }
+
                             if (!HedList.isEmpty()) {
 
                                 mainHead.setFINVRHED_REFNO(ReturnRefNo);
@@ -414,6 +446,7 @@ public class OrderSummaryFragment extends Fragment {
                                 mainHead.setFINVRHED_ORD_REFNO(RefNo);//HedList.get(0).getFINVRHED_INV_REFNO()
                                 mainHead.setFINVRHED_IS_ACTIVE("0");
                                 mainHead.setFINVRHED_IS_SYNCED("0");
+                                mainHead.setFINVRHED_TOTAL_AMT(String.valueOf(totAmt));
                             }
 
                             returnHedList.add(mainHead);
@@ -425,7 +458,11 @@ public class OrderSummaryFragment extends Fragment {
                                 new SalesReturnController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
 
                                 activity.selectedReturnHed = null;
+
+                                // when paused and redirect to sales return, refno should be updated -------
                                 new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                                //--------------------------------------
+
                                 Toast.makeText(getActivity(), "Order Return saved successfully !", Toast.LENGTH_LONG).show();
 
                             } else {
@@ -734,6 +771,15 @@ public class OrderSummaryFragment extends Fragment {
 
         if (new OrderDetailController(getActivity()).getItemCount(RefNo) > 0) {
 
+            String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(RefNo);
+
+            if (!activeRetRefNo.equals(""))
+            {
+                // when paused and redirect to sales return, refno should be updated -------
+                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
+                //--------------------------------------
+            }
+
             Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
             outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());
 
@@ -832,7 +878,7 @@ public class OrderSummaryFragment extends Fragment {
     // without print preview just call to print
 
     public void printItems() {
-        final int LINECHAR = 50;
+        final int LINECHAR = 60;
         String printGapAdjustCom = "                      ";
 
         ArrayList<Control> controlList;
@@ -1147,13 +1193,27 @@ public class OrderSummaryFragment extends Fragment {
         int totReturnQty = 0;
         Double returnTot = 0.00;
 
+        returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(ReturnRefNo);
+
         if(invRHed.getFINVRHED_REFNO() != null) {
 
-            sRetGross = String.format(Locale.US, "%,.2f",
-                    Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
+            for (FInvRDet returnDet : returnList){
+                if(!returnDet.getFINVRDET_RETURN_TYPE().equals("RP")) {
+                    returnTot += Double.parseDouble(returnDet.getFINVRDET_AMT());
+                    totReturnQty += Double.parseDouble(returnDet.getFINVRDET_QTY());
+                }else{
+                    totReturnQty += Double.parseDouble(returnDet.getFINVRDET_QTY());
+                }
+            }
+
+//            sRetGross = String.format(Locale.US, "%,.2f",
+//                    Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
+
+            sRetGross = String.format(Locale.US, "%,.2f", returnTot);
 
 
-            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getORDER_TOTALAMT()) -  Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
+//            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getORDER_TOTALAMT()) -  Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
+            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getORDER_TOTALAMT()) -  returnTot);
             /*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Return Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
             Heading_e = "";
             //Return Item Total

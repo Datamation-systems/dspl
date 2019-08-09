@@ -79,6 +79,8 @@ public class DebtorDetailsActivity extends AppCompatActivity {
     boolean isAnyActiveInvoices = false;
     boolean isAnyActiveReceipt = false;
 
+    private String retRefNo = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,8 +116,17 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.outlet_details_tab_strip);
         ViewPager viewPager = (ViewPager) findViewById(R.id.outlet_details_viewpager);
 
+        if (new SalesReturnController(context).getDirectSalesReturnRefNo().equals(""))
+        {
+            retRefNo = new ReferenceNum(context).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            retRefNo = new SalesReturnController(context).getDirectSalesReturnRefNo();
+        }
+
         isAnyActiveOrders = new OrderDetailController(getApplicationContext()).isAnyActiveOrders();
-        isAnyActiveReturns = new SalesReturnDetController(getApplicationContext()).isAnyActiveReturnHedDet(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
+        isAnyActiveReturns = new SalesReturnDetController(getApplicationContext()).isAnyActiveReturnHedDet(retRefNo);
         isAnyActiveInvoices = new InvDetController(getApplicationContext()).isAnyActiveOrders();
         isAnyActiveReceipt = new ReceiptDetController(getApplicationContext()).isAnyActiveReceipt();
         //isAnyActiveNonProds  = new DayNPrdDetController(getApplicationContext()).isAnyActiveNPs();

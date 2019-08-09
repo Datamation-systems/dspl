@@ -10,8 +10,12 @@ import android.util.Log;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.DayNPrdDet;
 import com.datamation.sfa.model.FInvRDet;
+import com.datamation.sfa.model.FInvRHed;
+import com.datamation.sfa.model.OrderDetail;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SalesReturnDetController
 {
@@ -534,6 +538,33 @@ public class SalesReturnDetController
 
     }
 
+    public int restDataDirectSalesReturnDets(String refno) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            count = dB.delete(DatabaseHelper.TABLE_FINVRDET, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
+
     public int getItemCount(String refNo) {
 
         if (dB == null) {
@@ -937,6 +968,55 @@ public class SalesReturnDetController
 
             }
 
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
+
+    public ArrayList<FInvRDet> getTodayOrderDets(String refno) {
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
+
+        String selectQuery = "select * from FInvRDet WHERE "
+                + dbHelper.REFNO + "='" + refno + "' and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                FInvRDet retDet = new FInvRDet();
+
+                retDet.setFINVRDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_ID)));
+                retDet.setFINVRDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_AMT)));
+                retDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_ITEMCODE)));
+                retDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_PRILCODE)));
+                retDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_QTY)));
+                retDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+                retDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_SELL_PRICE)));
+                retDet.setFINVRDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FINVRDET_IS_ACTIVE)));
+
+                list.add(retDet);
+
+            }
         } catch (Exception e) {
 
             Log.v(TAG + " Exception", e.toString());

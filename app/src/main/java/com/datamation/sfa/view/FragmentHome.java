@@ -32,6 +32,7 @@ import com.datamation.sfa.view.dashboard.OrderDetailsFragment;
 import com.datamation.sfa.view.dashboard.OtherDetailsFragment;
 import com.datamation.sfa.view.dashboard.PaymentDetailsFragment;
 import com.datamation.sfa.view.dashboard.PromotionDetailsFragment;
+import com.datamation.sfa.view.dashboard.TransactionDetailsFragment;
 import com.github.mikephil.charting.charts.PieChart;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class FragmentHome extends Fragment {
     private InvoiceDetailsFragmentNew invoiceDetailsFragment;
     private PaymentDetailsFragment paymentDetailsFragment;
     private OrderDetailsFragment orderDetailsFragment;
+    private TransactionDetailsFragment transactionDetailsFragment;
     private PromotionDetailsFragment promoDetailsFragment;
     private OtherDetailsFragment otherDetailsFragment;
 
@@ -181,7 +183,7 @@ public class FragmentHome extends Fragment {
     private class DashboardPagerAdapter extends FragmentPagerAdapter {
 
       //  private String[] titles = {"Main", "Summary","Promotion","Order", "Invoice", "Payment"};
-        private String[] titles = {"Main", "Summary", "Order", "Invoice", "Promotion", "Payment", "Other"};
+        private String[] titles = {"Main", "Summary", "Transactions", "Promotion", "Payment", "Other"};
 
         public DashboardPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -199,18 +201,18 @@ public class FragmentHome extends Fragment {
                     if (daySummaryFragment == null) daySummaryFragment = new DaySummaryFragment();
                     return daySummaryFragment;
                 case 2:
-                    if(orderDetailsFragment == null) orderDetailsFragment = new OrderDetailsFragment();
-                    return orderDetailsFragment;
+                    if(transactionDetailsFragment == null) transactionDetailsFragment = new TransactionDetailsFragment();
+                    return transactionDetailsFragment;
+//                case 3:
+//                    if(invoiceDetailsFragment == null) invoiceDetailsFragment = new InvoiceDetailsFragmentNew();
+//                    return invoiceDetailsFragment;
                 case 3:
-                    if(invoiceDetailsFragment == null) invoiceDetailsFragment = new InvoiceDetailsFragmentNew();
-                    return invoiceDetailsFragment;
-                case 4:
                     if(promoDetailsFragment == null) promoDetailsFragment = new PromotionDetailsFragment();
                     return promoDetailsFragment;
-                case 5:
+                case 4:
                     if(paymentDetailsFragment == null) paymentDetailsFragment = new PaymentDetailsFragment();
                     return paymentDetailsFragment;
-                case 6:
+                case 5:
                     if(otherDetailsFragment == null) otherDetailsFragment = new OtherDetailsFragment();
                     return otherDetailsFragment;
 //

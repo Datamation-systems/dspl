@@ -335,6 +335,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 //                        UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
                         Intent intent = new Intent(getActivity(), ActivityHome.class);
                         startActivity(intent);
+                        getActivity().finish();
                     }
 
                 } else {
@@ -454,6 +455,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
         if (new DayExpDetController(getActivity()).getExpenceCount(RefNo.getText().toString().trim()) > 0)
         {
             UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
+            getActivity().finish();
         }
 
         else

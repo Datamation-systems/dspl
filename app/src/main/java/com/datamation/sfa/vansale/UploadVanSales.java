@@ -36,6 +36,7 @@ public class UploadVanSales extends AsyncTask<ArrayList<InvHed>, Integer, ArrayL
     protected void onPreExecute() {
         super.onPreExecute();
         dialog = new ProgressDialog(context);
+        dialog.setTitle("Uploading records");
         dialog.show();
     }
 

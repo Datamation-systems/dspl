@@ -65,6 +65,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
     SalesReturnActivity activity;
     ArrayList<Reason> reasonList = null;
     Reason selectedReason = null;
+    private String directRetRefNo;
     //SharedPreferencesClass localSP;
 
     public SalesReturnHeader()
@@ -101,11 +102,22 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
         cusName.setText(pref.getSelectedDebName());
         route.setText(new RouteController(getActivity()).getRouteNameByCode(pref.getSelectedDebRouteCode()));
         date.setText(formattedDate);
-        ordno.setText(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
+
+        if (new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals(""))
+        {
+            directRetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            directRetRefNo = new SalesReturnController(getActivity()).getDirectSalesReturnRefNo();
+        }
+
+        ordno.setText(directRetRefNo);
 
         if (new SalesReturnController(getActivity()).isAnyActive())
         {
-            FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
+//            FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed(referenceNum.getCurrentRefNo(getResources().getString(R.string.salRet)));
+            FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed(directRetRefNo);
 
             mNo.setText(hed.getFINVRHED_MANUREF());
             remarks.setText(hed.getFINVRHED_REMARKS());
@@ -238,6 +250,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
             hed.setFINVRHED_ROUTE_CODE(pref.getSelectedDebRouteCode());
             hed.setFINVRHED_MANUREF(mNo.getText().toString());
             hed.setFINVRHED_REMARKS(remarks.getText().toString());
+//            hed.setFINVRHED_TXNTYPE("Return");
             hed.setFINVRHED_IS_ACTIVE("1");
             hed.setFINVRHED_IS_SYNCED("0");
             hed.setFINVRHED_ADD_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
