@@ -83,6 +83,7 @@ public class SalesReturnController
                 values.put(dbHelper.FINVRHED_REPCODE, invrHed.getFINVRHED_REP_CODE());
                 values.put(dbHelper.FINVRHED_ORD_REFNO, invrHed.getFINVRHED_ORD_REFNO());
                 values.put(dbHelper.FINVRHED_TXNTYPE, invrHed.getFINVRHED_TXNTYPE());
+                values.put(dbHelper.FINVRHED_INV_REFNO, invrHed.getFINVRHED_INV_REFNO());
 
 //                values.put(dbHelper.FINVRHED_RETURN_TYPE, invrHed.getFINVRHED_RETURN_TYPE());
 //                values.put(dbHelper.FINVRHED_TOURCODE, invrHed.getFINVRHED_TOURCODE());

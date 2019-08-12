@@ -277,7 +277,11 @@ if(!SharedPref.getInstance(getActivity()).getSelectedDebCode().equals("0")){
             orderList = new OutstandingController(getActivity()).getAllRecords(SharedPref.getInstance(getActivity()).getSelectedDebCode(), false);
             lv_order_det.setAdapter(new ReceiptAdapter(getActivity(), orderList, false, RefNo));
             double rem = (ReceivedAmt - getTotalSale(orderList));
-            et_remnant.setText(String.format("%,.2f", (rem)));
+            if(rem>0)
+                et_remnant.setText(String.format("%,.2f", (rem)));
+            else
+                et_remnant.setText("0.0");
+
 
             if (rem <= 0)
                 isAllocated = true;

@@ -723,7 +723,7 @@ public class InvHedController {
 
         String refNo = "";
 
-        String selectQuery = "select * from " + dbHelper.TABLE_FINVHED + " WHERE " + dbHelper.FINVHED_IS_ACTIVE + "='" + "1" + "'";
+        String selectQuery = "select * from " + dbHelper.TABLE_FINVHED + " WHERE " + dbHelper.FINVHED_IS_ACTIVE + "= '1'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 

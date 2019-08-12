@@ -330,7 +330,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
                     if (new DayExpHedController(getActivity()).createOrUpdateDayExpHed(ExpHedList) > 0) {
 
 
-                        referenceNum.nNumValueInsertOrUpdate(getResources().getString(R.string.ExpenseNumVal));
+                        referenceNum.NumValueUpdate(getResources().getString(R.string.ExpenseNumVal));
                         Toast.makeText(getActivity(), "Successfully saved Expense. ", Toast.LENGTH_LONG).show();
 //                        UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
                         Intent intent = new Intent(getActivity(), ActivityHome.class);

@@ -321,7 +321,7 @@ public class ReceiptSummary extends Fragment {
                 activity.selectedDebtor = null;
                 activity.selectedRecHed = null;
                 activity.ReceivedAmt = 0.00;
-                new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.ReceiptNumVal));
+                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ReceiptNumVal));
 
 				/*-*-*-*-*-*-*-*-*-*-*-Check if deadline passed-*-*-*-*-*-*-*-*-*-*-*/
 

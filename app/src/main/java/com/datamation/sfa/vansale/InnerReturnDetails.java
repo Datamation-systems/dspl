@@ -338,7 +338,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
                         hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
                         hed.setFINVRHED_ROUTE_CODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
                         hed.setFINVRHED_COSTCODE("");
-                        hed.setFINVRHED_INV_REFNO(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
+                        hed.setFINVRHED_INV_REFNO(selectedInvHed.getFINVHED_REFNO());
 
                         selectedReturnHed = hed;
                         //SharedPreferencesClass.setLocalSharedPreference(activity, "Return_Start_Time", currentTime());
@@ -377,15 +377,19 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
                             ReturnList.add(ReturnDet);
 //                            Log.v("RETURNDET>>>>",ReturnList.toString());
                             //	if (!(bAdd.getText().equals("EDIT") && hasChanged == false)) {
-                            new SalesReturnDetController(getActivity()).createOrUpdateInvRDet(ReturnList);
+                            //new SalesReturnDetController(getActivity()).createOrUpdateInvRDet(ReturnList);
                             //	}
 //                            Log.v("FINISH DET SAVE>>>>",">>>>>>");
-                            if (bAdd.getText().equals("EDIT"))
-                                Toast.makeText(getActivity(), "Edited successfully !", Toast.LENGTH_LONG).show();
-                            else
-                                Toast.makeText(getActivity(), "Added successfully !", Toast.LENGTH_LONG).show();
-                            FetchData();
-                            clearTextFields();
+                            if( new SalesReturnDetController(getActivity()).createOrUpdateInvRDet(ReturnList)>0) {
+                                if (bAdd.getText().equals("EDIT"))
+                                    Toast.makeText(getActivity(), "Edited successfully !", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(getActivity(), "Added successfully !", Toast.LENGTH_LONG).show();
+                                FetchData();
+                                clearTextFields();
+                            }else{
+                                Toast.makeText(getActivity(), "Added not successfully !", Toast.LENGTH_LONG).show();
+                            }
 
                         }
                     }else{
@@ -569,90 +573,26 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
 
     }
     public void mRefreshData() {
-        selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
+        String invRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(invRefNo);
+        if (activeRetRefNo.equals(""))
+        {
+            RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            RetRefNo = activeRetRefNo;
+        }
+
         try {
-//            amount = Double.parseDouble(txtQty.getText().toString())
-//                    * Double.parseDouble(lblPrice.getText().toString());
-            FInvRHed hed = new FInvRHed();
-            ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
-            hed.setFINVRHED_REFNO(RefNo);
-            hed.setFINVRHED_MANUREF(selectedInvHed.getFINVHED_MANUREF());
-            hed.setFINVRHED_REMARKS(selectedInvHed.getFINVHED_REMARKS());
-            hed.setFINVRHED_ADD_USER(new SalRepController(getActivity()).getCurrentRepCode());
-            hed.setFINVRHED_ADD_DATE(currentTime());
-            hed.setFINVRHED_ADD_MACH(localSP.getString("MAC_Address", "No MAC Address").toString());
-            hed.setFINVRHED_TXNTYPE("42");
-            hed.setFINVRHED_TXN_DATE(selectedInvHed.getFINVHED_TXNDATE());
-            hed.setFINVRHED_IS_ACTIVE("1");
-            hed.setFINVRHED_IS_SYNCED("0");
+            lv_return_det.setAdapter(null);
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(RetRefNo);
+            lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
-            hed.setFINVRHED_DEBCODE(SharedPref.getInstance(getActivity()).getSelectedDebCode());
-
-
-            hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
-            hed.setFINVRHED_ROUTE_CODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
-            hed.setFINVRHED_COSTCODE("");
-            //SharedPreferencesClass.setLocalSharedPreference(activity, "Return_Start_Time", currentTime());
-
-            returnHedList.add(hed);
-//                        Log.v("RETURN HED>>>>",activity.selectedInvHed.toString());
-            new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList );
-            String invRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
-            String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(invRefNo);
-            if (activeRetRefNo.equals(""))
-            {
-                RetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
-            }
-            else
-            {
-                RetRefNo = activeRetRefNo;
-            }
-
-            try {
-                lv_return_det.setAdapter(null);
-                returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(RetRefNo);
-                lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
-
-            } catch (NullPointerException e) {
-                Log.v(" Error", e.toString());
-            }
-            lblPrice.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CustomKeypadDialogPrice keypadPrice = new CustomKeypadDialogPrice(getActivity(), true, new CustomKeypadDialogPrice.IOnOkClickListener() {
-                        @Override
-                        public void okClicked(double value) {
-                            //price cannot be changed less than gross profit
-                            //changedPrice = price;
-                            //validation removed from return 2019/04/01 - said menaka
-                           // if(minPrice <=value && value <= maxPrice) {
-                                //  save changed price
-                                 new SalesReturnDetController(getActivity()).updateProductPrice(selectedItem.getFITEM_ITEM_CODE(), String.valueOf(price));
-                                //  value should be set for another variable in preProduct
-                                //  preProduct.setPREPRODUCT_PRICE(String.valueOf(value));
-                                changedPrice = value;
-                                lblPrice.setText(""+changedPrice);
-//                            }else{
-//                                //changedPrice = price;
-//                                Toast.makeText(getActivity(),"Price cannot be change..",Toast.LENGTH_LONG).show();
-//                            }
-                        }
-                    });
-                    keypadPrice.show();
-
-                    keypadPrice.setHeader("CHANGE PRICE");
-//                if(preProduct.getPREPRODUCT_CHANGED_PRICE().equals("0")){
-                    keypadPrice.loadValue(changedPrice);
-                }
-            });
-//            amount = Double.parseDouble(txtQty.getText().toString())
-//                    * changedPrice;
-//            if(changedPrice != price){
-//                new FInvRDetDS(getActivity()).updateProductPrice(selectedItem.getFITEM_ITEM_CODE(),""+changedPrice);
-//            }
         } catch (NullPointerException e) {
             Log.v(" Error", e.toString());
         }
+
     }
 
 //    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

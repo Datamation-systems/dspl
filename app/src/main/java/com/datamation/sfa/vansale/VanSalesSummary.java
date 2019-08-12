@@ -189,9 +189,22 @@ public class VanSalesSummary extends Fragment {
             public void onClick(DialogInterface dialog, int id) {
 
                 VanSalesActivity activity = (VanSalesActivity) getActivity();
+
+                RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
+
+                String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
+                String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(orRefNo);
+
+                if (activeRetRefNo.equals(""))
+                {
+                    ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+                }
+                else
+                {
+                    ReturnRefNo = activeRetRefNo;
+                }
                 String result = new InvHedController(getActivity()).restData(RefNo);
                 int resultReturn = new SalesReturnController(getActivity()).restData(ReturnRefNo);
-
                 if (!result.equals("")) {
                     new InvDetController(getActivity()).restData(RefNo);
                     new ProductController(getActivity()).mClearTables();
@@ -367,7 +380,7 @@ public class VanSalesSummary extends Fragment {
 
                             final VanSalesActivity activity = (VanSalesActivity) getActivity();
 
-                                new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.VanNumVal));
+                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
 
                             FInvRHed mainHead = new FInvRHed();
                             ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
@@ -602,7 +615,7 @@ public class VanSalesSummary extends Fragment {
                         new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
 
                         final VanSalesActivity activity = (VanSalesActivity) getActivity();
-                        new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.VanNumVal));
+                        new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
 
                         /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
 
@@ -741,7 +754,7 @@ public class VanSalesSummary extends Fragment {
             ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(invHed.getFINVHED_REFNO());
             new DispDetController(getActivity()).updateDispDet(list, dispREfno);
             new DispIssController(getActivity()).updateDispIss(new StkIssController(getActivity()).getUploadData(invHed.getFINVHED_REFNO()), dispREfno);
-            new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.DispVal));
+            new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.DispVal));
         }
     }
 
@@ -749,18 +762,6 @@ public class VanSalesSummary extends Fragment {
 //
     public void mPauseinvoice() {
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
-
-        String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
-        String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(orRefNo);
-
-        if (activeRetRefNo.equals(""))
-        {
-            ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
-        }
-        else
-        {
-            ReturnRefNo = activeRetRefNo;
-        }
 
         if (new InvDetController(getActivity()).getItemCount(RefNo) > 0) {
             String activeRetRefNo1 = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(RefNo);
@@ -1009,7 +1010,8 @@ public class VanSalesSummary extends Fragment {
         int lengthDealIB = (LINECHAR - lengthDealI) / 2;
         String printGapAdjustI = printGapAdjust.substring(0, Math.min(lengthDealIB, printGapAdjust.length()));
 
-        String customerAddressStr = debtor.getCusAdd1() + "," + debtor.getCusAdd2();
+        //String customerAddressStr = debtor.getCusAdd1() + "," + debtor.getCusAdd2();
+        String customerAddressStr = debtor.getCusAdd1() ;
         int lengthDealJ = customerAddressStr.length();
         int lengthDealJB = (LINECHAR - lengthDealJ) / 2;
         String printGapAdjustJ = printGapAdjust.substring(0, Math.min(lengthDealJB, printGapAdjust.length()));

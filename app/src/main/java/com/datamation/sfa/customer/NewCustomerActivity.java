@@ -315,7 +315,7 @@ public class NewCustomerActivity extends AppCompatActivity {
 
                                 //insert current NC number for next num generation
                                 referenceNum = new ReferenceNum(getApplicationContext());
-                                referenceNum.nNumValueInsertOrUpdate(getResources().getString(R.string.newCusVal));
+                                referenceNum.NumValueUpdate(getResources().getString(R.string.newCusVal));
                                 try {
                                     if (NetworkUtil.isNetworkAvailable(getApplicationContext())) {
                                         //upload to master

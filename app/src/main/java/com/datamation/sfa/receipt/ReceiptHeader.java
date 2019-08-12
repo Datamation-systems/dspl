@@ -148,10 +148,10 @@ public class ReceiptHeader extends Fragment {
         /*-------------------------------------------*/
 
 
-//        payModePos = mSharedPref.getGlobalVal("ReckeyPayModePos");
-//
-//        if (!(payModePos.equalsIgnoreCase("-SELECT-")))
-//            spnPayMode.setSelection(Integer.parseInt(payModePos));
+        payModePos = mSharedPref.getGlobalVal("ReckeyPayModePos");
+
+        if (!(payModePos.equalsIgnoreCase("-SELECT-")))
+            spnPayMode.setSelection(Integer.parseInt(payModePos));
 
         currentDate();
         InvoiceNo.setText(RefNo);
@@ -741,6 +741,11 @@ public class ReceiptHeader extends Fragment {
         Log.d("123456", "454544545");
         ReceiptActivity mainActivity = new ReceiptActivity();
        // if (mSharedPref.getGlobalVal("ReckeyCustomer").equals("1")) {
+        payModePos = mSharedPref.getGlobalVal("ReckeyPayModePos");
+
+        if (!(payModePos.equalsIgnoreCase("-SELECT-")))
+            spnPayMode.setSelection(Integer.parseInt(payModePos));
+
         Log.d("Customer",mSharedPref.getSelectedDebName());
 
            // }

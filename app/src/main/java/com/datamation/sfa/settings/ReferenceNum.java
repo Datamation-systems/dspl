@@ -61,31 +61,31 @@ public class ReferenceNum {
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    public int nNumValueInsertOrUpdate(String cSettingsCode) {
-
-        ReferenceController referenceDS = new ReferenceController(context);
-        int nextNumVal = 0;
-
-//        if(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())!= null){
-//            nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())) + 1;
+//    public int nNumValueInsertOrUpdate(String cSettingsCode) {
 //
-//        }else{
-//            nextNumVal = 0;
+//        ReferenceController referenceDS = new ReferenceController(context);
+//        int nextNumVal = 0;
+//
+////        if(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())!= null){
+////            nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())) + 1;
+////
+////        }else{
+////            nextNumVal = 0;
+////        }
+//        Log.d("Check pref values",pref.getLoginUser().toString());
+//        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode())) + 1;
+//
+//        int count = referenceDS.InsetOrUpdate(cSettingsCode, nextNumVal);
+//
+//        if (count > 0) {
+//            Log.v("InsertOrUpdate", "success");
+//        } else {
+//            Log.v("InsertOrUpdate", "Failed");
 //        }
-        Log.d("Check pref values",pref.getLoginUser().toString());
-        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode())) + 1;
-
-        int count = referenceDS.InsetOrUpdate(cSettingsCode, nextNumVal);
-
-        if (count > 0) {
-            Log.v("InsertOrUpdate", "success");
-        } else {
-            Log.v("InsertOrUpdate", "Failed");
-        }
-
-        return count;
-
-    }
+//
+//        return count;
+//
+//    }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Item or value based ref no update-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 

@@ -314,7 +314,7 @@ public class AddNewCusRegistration extends Fragment implements AsyncTaskListener
 
                                 //insert current NC number for next num generation
                                 referenceNum = new ReferenceNum(getActivity());
-                                referenceNum.nNumValueInsertOrUpdate(getResources().getString(R.string.newCusVal));
+                                referenceNum.NumValueUpdate(getResources().getString(R.string.newCusVal));
                                 try {
                                     if (NetworkUtil.isNetworkAvailable(getActivity())) {
                                         //upload to master
@@ -658,7 +658,7 @@ public class AddNewCusRegistration extends Fragment implements AsyncTaskListener
 
         cusList.add(newCustomer);
         if (newCustomerDS.createOrUpdateCustomer(cusList) > 0) {
-            referenceNum.nNumValueInsertOrUpdate(getResources().getString(R.string.newCusVal));
+            referenceNum.NumValueUpdate(getResources().getString(R.string.newCusVal));
 
             android.widget.Toast.makeText(getActivity(), " saved successfully..!", android.widget.Toast.LENGTH_SHORT).show();
         } else {

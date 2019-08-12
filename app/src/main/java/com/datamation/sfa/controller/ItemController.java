@@ -320,10 +320,10 @@ public class ItemController {
         if(prillcode.isEmpty() || prillcode.equals(""))
         {
             selectQuery = "SELECT itm.*, loc.QOH,\n" +
-                    "IFNULL(pri.Price,0.0) AS Price , \n" +
+                    "IFNULL(pri.Price,0.0) AS Price  \n" +
 //                          "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +
 //                          "IFNULL(pri.MaxPrice,0.0) AS MaxPrice \n" +
-                    "FROM fitem itm INNER JOIN fitemLoc loc ON itm.ItemCode = loc.ItemCode \n" +
+                    " FROM fitem itm INNER JOIN fitemLoc loc ON itm.ItemCode = loc.ItemCode \n" +
                     "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
                     "WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.LocCode='" + LocCode + "' AND pri.Price > 0 AND  itm.ItemCode not in \n" +
                     "(SELECT ItemCode FROM InvRDet WHERE " + type + " And RefNo ='" + refno + "' GROUP BY ItemCode)\n" +
@@ -333,7 +333,7 @@ public class ItemController {
         else
         {
             selectQuery = "SELECT itm.*, loc.QOH, " +
-                    "IFNULL(pri.Price,0.0) AS Price ,  " +
+                    "IFNULL(pri.Price,0.0) AS Price   " +
 //                          "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +
 //                          "IFNULL(pri.MaxPrice,0.0) AS MaxPrice \n" +
                     " FROM fitem itm INNER JOIN fitemLoc loc ON itm.ItemCode = loc.ItemCode " +
