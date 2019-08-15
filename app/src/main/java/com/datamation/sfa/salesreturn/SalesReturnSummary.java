@@ -72,7 +72,7 @@ import java.util.Locale;
 public class SalesReturnSummary extends Fragment {
 
     View view;
-    TextView lblNetVal, lblDisc, lblGross;
+    TextView lblNetVal, lblGross;
     double ftotAmt = 0.00, totReturnDiscount = 0, fTotQty = 0.0;
     String RefNo = null;
     ArrayList<FInvRHed> HedList;
@@ -116,7 +116,7 @@ public class SalesReturnSummary extends Fragment {
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
         fam = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
         lblNetVal = (TextView) view.findViewById(R.id.lblNetVal);
-        lblDisc = (TextView) view.findViewById(R.id.lblDisc);
+       // lblDisc = (TextView) view.findViewById(R.id.lblDisc);
         lblGross = (TextView) view.findViewById(R.id.lblGross);
 
         activity = (SalesReturnActivity)getActivity();
@@ -204,7 +204,7 @@ public class SalesReturnSummary extends Fragment {
 //        lblNetVal.setText(String.format("%.2f", Double.parseDouble(NetArray[0])));
 
             lblGross.setText(String.format("%.2f", ftotAmt));
-            lblDisc.setText(String.format("%.2f", totReturnDiscount));
+         //   lblDisc.setText(String.format("%.2f", totReturnDiscount));
             lblNetVal.setText(String.format("%.2f", (ftotAmt - totReturnDiscount)));
 
             ftotAmt = 0;
@@ -227,7 +227,7 @@ public class SalesReturnSummary extends Fragment {
             }
 
             lblGross.setText(String.format("%.2f", ftotAmt));
-            lblDisc.setText(String.format("%.2f", totReturnDiscount));
+         //   lblDisc.setText(String.format("%.2f", totReturnDiscount));
             lblNetVal.setText(String.format("%.2f", (ftotAmt - totReturnDiscount)));
 
             ftotAmt = 0;
