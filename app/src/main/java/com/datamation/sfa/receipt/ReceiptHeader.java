@@ -150,8 +150,9 @@ public class ReceiptHeader extends Fragment {
 
         payModePos = mSharedPref.getGlobalVal("ReckeyPayModePos");
 
-        if (!(payModePos.equalsIgnoreCase("-SELECT-")))
+        if (!(payModePos.equalsIgnoreCase("-SELECT-")) && !(payModePos.equalsIgnoreCase("***")))
             spnPayMode.setSelection(Integer.parseInt(payModePos));
+
 
         currentDate();
         InvoiceNo.setText(RefNo);
