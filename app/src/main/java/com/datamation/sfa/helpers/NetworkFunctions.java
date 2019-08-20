@@ -335,6 +335,22 @@ public class NetworkFunctions {
 
         return getFromServer(baseURL + "fDdbNoteWithCondition"+restOfURL+"/"+repCode, params);
     }
+    public String getLastThreeInvHed(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting RepLastThreeInvHed : " + baseURL + "RepLastThreeInvHed"+restOfURL+"/"+repCode+ params);
+
+        return getFromServer(baseURL + "RepLastThreeInvHed"+restOfURL+"/"+repCode, params);
+    }
+    public String getLastThreeInvDet(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting RepLastThreeInvDet : " + baseURL + "RepLastThreeInvDet"+restOfURL+"/"+repCode+ params);
+
+        return getFromServer(baseURL + "RepLastThreeInvDet"+restOfURL+"/"+repCode, params);
+    }
 //    public String getFfreeHed(String repCode) throws IOException {
 //
 //        List<CustomNameValuePair> params = new ArrayList<>();
