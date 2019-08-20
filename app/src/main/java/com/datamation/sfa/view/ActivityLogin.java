@@ -34,6 +34,7 @@ import com.datamation.sfa.controller.DiscdetController;
 import com.datamation.sfa.controller.DischedController;
 import com.datamation.sfa.controller.DiscslabController;
 import com.datamation.sfa.controller.ExpenseController;
+import com.datamation.sfa.controller.FInvhedL3DS;
 import com.datamation.sfa.controller.FreeDebController;
 import com.datamation.sfa.controller.FreeDetController;
 import com.datamation.sfa.controller.FreeHedController;
@@ -70,6 +71,7 @@ import com.datamation.sfa.model.Discdet;
 import com.datamation.sfa.model.Disched;
 import com.datamation.sfa.model.Discslab;
 import com.datamation.sfa.model.Expense;
+import com.datamation.sfa.model.FInvhedL3;
 import com.datamation.sfa.model.FddbNote;
 import com.datamation.sfa.model.FreeDeb;
 import com.datamation.sfa.model.FreeDet;
@@ -1502,6 +1504,64 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     throw e;
                 }
                 /*****************end discslab**********************************************************************/
+                /*****************last 3 invoice heds**********************************************************************/
+                String last3InvHeds = "";
+                try {
+                    last3InvHeds = networkFunctions.getLastThreeInvHed(repcode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (invoices)...");
+                    }
+                });
+
+                // Processing lastinvoiceheds
+                try {
+                    JSONObject invoiceHedJSON = new JSONObject(last3InvHeds);
+                    JSONArray invoiceHedJSONJSONArray = invoiceHedJSON.getJSONArray("RepLastThreeInvHedResult");
+                    ArrayList<FInvhedL3> invoiceHedList = new ArrayList<FInvhedL3>();
+                    FInvhedL3DS invoiceHedController = new FInvhedL3DS(ActivityLogin.this);
+                    for (int i = 0; i < invoiceHedJSONJSONArray.length(); i++) {
+                        invoiceHedList.add(FInvhedL3.parseInvoiceHeds(invoiceHedJSONJSONArray.getJSONObject(i)));
+                    }
+                    invoiceHedController.createOrUpdateFinvHedL3(invoiceHedList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end lastinvoiceheds**********************************************************************/
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (invoices)...");
+                    }
+                });
+
+                // Processing lastinvoiceheds
+                try {
+                    JSONObject invoiceHedJSON = new JSONObject(discslab);
+                    JSONArray invoiceHedJSONJSONArray = invoiceHedJSON.getJSONArray("RepLastThreeInvHedResult");
+                    ArrayList<FInvhedL3> invoiceHedList = new ArrayList<FInvhedL3>();
+                    FInvhedL3DS invoiceHedController = new FInvhedL3DS(ActivityLogin.this);
+                    for (int i = 0; i < invoiceHedJSONJSONArray.length(); i++) {
+                        invoiceHedList.add(FInvhedL3.parseInvoiceHeds(invoiceHedJSONJSONArray.getJSONObject(i)));
+                    }
+                    invoiceHedController.createOrUpdateFinvHedL3(invoiceHedList);
+                } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    throw e;
+                }
+                /*****************end lastinvoiceheds**********************************************************************/
                     return true;
 //        } else {
 //            //errors.add("Please enter correct username and password");

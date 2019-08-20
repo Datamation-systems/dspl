@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:/Kaveesha/GIT/dspl/app/app.iml" filepath="D:/Kaveesha/GIT/dspl/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/dspl.iml" filepath="$PROJECT_DIR$/dspl.iml" />
-      <module fileurl="file://D:/Kaveesha/GIT/dspl/dspl.iml" filepath="D:/Kaveesha/GIT/dspl/dspl.iml" />
     </modules>
   </component>
 </project>

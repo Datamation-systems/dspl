@@ -1,5 +1,8 @@
 package com.datamation.sfa.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FInvhedL3 {
 
     private String FINVHEDL3_ID;
@@ -64,5 +67,24 @@ public class FInvhedL3 {
 
     public void setFINVHEDL3_TXN_DATE(String FINVHEDL3_TXN_DATE) {
         this.FINVHEDL3_TXN_DATE = FINVHEDL3_TXN_DATE;
+    }
+    public static FInvhedL3 parseInvoiceHeds(JSONObject jObject) throws JSONException {
+
+        if (jObject != null) {
+            FInvhedL3 finvHedL3 = new FInvhedL3();
+
+            finvHedL3.setFINVHEDL3_DEB_CODE(jObject.getString("DebCode"));
+            finvHedL3.setFINVHEDL3_REF_NO(jObject.getString("RefNo"));
+            finvHedL3.setFINVHEDL3_REF_NO1(jObject.getString("RefNo1"));
+            finvHedL3.setFINVHEDL3_TOTAL_AMT(jObject.getString("TotalAmt"));
+            finvHedL3.setFINVHEDL3_TOTAL_TAX(jObject.getString("TotalTax"));
+            finvHedL3.setFINVHEDL3_TXN_DATE(jObject.getString("TxnDate"));
+            //finvHedL3.setFINVHEDL3_COST_CODE(jObject.getString("CostCode"));
+
+
+            return finvHedL3;
+        }
+
+        return null;
     }
 }
