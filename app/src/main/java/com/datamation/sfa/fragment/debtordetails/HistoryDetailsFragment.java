@@ -81,11 +81,14 @@ public class HistoryDetailsFragment extends Fragment
 
         for (int i = 0; i < FInvhedL3ArrayList.size(); i++) {
             if(i==0)
-                tvInvoice1.setText(FInvhedL3ArrayList.get(i).getFINVHEDL3_REF_NO1()+" - "+new DateTimeFormatings().getDateFormat(FInvhedL3ArrayList.get(i).getFINVHEDL3_TXN_DATE()));
+                tvInvoice1.setText(FInvhedL3ArrayList.get(i).getFINVHEDL3_REF_NO1()+" - "+FInvhedL3ArrayList.get(i).getFINVHEDL3_TXN_DATE());
+               // tvInvoice1.setText(FInvhedL3ArrayList.get(i).getFINVHEDL3_REF_NO1()+" - "+new DateTimeFormatings().getDateFormat(FInvhedL3ArrayList.get(i).getFINVHEDL3_TXN_DATE()));
             else if(i==1)
-                tvInvoice2.setText(FInvhedL3ArrayList.get(i).getFINVHEDL3_REF_NO1()+" - "+new DateTimeFormatings().getDateFormat(FInvhedL3ArrayList.get(i).getFINVHEDL3_TXN_DATE()));
+                tvInvoice2.setText(FInvhedL3ArrayList.get(i).getFINVHEDL3_REF_NO1()+" - "+FInvhedL3ArrayList.get(i).getFINVHEDL3_TXN_DATE());
+               // tvInvoice2.setText(FInvhedL3ArrayList.get(i).getFINVHEDL3_REF_NO1()+" - "+new DateTimeFormatings().getDateFormat(FInvhedL3ArrayList.get(i).getFINVHEDL3_TXN_DATE()));
             else if(i==2)
-                tvInvoice3.setText(FInvhedL3ArrayList.get(i).getFINVHEDL3_REF_NO1()+" - "+new DateTimeFormatings().getDateFormat(FInvhedL3ArrayList.get(i).getFINVHEDL3_TXN_DATE()));
+                tvInvoice3.setText(FInvhedL3ArrayList.get(i).getFINVHEDL3_REF_NO1()+" - "+FInvhedL3ArrayList.get(i).getFINVHEDL3_TXN_DATE());
+               // tvInvoice3.setText(FInvhedL3ArrayList.get(i).getFINVHEDL3_REF_NO1()+" - "+new DateTimeFormatings().getDateFormat(FInvhedL3ArrayList.get(i).getFINVHEDL3_TXN_DATE()));
         }
 
         l3Adapter = new Last3InvoiceAdapter(last3InvList);

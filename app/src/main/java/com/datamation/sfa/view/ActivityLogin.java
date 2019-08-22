@@ -35,6 +35,7 @@ import com.datamation.sfa.controller.DischedController;
 import com.datamation.sfa.controller.DiscslabController;
 import com.datamation.sfa.controller.ExpenseController;
 import com.datamation.sfa.controller.FInvhedL3DS;
+import com.datamation.sfa.controller.FinvDetL3DS;
 import com.datamation.sfa.controller.FreeDebController;
 import com.datamation.sfa.controller.FreeDetController;
 import com.datamation.sfa.controller.FreeHedController;
@@ -73,6 +74,7 @@ import com.datamation.sfa.model.Discslab;
 import com.datamation.sfa.model.Expense;
 import com.datamation.sfa.model.FInvhedL3;
 import com.datamation.sfa.model.FddbNote;
+import com.datamation.sfa.model.FinvDetL3;
 import com.datamation.sfa.model.FreeDeb;
 import com.datamation.sfa.model.FreeDet;
 import com.datamation.sfa.model.FreeHed;
@@ -1537,6 +1539,14 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     throw e;
                 }
                 /*****************end lastinvoiceheds**********************************************************************/
+                /*****************last 3 invoice dets**********************************************************************/
+                String last3InvDets = "";
+                try {
+                    last3InvDets = networkFunctions.getLastThreeInvDet(repcode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1546,14 +1556,14 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                 // Processing lastinvoiceheds
                 try {
-                    JSONObject invoiceHedJSON = new JSONObject(discslab);
-                    JSONArray invoiceHedJSONJSONArray = invoiceHedJSON.getJSONArray("RepLastThreeInvHedResult");
-                    ArrayList<FInvhedL3> invoiceHedList = new ArrayList<FInvhedL3>();
-                    FInvhedL3DS invoiceHedController = new FInvhedL3DS(ActivityLogin.this);
+                    JSONObject invoiceHedJSON = new JSONObject(last3InvDets);
+                    JSONArray invoiceHedJSONJSONArray = invoiceHedJSON.getJSONArray("RepLastThreeInvDetResult");
+                    ArrayList<FinvDetL3> invoiceDetList = new ArrayList<FinvDetL3>();
+                    FinvDetL3DS invoiceHedController = new FinvDetL3DS(ActivityLogin.this);
                     for (int i = 0; i < invoiceHedJSONJSONArray.length(); i++) {
-                        invoiceHedList.add(FInvhedL3.parseInvoiceHeds(invoiceHedJSONJSONArray.getJSONObject(i)));
+                        invoiceDetList.add(FinvDetL3.parseInvoiceDets(invoiceHedJSONJSONArray.getJSONObject(i)));
                     }
-                    invoiceHedController.createOrUpdateFinvHedL3(invoiceHedList);
+                    invoiceHedController.createOrUpdateFinvDetL3(invoiceDetList);
                 } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
