@@ -34,8 +34,8 @@ import com.datamation.sfa.controller.DiscdetController;
 import com.datamation.sfa.controller.DischedController;
 import com.datamation.sfa.controller.DiscslabController;
 import com.datamation.sfa.controller.ExpenseController;
-import com.datamation.sfa.controller.FInvhedL3DS;
-import com.datamation.sfa.controller.FinvDetL3DS;
+import com.datamation.sfa.controller.FInvhedL3Controller;
+import com.datamation.sfa.controller.FinvDetL3Controller;
 import com.datamation.sfa.controller.FreeDebController;
 import com.datamation.sfa.controller.FreeDetController;
 import com.datamation.sfa.controller.FreeHedController;
@@ -86,9 +86,6 @@ import com.datamation.sfa.model.ItemLoc;
 import com.datamation.sfa.model.ItemPri;
 import com.datamation.sfa.model.Locations;
 import com.datamation.sfa.model.Reason;
-import com.datamation.sfa.model.ReferenceDetail;
-import com.datamation.sfa.model.Customer;
-import com.datamation.sfa.model.RefSetting;
 import com.datamation.sfa.model.Route;
 import com.datamation.sfa.model.RouteDet;
 import com.datamation.sfa.model.SalRep;
@@ -1526,7 +1523,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     JSONObject invoiceHedJSON = new JSONObject(last3InvHeds);
                     JSONArray invoiceHedJSONJSONArray = invoiceHedJSON.getJSONArray("RepLastThreeInvHedResult");
                     ArrayList<FInvhedL3> invoiceHedList = new ArrayList<FInvhedL3>();
-                    FInvhedL3DS invoiceHedController = new FInvhedL3DS(ActivityLogin.this);
+                    FInvhedL3Controller invoiceHedController = new FInvhedL3Controller(ActivityLogin.this);
                     for (int i = 0; i < invoiceHedJSONJSONArray.length(); i++) {
                         invoiceHedList.add(FInvhedL3.parseInvoiceHeds(invoiceHedJSONJSONArray.getJSONObject(i)));
                     }
@@ -1559,7 +1556,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     JSONObject invoiceHedJSON = new JSONObject(last3InvDets);
                     JSONArray invoiceHedJSONJSONArray = invoiceHedJSON.getJSONArray("RepLastThreeInvDetResult");
                     ArrayList<FinvDetL3> invoiceDetList = new ArrayList<FinvDetL3>();
-                    FinvDetL3DS invoiceHedController = new FinvDetL3DS(ActivityLogin.this);
+                    FinvDetL3Controller invoiceHedController = new FinvDetL3Controller(ActivityLogin.this);
                     for (int i = 0; i < invoiceHedJSONJSONArray.length(); i++) {
                         invoiceDetList.add(FinvDetL3.parseInvoiceDets(invoiceHedJSONJSONArray.getJSONObject(i)));
                     }
