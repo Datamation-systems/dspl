@@ -1,6 +1,7 @@
 package com.datamation.sfa.presale;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,6 +36,7 @@ import com.datamation.sfa.adapter.PreOrderAdapter;
 import com.datamation.sfa.controller.ItemController;
 import com.datamation.sfa.controller.ItemPriController;
 import com.datamation.sfa.controller.OrdFreeIssueController;
+import com.datamation.sfa.controller.OrderController;
 import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.PreProductController;
 import com.datamation.sfa.controller.SalRepController;
@@ -109,7 +111,12 @@ public class OrderDetailFragment extends Fragment{
 
             @Override
             public void onClick(View v) {
-                new LoardingProductFromDB().execute();
+                if(new OrderController(getActivity()).IsSavedHeader(RefNo)>0){
+                    new LoardingProductFromDB().execute();
+                }else{
+                    preSalesResponseListener.moveBackToCustomer_pre(0);
+                    Toast.makeText(getActivity(), "Cannot proceed,Please click arrow button to save header details...", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -797,6 +804,15 @@ public class OrderDetailFragment extends Fragment{
         else
         {
             Log.d("ORDER_DETAILS", "Order det saved unsuccess...");
+        }
+    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            preSalesResponseListener = (PreSalesResponseListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
         }
     }
 }
