@@ -14,13 +14,13 @@ import android.util.Log;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.FinvDetL3;
 
-public class FinvDetL3DS {
+public class FinvDetL3Controller {
 	private SQLiteDatabase dB;
 	private DatabaseHelper dbHelper;
 	Context context;
 	private String TAG = "FinvDetL3DS ";
 
-	public FinvDetL3DS(Context context) {
+	public FinvDetL3Controller(Context context) {
 		this.context = context;
 		dbHelper = new DatabaseHelper(context);
 	}

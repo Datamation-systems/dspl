@@ -13,13 +13,13 @@ import com.datamation.sfa.model.Last3Invoice;
 
 import java.util.ArrayList;
 
-public class FInvhedL3DS {
+public class FInvhedL3Controller {
 
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     Context context;
 
-    public FInvhedL3DS(Context context){
+    public FInvhedL3Controller(Context context){
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }

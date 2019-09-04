@@ -14,7 +14,7 @@ public class DateTimeFormatings {
             e.printStackTrace();
         }
         // format the java.util.Date object to the desired format
-        String formattedDate = new SimpleDateFormat("dd-MM-yyyy").format(date);
+        String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
         return formattedDate;
     }
 }
