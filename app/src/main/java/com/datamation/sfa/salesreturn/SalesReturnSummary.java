@@ -258,51 +258,106 @@ public class SalesReturnSummary extends Fragment {
         FInvRHed hed = new SalesReturnController(getActivity()).getActiveReturnHed(RefNo);
         outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getFINVRHED_DEBCODE());
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setMessage("Do you want to discard the return?");
-        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//        alertDialogBuilder.setMessage("Do you want to discard the return?");
+//        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+//        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//
+//                int result = new SalesReturnController(getActivity()).restDataForDirectSalesReturnHed(RefNo);
+//
+//                if (result > 0)
+//                {
+//                    int detResult = new SalesReturnDetController(getActivity()).restDataDirectSalesReturnDets(RefNo);
+//
+//                    if(detResult> 0)
+//                    {
+//                        Toast.makeText(getActivity(), "Return Hed and Det discarded successfully..!", Toast.LENGTH_LONG).show();
+//                    }
+//                    else
+//                    {
+//                        Toast.makeText(getActivity(), "Return Hed discarded successfully..!", Toast.LENGTH_LONG).show();
+//                    }
+//
+//                    UtilityContainer.ClearReturnSharedPref(getActivity());
+//                    activity.selectedReturnHed = null;
+//                    Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                    intent.putExtra("outlet", outlet);
+//                    startActivity(intent);
+//                    getActivity().finish();
+//                }
+//                else
+//                {
+//                    Toast.makeText(getActivity(), "Return discard success without data..!", Toast.LENGTH_LONG).show();
+//                    Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                    intent.putExtra("outlet", outlet);
+//                    startActivity(intent);
+//                    getActivity().finish();
+//                }
+//            }
+//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        AlertDialog alertD = alertDialogBuilder.create();
+//        alertD.show();
 
-                int result = new SalesReturnController(getActivity()).restDataForDirectSalesReturnHed(RefNo);
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Do you want to discard the return?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
 
-                if (result > 0)
-                {
-                    int detResult = new SalesReturnDetController(getActivity()).restDataDirectSalesReturnDets(RefNo);
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        int result = new SalesReturnController(getActivity()).restDataForDirectSalesReturnHed(RefNo);
 
-                    if(detResult> 0)
-                    {
-                        Toast.makeText(getActivity(), "Return Hed and Det discarded successfully..!", Toast.LENGTH_LONG).show();
+                        if (result > 0)
+                        {
+                            int detResult = new SalesReturnDetController(getActivity()).restDataDirectSalesReturnDets(RefNo);
+
+                            if(detResult> 0)
+                            {
+                                Toast.makeText(getActivity(), "Return Hed and Det discarded successfully..!", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(), "Return Hed discarded successfully..!", Toast.LENGTH_LONG).show();
+                            }
+
+                            UtilityContainer.ClearReturnSharedPref(getActivity());
+                            activity.selectedReturnHed = null;
+                            Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                            intent.putExtra("outlet", outlet);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Return discard success without data..!", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                            intent.putExtra("outlet", outlet);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
                     }
-                    else
-                    {
-                        Toast.makeText(getActivity(), "Return Hed discarded successfully..!", Toast.LENGTH_LONG).show();
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+
+                        dialog.dismiss();
+
+
                     }
-
-                    UtilityContainer.ClearReturnSharedPref(getActivity());
-                    activity.selectedReturnHed = null;
-                    Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                    intent.putExtra("outlet", outlet);
-                    startActivity(intent);
-                    getActivity().finish();
-                }
-                else
-                {
-                    Toast.makeText(getActivity(), "Return discard success without data..!", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                    intent.putExtra("outlet", outlet);
-                    startActivity(intent);
-                    getActivity().finish();
-                }
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alertD = alertDialogBuilder.create();
-        alertD.show();
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

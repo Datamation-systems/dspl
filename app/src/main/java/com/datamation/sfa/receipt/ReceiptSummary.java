@@ -174,36 +174,6 @@ public class ReceiptSummary extends Fragment {
 
     private void undoEditingData(final Context context) {
 
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-//        alertDialogBuilder.setMessage("Do you want to discard the receipt ?");
-//        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-//        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//
-//                ReceiptActivity activity = (ReceiptActivity) getActivity();
-//                new OutstandingController(getActivity()).ClearFddbNoteData();
-//                new ReceiptController(getActivity()).CancelReceiptS(RefNo);
-//
-//                //activity.cusPosition = 0;
-//                activity.selectedDebtor = null;
-//                activity.selectedRecHed = null;
-//                Toast.makeText(getActivity(), "Receipt discarded successfully..!", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
-//                startActivity(intent);
-//                getActivity().finish();
-//              //  UtilityContainer.ClearReceiptSharedPref(getActivity());
-//              //  UtilityContainer.mLoadFragment(new ReceiptInvoice(), getActivity());
-//
-//            }
-//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        AlertDialog alertD = alertDialogBuilder.create();
-//        alertD.show();
-
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .content("Do you want to discard the receipt ?")
                 .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
@@ -306,85 +276,6 @@ public class ReceiptSummary extends Fragment {
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Save primary & secondary invoice-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*/
 
     private void saveSummaryDialog(final Context context) {
-
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-//        alertDialogBuilder.setMessage("Do you want to save the receipt ?");
-//        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-//        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//            public void onClick(final DialogInterface dialog, int id) {
-//
-//                ReceiptHed recHed = new ReceiptHed();
-//                recHed.setFPRECHED_LATITUDE(gps.getLatitude() + "");
-//                recHed.setFPRECHED_LONGITUDE(gps.getLongitude() + "");
-//                recHed.setFPRECHED_START_TIME(localSP.getString("Rec_Start_Time", "").toString());
-//                recHed.setFPRECHED_END_TIME(currentTime());
-//                recHed.setFPRECHED_ADDRESS("None");
-//                recHed.setFPRECHED_COSTCODE(mSharedPref.getGlobalVal("PrekeyCost"));
-//                new ReceiptController(getActivity()).UpdateRecHed(recHed, RefNo);
-//                final ReceiptActivity activity = (ReceiptActivity) getActivity();
-//
-//                ArrayList<ReceiptDet> RecList = new ArrayList<>();
-//
-//                for (FddbNote fddb : fddbnoteList) {
-//
-//                    ReceiptDet recDet = new ReceiptDet();
-//                    recDet.setFPRECDET_REFNO(RefNo);
-//                    recDet.setFPRECDET_BAMT(fddb.getFDDBNOTE_ENTER_AMT());
-//                    recDet.setFPRECDET_AMT(fddb.getFDDBNOTE_ENTER_AMT());
-//                    recDet.setFPRECDET_ALOAMT(fddb.getFDDBNOTE_ENTER_AMT());
-//                    recDet.setFPRECDET_SALEREFNO(fddb.getFDDBNOTE_REFNO());
-//                    recDet.setFPRECDET_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
-//                    recDet.setFPRECDET_DCURCODE("LKR");
-//                    recDet.setFPRECDET_DCURRATE("1.0");
-//                    recDet.setFPRECDET_DTXNDATE(fddb.getFDDBNOTE_TXN_DATE());
-//                    recDet.setFPRECDET_DTXNTYPE(fddb.getFDDBNOTE_TXN_TYPE());
-//                    recDet.setFPRECDET_TXNDATE(currentDate());
-//                    recDet.setFPRECDET_TXNTYPE("21");
-//                    recDet.setFPRECDET_REFNO1(fddb.getFDDBNOTE_REFNO());
-//                    recDet.setFPRECDET_MANUREF("");
-//                    recDet.setFPRECDET_OCURRATE("1.00");
-//                    recDet.setFPRECDET_OVPAYAMT(String.valueOf(Double.parseDouble(fddb.getFDDBNOTE_TOT_BAL()) - Double.parseDouble(fddb.getFDDBNOTE_ENTER_AMT())));
-//                    recDet.setFPRECDET_OVPAYBAL(String.valueOf(Double.parseDouble(fddb.getFDDBNOTE_TOT_BAL()) - Double.parseDouble(fddb.getFDDBNOTE_ENTER_AMT())));
-//                    recDet.setFPRECDET_RECORDID("");
-//                    recDet.setFPRECDET_TIMESTAMP("");
-//                    recDet.setFPRECDET_ISDELETE("0");
-//                    recDet.setFPRECDET_REMARK(fddb.getFDDBNOTE_REMARKS());
-//                    recDet.setFPRECDET_DEBCODE(SharedPref.getInstance(getActivity()).getSelectedDebCode());
-//                    RecList.add(recDet);
-//                }
-//
-//                new ReceiptDetController(getActivity()).createOrUpdateRecDetS(RecList);
-//                new OutstandingController(getActivity()).UpdateFddbNoteBalance(fddbnoteList);
-//                new ReceiptController(getActivity()).InactiveStatusUpdate(RefNo);
-//
-//                //new ReceiptPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
-//
-//              //  activity.cusPosition = 0;
-//                activity.selectedDebtor = null;
-//                activity.selectedRecHed = null;
-//                activity.ReceivedAmt = 0.00;
-//                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ReceiptNumVal));
-//
-//				/*-*-*-*-*-*-*-*-*-*-*-Check if deadline passed-*-*-*-*-*-*-*-*-*-*-*/
-//
-//                Toast.makeText(getActivity(), "Receipt saved successfully..!", Toast.LENGTH_SHORT).show();
-//            //    UtilityContainer.mLoadFragment(new ReceiptInvoice(), getActivity());
-//                dialog.dismiss();
-//                ClearSharedPref();/* Clear shared preference */
-//
-//                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-//                startActivity(intent);
-//                getActivity().finish();
-//
-//            }
-//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.cancel();
-//            }
-//        });
-//        AlertDialog alertD = alertDialogBuilder.create();
-//        alertD.show();
 
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .content("Do you want to save the receipt ?")

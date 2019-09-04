@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.NonPrdDetails;
 import com.datamation.sfa.adapter.NonProductiveReasonAdapter;
@@ -299,70 +301,79 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
 
     private void saveSummaryDialog(final Context context) {
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        // alertDialogBuilder.setTitle(title);
-        alertDialogBuilder.setMessage("Are you sure you want to save this entry?");
-        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
 
-                //ActivityHome activity = (ActivityHome) getActivity();
-                DayNPrdDetController deb = new DayNPrdDetController(getActivity());
-                if (deb.getAllnonprdDetails(RefNo.getText() + "").size() > 0) {
-                    // new AddressAyncTask(getActivity(),this).execute();
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Are you sure you want to save this entry?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
 
-                    DayNPrdHed nonhed = new DayNPrdHed();
-                    ArrayList<DayNPrdHed> NONHedList = new ArrayList<DayNPrdHed>();
-                    DayNPrdHedController nonHedDS = new DayNPrdHedController(getActivity());
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        //ActivityHome activity = (ActivityHome) getActivity();
+                        DayNPrdDetController deb = new DayNPrdDetController(getActivity());
+                        if (deb.getAllnonprdDetails(RefNo.getText() + "").size() > 0) {
+                            // new AddressAyncTask(getActivity(),this).execute();
 
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date = new Date();
+                            DayNPrdHed nonhed = new DayNPrdHed();
+                            ArrayList<DayNPrdHed> NONHedList = new ArrayList<DayNPrdHed>();
+                            DayNPrdHedController nonHedDS = new DayNPrdHedController(getActivity());
 
-                    nonhed.setNONPRDHED_REFNO(RefNo.getText() + "");
-                    nonhed.setNONPRDHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
-                    nonhed.setNONPRDHED_TXNDATE(dateFormat.format(date));
-                    nonhed.setNONPRDHED_TRANSBATCH("");
-                    nonhed.setNONPRDHED_REMARKS(Remark.getText() + "");
-                    nonhed.setNONPRDHED_ADDDATE(dateFormat.format(date));
-                    //nonhed.setNONPRDHED_ADDMACH(mSharedPref.getString("MAC_Address", "No MAC Address").toString());
-                    nonhed.setNONPRDHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
-                    nonhed.setNONPRDHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
-                    nonhed.setNONPRDHED_ADDUSER(new SalRepController(getActivity()).getCurrentRepCode().trim());
-                    nonhed.setNONPRDHED_COSTCODE("000");
-                    nonhed.setNONPRDHED_DEALCODE("");
-                    nonhed.setNONPRDHED_IS_SYNCED("0");
-                    nonhed.setNONPRDHED_DEBCODE(mSharedPref.getSelectedDebCode());
-                    //nonhed.setNONPRDHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
-                    NONHedList.add(nonhed);
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            Date date = new Date();
 
-                    if (nonHedDS.createOrUpdateNonPrdHed(NONHedList) > 0) {
-                        new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.nonprdVal));
+                            nonhed.setNONPRDHED_REFNO(RefNo.getText() + "");
+                            nonhed.setNONPRDHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
+                            nonhed.setNONPRDHED_TXNDATE(dateFormat.format(date));
+                            nonhed.setNONPRDHED_TRANSBATCH("");
+                            nonhed.setNONPRDHED_REMARKS(Remark.getText() + "");
+                            nonhed.setNONPRDHED_ADDDATE(dateFormat.format(date));
+                            //nonhed.setNONPRDHED_ADDMACH(mSharedPref.getString("MAC_Address", "No MAC Address").toString());
+                            nonhed.setNONPRDHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
+                            nonhed.setNONPRDHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
+                            nonhed.setNONPRDHED_ADDUSER(new SalRepController(getActivity()).getCurrentRepCode().trim());
+                            nonhed.setNONPRDHED_COSTCODE("000");
+                            nonhed.setNONPRDHED_DEALCODE("");
+                            nonhed.setNONPRDHED_IS_SYNCED("0");
+                            nonhed.setNONPRDHED_DEBCODE(mSharedPref.getSelectedDebCode());
+                            //nonhed.setNONPRDHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
+                            NONHedList.add(nonhed);
 
-                        outlet = new CustomerController(context).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
+                            if (nonHedDS.createOrUpdateNonPrdHed(NONHedList) > 0) {
+                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.nonprdVal));
+
+                                outlet = new CustomerController(context).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
 //                        activity.cusPosition = 0;
 //                        activity.selectedDebtor = null;
-                       // UtilityContainer.ClearNonSharedPref(getActivity());
-                        Toast.makeText(getActivity(), "Non Productive saved successfully !", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                        intent.putExtra("outlet",outlet);
-                        startActivity(intent);
-                        getActivity().finish();
+                                // UtilityContainer.ClearNonSharedPref(getActivity());
+                                Toast.makeText(getActivity(), "Non Productive saved successfully !", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                                intent.putExtra("outlet", outlet);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(), "No Data For Save", Toast.LENGTH_LONG).show();
+                        }
                     }
 
-                } else {
-                    Toast.makeText(getActivity(), "No Data For Save", Toast.LENGTH_LONG).show();
-                }
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
 
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
+                        dialog.dismiss();
 
-        AlertDialog alertD = alertDialogBuilder.create();
 
-        alertD.show();
+                    }
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
+
     }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -427,41 +438,52 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
 
     private void undoEditingData(final Context context) {
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setMessage("Are you sure you want to Undo this entry?");
-        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
 
-                try {
-                    new DayNPrdHedController(getActivity()).undoOrdHedByID(RefNo.getText().toString().trim());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    new DayNPrdDetController(getActivity()).OrdDetByRefno(RefNo.getText().toString().trim());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //activity.cusPosition = 0;
-                mainActivity.selectedNonDebtor = null;
-                Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
-                startActivity(intnt);
-                getActivity().finish();
-                //UtilityContainer.ClearNonSharedPref(getActivity());
-                Toast.makeText(getActivity(), "Undo Success", Toast.LENGTH_LONG).show();
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
 
-                dialog.cancel();
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Are you sure you want to Undo this entry?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
 
-            }
-        });
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        try {
+                            new DayNPrdHedController(getActivity()).undoOrdHedByID(RefNo.getText().toString().trim());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            new DayNPrdDetController(getActivity()).OrdDetByRefno(RefNo.getText().toString().trim());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        //activity.cusPosition = 0;
+                        mainActivity.selectedNonDebtor = null;
+                        Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+                        startActivity(intnt);
+                        getActivity().finish();
+                        //UtilityContainer.ClearNonSharedPref(getActivity());
+                        Toast.makeText(getActivity(), "Undo Success", Toast.LENGTH_LONG).show();
 
-        AlertDialog alertD = alertDialogBuilder.create();
+                    }
 
-        alertD.show();
+        @Override
+        public void onNegative(MaterialDialog dialog) {
+            super.onNegative(dialog);
+
+            dialog.dismiss();
+
+
+        }
+    })
+            .build();
+                            materialDialog.setCanceledOnTouchOutside(false);
+                            materialDialog.show();
+
     }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

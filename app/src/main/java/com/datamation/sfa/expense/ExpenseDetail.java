@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.adapter.SalesExpenseDetailAdapter;
 import com.datamation.sfa.adapter.SalesExpenseGridDetails;
 import com.datamation.sfa.R;
@@ -300,59 +302,67 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 
     private void saveSummaryDialog(final Context context) {
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setMessage("Are you sure you want to save this entry?");
-        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Are you sure you want to save this entry?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
 
-                if (new DayExpDetController(getActivity()).getAllExpDetails(RefNo.getText() + "").size() > 0) {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        if (new DayExpDetController(getActivity()).getAllExpDetails(RefNo.getText() + "").size() > 0) {
 
-                    DayExpHed exphed = new DayExpHed();
-                    ArrayList<DayExpHed> ExpHedList = new ArrayList<DayExpHed>();
+                            DayExpHed exphed = new DayExpHed();
+                            ArrayList<DayExpHed> ExpHedList = new ArrayList<DayExpHed>();
 
-                    String refno = RefNo.getText().toString();
-                    exphed.setEXP_REFNO(RefNo.getText() + "");
-                    exphed.setEXP_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
-                    exphed.setEXP_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                    exphed.setEXP_REMARK(Remark.getText() + "");
-                    exphed.setEXP_ADDDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                    exphed.setEXP_ACTIVESTATE("0");
-                    exphed.setEXP_IS_SYNCED("0");
-                    exphed.setEXP_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("***") ? "0.00" : SharedPref.getInstance(getActivity()).getGlobalVal("Latitude"));
-                    exphed.setEXP_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("***") ? "0.00" : SharedPref.getInstance(getActivity()).getGlobalVal("Longitude"));
-                   // exphed.setEXP_ADDRESS(localSP.getString("GPS_Address", "").toString());
-                    exphed.setEXP_REPNAME(new SalRepController(getActivity()).getSaleRep(new SalRepController(getActivity()).getCurrentRepCode()).getNAME());
-                    exphed.setEXP_COSTCODE("000");
-                    exphed.setEXP_TOTAMT(new DayExpDetController(getActivity()).getTotalExpenseSumReturns(refno));
-                    ExpHedList.add(exphed);
+                            String refno = RefNo.getText().toString();
+                            exphed.setEXP_REFNO(RefNo.getText() + "");
+                            exphed.setEXP_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
+                            exphed.setEXP_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                            exphed.setEXP_REMARK(Remark.getText() + "");
+                            exphed.setEXP_ADDDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                            exphed.setEXP_ACTIVESTATE("0");
+                            exphed.setEXP_IS_SYNCED("0");
+                            exphed.setEXP_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("***") ? "0.00" : SharedPref.getInstance(getActivity()).getGlobalVal("Latitude"));
+                            exphed.setEXP_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("***") ? "0.00" : SharedPref.getInstance(getActivity()).getGlobalVal("Longitude"));
+                            // exphed.setEXP_ADDRESS(localSP.getString("GPS_Address", "").toString());
+                            exphed.setEXP_REPNAME(new SalRepController(getActivity()).getSaleRep(new SalRepController(getActivity()).getCurrentRepCode()).getNAME());
+                            exphed.setEXP_COSTCODE("000");
+                            exphed.setEXP_TOTAMT(new DayExpDetController(getActivity()).getTotalExpenseSumReturns(refno));
+                            ExpHedList.add(exphed);
 
-                    if (new DayExpHedController(getActivity()).createOrUpdateDayExpHed(ExpHedList) > 0) {
+                            if (new DayExpHedController(getActivity()).createOrUpdateDayExpHed(ExpHedList) > 0) {
 
 
-                        referenceNum.NumValueUpdate(getResources().getString(R.string.ExpenseNumVal));
-                        Toast.makeText(getActivity(), "Successfully saved Expense. ", Toast.LENGTH_LONG).show();
+                                referenceNum.NumValueUpdate(getResources().getString(R.string.ExpenseNumVal));
+                                Toast.makeText(getActivity(), "Successfully saved Expense. ", Toast.LENGTH_LONG).show();
 //                        UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
-                        Intent intent = new Intent(getActivity(), ActivityHome.class);
-                        startActivity(intent);
-                        getActivity().finish();
+                                Intent intent = new Intent(getActivity(), ActivityHome.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(), "No Data For Save", Toast.LENGTH_LONG).show();
+
+                        }
+
                     }
 
-                } else {
-                    Toast.makeText(getActivity(), "No Data For Save", Toast.LENGTH_LONG).show();
+        @Override
+        public void onNegative(MaterialDialog dialog) {
+            super.onNegative(dialog);
 
-                }
+            dialog.dismiss();
 
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
 
-        AlertDialog alertD = alertDialogBuilder.create();
-
-        alertD.show();
+        }
+    })
+            .build();
+                            materialDialog.setCanceledOnTouchOutside(false);
+                            materialDialog.show();
     }
 
 	/*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*/
@@ -390,47 +400,95 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 
     private void undoEditingData(final Context context, final String RefNo) {
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setMessage("Are you sure you want to Undo this entry?");
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+//        alertDialogBuilder.setMessage("Are you sure you want to Undo this entry?");
+
+//        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+//        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//
+//                ReferenceNum referenceNum = new ReferenceNum(getActivity());
+//
+//                try {
+//                    //expHED.undoExpHedByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpHed
+//                    expHED.undoExpHedByID(RefNo); // FExpHed
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                try {
+//                    //expDET.ExpDetByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpDet
+//                    expDET.ExpDetByID(RefNo); // FExpDet
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+////                UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
+//                Intent intent = new Intent(getActivity(), ActivityHome.class);
+//                startActivity(intent);
+//                getActivity().finish();
+//                Toast.makeText(getActivity(), "Undo Success", Toast.LENGTH_LONG).show();
+//
+//            }
+//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//
+//                dialog.cancel();
+//
+//            }
+//        });
+//
+//        AlertDialog alertD = alertDialogBuilder.create();
+//
+//        alertD.show();
+
         final DayExpHedController expHED = new DayExpHedController(getActivity());
         final DayExpDetController expDET = new DayExpDetController(getActivity());
-        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
 
-                ReferenceNum referenceNum = new ReferenceNum(getActivity());
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Are you sure you want to Undo this entry?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
 
-                try {
-                    //expHED.undoExpHedByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpHed
-                    expHED.undoExpHedByID(RefNo); // FExpHed
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    //expDET.ExpDetByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpDet
-                    expDET.ExpDetByID(RefNo); // FExpDet
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        ReferenceNum referenceNum = new ReferenceNum(getActivity());
+
+                        try {
+                            //expHED.undoExpHedByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpHed
+                            expHED.undoExpHedByID(RefNo); // FExpHed
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            //expDET.ExpDetByID(referenceNum.getCurrentRefNo(getResources().getString(R.string.ExpenseNumVal))); // FExpDet
+                            expDET.ExpDetByID(RefNo); // FExpDet
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
 //                UtilityContainer.mLoadFragment(new FragmentTools(), getActivity());
-                Intent intent = new Intent(getActivity(), ActivityHome.class);
-                startActivity(intent);
-                getActivity().finish();
-                Toast.makeText(getActivity(), "Undo Success", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getActivity(), ActivityHome.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        Toast.makeText(getActivity(), "Undo Success", Toast.LENGTH_LONG).show();
 
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+                    }
 
-                dialog.cancel();
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
 
-            }
-        });
+                        dialog.dismiss();
 
-        AlertDialog alertD = alertDialogBuilder.create();
 
-        alertD.show();
+                    }
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
     }
 
 	

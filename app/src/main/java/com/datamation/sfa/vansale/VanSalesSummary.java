@@ -182,56 +182,6 @@ public class VanSalesSummary extends Fragment {
 
     public void undoEditingData() {
 
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-//        alertDialogBuilder.setMessage("Do you want to discard the invoice with return ?");
-//        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-//        alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//
-//                VanSalesActivity activity = (VanSalesActivity) getActivity();
-//
-//                RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
-//
-//                String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
-//                String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(orRefNo);
-//
-//                if (activeRetRefNo.equals(""))
-//                {
-//                    ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
-//                }
-//                else
-//                {
-//                    ReturnRefNo = activeRetRefNo;
-//                }
-//                String result = new InvHedController(getActivity()).restData(RefNo);
-//                int resultReturn = new SalesReturnController(getActivity()).restData(ReturnRefNo);
-//                if (!result.equals("")) {
-//                    new InvDetController(getActivity()).restData(RefNo);
-//                    new ProductController(getActivity()).mClearTables();
-//                }
-//                if(resultReturn != 0){
-//                    new SalesReturnDetController(getActivity()).restData(ReturnRefNo);
-//                }
-//
-//            //    activity.cusPosition = 0;
-//                Toast.makeText(getActivity(), "Invoice and return details discarded successfully..!", Toast.LENGTH_SHORT).show();
-//               // UtilityContainer.ClearVanSharedPref(getActivity());
-//                UtilityContainer.ClearReturnSharedPref(getActivity());
-//
-//                Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
-//                startActivity(intnt);
-//                getActivity().finish();
-//
-//            }
-//        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        AlertDialog alertD = alertDialogBuilder.create();
-//        alertD.show();
-
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .content("Do you want to discard the invoice with return ?")
                 .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
