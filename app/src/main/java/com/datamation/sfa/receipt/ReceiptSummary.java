@@ -74,7 +74,6 @@ public class ReceiptSummary extends Fragment {
         mSharedPref = SharedPref.getInstance(getActivity());
         localSP = getActivity().getSharedPreferences(SETTINGS, 0);
         gps = new GPSTracker(getActivity());
-        setHasOptionsMenu(true);
         fam = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
         fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);

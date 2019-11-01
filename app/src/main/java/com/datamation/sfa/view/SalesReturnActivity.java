@@ -39,9 +39,9 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_return);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.saleretrun_toolbar);
-        TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("SALES RETURN");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("SALES RETURN");
         context = this;
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.saleretrun_tab_strip);
@@ -82,6 +82,7 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
             }
         });
     }
+
 
     @Override
     protected void onStart() {
@@ -168,4 +169,7 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
     public void onBackPressed() {
 //        super.onBackPressed();
     }
+
+
+
 }
