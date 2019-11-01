@@ -11,6 +11,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,9 +45,9 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_sales);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.presale_toolbar);
-        TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("INVOICE");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("INVOICE");
         context = this;
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.presale_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.presale_viewpager);
@@ -185,4 +188,9 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
        // super.onBackPressed();
         Toast.makeText(this,"Back button disabled until finish transaction",Toast.LENGTH_SHORT).show();
     }
+
+
+
 }
+
+

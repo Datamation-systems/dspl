@@ -40,10 +40,11 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_sales);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("RECEIPT");
         context = this;
-        Toolbar toolbar = (Toolbar) findViewById(R.id.presale_toolbar);
-        TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("RECEIPT");
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.presale_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.presale_viewpager);

@@ -14,6 +14,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,10 +28,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.CustomerDebtAdapter;
 import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.InvHedController;
+import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.OutstandingController;
 import com.datamation.sfa.controller.SalRepController;
 import com.datamation.sfa.helpers.SharedPref;
@@ -37,6 +42,7 @@ import com.datamation.sfa.model.Customer;
 import com.datamation.sfa.model.FddbNote;
 import com.datamation.sfa.model.InvHed;
 import com.datamation.sfa.settings.ReferenceNum;
+import com.datamation.sfa.view.DebtorDetailsActivity;
 import com.datamation.sfa.view.VanSalesActivity;
 
 import java.text.SimpleDateFormat;
@@ -67,6 +73,7 @@ public class VanSalesHeader extends Fragment {
         localSP = getActivity().getSharedPreferences(SETTINGS, 0);
         activity = (VanSalesActivity) getActivity();
         mSharedPref = new SharedPref(getActivity());
+        setHasOptionsMenu(true);
         next = (FloatingActionButton) view.findViewById(R.id.fab);
 
         lblCustomerName = (TextView) view.findViewById(R.id.customerName);
@@ -173,7 +180,90 @@ public class VanSalesHeader extends Fragment {
         return view;
     }
 
-	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.mnu_close, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.close:
+                if(new OrderDetailController(getActivity()).isAnyActiveOrders()){
+                    MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                            .content("You have active orders. Cannot back without complete.")
+                            .positiveText("OK")
+                            .positiveColor(getResources().getColor(R.color.material_alert_positive_button))
+//                            .negativeText("No")
+//                            .negativeColor(getResources().getColor(R.color.material_alert_negative_button))
+
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNegative(MaterialDialog dialog) {
+                                    super.onNegative(dialog);
+                                }
+
+                                @Override
+                                public void onNeutral(MaterialDialog dialog) {
+                                    super.onNeutral(dialog);
+                                }
+                            })
+                            .build();
+                    materialDialog.setCancelable(false);
+                    materialDialog.setCanceledOnTouchOutside(false);
+                    materialDialog.show();
+                }else{
+                    MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                            .content("Do you want to back?")
+                            .positiveText("Yes")
+                            .positiveColor(getResources().getColor(R.color.material_alert_positive_button))
+                            .negativeText("No")
+                            .negativeColor(getResources().getColor(R.color.material_alert_negative_button))
+
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    super.onPositive(dialog);
+                                    Intent back = new Intent(getActivity(), DebtorDetailsActivity.class);
+                                    back.putExtra("outlet",new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode()));
+                                    startActivity(back);
+                                    getActivity().finish();
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNegative(MaterialDialog dialog) {
+                                    super.onNegative(dialog);
+                                }
+
+                                @Override
+                                public void onNeutral(MaterialDialog dialog) {
+                                    super.onNeutral(dialog);
+                                }
+                            })
+                            .build();
+                    materialDialog.setCancelable(false);
+                    materialDialog.setCanceledOnTouchOutside(false);
+                    materialDialog.show();
+                }
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void mSaveInvoiceHeader() {
         selectedDebtor = new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
@@ -232,8 +322,7 @@ public class VanSalesHeader extends Fragment {
     }
 
 
-
-	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onPause() {
         super.onPause();

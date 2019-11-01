@@ -37,9 +37,9 @@ public class NonProductiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_non_productive);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.np_toolbar);
-        TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("NON PRODUCTIVE");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("NON PRODUCTIVE");
         context = this;
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.np_tab_strip);

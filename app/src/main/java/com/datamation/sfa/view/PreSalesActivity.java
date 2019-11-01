@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -48,11 +50,10 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_sales);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("SALES ORDER");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.presale_toolbar);
-        TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("SALES ORDER");
-        context = this;
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.presale_tab_strip);
         viewPager = (ViewPager) findViewById(R.id.presale_viewpager);
@@ -192,4 +193,7 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
     public void onBackPressed() {
 //        super.onBackPressed();
     }
+
+
+
 }

@@ -15,6 +15,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -29,6 +32,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
 import com.datamation.sfa.adapter.ReturnReasonAdapter;
+import com.datamation.sfa.controller.CustomerController;
+import com.datamation.sfa.controller.OrderDetailController;
 import com.datamation.sfa.controller.ReasonController;
 import com.datamation.sfa.controller.RouteController;
 import com.datamation.sfa.controller.SalRepController;
@@ -39,6 +44,7 @@ import com.datamation.sfa.model.FInvRHed;
 import com.datamation.sfa.model.Reason;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.LocationProvider;
+import com.datamation.sfa.view.DebtorDetailsActivity;
 import com.datamation.sfa.view.SalesReturnActivity;
 
 import java.text.SimpleDateFormat;
@@ -81,7 +87,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
         activity = (SalesReturnActivity)getActivity();
         next = (FloatingActionButton) view.findViewById(R.id.fab);
         pref = SharedPref.getInstance(getActivity());
-
+        setHasOptionsMenu(true);
         Date d = Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy"); //change this
         String formattedDate = simpleDateFormat.format(d);
@@ -236,6 +242,90 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
         return sdf.format(cal.getTime());
     }
 
+     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.mnu_close, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.close:
+                if(new OrderDetailController(getActivity()).isAnyActiveOrders()){
+                    MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                            .content("You have active orders. Cannot back without complete.")
+                            .positiveText("OK")
+                            .positiveColor(getResources().getColor(R.color.material_alert_positive_button))
+//                            .negativeText("No")
+//                            .negativeColor(getResources().getColor(R.color.material_alert_negative_button))
+
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNegative(MaterialDialog dialog) {
+                                    super.onNegative(dialog);
+                                }
+
+                                @Override
+                                public void onNeutral(MaterialDialog dialog) {
+                                    super.onNeutral(dialog);
+                                }
+                            })
+                            .build();
+                    materialDialog.setCancelable(false);
+                    materialDialog.setCanceledOnTouchOutside(false);
+                    materialDialog.show();
+                }else{
+                    MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                            .content("Do you want to back?")
+                            .positiveText("Yes")
+                            .positiveColor(getResources().getColor(R.color.material_alert_positive_button))
+                            .negativeText("No")
+                            .negativeColor(getResources().getColor(R.color.material_alert_negative_button))
+
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    super.onPositive(dialog);
+                                    Intent back = new Intent(getActivity(), DebtorDetailsActivity.class);
+                                    back.putExtra("outlet",new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode()));
+                                    startActivity(back);
+                                    getActivity().finish();
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNegative(MaterialDialog dialog) {
+                                    super.onNegative(dialog);
+                                }
+
+                                @Override
+                                public void onNeutral(MaterialDialog dialog) {
+                                    super.onNeutral(dialog);
+                                }
+                            })
+                            .build();
+                    materialDialog.setCancelable(false);
+                    materialDialog.setCanceledOnTouchOutside(false);
+                    materialDialog.show();
+                }
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void SaveReturnHeader() {
 

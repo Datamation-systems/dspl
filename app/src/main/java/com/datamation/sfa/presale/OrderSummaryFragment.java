@@ -207,46 +207,6 @@ public class OrderSummaryFragment extends Fragment {
         Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
         outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());
 
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-//        alertDialogBuilder.setMessage("Do you want to discard the order with return ?");
-//        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-//        alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//
-//                int result = new OrderController(getActivity()).restData(RefNo);
-//                int resultReturn = new SalesReturnController(getActivity()).restDataForOrders(ReturnRefNo);
-//
-//                if (result>0) {
-//                    new OrderDetailController(getActivity()).restData(RefNo);
-//                    new PreProductController(getActivity()).mClearTables();
-//                }
-//                if(resultReturn != 0){
-//                    new SalesReturnDetController(getActivity()).restData(ReturnRefNo);
-//                }
-//
-//                //    activity.cusPosition = 0;
-////                mainActivity.selectedDebtor = null;
-////                mainActivity.selectedRetDebtor = null;
-////                mainActivity.selectedPreHed = null;
-////                mainActivity.selectedReturnHed = null;
-//                Toast.makeText(getActivity(), "Order and return details discarded successfully..!", Toast.LENGTH_SHORT).show();
-//                // UtilityContainer.ClearVanSharedPref(getActivity());
-//                UtilityContainer.ClearReturnSharedPref(getActivity());
-//
-//                Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
-//                intnt.putExtra("outlet", outlet);
-//                startActivity(intnt);
-//                getActivity().finish();
-//
-//            }
-//        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        AlertDialog alertD = alertDialogBuilder.create();
-//        alertD.show();
 
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .content("Do you want to discard the order with return ?")

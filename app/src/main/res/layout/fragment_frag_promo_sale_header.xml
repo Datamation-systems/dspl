@@ -276,11 +276,56 @@
 
                     </TableRow>
 
-                    <LinearLayout
+                    <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tr4"
                         android:layout_below="@+id/tr3"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="2"
+                        android:gravity="center_vertical">
+
+                        <com.datamation.sfa.utils.CustomFont
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingRight="10dp"
+                            android:text="Delivery Date"
+                            android:textAllCaps="true"
+                            android:textColor="@color/greenColor"
+                            android:textSize="@dimen/font_for_all"/>
+
+                        <EditText
+                            android:id="@+id/txt_deliveryDate"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="55dp"
+                            android:layout_marginStart="70dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/edittextstyle"
+                            android:gravity="center"
+                            android:editable="false"
+                            android:textSize="14sp">
+
+                        </EditText>
+
+                        <ImageButton
+                            android:id="@+id/imgbtn_DeliveryDate"
+                            android:layout_width="60dp"
+                            android:layout_height="55dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/calendar"/>
+
+
+
+                    </TableRow>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tr5"
+                        android:layout_below="@+id/tr4"
                         android:layout_marginTop="10dp"
                         android:weightSum="2"
                         android:gravity="center_vertical">
@@ -312,9 +357,10 @@
                     </LinearLayout>
 
                     <TableRow
+                        android:id="@+id/tr6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tr4"
+                        android:layout_below="@+id/tr5"
                         android:weightSum="2"
                         android:layout_marginTop="10dp">
 
