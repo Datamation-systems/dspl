@@ -67,6 +67,14 @@ public class OrderDetailsAdapter extends BaseAdapter {
 
         return convertView;
     }
+    //12972
+    //1067
+   // 1003.75
+    //1649
+    //600
+    //990+419.37
+    //19215.00
+
     private  static  class  ViewHolder{
         TextView lblItem;
         TextView lblQty;

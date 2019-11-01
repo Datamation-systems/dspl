@@ -61,7 +61,9 @@
         <activity android:name=".view.SalesReturnActivity" />
         <activity android:name=".view.ReceiptActivity" />
         <activity android:name=".view.NonProductiveActivity" />
-        <activity android:name=".view.DayExpenseActivity"></activity>
+        <activity android:name=".view.DayExpenseActivity">
+
+        </activity>
     </application>
 
 </manifest>
