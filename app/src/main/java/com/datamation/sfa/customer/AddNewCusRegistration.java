@@ -96,7 +96,7 @@ public class AddNewCusRegistration extends Fragment implements AsyncTaskListener
 
         //hide bottom navigation
         home = new ActivityHome();
-        home.bottomNav(true);
+        //home.bottomNav(true);
 
         mSharedPref = SharedPref.getInstance(getActivity());
         referenceNum = new ReferenceNum(getActivity());
