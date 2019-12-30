@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Switch;
@@ -58,7 +60,7 @@ public class NewCustomerActivity extends AppCompatActivity {
 
     public EditText customerCode,
             customerName, editTextCNic, OtherCode, businessRegno, district,
-            town, route, addressline1, addressline2, city, mobile, phone, fax, emailaddress;
+            town, route, addressline1, addressline2, city, mobile, phone, fax, emailaddress,Reg_date;
     public ImageButton btn_Route, btn_District, btn_Town, CustomerbtnSearch;
     private ArrayList<Route> routeArrayList;
     private ArrayList<Town> townArrayList;
@@ -76,6 +78,7 @@ public class NewCustomerActivity extends AppCompatActivity {
     CircleButton fabSave, fabDiscard;
     int CUSFLG = 1;
     private String nCustomerNo;
+    private ImageView customerImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,31 +94,34 @@ public class NewCustomerActivity extends AppCompatActivity {
         localSP = this.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
         fabSave = (CircleButton) findViewById(R.id.new_cus_fab_save) ;
         fabDiscard = (CircleButton) findViewById(R.id.new_cus_fab_discard) ;
-        customerCode = (EditText)findViewById(R.id.editTextCustomer_Code);
-        customerName = (EditText)findViewById(R.id.editText2);
-        editTextCNic = (EditText)findViewById(R.id.editTextCNic);
-        businessRegno = (EditText)findViewById(R.id.editText3);
-        addressline1 = (EditText)findViewById(R.id.editText7);
-        addressline2 = (EditText)findViewById(R.id.editText8);
-        city = (EditText)findViewById(R.id.editText9);
-        mobile = (EditText)findViewById(R.id.editText10);
-        phone = (EditText)findViewById(R.id.editText11);
-        fax = (EditText)findViewById(R.id.editText12);
-        emailaddress = (EditText)findViewById(R.id.editText20);
-        route = (EditText)findViewById(R.id.spinner4);
-        district = (EditText)findViewById(R.id.spinner5);
-        town = (EditText)findViewById(R.id.spinner3);
+        customerCode = (TextInputEditText) findViewById(R.id.etRefNo);
+        customerName = (TextInputEditText) findViewById(R.id.etCustomer_Name);
+        editTextCNic = (TextInputEditText) findViewById(R.id.etCusNIC);
+        Reg_date = (TextInputEditText) findViewById(R.id.etDate);
+        businessRegno = (TextInputEditText) findViewById(R.id.etRegNo);
+        addressline1 = (TextInputEditText) findViewById(R.id.etAddLine_1);
+        addressline2 = (TextInputEditText) findViewById(R.id.etAddLine_2);
+        city = (TextInputEditText) findViewById(R.id.etCity);
+        mobile = (TextInputEditText) findViewById(R.id.etCusMobile_No);
+        phone = (TextInputEditText) findViewById(R.id.etCusPhone_No);
+        fax = (TextInputEditText) findViewById(R.id.etFax);
+        emailaddress = (TextInputEditText) findViewById(R.id.etEmail);
+        route = (TextInputEditText) findViewById(R.id.etRoute);
+        district = (TextInputEditText) findViewById(R.id.etDistrict);
+        town = (TextInputEditText) findViewById(R.id.etTown);
 
+
+        customerImg = (ImageView) findViewById(R.id.ivCus_Photo);
         fabSave.setColor(ContextCompat.getColor(this, R.color.main_green_color));
         fabSave.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_save_icon));
 
         fabDiscard.setColor(ContextCompat.getColor(this, R.color.main_green_color));
         fabDiscard.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_undo_icon));
 
-        btn_Town = (ImageButton)findViewById(R.id.btn_T);
-        btn_Route = (ImageButton)findViewById(R.id.btn_R);
-        btn_District = (ImageButton)findViewById(R.id.btn_D);
-        CustomerbtnSearch = (ImageButton)findViewById(R.id.btn_C6);
+        btn_Town = (ImageButton) findViewById(R.id.btnTown);
+        btn_Route = (ImageButton) findViewById(R.id.btnRoute);
+        btn_District = (ImageButton) findViewById(R.id.btnDistrict);
+        CustomerbtnSearch = (ImageButton) findViewById(R.id.btnSearch);
 
         mySwitch = (Switch)findViewById(R.id.switch1);
         //-----------------------------------------------------------------------------------------------------------------

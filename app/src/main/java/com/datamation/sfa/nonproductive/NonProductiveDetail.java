@@ -90,17 +90,17 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
         thisActivity = getActivity();
         mainActivity = (NonProductiveActivity)getActivity();
         lv_invent_load = (ListView) view.findViewById(R.id.lv_loading_sum);
-        RefNo = (EditText) view.findViewById(R.id._refNo);
-        Txndate = (TextView) view.findViewById(R.id._date);
-        Remark = (EditText) view.findViewById(R.id._remrk);
-        Retailer = (EditText) view.findViewById(R.id._retailer);
-        TxtReason = (TextView) view.findViewById(R.id._reason);
+        RefNo = (EditText) view.findViewById(R.id._nRefNo);
+        Txndate = (TextView) view.findViewById(R.id._ndate);
+        Remark = (EditText) view.findViewById(R.id._nremrk);
+        Retailer = (EditText) view.findViewById(R.id._nRetailer);
+        TxtReason = (TextView) view.findViewById(R.id._nReason);
         ReSearch = (Button) view.findViewById(R.id.reason_search);
         referenceNum = new ReferenceNum(getActivity());
 
         btnAdd = (Button) view.findViewById(R.id.btn_add);
         fam = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
-        fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
+        //fabPause = (FloatingActionButton) view.findViewById(R.id.fab1);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
 

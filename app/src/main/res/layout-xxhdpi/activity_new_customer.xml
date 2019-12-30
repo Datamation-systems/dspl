@@ -87,34 +87,34 @@
                     android:padding="1dp">
 
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <android.support.design.widget.TextInputLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_toLeftOf="@+id/btnSearch"
-                        app:errorEnabled="true">
+                        android:layout_height="wrap_content">
 
-                    </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_toLeftOf="@+id/btnSearch"
+                            app:errorEnabled="true">
 
-                    <ImageButton
-                        android:id="@+id/btnSearch"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/ic_search" />
+                        </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/etCustomer_Name"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:hint="Customer Name" />
-                </RelativeLayout>
+                        <ImageButton
+                            android:id="@+id/btnSearch"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/ic_search" />
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/etCustomer_Name"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentBottom="true"
+                            android:hint="Customer Name" />
+                    </RelativeLayout>
                 </TableRow>
 
                 <TableRow
@@ -139,12 +139,12 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-                        
+
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                             android:padding="5dp">
 
                             <android.support.design.widget.TextInputLayout
-                               android:layout_width="match_parent"
+                                android:layout_width="match_parent"
                                 android:layout_height="55dp"
                                 app:errorEnabled="true">
 
@@ -199,43 +199,43 @@
                     android:layout_height="wrap_content"
                     android:padding="1dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingLeft="5dp"
-                        android:visibility="gone">
+                        android:orientation="horizontal">
 
-                        <android.support.design.widget.TextInputLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:layout_toLeftOf="@+id/btnDistrict"
-                            app:errorEnabled="true">
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="5dp"
+                            android:visibility="gone">
 
-                            <android.support.design.widget.TextInputEditText
-                                android:id="@+id/etDistrict"
+                            <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:clickable="false"
-                                android:editable="false"
-                                android:hint="District" />
+                                android:layout_height="55dp"
+                                android:layout_toLeftOf="@+id/btnDistrict"
+                                app:errorEnabled="true">
 
-                        </android.support.design.widget.TextInputLayout>
+                                <android.support.design.widget.TextInputEditText
+                                    android:id="@+id/etDistrict"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:clickable="false"
+                                    android:editable="false"
+                                    android:hint="District" />
 
-                        <ImageButton
-                            android:id="@+id/btnDistrict"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_gravity="bottom"
-                            android:background="@drawable/ic_search" />
-                    </RelativeLayout>
-                </LinearLayout>
+                            </android.support.design.widget.TextInputLayout>
+
+                            <ImageButton
+                                android:id="@+id/btnDistrict"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="bottom"
+                                android:background="@drawable/ic_search" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
                 </TableRow>
 
@@ -507,13 +507,13 @@
 
 
     <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|right"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_margin="20dp"-->
-        <!--android:clickable="true"-->
-        <!--app:srcCompat="@drawable/icon_plus" />-->
+    <!--android:id="@+id/fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|right"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_margin="20dp"-->
+    <!--android:clickable="true"-->
+    <!--app:srcCompat="@drawable/icon_plus" />-->
 </RelativeLayout>

@@ -116,7 +116,7 @@ public class SharedPref {
     }
 
     public String getGlobalVal(String mKey) {
-        return sharedPref.getString(mKey, "***");
+        return sharedPref.getString(mKey, "");
     }
 
 
@@ -231,10 +231,21 @@ public class SharedPref {
 //
 //        return session;
 //    }
-public  void  setMacAddress(String MacAddress){
-    SharedPreferences.Editor editor = sharedPref.edit();
-    editor.putString("MAC_Address", MacAddress);
-    editor.apply();
+
+    public String getGPSDebtor() {
+        return sharedPref.getString("IS_GPS_DEBTOR", "0");
+    }
+
+    public void setGPSDebtor(String val) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("IS_GPS_DEBTOR", val);
+        editor.apply();
+    }
+
+    public  void  setMacAddress(String MacAddress){
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("MAC_Address", MacAddress);
+        editor.apply();
 }
 
     public  String getMacAddress(){

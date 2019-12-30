@@ -33,6 +33,25 @@ public class Customer implements Serializable{
 	private String creditStatus;
 	private String creditPeriod;
 	private String cusPrilCode;
+	private String Latitude;
+	private String Longitude;
+
+
+	public String getLongitude() {
+		return Longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		Longitude = longitude;
+	}
+
+	public String getLatitude() {
+		return Latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		Latitude = latitude;
+	}
 
 	public String getCusPrilCode() {
 		return cusPrilCode;

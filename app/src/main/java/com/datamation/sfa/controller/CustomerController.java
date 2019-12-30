@@ -1,10 +1,12 @@
 package com.datamation.sfa.controller;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.location.Location;
 import android.util.Log;
 
 import com.datamation.sfa.model.Customer;
@@ -19,6 +21,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.datamation.sfa.helpers.DatabaseHelper.FDDBNOTE_DEB_CODE;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_ADD1;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_ADD2;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_CHK_CRD_LIMIT;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_CODE;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_CRD_LIMIT;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_CRD_PERIOD;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_EMAIL;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_MOB;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_NAME;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_PRILLCODE;
+import static com.datamation.sfa.helpers.DatabaseHelper.FDEBTOR_STATUS;
 
 public class CustomerController {
 
@@ -218,18 +231,89 @@ public class CustomerController {
 		return list;
 	}
 
-	public ArrayList<Customer> getAllCustomersForSelectedRepCode(String RepCode) {
+	public ArrayList<Customer> getAllGpsCustomerForSelectedRepcode(String RepCode ,Double lan , Double lon ,String key) {
 		if (dB == null) {
 			open();
 		} else if (!dB.isOpen()) {
 			open();
 		}
 
+		double debLat = 0.0;
+		double debLon = 0.0;
+
+		ArrayList<Customer> list = new ArrayList<>();
+		Cursor cursor = null;
+
+		try {
+			String selectQuery = "select * from " + dbHelper.TABLE_FDEBTOR + " where " + dbHelper.FDEBTOR_REP_CODE + " = '" + RepCode + "' and DebCode || DebName LIKE '%" + key + "%'";
+
+			cursor = dB.rawQuery(selectQuery, null);
+			while ((cursor.moveToNext())) {
+				Customer customer = new Customer();
+
+				if ((cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LATITUDE)) != null) && (cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LONGITUDE)) != null)) {
+
+						debLat = Double.parseDouble(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LATITUDE)));
+						debLon = Double.parseDouble(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LONGITUDE)));
+
+						float[] results = new float[1];
+						Location.distanceBetween(lan,lon,debLat,debLon,results);
+						float distanceInMeteres = results[0];
+						boolean isWithin100m = distanceInMeteres < 150 ;
+
+						if(isWithin100m)
+						{
+							customer.setCusCode(cursor.getString(cursor.getColumnIndex(FDEBTOR_CODE)));
+							customer.setCusName(cursor.getString((cursor.getColumnIndex(FDEBTOR_NAME))));
+							customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(FDEBTOR_ADD1)));
+							customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(FDEBTOR_ADD2)));
+							customer.setCusMob(cursor.getString(cursor.getColumnIndex(FDEBTOR_MOB)));
+							customer.setCusEmail(cursor.getString(cursor.getColumnIndex(FDEBTOR_EMAIL)));
+							customer.setCusStatus(cursor.getString(cursor.getColumnIndex(FDEBTOR_STATUS)));
+							customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(FDEBTOR_CRD_LIMIT)));
+							customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(FDEBTOR_CRD_PERIOD)));
+							customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(FDEBTOR_CHK_CRD_LIMIT)));
+							customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(FDEBTOR_PRILLCODE)));
+							list.add(customer);
+
+						}
+				}
+			}
+		}catch (Exception e)
+		{
+				e.printStackTrace();
+		}
+		finally {
+
+				if(cursor != null)
+				{
+					cursor.close();
+				}
+				dB.close();
+		}
+		return list;
+	}
+
+
+
+
+
+	public ArrayList<Customer> getAllCustomersForSelectedRepCode(String RepCode , String key) {
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		String nullCoordi = "";
+		nullCoordi = "0.000000";
+
 		ArrayList<Customer> list = new ArrayList<Customer>();
 		Cursor cursor = null;
+
 		try {
 			String selectQuery = "select * from " + dbHelper.TABLE_FDEBTOR + " Where " + dbHelper.FDEBTOR_REP_CODE + "='"
-					+ RepCode + "'";
+					+ RepCode +  "' and DebCode || DebName LIKE '%" + key + "%'";
 
 			cursor = dB.rawQuery(selectQuery, null);
 			while (cursor.moveToNext()) {
@@ -247,6 +331,8 @@ public class CustomerController {
 				customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
 				customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_PERIOD)));
 				customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CHK_CRD_LIMIT)));
+				customer.setLatitude(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LATITUDE)));
+				customer.setLongitude(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LONGITUDE)));
 				customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_PRILLCODE)));
 
 				list.add(customer);
@@ -360,6 +446,104 @@ public class CustomerController {
 
 		return null;
 
+	}
+
+	public int updateCustomerLocationByCurrentCordinates(String debcode , Double lan , Double lon)
+	{
+		int count = 0;
+
+		if(dB == null) {
+			open();
+		}
+		else if(dB.isOpen()) {
+			open();
+		}
+
+		try {
+			ContentValues values = new ContentValues();
+			values.put(DatabaseHelper.FDEBTOR_LATITUDE , lan);
+			values.put(DatabaseHelper.FDEBTOR_LONGITUDE, lon);
+			count = (int) dB.update(DatabaseHelper.TABLE_FDEBTOR, values, DatabaseHelper.FDEBTOR_CODE+ " =?", new String[]{String.valueOf(debcode)});
+
+		}
+		catch (Exception e) {
+				e.printStackTrace();
+		}
+		finally {
+				dB.close();
+		}
+
+		return count;
+
+	}
+
+	public ArrayList<Customer> getGPSCustomersByRoute(Double lat, Double lon, String key) {
+
+		int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+		int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+		int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+
+		String curdate = curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate);
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		Double debLat = 0.0;
+		Double debLon = 0.0;
+
+		ArrayList<Customer> list = new ArrayList<Customer>();
+		Cursor cursor = null;
+		try {
+
+			//cursor = dB.rawQuery("select * from fDebtor where DebCode in (select Debcode from fRouteDet where RouteCode in (select RouteCode from fTourHed where '"+curdate+"' between DateFrom And DateTo and RepCode = '"+repCode+"'));", null);
+			cursor = dB.rawQuery("select * from fDebtor where DebCode in (select Debcode from fRouteDet where RouteCode in (select RouteCode from FItenrDet where TxnDate = '" + curdate + "')) and DebCode || DebName LIKE '%" + key + "%'", null);
+
+			while (cursor.moveToNext()) {
+
+				Customer customer = new Customer();
+
+				if ((cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LATITUDE)) != null) && (cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LATITUDE)) != null)) {
+					debLat = Double.parseDouble(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LATITUDE)));
+					debLon = Double.parseDouble(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LONGITUDE)));
+
+					float[] results = new float[1];
+					Location.distanceBetween(lat, lon, debLat, debLon, results);
+					float distanceInMeters = results[0];
+					boolean isWithin100m = distanceInMeters < 150;
+
+					if (isWithin100m) {
+						customer.setCusCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CODE)));
+						customer.setCusName(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_NAME)));
+						customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD1)));
+						customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_ADD2)));
+						customer.setCusMob(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_MOB)));
+						customer.setCusEmail(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_EMAIL)));
+						customer.setCusStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_STATUS)));
+						customer.setCreditLimit(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_LIMIT)));
+						customer.setCreditPeriod(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CRD_PERIOD)));
+						customer.setCreditStatus(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_CHK_CRD_LIMIT)));
+						customer.setCusPrilCode(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_PRILLCODE)));
+						customer.setLatitude(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LATITUDE)));
+						customer.setLongitude(cursor.getString(cursor.getColumnIndex(dbHelper.FDEBTOR_LONGITUDE)));
+
+						list.add(customer);
+					}
+				}
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+
+		return list;
 	}
 
 }

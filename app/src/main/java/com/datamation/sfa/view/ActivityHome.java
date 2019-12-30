@@ -345,16 +345,20 @@ public class ActivityHome extends AppCompatActivity implements IResponseListener
 
 //
         TextView repname = (TextView) repDialog.findViewById(R.id.repname);
-        repname.setText(loggedUser.getName());
         TextView repcode = (TextView) repDialog.findViewById(R.id.repcode);
-        repcode.setText(loggedUser.getCode());
         TextView repPrefix = (TextView) repDialog.findViewById(R.id.repPrefix);
-        repPrefix.setText(loggedUser.getPrefix());
-        TextView locCode = (TextView) repDialog.findViewById(R.id.target);
-        locCode.setText("0.0");
+       // TextView locCode = (TextView) repDialog.findViewById(R.id.target);
+        TextView email= (TextView) repDialog.findViewById(R.id.email);
+        TextView dealCode= (TextView) repDialog.findViewById(R.id.Dealcode);
         TextView areaCode = (TextView) repDialog.findViewById(R.id.areaCode);
       //  areaCode.setText(loggedUser.getRoute());
 
+        repname.setText(loggedUser.getName());
+        repcode.setText(loggedUser.getCode());
+        repPrefix.setText(loggedUser.getPrefix());
+        //locCode.setText("0.0");
+        email.setText(loggedUser.getEmail());
+        dealCode.setText(loggedUser.getDealcode());
 
         //close
         repDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {

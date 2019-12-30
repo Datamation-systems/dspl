@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,6 +18,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.support.v7.widget.SearchView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
@@ -51,6 +54,8 @@ public class RouteCustomerFragment extends Fragment {
     CustomerAdapter customerAdapter;
     GPSTracker gpsTracker;
     private Customer debtor;
+    Switch mySwitch;
+    SearchView mSearchDeb;
     String routeCode="";
 
     @Override
@@ -58,10 +63,20 @@ public class RouteCustomerFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_route_customer, container, false);
 
-        lvCustomers = (ListView)view.findViewById(R.id.route_cus_lv);
+        lvCustomers = (ListView) view.findViewById(R.id.route_cus_lv);
+        mySwitch = (Switch) view.findViewById(R.id.gps_switch);
+        mSearchDeb = (SearchView)view.findViewById(R.id.et_route_deb_search);
         mSharedPref = new SharedPref(getActivity());
         gpsTracker = new GPSTracker(getActivity());
         networkFunctions = new NetworkFunctions(getActivity());
+
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                mySwitch.setText("GPS Mode");
+        }
+        else{
+                mySwitch.setTextOff("GPS OFF");
+                mySwitch.setText("GPS ON");
+        }
 
         lvCustomers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

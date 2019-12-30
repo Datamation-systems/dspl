@@ -96,14 +96,14 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="600dp"
+                android:layout_width="780dp"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:weightSum="1"
                 android:layout_marginTop="5dp">
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="530dp"
+                    android:layout_width="710dp"
                     android:layout_height="60dp"
                     android:padding="5dp">
 

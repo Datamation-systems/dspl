@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,25 +43,31 @@ import com.datamation.sfa.R;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.view.DebtorDetailsActivity;
 import com.datamation.sfa.view.PreSalesActivity;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 //import com.bit.sfa.Settings.SharedPreferencesClass;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class OrderHeaderFragment extends Fragment{
+public class OrderHeaderFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
 
     View view;
     private FloatingActionButton next;
     //public static EditText ordno, date, mNo, deldate, remarks;
     public String LOG_TAG = "OrderHeaderFragment";
-    TextView lblCustomerName, outStandingAmt, lastBillAmt,lblPreRefno;
+    TextView lblCustomerName, outStandingAmt, lastBillAmt,lblPreRefno,deliveryDate;
     EditText  currnentDate,txtManual,txtRemakrs, txtRoute;
     MyReceiver r;
     SharedPref pref;
     PreSalesResponseListener preSalesResponseListener;
     PreSalesActivity activity;
+    ImageButton img_bdate;
+    Calendar Scalendar;
+    int year, month , day;
+    DatePickerDialog datePickerDialog;
 
     public OrderHeaderFragment() {
         // Required empty public constructor
@@ -76,11 +84,13 @@ public class OrderHeaderFragment extends Fragment{
         pref = SharedPref.getInstance(getActivity());
         setHasOptionsMenu(true);
         Date d = Calendar.getInstance().getTime();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy"); //change this
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); //change this
         String formattedDate = simpleDateFormat.format(d);
         ActivityHome home = new ActivityHome();
         ReferenceNum referenceNum = new ReferenceNum(getActivity());
      //   localSP = new SharedPreferencesClass();
+
+        Scalendar = Calendar.getInstance();
 
         next = (FloatingActionButton) view.findViewById(R.id.fab);
 
@@ -92,6 +102,8 @@ public class OrderHeaderFragment extends Fragment{
         txtManual = (EditText) view.findViewById(R.id.txt_InvManual);
         txtRemakrs = (EditText) view.findViewById(R.id.txt_InvRemarks);
         txtRoute = (EditText)view.findViewById(R.id.txt_route);
+        img_bdate = (ImageButton)view.findViewById(R.id.imgbtn_DeliveryDate);
+        deliveryDate = (TextView) view.findViewById(R.id.txt_deliveryDate);
 
         activity.selectedRetDebtor = activity.selectedDebtor;
 
@@ -101,6 +113,11 @@ public class OrderHeaderFragment extends Fragment{
         outStandingAmt.setText(String.format("%,.2f", new OutstandingController(getActivity()).getDebtorBalance(pref.getSelectedDebCode())));
         txtRemakrs.setEnabled(true);
         txtManual.setEnabled(true);
+
+        //select Delivery Date
+        year  = Scalendar.get(Calendar.YEAR);
+        month = Scalendar.get(Calendar.MONTH);
+        day   = Scalendar.get(Calendar.DAY_OF_MONTH);
 
         /*already a header exist*/
         if (activity.selectedPreHed != null) {
@@ -148,6 +165,22 @@ public class OrderHeaderFragment extends Fragment{
 
             }
         });
+
+        /*Select Delivery Date*/
+        img_bdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                datePickerDialog = datePickerDialog.newInstance(OrderHeaderFragment.this,year,month,day);
+                datePickerDialog.setThemeDark(false);
+                datePickerDialog.showYearPickerFirst(false);
+                datePickerDialog.setAccentColor(Color.parseColor("#0072BA"));
+                datePickerDialog.setTitle("");
+                datePickerDialog.show(getActivity().getFragmentManager(),"DatePickerDialog");
+
+            }
+        });
+
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,7 +303,7 @@ public class OrderHeaderFragment extends Fragment{
             hed.setORDER_REFNO(lblPreRefno.getText().toString());
             hed.setORDER_DEBCODE(pref.getSelectedDebCode());
             hed.setORDER_TXNDATE(currnentDate.getText().toString());
-            //hed.setORDER_DELIVERY_DATE(deldate.getText().toString());
+            hed.setORDER_DELIVERY_DATE(deliveryDate.getText().toString());
             hed.setORDER_ROUTECODE(pref.getSelectedDebRouteCode());
             hed.setORDER_MANUREF(txtManual.getText().toString());
             hed.setORDER_REMARKS(txtRemakrs.getText().toString());
@@ -344,6 +377,32 @@ public class OrderHeaderFragment extends Fragment{
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_HEADER"));
     }
 
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+
+        Date dateToday = null;
+        Date date2 = null;
+
+        try {
+
+            dateToday = sdf.parse(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            date2 = sdf.parse(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        if (date2.equals(dateToday) || date2.after(dateToday)) {
+            deliveryDate.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+        }
+       else {
+           Toast.makeText(getActivity(),"Can't set previous date as a delivery date.Please enter valide date",Toast.LENGTH_LONG).show();
+       }
+    }
+
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -361,4 +420,6 @@ public class OrderHeaderFragment extends Fragment{
         }
     }
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+
 }

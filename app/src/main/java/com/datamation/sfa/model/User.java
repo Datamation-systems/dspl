@@ -10,13 +10,13 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
-    String Name, UserName, Password, Mobile, Address, target, Status, Code, Prefix, macID, loccode;
+    String Name, UserName, Password, Mobile, Address, target, Status, Code, Prefix, macID, loccode,email,dealcode;
 
     public User(){
 
     }
 
-    public User(String name, String username, String password, String mobile, String address, String macid, String status, String code, String prefix,String target){
+    public User(String name, String username, String password, String mobile, String address, String macid, String status, String code, String prefix,String target,String email,String dealcode){
         this.Name = name;
         this.UserName = username;
         this.Password = password;
@@ -27,6 +27,24 @@ public class User implements Serializable {
         this.Code = code;
         this.Prefix = prefix;
         this.macID = macid;
+        this.email = email;
+        this.dealcode = dealcode;
+    }
+
+    public String getDealcode() {
+        return dealcode;
+    }
+
+    public void setDealcode(String dealcode) {
+        this.dealcode = dealcode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getLoccode() {

@@ -75,6 +75,7 @@ public class OrderController {
                 values.put(dbHelper.FORDHED_IS_SYNCED, "0");
                 values.put(dbHelper.FORDHED_IS_ACTIVE, ordHed.getORDER_IS_ACTIVE());
                 values.put(dbHelper.FORDHED_TOTALDIS, ordHed.getORDER_TOTALDIS());
+                values.put(dbHelper.FORDHED_DELV_DATE, ordHed.getORDER_DELIVERY_DATE());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
@@ -461,6 +462,7 @@ public class OrderController {
             order.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_IS_ACTIVE)));
             order.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_DEB_CODE)));
             order.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_ROUTE_CODE)));
+            order.setORDER_DELIVERY_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_DELV_DATE)));
             order.setOrdDet(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
 ////            preSalesMapper.setIssuList(
 ////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(dbHelper.ORDER_CUSCODE))));
@@ -588,7 +590,9 @@ public class OrderController {
             presale.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
             presale.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_IS_ACTIVE)));
             presale.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_ROUTE_CODE)));
+            presale.setORDER_DELIVERY_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.FORDHED_DELV_DATE)));
             presale.setOrdDet(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO))));
+
 
         }
 

@@ -79,7 +79,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
 
         seqno = 0;
         fam = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
-        fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
+        //fabPause = (FloatingActionButton) view.findViewById(R.id.fab2);
         fabDiscard = (FloatingActionButton) view.findViewById(R.id.fab3);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fab1);
 
@@ -150,12 +150,8 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
             }
         });
         fam.setClosedOnTouchOutside(true);
-        fabPause.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //mPauseExpense();
-            }
-        });
+
+
 
         fabSave.setOnClickListener(new OnClickListener() {
             @Override

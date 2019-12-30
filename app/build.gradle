@@ -48,6 +48,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.wdullaer:materialdatetimepicker:2.3.0'
 
     implementation files('libs/org.apache.http.legacy.jar')
     implementation 'com.github.AnyChart:AnyChart-Android:0.0.3'

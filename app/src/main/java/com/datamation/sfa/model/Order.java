@@ -65,6 +65,7 @@ public class Order {
     private String ORDER_ADDUSER;
     private String ORDER_TOTFREEQTY;
     private String ORDER_SETTING_CODE;
+    private String ORDER_DELIVERY_DATE;
 
     private String ConsoleDB;
     private String DistDB;
@@ -77,6 +78,14 @@ public class Order {
     private ArrayList<OrdFreeIssue> freeIssues;
 
     public Order() {
+    }
+
+    public String getORDER_DELIVERY_DATE() {
+        return ORDER_DELIVERY_DATE;
+    }
+
+    public void setORDER_DELIVERY_DATE(String ORDER_DELIVERY_DATE) {
+        this.ORDER_DELIVERY_DATE = ORDER_DELIVERY_DATE;
     }
 
     public String getNextNumVal() {

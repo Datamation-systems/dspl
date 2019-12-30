@@ -298,25 +298,24 @@
 
                         <EditText
                             android:id="@+id/txt_deliveryDate"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="10dp"
                             android:layout_height="55dp"
                             android:layout_marginStart="70dp"
-                            android:layout_marginEnd="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
                             android:background="@drawable/edittextstyle"
-                            android:gravity="center"
                             android:editable="false"
+                            android:gravity="center"
                             android:textSize="14sp">
 
                         </EditText>
 
                         <ImageButton
                             android:id="@+id/imgbtn_DeliveryDate"
-                            android:layout_width="60dp"
+                            android:layout_width="55dp"
                             android:layout_height="55dp"
                             android:layout_marginRight="10dp"
-                            android:background="@drawable/calendar"/>
-
+                            android:background="@drawable/calendar" />
 
 
                     </TableRow>

@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.sfa.R;
 import at.markushi.ui.CircleButton;
 import com.astuetz.PagerSlidingTabStrip;
+import com.datamation.sfa.controller.CustomerController;
 import com.datamation.sfa.controller.DayNPrdDetController;
 import com.datamation.sfa.controller.InvDetController;
 import com.datamation.sfa.controller.OrderDetailController;
@@ -42,6 +44,7 @@ import com.datamation.sfa.fragment.debtordetails.OutstandingDetailsFragment;
 import com.datamation.sfa.fragment.debtordetails.PersonalDetailsFragment;
 import com.datamation.sfa.helpers.DatabaseHelper;
 import com.datamation.sfa.model.User;
+import com.datamation.sfa.settings.GPSTracker;
 import com.datamation.sfa.settings.ReferenceNum;
 import com.datamation.sfa.utils.UtilityContainer;
 
@@ -80,6 +83,12 @@ public class DebtorDetailsActivity extends AppCompatActivity {
     boolean isAnyActiveReceipt = false;
 
     private String retRefNo = "";
+
+    GPSTracker gpsTracker;
+    double lati = 0.0;
+    double longi = 0.0;
+    private String debCode;
+    private double currentLatitude, currentLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -442,6 +451,39 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         ViewCompat.animate(overlay).alpha(1).setDuration(400).setListener(new ViewPropertyAnimatorListener() {
             @Override
             public void onAnimationStart(View view) {
+                if (gpsTracker.canGetLocation())
+                {
+                    gpsTracker = new GPSTracker(context);
+                    if(!sharedPref.getGlobalVal("Latitude").equals("") && !sharedPref.getGlobalVal("Longitude").equals(""))
+                    {
+                        lati = Double.parseDouble(sharedPref.getGlobalVal("Latitude"));
+                        longi = Double.parseDouble(sharedPref.getGlobalVal("Longitude"));
+
+                        if (sharedPref.getGPSDebtor().equals("AN") || sharedPref.getGPSDebtor().equals("RN")) // not GPS mode debtor selection
+                        {//allNoGPS, RouteNoGPS
+                                if (new CustomerController(context).updateCustomerLocationByCurrentCordinates(debCode, lati, longi)>0)
+                                {
+                                    Toast.makeText(context, "Current co-ordinates updated for " + debCode , Toast.LENGTH_LONG).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(context, "Current co-ordinates not updated for " + debCode , Toast.LENGTH_LONG).show();
+                                }
+                        }
+                        Log.d("DEBTOR_DETIALS_ACTIVITY","IS_GPS: " + sharedPref.getGPSDebtor() + ", IS_GPS_UPDATED:  coodis: " + lati + ", " + longi);
+
+                    }
+                    else
+                    {
+                        Log.d("DEBTOR_DETIALS_ACTIVITY","IS_GPS: " + sharedPref.getGPSDebtor() + ", ALREADY GPS HAS: coodis: " + lati + ", " + longi);
+
+                    }
+
+                }
+                else {
+                    gpsTracker.showSettingsAlert();
+                }
+
 
                 fabSalesOrder.setVisibility(View.VISIBLE);
                 fabInvoice.setVisibility(View.VISIBLE);

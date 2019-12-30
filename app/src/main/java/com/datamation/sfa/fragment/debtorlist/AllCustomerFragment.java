@@ -4,15 +4,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.support.v7.widget.SearchView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.datamation.sfa.R;
@@ -45,7 +51,12 @@ public class AllCustomerFragment extends Fragment {
     CustomerAdapter customerAdapter;
     GPSTracker gpsTracker;
     private Customer debtor;
+    Switch mySwitch;
+    SearchView mSearchDeb;
     String routeCode="";
+    double longi = 0.0;
+    double lati = 0.0;
+    private boolean isGPSSwitched;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -53,8 +64,20 @@ public class AllCustomerFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_all_customer, container, false);
 
         lvCustomers = (ListView)view.findViewById(R.id.all_cus_lv);
+        mySwitch = (Switch) view.findViewById(R.id.gps_switch);
+        mSearchDeb = (SearchView) view.findViewById(R.id.et_all_deb_search);
         mSharedPref = new SharedPref(getActivity());
         gpsTracker = new GPSTracker(getActivity());
+
+        if(android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+        {
+            mySwitch.setText("GPS Mode");
+        }
+        else
+        {
+            mySwitch.setText("GPS OFF");
+            mySwitch.setText("GPS ON");
+        }
 
         lvCustomers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -70,6 +93,15 @@ public class AllCustomerFragment extends Fragment {
                 /* If option is selected */
                 if (i > 0) {
                     debtor = customerList.get(position);
+
+                    if(isGPSSwitched)
+                    {
+                        mSharedPref.setGPSDebtor("AY");
+                    }
+                    else
+                    {
+                        mSharedPref.setGPSDebtor("AN");
+                    }
 
                     if (isValidateCustomer(debtor))
                     {
@@ -91,19 +123,170 @@ public class AllCustomerFragment extends Fragment {
             }
         });
 
-       new getAllCustomer().execute();
+        isGPSSwitched = false;
+
+        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b) {
+                    gpsTracker = new GPSTracker(getActivity());
+
+                    if (gpsTracker.canGetLocation()) {
+                        isGPSSwitched = true;
+                        Log.d("Latitude", mSharedPref.getGlobalVal("Latitude") + ", " + mSharedPref.getGlobalVal("Longitude"));
+
+                        if (!mSharedPref.getGlobalVal("Latitude").equals("") && !mSharedPref.getGlobalVal("Longitude").equals("")) {
+                            lati = Double.parseDouble(mSharedPref.getGlobalVal("Latitude"));
+                            longi = Double.parseDouble(mSharedPref.getGlobalVal("Longitude"));
+
+                            Log.d("Latitude", "Latitude");
+                            Log.d("Longitude","Longitude");
+
+                            new getAllGPSCustomer().execute();
+                        } else {
+                            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
+                            //Log.d("gpsTracker","true");
+                        }
+
+                    } else {
+
+                        gpsTracker.showSettingsAlert();
+                    }
+
+                    mSearchDeb.setQuery("",false);
+                    mSearchDeb.clearFocus();
+
+
+                } else {
+                        isGPSSwitched = false;
+                        //Log.d("gpsTracker","false");
+
+                        lati = 0.0;
+                        longi = 0.0;
+
+                        new getAllCustomer("").execute();
+                        mSearchDeb.setQuery("",false);
+                        mSearchDeb.clearFocus();
+                    }
+                }
+
+        });
+
+        mSearchDeb.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                if(!isGPSSwitched)
+                {
+                    customerList.clear();
+                    customerList = new CustomerController(getActivity()).getAllCustomersForSelectedRepCode(new SalRepController(getActivity()).getCurrentRepCode(),query);
+                    lvCustomers.setAdapter(new CustomerAdapter(getActivity(),customerList));
+                }
+                else {
+                    customerList.clear();
+                    customerList = new CustomerController(getActivity()).getAllGpsCustomerForSelectedRepcode(new SalRepController(getActivity()).getCurrentRepCode(),lati ,longi , query);
+                    lvCustomers.setAdapter(new CustomerAdapter(getActivity(),customerList));
+                }
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                if(!isGPSSwitched)
+                {
+                    customerList.clear();
+                    customerList = new CustomerController(getActivity()).getAllCustomersForSelectedRepCode(new SalRepController(getActivity()).getCurrentRepCode(), newText);
+                    lvCustomers.setAdapter(new CustomerAdapter(getActivity(),customerList));
+                }
+                else {
+                    customerList.clear();
+                    customerList = new CustomerController(getActivity()).getAllGpsCustomerForSelectedRepcode(new SalRepController(getActivity()).getCurrentRepCode(),lati ,longi , newText);
+                    lvCustomers.setAdapter(new CustomerAdapter(getActivity(),customerList));
+                }
+
+                return true;
+            }
+        });
+
+       new getAllCustomer("").execute();
 
         return view;
+    }
+
+    private class  getAllGPSCustomer extends  AsyncTask<String, Integer ,Boolean>{
+
+        int totalRecords = 0;
+        CustomProgressDialog pDialog;
+
+        public getAllGPSCustomer() {
+           this.pDialog = new CustomProgressDialog(getActivity());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new CustomProgressDialog(getActivity());
+            pDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pDialog.setMessage("Authenticating");
+            pDialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+
+            try
+            {
+                customerList = new CustomerController(getActivity()).getAllGpsCustomerForSelectedRepcode(new SalRepController(getActivity()).getCurrentRepCode(),lati,longi,"");
+                return true;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean result) {
+            super.onPostExecute(result);
+
+            if(result)
+            {
+                customerAdapter = new CustomerAdapter(getActivity(), customerList);
+                lvCustomers.setAdapter(customerAdapter);
+
+                pDialog.setMessage("Finalizing Data");
+                pDialog.setMessage("Download Completed");
+
+                if(pDialog.isShowing())
+                {
+                    pDialog.dismiss();
+                }
+                mSharedPref.setLoginStatus(true);
+            }
+            else
+            {
+                if(pDialog.isShowing())
+                {
+                    pDialog.dismiss();
+                }
+            }
+        }
     }
 
     private class getAllCustomer extends AsyncTask<String, Integer, Boolean> {
         int totalRecords=0;
         CustomProgressDialog pdialog;
-        private String repcode;
+        private String keyWord;
 
-        public getAllCustomer(){
-            this.pdialog = new CustomProgressDialog(getActivity());
+        public getAllCustomer(String keyWord){
+            this.keyWord = keyWord;
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -118,7 +301,7 @@ public class AllCustomerFragment extends Fragment {
 
             try
             {
-                customerList = new CustomerController(getActivity()).getAllCustomersForSelectedRepCode(new SalRepController(getActivity()).getCurrentRepCode());
+                customerList = new CustomerController(getActivity()).getAllCustomersForSelectedRepCode(new SalRepController(getActivity()).getCurrentRepCode(), "");
 
                 return true;
 
