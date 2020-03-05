@@ -446,6 +446,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
      * Function to open the FAM with custom flowing animation
      */
     private void openFAM() {
+        gpsTracker = new GPSTracker(context);
         //ViewCompat.animate(floatingActionsMenu).rotation(135).setInterpolator(new OvershootInterpolator()).setDuration(400).setStartDelay(0);
 //        ViewPropertyAnimator.animate(floatingActionsMenu).rotation(135).setInterpolator(new OvershootInterpolator()).setDuration(400).setStartDelay(0);
         ViewCompat.animate(overlay).alpha(1).setDuration(400).setListener(new ViewPropertyAnimatorListener() {
@@ -453,7 +454,6 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             public void onAnimationStart(View view) {
                 if (gpsTracker.canGetLocation())
                 {
-                    gpsTracker = new GPSTracker(context);
                     if(!sharedPref.getGlobalVal("Latitude").equals("") && !sharedPref.getGlobalVal("Longitude").equals(""))
                     {
                         lati = Double.parseDouble(sharedPref.getGlobalVal("Latitude"));
